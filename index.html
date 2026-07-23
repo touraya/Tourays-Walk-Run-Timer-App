@@ -1,43 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tourays Fitness V6.1 Part 1</title>
-<link rel="manifest" href="manifest.json">
+<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Part2</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef7ff,#d8fff2);color:#17324d}
-header{padding:24px;text-align:center;background:linear-gradient(90deg,#00b894,#4facfe);color:#fff}
-.card{margin:18px;padding:18px;border-radius:22px;background:rgba(255,255,255,.8);box-shadow:0 10px 30px rgba(0,0,0,.12)}
-button{width:100%;padding:16px;border:none;border-radius:16px;background:#00b894;color:#fff;font-size:18px}
-#timer{font-size:54px;text-align:center;font-weight:bold}
-.small{color:#666}
-</style>
-</head>
-<body>
-<header><h1>Tourays Fitness</h1><p>Premium V6.1 • Part 1</p></header>
-<div class="card">
-<h2>Run</h2>
-<div id="timer">00:00</div>
-<button id="start">Start Workout</button>
-<p class="small">Walk/Run timer foundation. More features arrive in Part 2.</p>
-</div>
-<div class="card">
-<h2>Health</h2>
-<p>Calories: 0</p>
-<p>Distance: 0.00 km</p>
-<p>Weekly Goal: 0%</p>
-</div>
+body{margin:0;font-family:Arial;background:linear-gradient(160deg,#f5fbff,#dffff4)}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;box-shadow:0 -4px 18px rgba(0,0,0,.12)}
+nav button{flex:1;padding:16px;border:0;background:#fff}
+.page{display:none;padding:20px 20px 90px}
+.active{display:block}
+.card{background:white;border-radius:22px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.1);margin:14px 0}
+.ring{width:140px;height:140px;border-radius:50%;margin:auto;background:conic-gradient(#00c896 35%,#dfeef5 0)}
+</style></head><body>
+<div id='home' class='page active'><div class='card'><h2>Home</h2><p>Premium navigation added.</p></div></div>
+<div id='run' class='page'><div class='card'><h2>Run</h2><div class='ring'></div><p>Animated progress ring.</p></div></div>
+<div id='health' class='page'><div class='card'><h2>Health</h2><p>Calories • Distance • Weekly Goals</p></div></div>
+<div id='history' class='page'><div class='card'><h2>History</h2><p>History page scaffold.</p></div></div>
+<nav>
+<button data-p='home'>🏠</button><button data-p='run'>🏃</button><button data-p='health'>❤️</button><button data-p='history'>📊</button>
+</nav>
 <script>
-let s=0,r=null;
-start.onclick=()=>{
- if(r)return;
- r=setInterval(()=>{
-  s++;
-  let m=String(Math.floor(s/60)).padStart(2,'0');
-  let ss=String(s%60).padStart(2,'0');
-  timer.textContent=m+":"+ss;
- },1000);
-};
-</script>
-</body></html>
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(b.dataset.p).classList.add('active');
+});
+</script></body></html>
