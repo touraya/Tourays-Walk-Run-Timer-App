@@ -1,7 +1,7 @@
 {
-  "name": "Tourays Walk & Run Timer",
+  "name": "Tourays Walk & Run Timer V3",
   "short_name": "Walk & Run",
-  "description": "Interval timer with voice prompts and GPS distance tracking.",
+  "description": "Advanced interval timer with live interval editing, GPS distance tracking and workout history.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
