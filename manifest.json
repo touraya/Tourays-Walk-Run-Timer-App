@@ -1,16 +1,16 @@
 {
-  "name": "Walk & Run Interval Timer",
-  "short_name": "WalkRun",
-  "description": "A repeating walk and run interval timer with voice prompts.",
+  "name": "Tourays Walk & Run Timer",
+  "short_name": "Walk & Run",
+  "description": "Interval timer with voice prompts and GPS distance tracking.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#080d1b",
-  "theme_color": "#0b1020",
+  "background_color": "#06101d",
+  "theme_color": "#07111f",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icons/icon.svg",
+      "src": "icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
