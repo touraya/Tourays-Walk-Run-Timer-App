@@ -1,6 +1,7 @@
 {
-  "name": "Tourays Walk & Run Timer",
-  "short_name": "Walk & Run",
+  "name": "Tourays Fitness",
+  "short_name": "Tourays Fitness",
+  "description": "Walk, run, indoor exercise and live route tracking.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
