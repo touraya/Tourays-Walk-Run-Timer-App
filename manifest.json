@@ -1,11 +1,10 @@
 {
-  "name": "Tourays Walk & Run Timer V3",
+  "name": "Tourays Walk & Run Timer",
   "short_name": "Walk & Run",
-  "description": "Advanced interval timer with live interval editing, GPS distance tracking and workout history.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#06101d",
+  "background_color": "#07111f",
   "theme_color": "#07111f",
   "orientation": "portrait",
   "icons": [

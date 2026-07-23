@@ -4,197 +4,206 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
-  <meta name="description" content="Advanced walk and run interval timer with live interval editing, GPS distance tracking and workout history.">
   <title>Tourays Walk & Run</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="icon" href="icon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main class="app">
-  <header class="topbar">
+  <header class="app-header">
     <div>
-      <p class="kicker">TOURAYS FITNESS</p>
+      <p class="eyebrow">TOURAYS FITNESS</p>
       <h1>Walk & Run</h1>
     </div>
-    <div class="top-actions">
-      <button id="historyBtn" class="icon-btn" type="button" aria-label="Workout history">📊</button>
-      <button id="soundBtn" class="icon-btn" type="button" aria-label="Toggle sound">🔊</button>
-    </div>
+    <button id="soundBtn" class="icon-button">🔊</button>
   </header>
 
-  <section id="setupView" class="view active">
+  <section id="homePage" class="page active">
     <article class="hero-card">
-      <div class="activity-pair" aria-hidden="true">
-        <div class="badge walk-badge">🚶</div>
-        <div class="route-line"><span></span></div>
-        <div class="badge run-badge">🏃</div>
+      <div class="hero-visual">
+        <span>🚶</span>
+        <i></i>
+        <span>🏃</span>
       </div>
-      <h2>Build your workout</h2>
-      <p>Create your intervals, track GPS distance and change the plan later without ending your workout.</p>
+      <h2>Ready to train?</h2>
+      <p>Choose a plan or create your own interval.</p>
     </article>
 
-    <article class="setup-card">
-      <div class="setting-block">
-        <div class="setting-title">
-          <span class="setting-icon walk-badge">🚶</span>
-          <div><strong>Walking</strong><small>Recovery interval</small></div>
-        </div>
-        <div class="time-fields">
-          <label>Minutes<input id="walkMinutes" type="number" min="0" max="99" value="2" inputmode="numeric"></label>
-          <b>:</b>
-          <label>Seconds<input id="walkSeconds" type="number" min="0" max="59" value="0" inputmode="numeric"></label>
-        </div>
-      </div>
-      <hr>
-      <div class="setting-block">
-        <div class="setting-title">
-          <span class="setting-icon run-badge">🏃</span>
-          <div><strong>Running</strong><small>Active interval</small></div>
-        </div>
-        <div class="time-fields">
-          <label>Minutes<input id="runMinutes" type="number" min="0" max="99" value="3" inputmode="numeric"></label>
-          <b>:</b>
-          <label>Seconds<input id="runSeconds" type="number" min="0" max="59" value="0" inputmode="numeric"></label>
-        </div>
-      </div>
-    </article>
-
-    <div class="presets">
-      <button data-w="60" data-r="60">1 / 1</button>
-      <button data-w="120" data-r="180" class="selected">2 / 3</button>
-      <button data-w="180" data-r="300">3 / 5</button>
-      <button data-w="300" data-r="600">5 / 10</button>
+    <h3 class="section-title">Quick plans</h3>
+    <div class="preset-grid">
+      <button class="preset-card" data-w="60" data-r="60">
+        <strong>1 / 1</strong><span>Walk / Run</span>
+      </button>
+      <button class="preset-card selected" data-w="120" data-r="180">
+        <strong>2 / 3</strong><span>Walk / Run</span>
+      </button>
+      <button class="preset-card" data-w="180" data-r="300">
+        <strong>3 / 5</strong><span>Walk / Run</span>
+      </button>
+      <button class="preset-card" data-w="300" data-r="600">
+        <strong>5 / 10</strong><span>Walk / Run</span>
+      </button>
     </div>
 
-    <article class="options-card">
-      <label class="option-row">
-        <div><strong>GPS distance tracking</strong><small>Track total, walking and running distance</small></div>
-        <span class="switch"><input id="gpsToggle" type="checkbox" checked><i></i></span>
-      </label>
-      <hr>
-      <label class="option-row">
-        <div><strong>Estimated calories</strong><small>Uses your optional body weight</small></div>
-        <span class="weight-field"><input id="weightKg" type="number" min="30" max="250" value="75"> kg</span>
-      </label>
+    <article class="custom-card">
+      <div class="custom-head">
+        <div>
+          <h3>Custom interval</h3>
+          <p>Minutes and seconds</p>
+        </div>
+        <span>⚙️</span>
+      </div>
+
+      <div class="interval-row">
+        <div class="activity-label">
+          <span class="activity-icon walk">🚶</span>
+          <strong>Walk</strong>
+        </div>
+        <div class="time-inputs">
+          <label><input id="walkMinutes" type="number" value="2" min="0" max="99"><span>min</span></label>
+          <b>:</b>
+          <label><input id="walkSeconds" type="number" value="0" min="0" max="59"><span>sec</span></label>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="interval-row">
+        <div class="activity-label">
+          <span class="activity-icon run">🏃</span>
+          <strong>Run</strong>
+        </div>
+        <div class="time-inputs">
+          <label><input id="runMinutes" type="number" value="3" min="0" max="99"><span>min</span></label>
+          <b>:</b>
+          <label><input id="runSeconds" type="number" value="0" min="0" max="59"><span>sec</span></label>
+        </div>
+      </div>
     </article>
 
-    <div class="saved-workout-row">
-      <button id="savePresetBtn" class="secondary-btn" type="button">Save custom workout</button>
-      <button id="loadPresetBtn" class="secondary-btn" type="button">Load saved</button>
-    </div>
-
-    <button id="startBtn" class="primary-btn" type="button">Start workout <span>▶</span></button>
-    <p class="hint">Voice, alarm and vibration announce each interval change.</p>
+    <button id="startBtn" class="primary-button">Start workout <span>▶</span></button>
   </section>
 
-  <section id="timerView" class="view">
+  <section id="workoutPage" class="page">
     <article id="phaseCard" class="phase-card walking">
-      <div class="phase-meta">
+      <div class="phase-top">
         <span id="roundLabel">ROUND 1</span>
         <span id="gpsStatus">GPS ready</span>
       </div>
 
-      <div class="progress-wrap">
-        <svg class="progress-ring" viewBox="0 0 260 260" aria-hidden="true">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 260 260">
           <circle class="ring-bg" cx="130" cy="130" r="112"></circle>
           <circle id="ringProgress" class="ring-progress" cx="130" cy="130" r="112"></circle>
         </svg>
-        <div class="progress-center">
-          <div id="activityEmoji" class="activity-emoji">🚶</div>
+        <div class="ring-center">
+          <div id="activityEmoji">🚶</div>
           <p id="phaseName">WALK</p>
           <strong id="countdown">02:00</strong>
           <span id="nextLabel">Next: Run 03:00</span>
         </div>
       </div>
 
-      <div class="distance-grid">
+      <div class="distance-row">
         <div><span>Total</span><strong id="totalDistance">0.00 km</strong></div>
-        <div><span>Walking</span><strong id="walkDistance">0.00 km</strong></div>
-        <div><span>Running</span><strong id="runDistance">0.00 km</strong></div>
+        <div><span>Walk</span><strong id="walkDistance">0.00 km</strong></div>
+        <div><span>Run</span><strong id="runDistance">0.00 km</strong></div>
       </div>
     </article>
 
-    <article class="stats-card">
+    <div class="mini-stats">
       <div><span>Elapsed</span><strong id="elapsedTime">00:00</strong></div>
       <div><span>Cycles</span><strong id="cycleCount">0</strong></div>
       <div><span>Pace</span><strong id="paceValue">--</strong></div>
-      <div><span>Walk time</span><strong id="walkTime">00:00</strong></div>
-      <div><span>Run time</span><strong id="runTime">00:00</strong></div>
-      <div><span>Calories</span><strong id="caloriesValue">0 kcal</strong></div>
-    </article>
+    </div>
 
-    <button id="editIntervalsBtn" class="edit-btn" type="button">✏️ Change intervals during workout</button>
+    <button id="editIntervalsBtn" class="secondary-button">Change intervals</button>
 
-    <div class="controls">
-      <button id="stopBtn" class="stop-btn" type="button">■ Stop</button>
-      <button id="pauseBtn" class="primary-btn compact" type="button">Ⅱ Pause</button>
+    <div class="workout-actions">
+      <button id="stopBtn" class="stop-button">■ Stop</button>
+      <button id="pauseBtn" class="primary-button compact">Ⅱ Pause</button>
     </div>
   </section>
 
-  <section id="summaryView" class="view">
-    <article class="summary-card">
-      <div class="summary-icon">🏁</div>
-      <p class="kicker">WORKOUT COMPLETE</p>
-      <h2>Great work!</h2>
-      <div class="summary-main"><span>Total distance</span><strong id="summaryDistance">0.00 km</strong></div>
-      <div class="summary-grid">
-        <div><span>Duration</span><strong id="summaryDuration">00:00</strong></div>
-        <div><span>Cycles</span><strong id="summaryCycles">0</strong></div>
-        <div><span>Walking</span><strong id="summaryWalkDistance">0.00 km</strong></div>
-        <div><span>Running</span><strong id="summaryRunDistance">0.00 km</strong></div>
-        <div><span>Walk time</span><strong id="summaryWalkTime">00:00</strong></div>
-        <div><span>Run time</span><strong id="summaryRunTime">00:00</strong></div>
-        <div><span>Avg pace</span><strong id="summaryPace">--</strong></div>
-        <div><span>Calories</span><strong id="summaryCalories">0 kcal</strong></div>
-      </div>
-      <button id="newWorkoutBtn" class="primary-btn" type="button">New workout</button>
-    </article>
-  </section>
-
-  <section id="historyView" class="view">
-    <div class="section-head">
-      <div><p class="kicker">YOUR PROGRESS</p><h2>Workout history</h2></div>
-      <button id="closeHistoryBtn" class="icon-btn" type="button">✕</button>
+  <section id="historyPage" class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">YOUR PROGRESS</p><h2>History</h2></div>
     </div>
-    <article class="history-overview">
+    <div class="history-summary">
       <div><span>Workouts</span><strong id="historyCount">0</strong></div>
-      <div><span>Total distance</span><strong id="historyDistance">0.00 km</strong></div>
-      <div><span>Total time</span><strong id="historyTime">00:00</strong></div>
-    </article>
+      <div><span>Distance</span><strong id="historyDistance">0.00 km</strong></div>
+      <div><span>Time</span><strong id="historyTime">00:00</strong></div>
+    </div>
     <div id="historyList" class="history-list"></div>
-    <button id="clearHistoryBtn" class="danger-text-btn" type="button">Clear workout history</button>
   </section>
+
+  <section id="settingsPage" class="page">
+    <div class="page-heading">
+      <div><p class="eyebrow">PREFERENCES</p><h2>Settings</h2></div>
+    </div>
+
+    <article class="settings-card">
+      <label class="setting-item">
+        <div><strong>GPS tracking</strong><span>Total, walking and running distance</span></div>
+        <input id="gpsToggle" type="checkbox" checked>
+      </label>
+      <div class="divider"></div>
+      <label class="setting-item">
+        <div><strong>Body weight</strong><span>Used for calorie estimation</span></div>
+        <div class="weight-control"><input id="weightKg" type="number" value="75" min="30" max="250"><span>kg</span></div>
+      </label>
+      <div class="divider"></div>
+      <button id="savePlanBtn" class="setting-action">Save current interval plan</button>
+      <div class="divider"></div>
+      <button id="loadPlanBtn" class="setting-action">Load saved interval plan</button>
+    </article>
+  </section>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-page="homePage"><span>⌂</span><small>Home</small></button>
+    <button class="nav-item" data-page="workoutPage"><span>◉</span><small>Workout</small></button>
+    <button class="nav-item" data-page="historyPage"><span>▥</span><small>History</small></button>
+    <button class="nav-item" data-page="settingsPage"><span>⚙</span><small>Settings</small></button>
+  </nav>
 </main>
 
-<div id="editModal" class="modal" aria-hidden="true">
+<div id="editModal" class="modal">
   <div class="modal-card">
-    <div class="modal-head"><div><p class="kicker">LIVE WORKOUT</p><h2>Change intervals</h2></div><button id="closeEditBtn" class="icon-btn">✕</button></div>
-    <p class="modal-copy">Your elapsed time, distance, cycles and GPS progress will remain unchanged.</p>
-    <div class="modal-setting">
-      <strong>Walking</strong>
-      <div class="time-fields">
-        <label>Minutes<input id="liveWalkMinutes" type="number" min="0" max="99"></label><b>:</b>
-        <label>Seconds<input id="liveWalkSeconds" type="number" min="0" max="59"></label>
+    <div class="modal-header">
+      <div><p class="eyebrow">LIVE WORKOUT</p><h2>Change intervals</h2></div>
+      <button id="closeEditBtn" class="icon-button">✕</button>
+    </div>
+    <p class="modal-text">Your time, GPS distance and completed cycles will stay unchanged.</p>
+
+    <div class="modal-row">
+      <strong>Walk</strong>
+      <div class="time-inputs">
+        <label><input id="liveWalkMinutes" type="number" min="0" max="99"><span>min</span></label>
+        <b>:</b>
+        <label><input id="liveWalkSeconds" type="number" min="0" max="59"><span>sec</span></label>
       </div>
     </div>
-    <div class="modal-setting">
-      <strong>Running</strong>
-      <div class="time-fields">
-        <label>Minutes<input id="liveRunMinutes" type="number" min="0" max="99"></label><b>:</b>
-        <label>Seconds<input id="liveRunSeconds" type="number" min="0" max="59"></label>
+
+    <div class="modal-row">
+      <strong>Run</strong>
+      <div class="time-inputs">
+        <label><input id="liveRunMinutes" type="number" min="0" max="99"><span>min</span></label>
+        <b>:</b>
+        <label><input id="liveRunSeconds" type="number" min="0" max="59"><span>sec</span></label>
       </div>
     </div>
-    <label class="apply-choice">
+
+    <label class="apply-now">
       <input id="applyCurrentPhase" type="checkbox">
-      Apply the new duration immediately to the current interval
+      Apply immediately to the current interval
     </label>
-    <button id="applyIntervalsBtn" class="primary-btn" type="button">Apply new intervals</button>
+
+    <button id="applyIntervalsBtn" class="primary-button">Apply changes</button>
   </div>
 </div>
 
-<div id="toast" class="toast" role="status"></div>
+<div id="toast" class="toast"></div>
 <script src="app.js"></script>
 </body>
 </html>
