@@ -1,24 +1,24 @@
-# Tourays Fitness V5 Online
+# Tourays Fitness V6 Premium
 
-## Included
-- Walk/run interval timer
-- Live interval changes without losing workout progress
-- GPS total, walking and running distance
-- Online Leaflet/OpenStreetMap live map
-- Recorded route and starting point
-- One-tap walking navigation back to the start through Apple Maps
-- Indoor exercise library
-- Looping demonstrations for push-ups, squats, sit-ups, lunges, plank, mountain climbers, burpees and jumping jacks
-- Workout history saved by exact date and time
-- Fixed five-tab navigation
+## Major changes
+- Modern MapLibre vector map using OpenFreeMap
+- In-app walking route back to the recorded starting point
+- Turn-by-turn steps shown inside the app
+- Redesigned six-second multi-pose exercise demonstrations
+- Health dashboard with weekly active minutes, calories, distance, BMI, pace and dated workout history
+- No Apple Maps redirection
+- Existing walk/run timer, GPS separation and live interval editing remain included
+
+## Important limitation
+Apple Health/HealthKit cannot be accessed by a GitHub Pages browser app. HealthKit requires a native iOS application and Apple entitlement. This version stores and calculates its own fitness metrics locally.
 
 ## Upload
-Replace these four files in the repository:
+Replace:
 - index.html
 - manifest.json
 - icon.svg
 - README.md
 
-Keep `style.css`, `app.js` and `sw.js` deleted.
+Keep style.css, app.js and sw.js deleted.
 
-This version is online-first. The map uses Leaflet and OpenStreetMap tiles and therefore requires internet access.
+The map and route calculation require an internet connection.

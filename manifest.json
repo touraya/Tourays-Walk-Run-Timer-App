@@ -1,7 +1,7 @@
 {
-  "name": "Tourays Fitness",
+  "name": "Tourays Fitness V6",
   "short_name": "Tourays Fitness",
-  "description": "Walk, run, indoor exercise and live route tracking.",
+  "description": "Running, indoor training, in-app navigation and health tracking.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
