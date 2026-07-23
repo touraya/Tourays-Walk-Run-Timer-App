@@ -1,33 +1,24 @@
-<!DOCTYPE html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tourays Fitness V6.1 Part 4</title>
+<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>Tourays Fitness V6.1 Final</title>
 <style>
-body{margin:0;font-family:Arial;background:linear-gradient(135deg,#f8fdff,#e9fff5)}
-header{background:linear-gradient(90deg,#00c896,#4facfe);padding:20px;color:#fff;text-align:center}
-.wrap{padding:18px}
-.card{background:#fff;border-radius:24px;padding:18px;box-shadow:0 10px 25px rgba(0,0,0,.12);margin-bottom:18px}
-label{display:block;margin:10px 0 6px}
-input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ccc}
-button{margin-top:16px;width:100%;padding:14px;border:none;border-radius:16px;background:#00c896;color:#fff;font-size:17px}
-</style></head>
-<body>
-<header><h1>Settings</h1><p>Premium V6.1 • Part 4</p></header>
-<div class="wrap">
-<div class="card">
-<h2>Profile</h2>
-<label>Weight (kg)</label><input type="number" placeholder="75">
-<label>Height (cm)</label><input type="number" placeholder="180">
-<label>Voice</label>
-<select><option>English</option><option>German</option></select>
-<button>Save Settings</button>
-</div>
-<div class="card">
-<h2>Backup</h2>
-<p>Backup/restore placeholder for future release.</p>
-</div>
-<div class="card">
-<h2>Version</h2>
-<p>Tourays Fitness V6.1 – Part 4</p>
-</div>
-</div>
-</body></html>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eefcff,#e8fff4);color:#16324d}
+header{padding:22px;text-align:center;background:linear-gradient(90deg,#00c896,#4facfe);color:#fff}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:#fff;box-shadow:0 -6px 18px rgba(0,0,0,.12)}
+nav button{flex:1;border:0;padding:14px;background:#fff;font-size:18px}
+.page{display:none;padding:18px 18px 90px}
+.page.active{display:block}
+.card{background:#fff;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 10px 24px rgba(0,0,0,.10)}
+.ring{width:140px;height:140px;margin:auto;border-radius:50%;background:conic-gradient(#00c896 40%,#dceef5 0)}
+</style></head><body>
+<header><h1>Tourays Fitness</h1><p>V6.1 Final</p></header>
+<section id='home' class='page active'><div class='card'><h2>Home</h2><p>Premium foundation.</p></div></section>
+<section id='run' class='page'><div class='card'><h2>Run</h2><div class='ring'></div><p>Interval timer, GPS placeholders.</p></div></section>
+<section id='indoor' class='page'><div class='card'><h2>Indoor</h2><p>🏋️ Squats • 🤸 Push-ups • 🧘 Plank • 🏃 High Knees</p></div></section>
+<section id='health' class='page'><div class='card'><h2>Health</h2><p>Calories • Distance • Weekly Goal</p></div></section>
+<section id='settings' class='page'><div class='card'><h2>Settings</h2><p>Weight • Height • Voice</p></div></section>
+<nav>
+<button data-p='home'>🏠</button><button data-p='run'>🏃</button><button data-p='indoor'>💪</button><button data-p='health'>❤️</button><button data-p='settings'>⚙️</button>
+</nav>
+<script>
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(b.dataset.p).classList.add('active');});
+</script></body></html>
