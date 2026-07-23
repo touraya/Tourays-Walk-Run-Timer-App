@@ -1,21 +1,33 @@
-<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
-<title>Part3</title>
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tourays Fitness V6.1 Part 4</title>
 <style>
-body{margin:0;font-family:Arial;background:linear-gradient(135deg,#eefcff,#e8fff4)}
-header{padding:18px;background:linear-gradient(90deg,#00c896,#56a8ff);color:white;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;padding:18px}
-.card{background:white;border-radius:22px;padding:16px;box-shadow:0 8px 22px rgba(0,0,0,.12);text-align:center}
-.figure{font-size:60px;animation:bob 1.4s infinite alternate}
-@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-10px)}}
-small{color:#666}
-</style></head><body>
-<header><h2>Indoor Training</h2></header>
-<div class='grid'>
-<div class='card'><div class='figure'>🏋️</div><h3>Squats</h3><small>3 x 15</small></div>
-<div class='card'><div class='figure'>🤸</div><h3>Push-ups</h3><small>3 x 12</small></div>
-<div class='card'><div class='figure'>🧘</div><h3>Plank</h3><small>60 sec</small></div>
-<div class='card'><div class='figure'>🏃</div><h3>High Knees</h3><small>45 sec</small></div>
-<div class='card'><div class='figure'>⭐</div><h3>Achievements</h3><small>Coming soon</small></div>
-<div class='card'><div class='figure'>🔥</div><h3>Calories</h3><small>Live module next</small></div>
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#f8fdff,#e9fff5)}
+header{background:linear-gradient(90deg,#00c896,#4facfe);padding:20px;color:#fff;text-align:center}
+.wrap{padding:18px}
+.card{background:#fff;border-radius:24px;padding:18px;box-shadow:0 10px 25px rgba(0,0,0,.12);margin-bottom:18px}
+label{display:block;margin:10px 0 6px}
+input,select{width:100%;padding:12px;border-radius:12px;border:1px solid #ccc}
+button{margin-top:16px;width:100%;padding:14px;border:none;border-radius:16px;background:#00c896;color:#fff;font-size:17px}
+</style></head>
+<body>
+<header><h1>Settings</h1><p>Premium V6.1 • Part 4</p></header>
+<div class="wrap">
+<div class="card">
+<h2>Profile</h2>
+<label>Weight (kg)</label><input type="number" placeholder="75">
+<label>Height (cm)</label><input type="number" placeholder="180">
+<label>Voice</label>
+<select><option>English</option><option>German</option></select>
+<button>Save Settings</button>
+</div>
+<div class="card">
+<h2>Backup</h2>
+<p>Backup/restore placeholder for future release.</p>
+</div>
+<div class="card">
+<h2>Version</h2>
+<p>Tourays Fitness V6.1 – Part 4</p>
+</div>
 </div>
 </body></html>

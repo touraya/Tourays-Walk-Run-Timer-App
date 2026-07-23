@@ -1,1 +1,1 @@
-Overwrite previous files and commit. Then ask for Response 4.
+Overwrite the existing files in your GitHub Pages repository, commit the changes, then request the Final ZIP.

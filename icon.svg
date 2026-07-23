@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><rect width="512" height="512" rx="80" fill="#56a8ff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#00c896"/><stop offset="1" stop-color="#4facfe"/></linearGradient></defs><rect rx="90" width="512" height="512" fill="url(#g)"/></svg>
