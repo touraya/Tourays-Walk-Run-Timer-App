@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="A simple repeating walk and run interval timer." />
+  <title>Walk & Run Timer</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">INTERVAL TRAINING</p>
+        <h1>Walk & Run</h1>
+      </div>
+      <button id="soundButton" class="icon-button" type="button" aria-label="Toggle sound">
+        <span id="soundIcon">🔊</span>
+      </button>
+    </header>
+
+    <section id="setupView" class="view active" aria-labelledby="setupTitle">
+      <div class="hero-card">
+        <div class="mini-illustrations" aria-hidden="true">
+          <div class="mini-person walk-mini">🚶</div>
+          <div class="route-line"><span></span></div>
+          <div class="mini-person run-mini">🏃</div>
+        </div>
+
+        <h2 id="setupTitle">Build your workout</h2>
+        <p>Choose how long you want to walk and run. The timer will alternate continuously until you stop it.</p>
+      </div>
+
+      <div class="settings-card">
+        <div class="interval-row walk-row">
+          <div class="interval-label">
+            <span class="interval-emoji" aria-hidden="true">🚶</span>
+            <div>
+              <strong>Walking</strong>
+              <small>Recovery interval</small>
+            </div>
+          </div>
+
+          <div class="time-control">
+            <button class="adjust-button" type="button" data-target="walkMinutes" data-change="-1" aria-label="Decrease walking time">−</button>
+            <label>
+              <input id="walkMinutes" type="number" min="1" max="99" value="2" inputmode="numeric" />
+              <span>min</span>
+            </label>
+            <button class="adjust-button" type="button" data-target="walkMinutes" data-change="1" aria-label="Increase walking time">+</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="interval-row run-row">
+          <div class="interval-label">
+            <span class="interval-emoji" aria-hidden="true">🏃</span>
+            <div>
+              <strong>Running</strong>
+              <small>Active interval</small>
+            </div>
+          </div>
+
+          <div class="time-control">
+            <button class="adjust-button" type="button" data-target="runMinutes" data-change="-1" aria-label="Decrease running time">−</button>
+            <label>
+              <input id="runMinutes" type="number" min="1" max="99" value="3" inputmode="numeric" />
+              <span>min</span>
+            </label>
+            <button class="adjust-button" type="button" data-target="runMinutes" data-change="1" aria-label="Increase running time">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-presets" aria-label="Quick presets">
+        <button type="button" data-walk="1" data-run="1">1 / 1</button>
+        <button type="button" data-walk="2" data-run="3" class="selected">2 / 3</button>
+        <button type="button" data-walk="3" data-run="5">3 / 5</button>
+        <button type="button" data-walk="5" data-run="10">5 / 10</button>
+      </div>
+
+      <button id="startButton" class="primary-button" type="button">
+        <span>Start workout</span>
+        <span aria-hidden="true">▶</span>
+      </button>
+
+      <p class="setup-note">Voice announcements, sound and vibration are used when each interval changes.</p>
+    </section>
+
+    <section id="timerView" class="view" aria-live="polite">
+      <div id="phaseCard" class="phase-card walking">
+        <div class="phase-topline">
+          <span id="roundLabel">ROUND 1</span>
+          <span id="nextLabel">Next: Run 3:00</span>
+        </div>
+
+        <div class="activity-visual" aria-hidden="true">
+          <div class="sun"></div>
+          <div class="ground"></div>
+
+          <svg id="walkIllustration" class="activity-svg" viewBox="0 0 320 220" role="img" aria-label="Person walking">
+            <circle cx="160" cy="48" r="22" fill="currentColor"/>
+            <path d="M155 72 L140 120 L165 143 L184 105 L170 76 Z" fill="currentColor"/>
+            <path d="M145 91 L104 121" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+            <path d="M170 92 L211 113" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+            <path d="M151 137 L119 190" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+            <path d="M166 140 L207 184" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+          </svg>
+
+          <svg id="runIllustration" class="activity-svg hidden" viewBox="0 0 320 220" role="img" aria-label="Person running">
+            <circle cx="176" cy="46" r="21" fill="currentColor"/>
+            <path d="M168 69 L137 111 L173 137 L201 96 L187 72 Z" fill="currentColor"/>
+            <path d="M149 91 L103 79" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+            <path d="M189 92 L226 121" stroke="currentColor" stroke-width="16" stroke-linecap="round"/>
+            <path d="M164 132 L111 159" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+            <path d="M174 139 L221 181" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+            <path d="M106 159 L77 184" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <p id="phaseInstruction" class="phase-instruction">KEEP WALKING</p>
+        <div id="countdown" class="countdown">02:00</div>
+
+        <div class="progress-track" aria-label="Interval progress">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="workout-stats">
+        <div>
+          <span>Elapsed</span>
+          <strong id="elapsedTime">00:00</strong>
+        </div>
+        <div>
+          <span>Cycles</span>
+          <strong id="cycleCount">0</strong>
+        </div>
+        <div>
+          <span>Status</span>
+          <strong id="statusText">Active</strong>
+        </div>
+      </div>
+
+      <div class="timer-controls">
+        <button id="stopButton" class="secondary-button danger" type="button">■ Stop</button>
+        <button id="pauseButton" class="primary-button compact" type="button">Ⅱ Pause</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="announcement" class="announcement" role="status"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
