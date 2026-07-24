@@ -1,24 +1,23 @@
-Tourays Fitness V9 — Functional QA Step 2
+Tourays Fitness V9 — Functional QA Step 3
 
-Completed:
-- Resolved all previously detected duplicate HTML IDs
-- Separated legacy and current Planner controls
-- Separated legacy and current AI Coach controls
-- Separated legacy and current Profile fields
-- Added an in-app QA launcher and health-check panel
-- Added checks for routes, critical elements and duplicate IDs
-- Added localStorage write/restore testing
-- Added offline API and manifest checks
-- Added button accessibility checks
-- Added form and numeric-range checks
-- Added profile integration checks
-- Added downloadable JSON QA reports
-- Updated PWA cache version to 9160
+Added:
+- Global success, warning and error toast messages
+- Reusable confirmation dialog
+- Protection for delete, remove, clear and reset actions
+- Automatic form draft saving
+- Recovery of unsaved form changes after closing or refreshing
+- Recovery notification banner
+- Offline status handling
+- Local protection of changes while offline
+- Before-close protection for unsaved forms
+- CRUD audit log stored locally
+- Reusable create, update and delete helpers
+- Empty states for Planner, Walk & Run, Nutrition and Progress
+- Updated PWA cache version 9170
 
 Validation completed:
 - Main JavaScript syntax passed
 - Service Worker syntax passed
 - Manifest JSON passed
-- Duplicate HTML IDs remaining: 0
 
-Next recommended build: Functional QA Step 3 covering CRUD workflows, empty states, confirmations and offline recovery.
+Recommended next build: Release Polish Step 4 covering loading states, skeletons, visual consistency, error boundaries and final accessibility cleanup.
