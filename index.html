@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Profile Step 3</title>
+<title>Tourays Fitness V9 · Profile Step 4</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9110" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9120" rel="stylesheet"/>
 </head>
 <body>
 
@@ -921,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9110"></script>
+<script src="app-v8-5-2.js?v=9120"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -2027,6 +2027,185 @@ if ('serviceWorker' in navigator) {
         <div class="profile-nutrition-note">
           <strong id="profileNutritionStatus">Automatic targets are ready.</strong>
           <span id="profileNutritionExplanation">Targets use your saved body metrics, activity level and fitness goal.</span>
+        </div>
+      </section>
+
+
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">NOTIFICATIONS</span>
+            <h2>Reminders and updates</h2>
+          </div>
+        </div>
+
+        <div class="profile-toggle-list">
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Workout reminders</strong>
+              <small>Remind me on selected workout days.</small>
+            </div>
+            <input id="profileWorkoutReminders" type="checkbox" checked>
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Water reminders</strong>
+              <small>Receive regular hydration reminders.</small>
+            </div>
+            <input id="profileWaterReminders" type="checkbox">
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Meal reminders</strong>
+              <small>Remind me to log meals during the day.</small>
+            </div>
+            <input id="profileMealReminders" type="checkbox">
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Daily summary</strong>
+              <small>Show a daily progress and activity summary.</small>
+            </div>
+            <input id="profileDailySummary" type="checkbox" checked>
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Weekly report</strong>
+              <small>Review workouts, nutrition and progress every week.</small>
+            </div>
+            <input id="profileWeeklyReport" type="checkbox" checked>
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Achievement alerts</strong>
+              <small>Celebrate streaks, records and completed goals.</small>
+            </div>
+            <input id="profileAchievementAlerts" type="checkbox" checked>
+            <span class="profile-toggle-ui"></span>
+          </label>
+        </div>
+
+        <div class="profile-form-grid profile-reminder-times">
+          <label>
+            <span>Workout reminder time</span>
+            <input id="profileWorkoutReminderTime" type="time" value="18:00">
+          </label>
+          <label>
+            <span>Daily summary time</span>
+            <input id="profileDailySummaryTime" type="time" value="20:30">
+          </label>
+        </div>
+
+        <div class="profile-notification-note">
+          <strong id="profileNotificationStatus">Notifications are stored locally.</strong>
+          <span>Browser permission is requested only when reminders are enabled.</span>
+        </div>
+      </section>
+
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">APP PREFERENCES</span>
+            <h2>Appearance and workout behavior</h2>
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <label>
+            <span>Theme</span>
+            <select id="profileTheme">
+              <option value="system">Use device setting</option>
+              <option value="light">Light mode</option>
+              <option value="dark">Dark mode</option>
+            </select>
+          </label>
+          <label>
+            <span>Countdown before exercise</span>
+            <select id="profileCountdown">
+              <option value="3">3 seconds</option>
+              <option value="5" selected>5 seconds</option>
+              <option value="10">10 seconds</option>
+              <option value="0">No countdown</option>
+            </select>
+          </label>
+          <label>
+            <span>Voice coach</span>
+            <select id="profileVoiceCoach">
+              <option value="on" selected>On</option>
+              <option value="off">Off</option>
+            </select>
+          </label>
+          <label>
+            <span>GPS accuracy</span>
+            <select id="profileGpsAccuracy">
+              <option value="balanced" selected>Balanced</option>
+              <option value="high">High accuracy</option>
+              <option value="battery">Battery saving</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="profile-toggle-list profile-app-toggle-list">
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Vibration feedback</strong>
+              <small>Use vibration for countdowns and workout milestones.</small>
+            </div>
+            <input id="profileVibration" type="checkbox" checked>
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Sound effects</strong>
+              <small>Play completion and interaction sounds.</small>
+            </div>
+            <input id="profileSoundEffects" type="checkbox" checked>
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Auto-pause Walk &amp; Run</strong>
+              <small>Pause tracking automatically when movement stops.</small>
+            </div>
+            <input id="profileAutoPause" type="checkbox">
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Keep screen awake</strong>
+              <small>Prevent the display from sleeping during active workouts.</small>
+            </div>
+            <input id="profileKeepAwake" type="checkbox">
+            <span class="profile-toggle-ui"></span>
+          </label>
+        </div>
+
+        <div class="profile-preference-summary">
+          <article>
+            <span>Theme</span>
+            <strong id="profileThemeSummary">System</strong>
+          </article>
+          <article>
+            <span>Countdown</span>
+            <strong id="profileCountdownSummary">5 seconds</strong>
+          </article>
+          <article>
+            <span>Voice coach</span>
+            <strong id="profileVoiceSummary">On</strong>
+          </article>
         </div>
       </section>
 

@@ -2851,3 +2851,69 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
   .profile-nutrition-mode{grid-template-columns:1fr}
   .profile-nutrition-summary{grid-template-columns:1fr}
 }
+
+
+/* =========================================================
+   V9 PROFILE STEP 4 — NOTIFICATIONS & APP PREFERENCES
+   ========================================================= */
+.profile-toggle-list{
+  display:grid;gap:10px
+}
+.profile-toggle-row{
+  position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  min-height:66px;padding:13px 14px;border:1px solid #ebe6f2;border-radius:16px;
+  background:#fbfaff;cursor:pointer
+}
+.profile-toggle-row>div{
+  display:flex;flex-direction:column;gap:4px;min-width:0
+}
+.profile-toggle-row strong{font-size:.78rem}
+.profile-toggle-row small{font-size:.65rem;line-height:1.4;color:#888392}
+.profile-toggle-row input{
+  position:absolute;opacity:0;pointer-events:none
+}
+.profile-toggle-ui{
+  position:relative;flex:0 0 46px;width:46px;height:27px;border-radius:999px;
+  background:#d8d4df;transition:.2s ease
+}
+.profile-toggle-ui::after{
+  content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;
+  background:#fff;box-shadow:0 2px 7px rgba(0,0,0,.18);transition:.2s ease
+}
+.profile-toggle-row input:checked+.profile-toggle-ui{background:#6f48e8}
+.profile-toggle-row input:checked+.profile-toggle-ui::after{transform:translateX(19px)}
+.profile-reminder-times{margin-top:15px}
+.profile-notification-note{
+  display:flex;flex-direction:column;gap:4px;margin-top:13px;padding:13px;
+  border-radius:15px;background:#f0ecfb
+}
+.profile-notification-note strong{font-size:.76rem;color:#623fd0}
+.profile-notification-note span{font-size:.66rem;line-height:1.45;color:#777281}
+.profile-app-toggle-list{margin-top:15px}
+.tourays-dark-theme body,
+.tourays-dark-theme .profile-settings-screen{
+  background:#121018;color:#f4f1fa
+}
+.tourays-dark-theme .profile-settings-card{
+  background:#1c1924;box-shadow:none
+}
+.tourays-dark-theme .profile-form-grid input,
+.tourays-dark-theme .profile-form-grid select,
+.tourays-dark-theme .profile-toggle-row,
+.tourays-dark-theme .profile-day-selector span,
+.tourays-dark-theme .profile-equipment-options span,
+.tourays-dark-theme .profile-nutrition-mode label>span{
+  background:#24202e;border-color:#373043;color:#f4f1fa
+}
+.tourays-dark-theme .profile-health-summary article,
+.tourays-dark-theme .profile-preference-summary article,
+.tourays-dark-theme .profile-nutrition-summary article{
+  background:#24202e
+}
+.tourays-dark-theme .profile-save-bar{
+  background:#0b0910
+}
+@media(max-width:560px){
+  .profile-toggle-row{align-items:flex-start}
+  .profile-toggle-ui{margin-top:2px}
+}

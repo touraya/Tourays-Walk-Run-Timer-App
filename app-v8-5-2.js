@@ -3319,3 +3319,200 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   restoreNutrition();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — PROFILE STEP 4: NOTIFICATIONS & APP PREFERENCES
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('profileSettingsScreen');
+  if(!screen || !document.getElementById('profileWorkoutReminders')) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    form:$('profileSettingsForm'),
+    workoutReminders:$('profileWorkoutReminders'),
+    waterReminders:$('profileWaterReminders'),
+    mealReminders:$('profileMealReminders'),
+    dailySummary:$('profileDailySummary'),
+    weeklyReport:$('profileWeeklyReport'),
+    achievementAlerts:$('profileAchievementAlerts'),
+    workoutReminderTime:$('profileWorkoutReminderTime'),
+    dailySummaryTime:$('profileDailySummaryTime'),
+    notificationStatus:$('profileNotificationStatus'),
+    theme:$('profileTheme'),
+    countdown:$('profileCountdown'),
+    voiceCoach:$('profileVoiceCoach'),
+    gpsAccuracy:$('profileGpsAccuracy'),
+    vibration:$('profileVibration'),
+    soundEffects:$('profileSoundEffects'),
+    autoPause:$('profileAutoPause'),
+    keepAwake:$('profileKeepAwake'),
+    themeSummary:$('profileThemeSummary'),
+    countdownSummary:$('profileCountdownSummary'),
+    voiceSummary:$('profileVoiceSummary')
+  };
+
+  const key='touraysNotificationPreferencesV1';
+  const appKey='touraysAppPreferencesV1';
+
+  function themeLabel(value){
+    return {system:'System',light:'Light',dark:'Dark'}[value]||'System';
+  }
+
+  function applyTheme(value){
+    document.documentElement.dataset.theme=value;
+    if(value==='dark'){
+      document.documentElement.classList.add('tourays-dark-theme');
+    }else{
+      document.documentElement.classList.remove('tourays-dark-theme');
+    }
+  }
+
+  async function requestNotificationPermission(){
+    if(!('Notification' in window)) {
+      refs.notificationStatus.textContent='Browser notifications are not supported on this device.';
+      return;
+    }
+
+    if(Notification.permission==='granted'){
+      refs.notificationStatus.textContent='Browser notification permission is enabled.';
+      return;
+    }
+
+    if(Notification.permission==='denied'){
+      refs.notificationStatus.textContent='Notifications are blocked in the browser settings.';
+      return;
+    }
+
+    try{
+      const permission=await Notification.requestPermission();
+      refs.notificationStatus.textContent=
+        permission==='granted'
+          ? 'Browser notification permission is enabled.'
+          : 'Notification permission was not enabled.';
+    }catch{
+      refs.notificationStatus.textContent='Notification permission could not be requested.';
+    }
+  }
+
+  function updateSummary(){
+    refs.themeSummary.textContent=themeLabel(refs.theme.value);
+    refs.countdownSummary.textContent=
+      refs.countdown.value==='0' ? 'Off' : `${refs.countdown.value} seconds`;
+    refs.voiceSummary.textContent=refs.voiceCoach.value==='on' ? 'On' : 'Off';
+  }
+
+  function savePreferences(){
+    const notifications={
+      workoutReminders:refs.workoutReminders.checked,
+      waterReminders:refs.waterReminders.checked,
+      mealReminders:refs.mealReminders.checked,
+      dailySummary:refs.dailySummary.checked,
+      weeklyReport:refs.weeklyReport.checked,
+      achievementAlerts:refs.achievementAlerts.checked,
+      workoutReminderTime:refs.workoutReminderTime.value||'18:00',
+      dailySummaryTime:refs.dailySummaryTime.value||'20:30'
+    };
+
+    const preferences={
+      theme:refs.theme.value,
+      countdown:Number(refs.countdown.value),
+      voiceCoach:refs.voiceCoach.value==='on',
+      gpsAccuracy:refs.gpsAccuracy.value,
+      vibration:refs.vibration.checked,
+      soundEffects:refs.soundEffects.checked,
+      autoPause:refs.autoPause.checked,
+      keepAwake:refs.keepAwake.checked
+    };
+
+    localStorage.setItem(key,JSON.stringify(notifications));
+    localStorage.setItem(appKey,JSON.stringify(preferences));
+
+    const autosave=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    localStorage.setItem('touraysAutosaveSettings',JSON.stringify({
+      ...autosave,
+      workoutReminders:notifications.workoutReminders,
+      waterReminders:notifications.waterReminders,
+      mealReminders:notifications.mealReminders,
+      dailySummary:notifications.dailySummary,
+      weeklyReport:notifications.weeklyReport,
+      achievementAlerts:notifications.achievementAlerts,
+      workoutReminderTime:notifications.workoutReminderTime,
+      dailySummaryTime:notifications.dailySummaryTime,
+      theme:preferences.theme,
+      countdown:preferences.countdown,
+      voice:preferences.voiceCoach,
+      vibration:preferences.vibration,
+      soundEffects:preferences.soundEffects,
+      gpsAccuracy:preferences.gpsAccuracy,
+      autoPause:preferences.autoPause,
+      keepAwake:preferences.keepAwake
+    }));
+
+    applyTheme(preferences.theme);
+    updateSummary();
+  }
+
+  function restorePreferences(){
+    const notifications=JSON.parse(localStorage.getItem(key)||'{}');
+    const preferences=JSON.parse(localStorage.getItem(appKey)||'{}');
+
+    refs.workoutReminders.checked=notifications.workoutReminders!==false;
+    refs.waterReminders.checked=Boolean(notifications.waterReminders);
+    refs.mealReminders.checked=Boolean(notifications.mealReminders);
+    refs.dailySummary.checked=notifications.dailySummary!==false;
+    refs.weeklyReport.checked=notifications.weeklyReport!==false;
+    refs.achievementAlerts.checked=notifications.achievementAlerts!==false;
+    refs.workoutReminderTime.value=notifications.workoutReminderTime||'18:00';
+    refs.dailySummaryTime.value=notifications.dailySummaryTime||'20:30';
+
+    refs.theme.value=preferences.theme||'system';
+    refs.countdown.value=String(preferences.countdown ?? 5);
+    refs.voiceCoach.value=preferences.voiceCoach===false ? 'off' : 'on';
+    refs.gpsAccuracy.value=preferences.gpsAccuracy||'balanced';
+    refs.vibration.checked=preferences.vibration!==false;
+    refs.soundEffects.checked=preferences.soundEffects!==false;
+    refs.autoPause.checked=Boolean(preferences.autoPause);
+    refs.keepAwake.checked=Boolean(preferences.keepAwake);
+
+    applyTheme(refs.theme.value);
+    updateSummary();
+
+    if('Notification' in window){
+      refs.notificationStatus.textContent=
+        Notification.permission==='granted'
+          ? 'Browser notification permission is enabled.'
+          : 'Notifications are stored locally until browser permission is enabled.';
+    }
+  }
+
+  [
+    refs.workoutReminders,
+    refs.waterReminders,
+    refs.mealReminders,
+    refs.dailySummary
+  ].forEach(input=>{
+    input.addEventListener('change',()=>{
+      if(input.checked) requestNotificationPermission();
+    });
+  });
+
+  [refs.theme,refs.countdown,refs.voiceCoach].forEach(input=>{
+    input.addEventListener('change',()=>{
+      if(input===refs.theme) applyTheme(refs.theme.value);
+      updateSummary();
+    });
+  });
+
+  refs.form.addEventListener('submit',()=>{
+    savePreferences();
+  });
+
+  const observer=new MutationObserver(()=>{
+    if(!screen.hidden) restorePreferences();
+  });
+  observer.observe(screen,{attributes:true,attributeFilter:['hidden']});
+
+  restorePreferences();
+})();

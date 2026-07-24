@@ -1,14 +1,21 @@
-Tourays Fitness V9 — Profile & Settings Step 3
+Tourays Fitness V9 — Profile & Settings Step 4
 
-Added nutrition settings:
-- Automatic nutrition targets from profile data
-- Manual nutrition targets
-- Calories, protein, carbohydrates, fat and water goals
-- Goal-specific calorie adjustment
-- Activity-level calorie calculation
-- Meal frequency setting
-- Macro calorie validation
-- Shared storage integration with the Nutrition module
-- Automatic recalculation button
+Added notifications and app preferences:
+- Workout reminders
+- Water reminders
+- Meal reminders
+- Daily summary
+- Weekly report
+- Achievement alerts
+- Reminder times
+- Browser notification permission handling
+- Light, dark and system theme settings
+- Countdown setting
+- Voice coach setting
+- GPS accuracy setting
+- Vibration and sound settings
+- Walk & Run auto-pause setting
+- Keep-screen-awake preference
+- Shared local persistence across the app
 
-Next step: notifications, reminders and app preferences.
+Next step: units, language foundation, backup/export/import and privacy controls.
