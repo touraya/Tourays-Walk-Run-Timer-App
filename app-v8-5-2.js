@@ -4094,51 +4094,130 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 })();
 
 
-
-
 /* =========================================================
-   TOURAYS FITNESS V10 — STAGE 12 ROUTE + SCROLL RESTORATION
+   TOURAYS FITNESS V10 — STAGE 13
+   NUTRITION DOM POSITION + EXACT MENU RESTORATION
    ========================================================= */
 (function(){
-  const validScreens=new Set(
-    Array.from(document.querySelectorAll('.screen')).map(screen=>screen.id)
-  );
+  const STORAGE_KEY='touraysCurrentMenuV13';
 
-  function resolvedScreen(){
-    const hash=location.hash.replace('#','');
-    const saved=localStorage.getItem('touraysLastScreen')||'';
-    if(validScreens.has(hash))return hash;
-    if(validScreens.has(saved))return saved;
+  function availableScreens(){
+    return new Set(Array.from(document.querySelectorAll('.screen[id]')).map(s=>s.id));
+  }
+
+  function normalizeRoute(route){
+    const valid=availableScreens();
+    return valid.has(route)?route:'home';
+  }
+
+  function remember(route){
+    route=normalizeRoute(route);
+    try{
+      localStorage.setItem(STORAGE_KEY,route);
+      sessionStorage.setItem(STORAGE_KEY,route);
+      history.replaceState({screen:route},'',`#${route}`);
+    }catch{}
+    return route;
+  }
+
+  function savedRoute(){
+    const hash=location.hash.replace(/^#/,'');
+    const session=sessionStorage.getItem(STORAGE_KEY)||'';
+    const local=localStorage.getItem(STORAGE_KEY)||'';
+    const valid=availableScreens();
+    if(valid.has(hash))return hash;
+    if(valid.has(session))return session;
+    if(valid.has(local))return local;
     return 'home';
   }
 
-  function restoreCurrentScreen(){
-    show(resolvedScreen());
+  function placeNutritionInsideApp(){
+    const nutrition=document.getElementById('nutritionScreen');
+    const shell=document.querySelector('.shell');
+    const nav=shell?.querySelector('nav');
+    if(!nutrition||!shell)return;
+    if(nutrition.parentElement!==shell){
+      if(nav)shell.insertBefore(nutrition,nav);
+      else shell.appendChild(nutrition);
+    }
   }
 
-  // Restore the exact menu after a normal refresh or reopening the tab.
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',restoreCurrentScreen,{once:true});
-  }else{
-    restoreCurrentScreen();
+  function activate(route){
+    route=remember(route);
+    placeNutritionInsideApp();
+
+    const target=document.getElementById(route)||document.getElementById('home');
+    if(!target)return;
+
+    document.querySelectorAll('.screen[id]').forEach(screen=>{
+      const active=screen===target;
+      screen.classList.toggle('active',active);
+      screen.hidden=!active;
+      screen.setAttribute('aria-hidden',active?'false':'true');
+      screen.style.display=active?'block':'none';
+      if(active)screen.scrollTop=0;
+    });
+
+    document.querySelectorAll('.tab[data-screen]').forEach(tab=>{
+      const active=tab.dataset.screen===route;
+      tab.classList.toggle('active',active);
+      tab.setAttribute('aria-current',active?'page':'false');
+    });
+
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+
+    if(route==='health')try{renderHealth()}catch{}
+    if(route==='performance')try{renderPerformance()}catch{}
+    if(route==='home')try{renderHome()}catch{}
   }
 
-  window.addEventListener('pageshow',event=>{
-    if(event.persisted)restoreCurrentScreen();
+  function routeFromControl(control){
+    if(!control)return '';
+    return control.dataset.screen||control.dataset.go||control.dataset.page||'';
+  }
+
+  // Capture the selected menu before older listeners can alter another screen.
+  ['pointerdown','touchstart','click'].forEach(type=>{
+    document.addEventListener(type,event=>{
+      const control=event.target.closest('.tab[data-screen],[data-go],[data-page]');
+      const route=routeFromControl(control);
+      if(!route||!availableScreens().has(route))return;
+      remember(route);
+      if(type==='click'){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        activate(route);
+      }
+    },true);
   });
+
+  function restore(){
+    placeNutritionInsideApp();
+    activate(savedRoute());
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',restore,{once:true});
+  }else{
+    restore();
+  }
+
+  // Repeat briefly so older startup modules cannot replace the restored menu.
+  window.addEventListener('load',()=>{
+    restore();
+    setTimeout(restore,80);
+    setTimeout(restore,300);
+  },{once:true});
+
+  window.addEventListener('pageshow',restore);
 
   window.addEventListener('popstate',()=>{
-    const hash=location.hash.replace('#','');
-    if(validScreens.has(hash))show(hash);
+    const route=normalizeRoute(location.hash.replace(/^#/,''));
+    activate(route);
   });
 
-  // Cards using data-go now follow the same reliable route system.
-  document.addEventListener('click',event=>{
-    const control=event.target.closest('[data-go]');
-    if(!control)return;
-    const route=control.dataset.go;
-    if(!validScreens.has(route))return;
-    event.preventDefault();
-    show(route);
-  },true);
+  // Keep the public route helper aligned with the stable router.
+  window.touraysActivateScreen=activate;
 })();

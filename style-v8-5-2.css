@@ -4072,3 +4072,80 @@ body:has(#nutritionScreen.active){
   height:0!important;
   overflow:hidden!important;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 13
+   NUTRITION POSITION + SCREEN ISOLATION
+   ========================================================= */
+
+/* Nutrition is now physically moved into .shell before the bottom nav.
+   It therefore no longer starts after the shell's full viewport height. */
+.shell>#nutritionScreen.active{
+  display:block!important;
+  position:relative!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0 0 22px!important;
+  min-height:0!important;
+  height:auto!important;
+  inset:auto!important;
+  transform:none!important;
+  overflow:visible!important;
+  background:transparent!important;
+}
+
+.shell>#nutritionScreen.active>.nutrition-shell{
+  display:block!important;
+  width:100%!important;
+  margin:0!important;
+  padding:0!important;
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+}
+
+.shell>#nutritionScreen.active .nutrition-header{
+  display:flex!important;
+  margin:0 0 12px!important;
+  padding:0 2px!important;
+  min-height:0!important;
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+}
+
+.shell>#nutritionScreen.active .nutrition-date-card,
+.shell>#nutritionScreen.active .nutrition-scan-card,
+.shell>#nutritionScreen.active .nutrition-summary-grid{
+  position:relative!important;
+  top:auto!important;
+  margin-top:0!important;
+  transform:none!important;
+}
+
+/* Exactly one screen contributes layout height. */
+.screen:not(.active),
+.screen[hidden]{
+  display:none!important;
+  height:0!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+
+.screen.active{
+  display:block!important;
+  height:auto!important;
+  min-height:0!important;
+}
+
+/* Avoid Safari restoring an old anchor/scroll offset after refresh. */
+html{
+  scroll-behavior:auto!important;
+  overflow-anchor:none;
+}
+body,.shell,#nutritionScreen{
+  overflow-anchor:none;
+}
