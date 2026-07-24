@@ -1726,3 +1726,151 @@ nav .tab.active b{transform:translateY(-1px)}
   .v9-stat-grid article{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
   .v9-stat-icon{margin:0}.v9-stat-grid small{display:none}.v9-stat-grid strong{font-size:18px}.v9-stat-grid em{display:block}
 }
+
+
+/* =========================================================
+   V9 STABLE EXERCISE MODE
+   Professional static demonstrations; animation assets can be
+   added later without changing the workout logic.
+   ========================================================= */
+
+.premium-demo{
+  min-height:360px!important;
+  height:auto!important;
+  padding-bottom:76px;
+  background:linear-gradient(180deg,#f8faff,#eef3fd)!important;
+}
+
+.premium-demo .demo-controls,
+.premium-demo .demo-progress{
+  display:none!important;
+}
+
+.stable-exercise-stage,
+.stable-vector-stage{
+  position:relative;
+  width:100%;
+  min-height:285px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border-radius:18px;
+  background:#0c0e15;
+}
+
+.stable-exercise-stage img{
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:285px;
+  object-fit:contain;
+  object-position:center;
+  background:#0c0e15;
+}
+
+.stable-vector-stage{
+  background:linear-gradient(180deg,#f6f8fd,#edf2fb);
+}
+
+.stable-vector-stage .premium-exercise-svg{
+  width:100%;
+  height:285px;
+}
+
+.stable-demo-note{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:48px;
+  padding:10px 12px;
+  border:1px solid #ccefe1;
+  border-radius:14px;
+  background:#effaf6;
+  color:#245e4c;
+}
+
+.stable-demo-note>span{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+  border-radius:10px;
+  background:#d8f5e9;
+  color:#1b9b70;
+  font-weight:900;
+}
+
+.stable-demo-note div{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.stable-demo-note strong{
+  font-size:.72rem;
+}
+
+.stable-demo-note small{
+  color:#5f796f;
+  font-size:.61rem;
+  line-height:1.35;
+}
+
+.premium-pose.poseA,
+.premium-pose.poseB,
+.premium-pose.poseC,
+.motion-arrow,
+.muscle,
+.demo-progress i{
+  animation:none!important;
+}
+
+.premium-pose.poseA{opacity:1!important}
+.premium-pose.poseB,
+.premium-pose.poseC{opacity:0!important}
+
+.stable-active-image,
+.stable-active-vector{
+  width:100%;
+  height:100%;
+  min-height:210px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  border-radius:18px;
+}
+
+.stable-active-image{
+  background:#0c0e15;
+}
+
+.stable-active-image img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#0c0e15;
+}
+
+.stable-active-vector .premium-exercise-svg{
+  width:100%;
+  height:100%;
+}
+
+@media(max-width:600px){
+  .premium-demo{
+    min-height:315px!important;
+  }
+  .stable-exercise-stage,
+  .stable-vector-stage,
+  .stable-exercise-stage img{
+    min-height:240px;
+  }
+  .stable-vector-stage .premium-exercise-svg{
+    height:240px;
+  }
+}

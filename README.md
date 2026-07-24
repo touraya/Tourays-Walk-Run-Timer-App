@@ -1,2 +1,4 @@
-Tourays Fitness V9 Premium Exercise Engine E1.4
-Articulated SVG push-up animation with real elbow bending, chest lowering, lockout, replay, pause, speed, form-line and muscle controls.
+Tourays Fitness V9 Stable Build
+
+This build removes the failed experimental animation engine.
+Exercise demonstrations now use stable static visuals while preserving all workout controls, guidance, sets, repetitions, rest, planning, tracking and app functionality.

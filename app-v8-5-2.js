@@ -270,15 +270,38 @@ function bindDemoControls(){
 function renderExercise(){
   const x=exercises[currentExercise];
   const visual=x.type==='push'
-    ? `<div class="premium-gif-stage"><div class="premium-proof-label">NEW PREMIUM ANIMATION</div><img id="pushupProfessionalGif" src="${PUSHUP_PREMIUM_GIF}" alt="Professional 10-second push-up demonstration"></div>`
-    : demoSvg(x.type);
-  E.demo.innerHTML=`<span class="demo-badge">${x.type==='push'?'10-second image-based demonstration':'10-second professional form guide'}</span><div class="demo-controls"><button id="demoPlayPause" aria-label="Pause animation">Ⅱ</button><button id="demoReplay" aria-label="Replay animation">↻</button><button id="demoSpeed" aria-label="Change animation speed">${demoSpeed}×</button><button id="demoMuscles" aria-label="Show muscles">Muscles</button></div>${visual}<div class="demo-progress"><i></i></div>`;
-  E.demo.style.setProperty('--demo-speed',demoSpeed);E.demo.classList.toggle('show-muscles',demoMusclesVisible);bindDemoControls();
-  E.exerciseName.textContent=x.name;E.exerciseMuscle.textContent=x.muscle;
-  E.exerciseTarget.textContent=`${exerciseAmount} ${x.unit}`;E.exerciseTip.textContent=x.tip;
+    ? `<div class="stable-exercise-stage"><img src="pushup-premium-master.png" alt="Push-up form demonstration"></div>`
+    : `<div class="stable-vector-stage">${demoSvg(x.type)}</div>`;
+
+  E.demo.innerHTML=`
+    <span class="demo-badge">FORM DEMONSTRATION</span>
+    ${visual}
+    <div class="stable-demo-note">
+      <span>✓</span>
+      <div>
+        <strong>Review the form before starting</strong>
+        <small>Follow the setup, movement and key-focus guidance below.</small>
+      </div>
+    </div>`;
+
+  E.exerciseName.textContent=x.name;
+  E.exerciseMuscle.textContent=x.muscle;
+  E.exerciseTarget.textContent=`${exerciseAmount} ${x.unit}`;
+  E.exerciseTip.textContent=x.tip;
+
   const guide=exerciseGuides[x.type]||exerciseGuides.push;
-  E.formStart.textContent=guide.start;E.formMove.textContent=guide.move;E.formFocus.textContent=guide.focus;const meta=exerciseMeta[x.type]||exerciseMeta.push;E.exerciseDifficulty.textContent=meta.difficulty;E.exerciseEquipment.textContent=meta.equipment;E.exerciseCalories.textContent=meta.impact;E.exerciseMistake.textContent=meta.mistake;
-  E.exerciseAmount.textContent=exerciseAmount;E.exerciseUnit.textContent=x.unit
+  E.formStart.textContent=guide.start;
+  E.formMove.textContent=guide.move;
+  E.formFocus.textContent=guide.focus;
+
+  const meta=exerciseMeta[x.type]||exerciseMeta.push;
+  E.exerciseDifficulty.textContent=meta.difficulty;
+  E.exerciseEquipment.textContent=meta.equipment;
+  E.exerciseCalories.textContent=meta.impact;
+  E.exerciseMistake.textContent=meta.mistake;
+
+  E.exerciseAmount.textContent=exerciseAmount;
+  E.exerciseUnit.textContent=x.unit;
 }
 function saveExercise(x,amount,duration,type=x.name,sets=1){
   const before=history();
@@ -304,7 +327,9 @@ function beginIndoorWork(){
   const amount=S.indoorMode==='single'?exerciseAmount:x.amount;
   S.indoorPhase='work';S.indoorDuration=indoorExerciseDuration(x,amount);S.indoorLeft=S.indoorDuration;
   E.indoorBrowse.hidden=true;E.indoorActive.hidden=false;E.indoorModeLabel.textContent=S.indoorMode==='plan'?S.indoorPlan.name.toUpperCase():'SINGLE EXERCISE';
-  E.activeExerciseName.textContent=x.name;E.activeExerciseTip.textContent=x.tip;E.activeDemo.innerHTML=demoSvg(x.type);
+  E.activeExerciseName.textContent=x.name;E.activeExerciseTip.textContent=x.tip;E.activeDemo.innerHTML=x.type==='push'
+    ? `<div class="stable-active-image"><img src="pushup-premium-master.png" alt="Push-up form demonstration"></div>`
+    : `<div class="stable-active-vector">${demoSvg(x.type)}</div>`;
   E.indoorPhaseLabel.textContent='WORK';E.indoorCountdownUnit.textContent=x.unit==='seconds'?'seconds':'reps';
   E.indoorSetTotal.textContent=S.indoorSets;E.indoorSetCurrent.textContent=S.indoorSet;
   E.indoorProgressLabel.textContent=`Exercise ${S.indoorIndex+1} of ${S.indoorQueue.length}`;
