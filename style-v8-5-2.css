@@ -4403,8 +4403,8 @@ body,.shell,#nutritionScreen{
 
 
 /* =========================================================
-   TOURAYS FITNESS V10 — STAGE 17
-   PROFILE OVERLAY + ROUTE STABILITY
+   TOURAYS FITNESS V10 — STAGE 18
+   CLEAN SCREEN ROUTING + PROFILE LAYOUT
    ========================================================= */
 
 .screen:not(.active),
@@ -4413,8 +4413,11 @@ body,.shell,#nutritionScreen{
   visibility:hidden!important;
   pointer-events:none!important;
   position:absolute!important;
+  width:0!important;
   height:0!important;
   min-height:0!important;
+  margin:0!important;
+  padding:0!important;
   overflow:hidden!important;
 }
 
@@ -4423,49 +4426,51 @@ body,.shell,#nutritionScreen{
   visibility:visible!important;
   pointer-events:auto!important;
   position:relative!important;
+  width:100%!important;
   height:auto!important;
   min-height:0!important;
   overflow:visible!important;
 }
 
-/* Profile is a normal screen, never a layer over another page. */
-#profileSettingsScreen{
+/* Profile is a normal page inside the app, not a full-screen overlay. */
+#profileSettingsScreen.active{
+  position:relative!important;
   inset:auto!important;
   z-index:auto!important;
-  background:#f7f8fc!important;
-}
-
-#profileSettingsScreen:not(.active){
-  display:none!important;
-}
-
-#profileSettingsScreen.active{
-  display:block!important;
-  position:relative!important;
   width:100%!important;
+  min-height:0!important;
   margin:0!important;
-  padding-bottom:calc(120px + env(safe-area-inset-bottom))!important;
+  padding:14px 14px calc(122px + env(safe-area-inset-bottom))!important;
+  background:#f7f8fc!important;
 }
 
 #profileSettingsScreen.active .profile-settings-shell{
   position:relative!important;
   inset:auto!important;
   transform:none!important;
+  width:100%!important;
+  max-width:1040px!important;
   min-height:0!important;
   height:auto!important;
   margin:0 auto!important;
+  padding:0!important;
 }
 
-/* Prevent old full-screen Profile tab layer behavior. */
-.profile-settings-tabs{
-  position:sticky!important;
+#profileSettingsScreen.active .profile-settings-header{
+  margin-top:0!important;
+  padding-top:0!important;
+}
+
+#profileSettingsScreen.active .profile-settings-tabs{
   top:0!important;
-  z-index:5!important;
-  background:rgba(247,248,252,.96)!important;
-  backdrop-filter:blur(14px)!important;
-  -webkit-backdrop-filter:blur(14px)!important;
+}
+
+/* Remove stale layout from the older empty legacy Profile screen. */
+#profile:not(.active){
+  display:none!important;
 }
 
 html{
   scroll-behavior:auto!important;
+  overflow-anchor:none!important;
 }

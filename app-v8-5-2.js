@@ -44,6 +44,7 @@ let selectedPlan='quick';
 let currentExercise=0,exerciseAmount=10;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,Number(v)||0));function fmt(n){n=Math.max(0,Math.ceil(n));return`${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`}const km=m=>`${(m/1000).toFixed(2)} km`;function pace(v){if(!v||v<.45)return'--';const x=1000/v;if(!isFinite(x)||x>3600)return'--';return`${Math.floor(x/60)}:${String(Math.round(x%60)).padStart(2,'0')}/km`}
 function show(name){
+  if(name==='profile')name='profileSettingsScreen';
   const target=document.getElementById(name)||document.getElementById('home');
   name=target?.id||'home';
 
@@ -56,15 +57,15 @@ function show(name){
   });
 
   document.querySelectorAll('.tab[data-screen]').forEach(tab=>{
-    const tabName=tab.dataset.screen==='profile'?'profileSettingsScreen':tab.dataset.screen;
-    const active=tabName===name;
+    const tabRoute=tab.dataset.screen==='profile'?'profileSettingsScreen':tab.dataset.screen;
+    const active=tabRoute===name;
     tab.classList.toggle('active',active);
     tab.setAttribute('aria-current',active?'page':'false');
   });
 
   try{
-    localStorage.setItem('touraysCurrentScreenV17',name);
-    sessionStorage.setItem('touraysCurrentScreenV17',name);
+    localStorage.setItem('touraysRouteV18',name);
+    sessionStorage.setItem('touraysRouteV18',name);
     history.replaceState({screen:name},'',`#${name}`);
   }catch{}
 
@@ -1241,12 +1242,7 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     localStorage.removeItem('touraysWalkRunHistory');
     renderHistory();
   });
-  refs.back.addEventListener('click',()=>{
-    stopGps();
-    screen.hidden=true;
-    const home=document.querySelector('.screen:not(#walkRunScreen)');
-    if(home) home.hidden=false;
-  });
+  refs.back.addEventListener('click',()=>show('home'));
 
   function openWalkRun(){
     document.querySelectorAll('.screen').forEach(s=>s.hidden=true);
@@ -3019,7 +3015,11 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     reader.readAsDataURL(file);
   });
 
-  refs.back.addEventListener('click',()=>show('home'));
+  refs.back.addEventListener('click',()=>{
+    screen.hidden=true;
+    const home=document.querySelector('.screen:not(#profileSettingsScreen):not(#nutritionScreen):not(#coachScreen):not(#progressScreen):not(#plannerScreen):not(#walkRunScreen)');
+    if(home) home.hidden=false;
+  });
 
   function openProfile(){
     show('profileSettingsScreen');
@@ -4128,71 +4128,4 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   });
 
   estimate();
-})();
-
-
-/* =========================================================
-   TOURAYS FITNESS V10 — STAGE 14
-   EXACT MENU REFRESH RESTORATION
-   ========================================================= */
-(function(){
-  const KEY='touraysCurrentScreenV14';
-
-  function validRoutes(){
-    return new Set(Array.from(document.querySelectorAll('.screen[id]')).map(x=>x.id));
-  }
-
-  function currentRequestedRoute(){
-    const valid=validRoutes();
-    const initial=window.__touraysInitialScreen||'';
-    const hash=location.hash.replace(/^#/,'');
-    const session=sessionStorage.getItem(KEY)||'';
-    const local=localStorage.getItem(KEY)||'';
-
-    if(valid.has(initial))return initial;
-    if(valid.has(hash))return hash;
-    if(valid.has(session))return session;
-    if(valid.has(local))return local;
-    return 'home';
-  }
-
-  function restoreExactRoute(){
-    const route=currentRequestedRoute();
-    show(route);
-  }
-
-  // Save only genuine menu/card taps.
-  document.addEventListener('click',event=>{
-    const control=event.target.closest('.tab[data-screen],[data-go]');
-    if(!control)return;
-    const route=control.dataset.screen||control.dataset.go;
-    if(!validRoutes().has(route))return;
-    try{
-      localStorage.setItem(KEY,route);
-      sessionStorage.setItem(KEY,route);
-      history.replaceState({screen:route},'',`#${route}`);
-    }catch{}
-  },true);
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',restoreExactRoute,{once:true});
-  }else{
-    restoreExactRoute();
-  }
-
-  // Re-apply after legacy startup code has finished, without changing the saved route.
-  window.addEventListener('load',()=>{
-    restoreExactRoute();
-    setTimeout(restoreExactRoute,50);
-    setTimeout(restoreExactRoute,220);
-  },{once:true});
-
-  window.addEventListener('pageshow',event=>{
-    if(event.persisted)restoreExactRoute();
-  });
-
-  window.addEventListener('popstate',()=>{
-    const route=location.hash.replace(/^#/,'');
-    if(validRoutes().has(route))show(route);
-  });
 })();
