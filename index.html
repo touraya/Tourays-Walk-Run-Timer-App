@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F5F7FC" name="theme-color"/>
-<title>Tourays Fitness V8 · Build 2</title>
+<title>Tourays Fitness V8 · Build 3</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -26,6 +26,24 @@
       <div><strong id="homeStreak">0</strong><small>day streak</small></div>
     </div>
   </div>
+
+  <section class="home-command-center">
+    <article class="readiness-mini-card">
+      <div class="readiness-mini-ring">
+        <svg viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22"></circle>
+          <circle id="homeReadinessRing" class="value" cx="28" cy="28" r="22"></circle>
+        </svg>
+        <strong id="homeReadinessScore">72</strong>
+      </div>
+      <div><small>READINESS</small><strong id="homeReadinessLabel">Ready to train</strong><span id="homeReadinessText">Balanced training is recommended today.</span></div>
+    </article>
+    <button class="today-plan-card" id="homeTodayPlan" data-go="coach">
+      <span class="today-plan-icon">✨</span>
+      <div><small>TODAY'S PLAN</small><strong id="homePlanTitle">Balanced session</strong><span id="homePlanText">Open Coach for your recommendation</span></div>
+      <b>›</b>
+    </button>
+  </section>
 
   <article class="v7-activity-card">
     <div class="v7-ring-wrap">
@@ -60,12 +78,12 @@
   <div class="home-grid v7-home-grid">
     <button class="home-tile tile-run" data-go="run">
       <span class="tile-icon">🏃</span>
-      <div><strong>Walk &amp; Run</strong><small>Intervals with live GPS</small></div>
+      <div><strong>Walk &amp; Run</strong><small id="homeRunSubtitle">Intervals with live GPS</small></div>
       <b class="tile-arrow">›</b>
     </button>
     <button class="home-tile tile-indoor" data-go="indoor">
       <span class="tile-icon">💪</span>
-      <div><strong>Indoor</strong><small>8 guided exercises</small></div>
+      <div><strong>Indoor</strong><small id="homeIndoorSubtitle">8 guided exercises</small></div>
       <b class="tile-arrow">›</b>
     </button>
     <button class="home-tile tile-map" data-go="mapScreen">
@@ -79,6 +97,16 @@
       <b class="tile-arrow">›</b>
     </button>
   </div>
+
+  <article class="home-recent-card" id="homeRecentCard">
+    <div class="home-recent-icon">↻</div>
+    <div>
+      <small>RECENT ACTIVITY</small>
+      <strong id="homeRecentTitle">No recent workout</strong>
+      <p id="homeRecentText">Your latest completed workout will appear here.</p>
+    </div>
+    <button id="homeRepeatWorkout">Repeat</button>
+  </article>
 
   <article class="challenge-card">
     <div class="challenge-icon">⚡</div>

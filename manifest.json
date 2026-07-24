@@ -1,7 +1,7 @@
 {
-  "name": "Tourays Fitness V8 Build 2",
+  "name": "Tourays Fitness V8 Build 3",
   "short_name": "Tourays Fitness",
-  "description": "Premium light fitness app with redesigned exercise library and clearer movement guidance.",
+  "description": "Premium light fitness app with a personalized home command center, readiness guidance, recent-workout continuation and refined navigation.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
