@@ -1,12 +1,12 @@
 {
-  "name": "Tourays Fitness V6",
-  "short_name": "Tourays Fitness",
-  "description": "Running, indoor training, in-app navigation and health tracking.",
+  "name": "Tourays Fitness V7 Build 3",
+  "short_name": "Tourays V7",
+  "description": "Premium walk and run interval training with goals, live pace, GPS and achievements.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07111f",
-  "theme_color": "#07111f",
+  "background_color": "#08111f",
+  "theme_color": "#08111f",
   "orientation": "portrait",
   "icons": [
     {
