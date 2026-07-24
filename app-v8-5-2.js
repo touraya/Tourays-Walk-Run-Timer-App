@@ -1167,18 +1167,12 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   const networkStatus = document.getElementById('networkStatus');
   let deferredPrompt = null;
 
-  let onlineTimer=null;
   function updateNetworkState(){
-    const offline=!navigator.onLine;
-    document.documentElement.classList.toggle('is-offline',offline);
-    if(!networkStatus) return;
-    const strong=networkStatus.querySelector('strong');
-    if(offline){
-      if(onlineTimer) clearTimeout(onlineTimer);
-      strong.textContent='Offline mode';
-      networkStatus.hidden=false;
-    }else{
-      networkStatus.hidden=true;
+    const offline = !navigator.onLine;
+    document.documentElement.classList.toggle('is-offline', offline);
+    if(networkStatus){
+      networkStatus.hidden = !offline;
+      networkStatus.querySelector('strong').textContent = offline ? 'Offline mode' : 'Back online';
     }
   }
 
@@ -1198,9 +1192,7 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     deferredPrompt=event;
     const dismissedAt=Number(localStorage.getItem('touraysInstallDismissedAt')||0);
     const sevenDays=7*24*60*60*1000;
-    if(banner && !window.matchMedia('(display-mode: standalone)').matches && !localStorage.getItem('touraysAppInstalled') && Date.now()-dismissedAt>sevenDays){
-      banner.hidden=false;
-    }
+    if(Date.now()-dismissedAt>sevenDays && banner) banner.hidden=false;
   });
 
   if(installButton){
@@ -1217,7 +1209,6 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     dismissButton.addEventListener('click',()=>{
       localStorage.setItem('touraysInstallDismissedAt',String(Date.now()));
       banner.hidden=true;
-      deferredPrompt=null;
     });
   }
 
