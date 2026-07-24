@@ -4025,3 +4025,50 @@ body.tourays-dark-theme{
   max-height:none!important;
   translate:none!important;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 12 NUTRITION TOP ALIGNMENT
+   ========================================================= */
+
+/* The active Nutrition screen begins directly under the app header.
+   No inherited scroll offset, spacer, transform or map viewport remains. */
+body:has(#nutritionScreen.active){
+  scroll-padding-top:0!important;
+}
+
+#nutritionScreen{
+  box-sizing:border-box!important;
+  inset:auto!important;
+  transform:none!important;
+}
+
+#nutritionScreen.active{
+  display:block!important;
+  padding-top:10px!important;
+}
+
+#nutritionScreen.active>.nutrition-shell{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  margin-top:0!important;
+  padding-top:0!important;
+}
+
+#nutritionScreen.active .nutrition-header{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  margin-top:0!important;
+  padding-top:0!important;
+}
+
+/* Prevent hidden screens from contributing height or retaining an old
+   scrollable layout behind the selected menu. */
+.screen[hidden]{
+  display:none!important;
+  min-height:0!important;
+  height:0!important;
+  overflow:hidden!important;
+}

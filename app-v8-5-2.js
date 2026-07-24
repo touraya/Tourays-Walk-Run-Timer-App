@@ -44,7 +44,43 @@ let selectedPlan='quick';
 let currentExercise=0,exerciseAmount=10;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,Number(v)||0));function fmt(n){n=Math.max(0,Math.ceil(n));return`${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`}const km=m=>`${(m/1000).toFixed(2)} km`;function pace(v){if(!v||v<.45)return'--';const x=1000/v;if(!isFinite(x)||x>3600)return'--';return`${Math.floor(x/60)}:${String(Math.round(x%60)).padStart(2,'0')}/km`}
 function show(name){
-  window.scrollTo({top:0,left:0,behavior:'instant'});document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===name));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.screen===name));if(name==='mapScreen')setTimeout(()=>{initMap();S.map?.resize()},80);if(name==='health')renderHealth();if(name==='performance')renderPerformance();if(name==='home')renderHome()}
+  const target=document.getElementById(name)||document.getElementById('home');
+  name=target?.id||'home';
+
+  document.querySelectorAll('.screen').forEach(screen=>{
+    const active=screen===target;
+    screen.classList.toggle('active',active);
+    screen.hidden=!active;
+    screen.setAttribute('aria-hidden',active?'false':'true');
+  });
+
+  document.querySelectorAll('.tab').forEach(tab=>{
+    const active=tab.dataset.screen===name;
+    tab.classList.toggle('active',active);
+    tab.setAttribute('aria-current',active?'page':'false');
+  });
+
+  try{
+    localStorage.setItem('touraysLastScreen',name);
+    history.replaceState({screen:name},'',`#${name}`);
+  }catch{}
+
+  const resetPosition=()=>{
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop=0;
+    document.body.scrollTop=0;
+    if(target)target.scrollTop=0;
+  };
+  resetPosition();
+  requestAnimationFrame(resetPosition);
+  setTimeout(resetPosition,60);
+  setTimeout(resetPosition,180);
+
+  if(name==='mapScreen')setTimeout(()=>{initMap();S.map?.resize()},80);
+  if(name==='health')renderHealth();
+  if(name==='performance')renderPerformance();
+  if(name==='home')renderHome();
+}
 function toast(t){E.toast.textContent=t;E.toast.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>E.toast.classList.remove('show'),2300)}
 function beep(pattern='normal'){
   try{
@@ -4058,36 +4094,51 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 })();
 
 
+
+
 /* =========================================================
-   TOURAYS FITNESS V10 — STAGE 11 NUTRITION OPEN POSITION
+   TOURAYS FITNESS V10 — STAGE 12 ROUTE + SCROLL RESTORATION
    ========================================================= */
 (function(){
-  const nutrition=document.getElementById('nutritionScreen');
-  if(!nutrition)return;
+  const validScreens=new Set(
+    Array.from(document.querySelectorAll('.screen')).map(screen=>screen.id)
+  );
 
-  function resetNutritionPosition(){
-    requestAnimationFrame(()=>{
-      window.scrollTo({top:0,left:0,behavior:'auto'});
-      document.documentElement.scrollTop=0;
-      document.body.scrollTop=0;
-      nutrition.scrollTop=0;
-    });
+  function resolvedScreen(){
+    const hash=location.hash.replace('#','');
+    const saved=localStorage.getItem('touraysLastScreen')||'';
+    if(validScreens.has(hash))return hash;
+    if(validScreens.has(saved))return saved;
+    return 'home';
   }
 
+  function restoreCurrentScreen(){
+    show(resolvedScreen());
+  }
+
+  // Restore the exact menu after a normal refresh or reopening the tab.
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',restoreCurrentScreen,{once:true});
+  }else{
+    restoreCurrentScreen();
+  }
+
+  window.addEventListener('pageshow',event=>{
+    if(event.persisted)restoreCurrentScreen();
+  });
+
+  window.addEventListener('popstate',()=>{
+    const hash=location.hash.replace('#','');
+    if(validScreens.has(hash))show(hash);
+  });
+
+  // Cards using data-go now follow the same reliable route system.
   document.addEventListener('click',event=>{
-    const control=event.target.closest('[data-screen="nutritionScreen"],[data-go="nutritionScreen"]');
+    const control=event.target.closest('[data-go]');
     if(!control)return;
-    resetNutritionPosition();
-    setTimeout(resetNutritionPosition,40);
-    setTimeout(resetNutritionPosition,160);
+    const route=control.dataset.go;
+    if(!validScreens.has(route))return;
+    event.preventDefault();
+    show(route);
   },true);
-
-  window.addEventListener('hashchange',()=>{
-    if(!nutrition.hidden)resetNutritionPosition();
-  });
-
-  const observer=new MutationObserver(()=>{
-    if(!nutrition.hidden)resetNutritionPosition();
-  });
-  observer.observe(nutrition,{attributes:true,attributeFilter:['hidden','class']});
 })();
