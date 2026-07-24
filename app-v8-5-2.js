@@ -2957,3 +2957,126 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   restore();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — PROFILE STEP 2: TRAINING PREFERENCES
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('profileSettingsScreen');
+  if(!screen || !document.getElementById('profileWorkoutDuration')) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    form:$('profileSettingsForm'),
+    duration:$('profileWorkoutDuration'),
+    workoutTime:$('profileWorkoutTime'),
+    location:$('profileTrainingLocation'),
+    weeklyTarget:$('profileWeeklyTarget'),
+    weeklySummary:$('profileWeeklyPlanSummary'),
+    durationSummary:$('profileDurationSummary'),
+    locationSummary:$('profileLocationSummary'),
+    saveStatus:$('profileSaveStatus')
+  };
+
+  const profileKey='touraysProfileSettingsV1';
+  const trainingKey='touraysTrainingPreferencesV1';
+
+  function selectedValues(name){
+    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el=>el.value);
+  }
+
+  function setSelectedValues(name, values){
+    const selected=new Set((values||[]).map(String));
+    document.querySelectorAll(`input[name="${name}"]`).forEach(el=>{
+      el.checked=selected.has(el.value);
+    });
+  }
+
+  function loadTraining(){
+    return JSON.parse(localStorage.getItem(trainingKey)||'{}');
+  }
+
+  function locationLabel(value){
+    return {
+      home:'Home',
+      gym:'Gym',
+      outdoor:'Outdoor',
+      mixed:'Mixed'
+    }[value]||'Mixed';
+  }
+
+  function updateSummary(){
+    refs.weeklySummary.textContent=`${refs.weeklyTarget.value} workout${refs.weeklyTarget.value==='1'?'':'s'}`;
+    refs.durationSummary.textContent=`${refs.duration.value} minutes`;
+    refs.locationSummary.textContent=locationLabel(refs.location.value);
+  }
+
+  function restoreTraining(){
+    const saved=loadTraining();
+
+    refs.duration.value=String(saved.duration||30);
+    refs.workoutTime.value=saved.workoutTime||'evening';
+    refs.location.value=saved.location||'mixed';
+    refs.weeklyTarget.value=String(saved.weeklyTarget||3);
+
+    setSelectedValues('profileWorkoutDay', saved.days?.length ? saved.days : ['1','3','5']);
+    setSelectedValues('profileEquipment', saved.equipment?.length ? saved.equipment : ['bodyweight']);
+
+    updateSummary();
+  }
+
+  function saveTraining(){
+    const data={
+      duration:Number(refs.duration.value)||30,
+      workoutTime:refs.workoutTime.value,
+      location:refs.location.value,
+      weeklyTarget:Number(refs.weeklyTarget.value)||3,
+      days:selectedValues('profileWorkoutDay'),
+      equipment:selectedValues('profileEquipment')
+    };
+
+    localStorage.setItem(trainingKey,JSON.stringify(data));
+
+    const profile=JSON.parse(localStorage.getItem(profileKey)||'{}');
+    localStorage.setItem(profileKey,JSON.stringify({...profile,training:data}));
+
+    const autosave=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    localStorage.setItem('touraysAutosaveSettings',JSON.stringify({
+      ...autosave,
+      workoutDuration:data.duration,
+      preferredWorkoutTime:data.workoutTime,
+      trainingLocation:data.location,
+      weeklyGoal:data.weeklyTarget,
+      workoutDays:data.days,
+      equipment:data.equipment
+    }));
+
+    updateSummary();
+  }
+
+  refs.form.addEventListener('submit',()=>{
+    saveTraining();
+  });
+
+  [refs.duration,refs.workoutTime,refs.location,refs.weeklyTarget]
+    .forEach(el=>el.addEventListener('change',updateSummary));
+
+  document.querySelectorAll('input[name="profileWorkoutDay"], input[name="profileEquipment"]')
+    .forEach(el=>el.addEventListener('change',()=>{
+      const selectedDays=selectedValues('profileWorkoutDay').length;
+      const target=Number(refs.weeklyTarget.value);
+      if(selectedDays>0 && selectedDays!==target){
+        refs.saveStatus.textContent=`You selected ${selectedDays} workout day${selectedDays===1?'':'s'} while your weekly target is ${target}.`;
+      }else{
+        refs.saveStatus.textContent='Changes are saved locally on this device.';
+      }
+    }));
+
+  const observer=new MutationObserver(()=>{
+    if(!screen.hidden) restoreTraining();
+  });
+  observer.observe(screen,{attributes:true,attributeFilter:['hidden']});
+
+  restoreTraining();
+})();

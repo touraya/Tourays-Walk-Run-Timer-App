@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Profile Step 1</title>
+<title>Tourays Fitness V9 · Profile Step 2</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9090" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9100" rel="stylesheet"/>
 </head>
 <body>
 
@@ -921,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9090"></script>
+<script src="app-v8-5-2.js?v=9100"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -1831,6 +1831,103 @@ if ('serviceWorker' in navigator) {
           <label><input type="radio" name="profileGoal" value="endurance"><span>Improve endurance</span></label>
           <label><input type="radio" name="profileGoal" value="mobility"><span>Improve mobility</span></label>
           <label><input type="radio" name="profileGoal" value="maintain"><span>Maintain weight</span></label>
+        </div>
+      </section>
+
+
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">TRAINING PREFERENCES</span>
+            <h2>How you prefer to train</h2>
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <label>
+            <span>Preferred workout duration</span>
+            <select id="profileWorkoutDuration">
+              <option value="15">15 minutes</option>
+              <option value="20">20 minutes</option>
+              <option value="30" selected>30 minutes</option>
+              <option value="45">45 minutes</option>
+              <option value="60">60 minutes</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Preferred workout time</span>
+            <select id="profileWorkoutTime">
+              <option value="morning">Morning</option>
+              <option value="afternoon">Afternoon</option>
+              <option value="evening" selected>Evening</option>
+              <option value="flexible">Flexible</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Training location</span>
+            <select id="profileTrainingLocation">
+              <option value="home">Home</option>
+              <option value="gym">Gym</option>
+              <option value="outdoor">Outdoor</option>
+              <option value="mixed" selected>Mixed</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Weekly workout target</span>
+            <select id="profileWeeklyTarget">
+              <option value="2">2 workouts</option>
+              <option value="3" selected>3 workouts</option>
+              <option value="4">4 workouts</option>
+              <option value="5">5 workouts</option>
+              <option value="6">6 workouts</option>
+              <option value="7">7 workouts</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="profile-training-subsection">
+          <span class="profile-training-label">Preferred workout days</span>
+          <div class="profile-day-selector">
+            <label><input type="checkbox" name="profileWorkoutDay" value="1"><span>Mon</span></label>
+            <label><input type="checkbox" name="profileWorkoutDay" value="2"><span>Tue</span></label>
+            <label><input type="checkbox" name="profileWorkoutDay" value="3"><span>Wed</span></label>
+            <label><input type="checkbox" name="profileWorkoutDay" value="4"><span>Thu</span></label>
+            <label><input type="checkbox" name="profileWorkoutDay" value="5"><span>Fri</span></label>
+            <label><input type="checkbox" name="profileWorkoutDay" value="6"><span>Sat</span></label>
+            <label><input type="checkbox" name="profileWorkoutDay" value="0"><span>Sun</span></label>
+          </div>
+        </div>
+
+        <div class="profile-training-subsection">
+          <span class="profile-training-label">Available equipment</span>
+          <div class="profile-equipment-options">
+            <label><input type="checkbox" name="profileEquipment" value="bodyweight"><span>Bodyweight</span></label>
+            <label><input type="checkbox" name="profileEquipment" value="dumbbells"><span>Dumbbells</span></label>
+            <label><input type="checkbox" name="profileEquipment" value="resistance-bands"><span>Resistance bands</span></label>
+            <label><input type="checkbox" name="profileEquipment" value="barbell"><span>Barbell</span></label>
+            <label><input type="checkbox" name="profileEquipment" value="machines"><span>Gym machines</span></label>
+            <label><input type="checkbox" name="profileEquipment" value="treadmill"><span>Treadmill</span></label>
+            <label><input type="checkbox" name="profileEquipment" value="bike"><span>Exercise bike</span></label>
+            <label><input type="checkbox" name="profileEquipment" value="none"><span>No equipment</span></label>
+          </div>
+        </div>
+
+        <div class="profile-preference-summary">
+          <article>
+            <span>Weekly plan</span>
+            <strong id="profileWeeklyPlanSummary">3 workouts</strong>
+          </article>
+          <article>
+            <span>Session length</span>
+            <strong id="profileDurationSummary">30 minutes</strong>
+          </article>
+          <article>
+            <span>Preferred setting</span>
+            <strong id="profileLocationSummary">Mixed</strong>
+          </article>
         </div>
       </section>
 

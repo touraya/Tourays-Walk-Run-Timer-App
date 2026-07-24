@@ -1,15 +1,14 @@
-Tourays Fitness V9 — Profile & Settings Step 1
+Tourays Fitness V9 — Profile & Settings Step 2
 
-This step adds the profile foundation only:
-- Profile photo
-- Full name and date of birth
-- Gender and fitness level
-- Height, current weight and goal weight
-- Activity level
-- Main fitness goal
-- BMI calculation
-- BMR calculation
-- Maintenance calorie estimate
-- Local persistence and integration with existing app settings
+Added training preferences:
+- Preferred workout duration
+- Preferred workout time
+- Training location
+- Weekly workout target
+- Preferred workout days
+- Available equipment
+- Training preference summary
+- Local persistence
+- Integration with AI Coach and weekly goals through shared settings
 
-Next step: training preferences and weekly workout settings.
+Next step: nutrition settings and automatic nutrition target calculation.

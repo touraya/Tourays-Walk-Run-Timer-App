@@ -2731,3 +2731,61 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
   .profile-save-bar{align-items:stretch;flex-direction:column}
   .profile-save-bar button{width:100%}
 }
+
+
+/* =========================================================
+   V9 PROFILE STEP 2 — TRAINING PREFERENCES
+   ========================================================= */
+.profile-training-subsection{
+  margin-top:18px;padding-top:16px;border-top:1px solid #ece8f4
+}
+.profile-training-label{
+  display:block;margin-bottom:10px;font-size:.68rem;font-weight:900;color:#6e697b
+}
+.profile-day-selector{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:8px
+}
+.profile-day-selector label,.profile-equipment-options label{cursor:pointer}
+.profile-day-selector input,.profile-equipment-options input{
+  position:absolute;opacity:0;pointer-events:none
+}
+.profile-day-selector span{
+  display:flex;align-items:center;justify-content:center;min-height:44px;
+  border:1px solid #e2ddec;border-radius:13px;background:#fbfaff;
+  color:#716c7d;font-size:.7rem;font-weight:900
+}
+.profile-day-selector input:checked+span{
+  border-color:#6f48e8;background:#6f48e8;color:#fff;
+  box-shadow:0 8px 18px rgba(111,72,232,.18)
+}
+.profile-equipment-options{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:9px
+}
+.profile-equipment-options span{
+  display:flex;align-items:center;justify-content:center;min-height:50px;padding:10px;
+  border:1px solid #e2ddec;border-radius:14px;background:#fbfaff;
+  color:#716c7d;font-size:.7rem;font-weight:900;text-align:center
+}
+.profile-equipment-options input:checked+span{
+  border-color:#6f48e8;background:#eeeafb;color:#613bd0;
+  box-shadow:0 8px 18px rgba(111,72,232,.1)
+}
+.profile-preference-summary{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px
+}
+.profile-preference-summary article{
+  padding:14px;border-radius:16px;background:#f7f6fb
+}
+.profile-preference-summary span{
+  display:block;font-size:.64rem;color:#8a8796
+}
+.profile-preference-summary strong{
+  display:block;margin-top:6px;font-size:.85rem
+}
+@media(max-width:760px){
+  .profile-equipment-options{grid-template-columns:1fr 1fr}
+  .profile-preference-summary{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .profile-day-selector{grid-template-columns:repeat(4,1fr)}
+}
