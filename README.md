@@ -1,4 +1,3 @@
-Tourays Fitness V9 Stable Build
+Tourays Fitness V9 — Walk & Run Build
 
-This build removes the failed experimental animation engine.
-Exercise demonstrations now use stable static visuals while preserving all workout controls, guidance, sets, repetitions, rest, planning, tracking and app functionality.
+Added a complete Walk & Run module with GPS tracking, live duration, distance, pace, speed, calories, GPS accuracy, pause/resume, finish/save, route preview and local activity history.

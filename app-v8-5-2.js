@@ -868,3 +868,290 @@ E.startExercise.onclick=startExercise;
 document.querySelectorAll('.plan-card').forEach(b=>b.onclick=()=>{selectedPlan=b.dataset.plan;document.querySelectorAll('.plan-card').forEach(x=>x.classList.toggle('selected',x===b));E.indoorLevel.textContent=indoorPlans[selectedPlan].level});
 E.startPlan.onclick=startIndoorPlan;E.indoorPause.onclick=pauseIndoor;E.nextIndoor.onclick=nextIndoor;E.previousIndoor.onclick=previousIndoor;E.exitIndoor.onclick=exitIndoorWorkout;E.recenterMap.onclick=()=>{if(S.map&&S.pos)S.map.flyTo({center:[S.pos.longitude,S.pos.latitude],zoom:17,pitch:45});else toast('Waiting for GPS')};E.routeHome.onclick=routeToStart;[E.weight,E.height,E.weeklyGoal].forEach(x=>x.onchange=()=>{renderHealth();renderHome()});E.gpsToggle.onchange=()=>{S.gps=E.gpsToggle.checked;S.gps?startGps():stopGps();renderRunSetupPreview()};
 ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise();startGps();renderHealth();renderPerformance();renderHome();renderPlanner();renderGoals();renderProfile();renderCoach();updateAchievements();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — WALK & RUN MODULE
+   ========================================================= */
+(function(){
+  const screen = document.getElementById('walkRunScreen');
+  if(!screen) return;
+
+  const $ = id => document.getElementById(id);
+  const refs = {
+    back: $('wrBackBtn'), start: $('wrStartBtn'), pause: $('wrPauseBtn'), finish: $('wrFinishBtn'),
+    clear: $('wrClearHistory'), timer: $('wrTimer'), distance: $('wrDistance'),
+    currentPace: $('wrCurrentPace'), averagePace: $('wrAveragePace'), speed: $('wrSpeed'),
+    calories: $('wrCalories'), accuracy: $('wrAccuracy'), gps: $('wrGpsState'),
+    status: $('wrStatusLabel'), history: $('wrHistoryList'), route: $('wrRouteLine'),
+    dot: $('wrLocationDot')
+  };
+
+  const state = {
+    mode: 'walk', running: false, paused: false, startedAt: 0, elapsedBeforePause: 0,
+    timerId: null, watchId: null, distanceKm: 0, lastPoint: null, route: [],
+    currentSpeed: 0, accuracy: null
+  };
+
+  function formatTime(ms){
+    const total = Math.max(0, Math.floor(ms/1000));
+    const h = String(Math.floor(total/3600)).padStart(2,'0');
+    const m = String(Math.floor((total%3600)/60)).padStart(2,'0');
+    const s = String(total%60).padStart(2,'0');
+    return `${h}:${m}:${s}`;
+  }
+
+  function formatPace(minPerKm){
+    if(!isFinite(minPerKm) || minPerKm <= 0) return '--:--';
+    const mins = Math.floor(minPerKm);
+    const secs = Math.round((minPerKm-mins)*60);
+    return `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+  }
+
+  function elapsedMs(){
+    if(!state.running) return state.elapsedBeforePause;
+    if(state.paused) return state.elapsedBeforePause;
+    return state.elapsedBeforePause + (Date.now() - state.startedAt);
+  }
+
+  function haversine(a,b){
+    const R = 6371;
+    const dLat = (b.lat-a.lat)*Math.PI/180;
+    const dLon = (b.lon-a.lon)*Math.PI/180;
+    const la1 = a.lat*Math.PI/180, la2 = b.lat*Math.PI/180;
+    const h = Math.sin(dLat/2)**2 + Math.cos(la1)*Math.cos(la2)*Math.sin(dLon/2)**2;
+    return 2*R*Math.asin(Math.sqrt(h));
+  }
+
+  function updateMetrics(){
+    const elapsed = elapsedMs();
+    refs.timer.textContent = formatTime(elapsed);
+    refs.distance.textContent = state.distanceKm.toFixed(2);
+    refs.speed.textContent = state.currentSpeed.toFixed(1);
+    const hours = elapsed/3600000;
+    const avgSpeed = hours > 0 ? state.distanceKm/hours : 0;
+    refs.currentPace.textContent = formatPace(state.currentSpeed > 0 ? 60/state.currentSpeed : Infinity);
+    refs.averagePace.textContent = formatPace(avgSpeed > 0 ? 60/avgSpeed : Infinity);
+    const met = state.mode === 'run' ? 9.8 : 4.3;
+    const assumedWeight = 75;
+    refs.calories.textContent = Math.round(met * assumedWeight * hours);
+    refs.accuracy.textContent = state.accuracy ? Math.round(state.accuracy) : '--';
+  }
+
+  function updateRoute(){
+    if(state.route.length < 2) return;
+    const lats = state.route.map(p=>p.lat), lons = state.route.map(p=>p.lon);
+    const minLat=Math.min(...lats), maxLat=Math.max(...lats), minLon=Math.min(...lons), maxLon=Math.max(...lons);
+    const latRange=maxLat-minLat || .0001, lonRange=maxLon-minLon || .0001;
+    const points = state.route.map(p=>{
+      const x = 8 + ((p.lon-minLon)/lonRange)*84;
+      const y = 92 - ((p.lat-minLat)/latRange)*84;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+    refs.route.setAttribute('points', points);
+    const last = points.split(' ').pop().split(',');
+    refs.dot.style.left = `${last[0]}%`;
+    refs.dot.style.top = `${last[1]}%`;
+  }
+
+  function onPosition(pos){
+    const c = pos.coords;
+    const point = {lat:c.latitude, lon:c.longitude, time:Date.now()};
+    state.accuracy = c.accuracy || null;
+    if(!state.paused){
+      if(state.lastPoint){
+        const segment = haversine(state.lastPoint, point);
+        if(segment < 0.25 && (c.accuracy || 999) < 80) state.distanceKm += segment;
+      }
+      state.lastPoint = point;
+      state.route.push(point);
+      if(Number.isFinite(c.speed) && c.speed >= 0){
+        state.currentSpeed = c.speed * 3.6;
+      }else if(state.route.length > 1){
+        const prev = state.route[state.route.length-2];
+        const dt = (point.time-prev.time)/3600000;
+        state.currentSpeed = dt > 0 ? haversine(prev,point)/dt : 0;
+      }
+      updateRoute();
+    }
+    refs.gps.textContent = `GPS ±${Math.round(c.accuracy || 0)} m`;
+    updateMetrics();
+  }
+
+  function onGpsError(){
+    refs.gps.textContent = 'GPS unavailable';
+  }
+
+  function startGps(){
+    if(!navigator.geolocation){
+      refs.gps.textContent='GPS unsupported';
+      return;
+    }
+    state.watchId = navigator.geolocation.watchPosition(onPosition,onGpsError,{
+      enableHighAccuracy:true, maximumAge:1000, timeout:12000
+    });
+  }
+
+  function stopGps(){
+    if(state.watchId !== null && navigator.geolocation){
+      navigator.geolocation.clearWatch(state.watchId);
+      state.watchId=null;
+    }
+  }
+
+  function resetSession(){
+    state.running=false; state.paused=false; state.startedAt=0; state.elapsedBeforePause=0;
+    state.distanceKm=0; state.lastPoint=null; state.route=[]; state.currentSpeed=0; state.accuracy=null;
+    refs.route.setAttribute('points','10,82 20,72 34,75 44,60 58,63 68,45 83,36 91,20');
+    refs.dot.style.left='91%'; refs.dot.style.top='20%';
+    refs.status.textContent='READY';
+    refs.start.textContent=`Start ${state.mode}`;
+    refs.pause.textContent='Pause';
+    refs.pause.disabled=true; refs.finish.disabled=true;
+    updateMetrics();
+  }
+
+  function start(){
+    if(state.running && state.paused){
+      state.paused=false;
+      state.startedAt=Date.now();
+      refs.pause.textContent='Pause';
+      refs.status.textContent='ACTIVE';
+      startGps();
+      return;
+    }
+    resetSession();
+    state.running=true;
+    state.startedAt=Date.now();
+    refs.status.textContent='ACTIVE';
+    refs.start.textContent='Tracking';
+    refs.start.disabled=true;
+    refs.pause.disabled=false;
+    refs.finish.disabled=false;
+    startGps();
+    state.timerId=setInterval(updateMetrics,1000);
+  }
+
+  function pause(){
+    if(!state.running) return;
+    if(!state.paused){
+      state.elapsedBeforePause=elapsedMs();
+      state.paused=true;
+      refs.pause.textContent='Resume';
+      refs.status.textContent='PAUSED';
+      state.currentSpeed=0;
+      stopGps();
+    }else{
+      state.paused=false;
+      state.startedAt=Date.now();
+      refs.pause.textContent='Pause';
+      refs.status.textContent='ACTIVE';
+      startGps();
+    }
+    updateMetrics();
+  }
+
+  function saveActivity(){
+    const elapsed = elapsedMs();
+    if(elapsed < 1000) return;
+    const activities = JSON.parse(localStorage.getItem('touraysWalkRunHistory') || '[]');
+    const hours=elapsed/3600000;
+    const avgSpeed=hours>0?state.distanceKm/hours:0;
+    const item={
+      id:Date.now(), mode:state.mode, date:new Date().toISOString(),
+      duration:elapsed, distance:state.distanceKm,
+      pace:avgSpeed>0?60/avgSpeed:null,
+      calories:Number(refs.calories.textContent)||0
+    };
+    activities.unshift(item);
+    localStorage.setItem('touraysWalkRunHistory',JSON.stringify(activities.slice(0,30)));
+  }
+
+  function finish(){
+    if(!state.running) return;
+    if(!state.paused) state.elapsedBeforePause=elapsedMs();
+    stopGps();
+    clearInterval(state.timerId);
+    saveActivity();
+    state.running=false;
+    state.paused=false;
+    refs.start.disabled=false;
+    refs.pause.disabled=true;
+    refs.finish.disabled=true;
+    refs.start.textContent=`Start ${state.mode}`;
+    refs.status.textContent='SAVED';
+    renderHistory();
+  }
+
+  function renderHistory(){
+    const activities = JSON.parse(localStorage.getItem('touraysWalkRunHistory') || '[]');
+    if(!activities.length){
+      refs.history.innerHTML='<div class="wr-empty">No completed activities yet.</div>';
+      return;
+    }
+    refs.history.innerHTML = activities.map(a=>{
+      const d = new Date(a.date);
+      return `<article class="wr-history-item">
+        <div class="wr-history-icon">${a.mode==='run'?'🏃':'🚶'}</div>
+        <div class="wr-history-copy">
+          <strong>${a.mode==='run'?'Outdoor Run':'Outdoor Walk'}</strong>
+          <span>${d.toLocaleDateString()} · ${d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</span>
+        </div>
+        <div class="wr-history-stats">
+          <strong>${Number(a.distance).toFixed(2)} km</strong>
+          <span>${formatTime(a.duration)} · ${a.pace?formatPace(a.pace):'--:--'}/km</span>
+        </div>
+      </article>`;
+    }).join('');
+  }
+
+  document.querySelectorAll('.wr-mode').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(state.running) return;
+      document.querySelectorAll('.wr-mode').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      state.mode=btn.dataset.mode;
+      refs.start.textContent=`Start ${state.mode}`;
+    });
+  });
+
+  refs.start.addEventListener('click',start);
+  refs.pause.addEventListener('click',pause);
+  refs.finish.addEventListener('click',finish);
+  refs.clear.addEventListener('click',()=>{
+    localStorage.removeItem('touraysWalkRunHistory');
+    renderHistory();
+  });
+  refs.back.addEventListener('click',()=>{
+    stopGps();
+    screen.hidden=true;
+    const home=document.querySelector('.screen:not(#walkRunScreen)');
+    if(home) home.hidden=false;
+  });
+
+  function openWalkRun(){
+    document.querySelectorAll('.screen').forEach(s=>s.hidden=true);
+    screen.hidden=false;
+    window.scrollTo({top:0,behavior:'smooth'});
+    renderHistory();
+  }
+
+  const direct = document.getElementById('openWalkRunBtn');
+  if(direct) direct.addEventListener('click',openWalkRun);
+
+  document.addEventListener('click',e=>{
+    const el=e.target.closest('button,a,[data-screen],[data-page]');
+    if(!el) return;
+    const text=(el.textContent||'').trim().toLowerCase();
+    const target=((el.dataset&&(`${el.dataset.screen||''} ${el.dataset.page||''}`))||'').toLowerCase();
+    if(text.includes('walk') || text.includes('run') || target.includes('walk') || target.includes('run')){
+      if(!el.closest('#walkRunScreen')){
+        e.preventDefault();
+        openWalkRun();
+      }
+    }
+  });
+
+  resetSession();
+  renderHistory();
+})();

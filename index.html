@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Stable Build</title>
+<title>Tourays Fitness V9 · Walk & Run Build</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9020" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9030" rel="stylesheet"/>
 </head>
 <body>
 <div class="shell">
@@ -906,6 +906,68 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9020"></script>
+<script src="app-v8-5-2.js?v=9030"></script>
+
+<section id="walkRunScreen" class="screen walk-run-screen" hidden>
+  <div class="wr-shell">
+    <header class="wr-header">
+      <div>
+        <span class="eyebrow">OUTDOOR ACTIVITY</span>
+        <h1>Walk &amp; Run</h1>
+        <p>Track distance, pace, time and calories in real time.</p>
+      </div>
+      <button id="wrBackBtn" class="icon-btn" aria-label="Back">←</button>
+    </header>
+
+    <div class="wr-mode-tabs" role="tablist">
+      <button class="wr-mode active" data-mode="walk" id="openWalkRunBtn">Walk</button>
+      <button class="wr-mode" data-mode="run">Run</button>
+    </div>
+
+    <section class="wr-map-card">
+      <div id="wrMapCanvas" class="wr-map-canvas">
+        <div class="wr-grid"></div>
+        <svg id="wrRouteSvg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="Route preview">
+          <polyline id="wrRouteLine" points="10,82 20,72 34,75 44,60 58,63 68,45 83,36 91,20"></polyline>
+        </svg>
+        <div class="wr-map-badge" id="wrGpsState">GPS ready</div>
+        <div class="wr-location-dot" id="wrLocationDot"></div>
+      </div>
+    </section>
+
+    <section class="wr-primary-metric">
+      <span id="wrStatusLabel">READY</span>
+      <strong id="wrTimer">00:00:00</strong>
+      <small>Duration</small>
+    </section>
+
+    <section class="wr-metrics-grid">
+      <article><span>Distance</span><strong id="wrDistance">0.00</strong><small>km</small></article>
+      <article><span>Current pace</span><strong id="wrCurrentPace">--:--</strong><small>min/km</small></article>
+      <article><span>Average pace</span><strong id="wrAveragePace">--:--</strong><small>min/km</small></article>
+      <article><span>Speed</span><strong id="wrSpeed">0.0</strong><small>km/h</small></article>
+      <article><span>Calories</span><strong id="wrCalories">0</strong><small>kcal</small></article>
+      <article><span>GPS accuracy</span><strong id="wrAccuracy">--</strong><small>m</small></article>
+    </section>
+
+    <section class="wr-controls">
+      <button id="wrStartBtn" class="wr-main-btn">Start walk</button>
+      <button id="wrPauseBtn" class="wr-secondary-btn" disabled>Pause</button>
+      <button id="wrFinishBtn" class="wr-danger-btn" disabled>Finish</button>
+    </section>
+
+    <section class="wr-history-card">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">RECENT ACTIVITIES</span>
+          <h2>History</h2>
+        </div>
+        <button id="wrClearHistory" class="text-btn">Clear</button>
+      </div>
+      <div id="wrHistoryList" class="wr-history-list"></div>
+    </section>
+  </div>
+</section>
+
 </body>
 </html>
