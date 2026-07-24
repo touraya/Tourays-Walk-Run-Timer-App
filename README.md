@@ -1,9 +1,2 @@
-Tourays Fitness V9 - Premium Exercise Engine E1
-
-Deploy all files together.
-This build adds the Push-up Master exercise player with a 16-second Lottie motion guide, timeline, play/pause, replay, speed controls, muscle overlay, and form guide.
-
-
-E1.2: Replaced whole-picture bobbing with five synchronized push-up body poses. Removed the Movement Active label.
-
-E1.3: Replaced low-quality thumbnail frames with a high-resolution animated WebP built from separate top and bottom push-up poses.
+Tourays Fitness V9 Premium Exercise Engine E1.4
+Articulated SVG push-up animation with real elbow bending, chest lowering, lockout, replay, pause, speed, form-line and muscle controls.
