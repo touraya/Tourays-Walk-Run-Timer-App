@@ -3723,3 +3723,177 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   restoreSettings();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — PROFILE STEP 6: FINAL INTEGRATION & POLISH
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('profileSettingsScreen');
+  if(!screen || !document.getElementById('profileCompletionRing')) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    form:$('profileSettingsForm'),
+    completionRing:$('profileCompletionRing'),
+    completionValue:$('profileCompletionValue'),
+    completionTitle:$('profileCompletionTitle'),
+    completionText:$('profileCompletionText'),
+    fullName:$('profileFullName'),
+    birthDate:$('profileBirthDate'),
+    gender:$('profileGender'),
+    height:$('profileHeight'),
+    weight:$('profileWeight'),
+    goalWeight:$('profileGoalWeight'),
+    fitnessLevel:$('profileFitnessLevel'),
+    weeklyTarget:$('profileWeeklyTarget'),
+    duration:$('profileWorkoutDuration'),
+    location:$('profileTrainingLocation'),
+    calories:$('profileNutritionCalories'),
+    protein:$('profileNutritionProtein'),
+    water:$('profileNutritionWater'),
+    language:$('profileLanguage'),
+    unitSystem:$('profileUnitSystem'),
+    saveStatus:$('profileSaveStatus')
+  };
+
+  function profileCompletion(){
+    const checks=[
+      Boolean(refs.fullName?.value.trim()),
+      Boolean(refs.birthDate?.value),
+      Boolean(refs.gender?.value),
+      Number(refs.height?.value)>0,
+      Number(refs.weight?.value)>0,
+      Number(refs.goalWeight?.value)>0,
+      Boolean(refs.fitnessLevel?.value),
+      Number(refs.weeklyTarget?.value)>0,
+      Number(refs.duration?.value)>0,
+      Boolean(refs.location?.value),
+      Number(refs.calories?.value)>0,
+      Number(refs.protein?.value)>0,
+      Number(refs.water?.value)>0,
+      Boolean(refs.language?.value),
+      Boolean(refs.unitSystem?.value)
+    ];
+    return Math.round((checks.filter(Boolean).length/checks.length)*100);
+  }
+
+  function updateCompletion(){
+    const value=profileCompletion();
+    refs.completionRing.style.setProperty('--profile-progress',value);
+    refs.completionValue.textContent=`${value}%`;
+
+    if(value>=100){
+      refs.completionTitle.textContent='Your profile is complete';
+      refs.completionText.textContent='Coach, planner, nutrition and analytics can now use your full settings.';
+    }else if(value>=75){
+      refs.completionTitle.textContent='Your setup is almost complete';
+      refs.completionText.textContent='Only a few details are missing from your personalized fitness profile.';
+    }else if(value>=40){
+      refs.completionTitle.textContent='Good progress';
+      refs.completionText.textContent='Add the remaining profile and goal information for better recommendations.';
+    }else{
+      refs.completionTitle.textContent='Complete your fitness profile';
+      refs.completionText.textContent='Start with your body metrics, main goal and preferred training setup.';
+    }
+  }
+
+  function applySharedProfile(){
+    const profile=JSON.parse(localStorage.getItem('touraysProfileSettingsV1')||'{}');
+    const training=JSON.parse(localStorage.getItem('touraysTrainingPreferencesV1')||'{}');
+    const nutrition=JSON.parse(localStorage.getItem('touraysNutritionSettingsV1')||'{}');
+    const appPreferences=JSON.parse(localStorage.getItem('touraysAppPreferencesV1')||'{}');
+    const localization=JSON.parse(localStorage.getItem('touraysLocalizationSettingsV1')||'{}');
+
+    const shared={
+      profile:{
+        name:profile.fullName||'',
+        birthDate:profile.birthDate||'',
+        gender:profile.gender||'',
+        fitnessLevel:profile.fitnessLevel||'beginner',
+        height:profile.height||null,
+        weight:profile.weight||null,
+        goalWeight:profile.goalWeight||null,
+        goal:profile.goal||'general',
+        activityLevel:profile.activityLevel||1.55
+      },
+      training:{
+        duration:training.duration||30,
+        workoutTime:training.workoutTime||'evening',
+        location:training.location||'mixed',
+        weeklyTarget:training.weeklyTarget||3,
+        days:training.days||[],
+        equipment:training.equipment||[]
+      },
+      nutrition:{
+        mode:nutrition.mode||'auto',
+        calories:nutrition.calories||2200,
+        protein:nutrition.protein||150,
+        carbs:nutrition.carbs||240,
+        fat:nutrition.fat||70,
+        water:nutrition.water||2500
+      },
+      preferences:appPreferences,
+      localization
+    };
+
+    localStorage.setItem('touraysUnifiedProfileV1',JSON.stringify(shared));
+    window.dispatchEvent(new CustomEvent('touraysProfileUpdated',{detail:shared}));
+  }
+
+  function setActiveTab(group){
+    document.querySelectorAll('.profile-settings-tabs button').forEach(button=>{
+      button.classList.toggle('active',button.dataset.profileSection===group);
+    });
+  }
+
+  document.querySelectorAll('.profile-settings-tabs button').forEach(button=>{
+    button.addEventListener('click',()=>{
+      const group=button.dataset.profileSection;
+      const target=screen.querySelector(`[data-profile-group="${group}"]`);
+      if(target){
+        setActiveTab(group);
+        target.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    });
+  });
+
+  const tracked=[
+    ...screen.querySelectorAll('input,select')
+  ];
+  tracked.forEach(element=>{
+    element.addEventListener('input',updateCompletion);
+    element.addEventListener('change',updateCompletion);
+  });
+
+  refs.form.addEventListener('submit',()=>{
+    applySharedProfile();
+    updateCompletion();
+    refs.saveStatus.textContent='Profile and settings saved across Tourays Fitness.';
+    setTimeout(()=>{
+      refs.saveStatus.textContent='Changes are saved locally on this device.';
+    },1800);
+  });
+
+  const groupObserver=new IntersectionObserver(entries=>{
+    const visible=entries
+      .filter(entry=>entry.isIntersecting)
+      .sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+    if(visible?.target?.dataset?.profileGroup){
+      setActiveTab(visible.target.dataset.profileGroup);
+    }
+  },{root:null,threshold:[.2,.45,.7]});
+
+  screen.querySelectorAll('[data-profile-group]').forEach(section=>groupObserver.observe(section));
+
+  const observer=new MutationObserver(()=>{
+    if(!screen.hidden){
+      updateCompletion();
+      applySharedProfile();
+    }
+  });
+  observer.observe(screen,{attributes:true,attributeFilter:['hidden']});
+
+  updateCompletion();
+  setActiveTab('personal');
+})();

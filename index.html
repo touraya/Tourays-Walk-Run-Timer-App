@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Profile Step 5</title>
+<title>Tourays Fitness V9 · Profile Final</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9130" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9140" rel="stylesheet"/>
 </head>
 <body>
 
@@ -921,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9130"></script>
+<script src="app-v8-5-2.js?v=9140"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -1726,8 +1726,28 @@ if ('serviceWorker' in navigator) {
       </div>
     </section>
 
-    <form id="profileSettingsForm" class="profile-settings-form">
-      <section class="profile-settings-card">
+    
+    <nav class="profile-settings-tabs" aria-label="Profile settings sections">
+      <button type="button" data-profile-section="personal">Profile</button>
+      <button type="button" data-profile-section="training">Training</button>
+      <button type="button" data-profile-section="nutrition">Nutrition</button>
+      <button type="button" data-profile-section="notifications">Alerts</button>
+      <button type="button" data-profile-section="data">Data</button>
+    </nav>
+
+    <section class="profile-completion-card">
+      <div>
+        <span class="eyebrow">PROFILE COMPLETION</span>
+        <h2 id="profileCompletionTitle">Your setup is almost complete</h2>
+        <p id="profileCompletionText">Complete your personal details to improve coach, nutrition and planner recommendations.</p>
+      </div>
+      <div class="profile-completion-ring" id="profileCompletionRing" style="--profile-progress:0">
+        <strong id="profileCompletionValue">0%</strong>
+      </div>
+    </section>
+
+<form id="profileSettingsForm" class="profile-settings-form">
+      <section class="profile-settings-card" data-profile-group="personal">
         <div class="profile-section-heading">
           <div>
             <span class="eyebrow">PERSONAL DETAILS</span>
@@ -1835,7 +1855,7 @@ if ('serviceWorker' in navigator) {
       </section>
 
 
-      <section class="profile-settings-card">
+      <section class="profile-settings-card" data-profile-group="training">
         <div class="profile-section-heading">
           <div>
             <span class="eyebrow">TRAINING PREFERENCES</span>
@@ -1932,7 +1952,7 @@ if ('serviceWorker' in navigator) {
       </section>
 
 
-      <section class="profile-settings-card">
+      <section class="profile-settings-card" data-profile-group="nutrition">
         <div class="profile-section-heading profile-section-heading-split">
           <div>
             <span class="eyebrow">NUTRITION SETTINGS</span>
@@ -2031,7 +2051,7 @@ if ('serviceWorker' in navigator) {
       </section>
 
 
-      <section class="profile-settings-card">
+      <section class="profile-settings-card" data-profile-group="notifications">
         <div class="profile-section-heading">
           <div>
             <span class="eyebrow">NOTIFICATIONS</span>
@@ -2210,7 +2230,7 @@ if ('serviceWorker' in navigator) {
       </section>
 
 
-      <section class="profile-settings-card">
+      <section class="profile-settings-card" data-profile-group="data">
         <div class="profile-section-heading">
           <div>
             <span class="eyebrow">UNITS &amp; LANGUAGE</span>

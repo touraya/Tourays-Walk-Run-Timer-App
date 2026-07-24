@@ -2970,3 +2970,75 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
   .profile-action-grid{grid-template-columns:1fr}
   .profile-about-grid{grid-template-columns:1fr}
 }
+
+
+/* =========================================================
+   V9 PROFILE STEP 6 — FINAL INTEGRATION & POLISH
+   ========================================================= */
+.profile-settings-tabs{
+  position:sticky;top:8px;z-index:8;display:flex;gap:7px;margin:0 0 14px;
+  padding:8px;border:1px solid rgba(225,219,236,.9);border-radius:18px;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(16px);
+  box-shadow:0 12px 34px rgba(45,38,75,.08);overflow-x:auto
+}
+.profile-settings-tabs button{
+  flex:1 0 auto;border:0;border-radius:12px;padding:10px 13px;
+  background:transparent;color:#777181;font-size:.7rem;font-weight:900;cursor:pointer
+}
+.profile-settings-tabs button.active{
+  background:#6f48e8;color:#fff;box-shadow:0 8px 18px rgba(111,72,232,.2)
+}
+.profile-completion-card{
+  display:grid;grid-template-columns:1fr auto;align-items:center;gap:18px;
+  margin-bottom:14px;padding:20px;border-radius:24px;
+  background:linear-gradient(135deg,#ffffff,#f0ecfb);
+  box-shadow:0 14px 38px rgba(45,38,75,.07)
+}
+.profile-completion-card h2{margin:4px 0 6px}
+.profile-completion-card p{margin:0;color:#7f7988;font-size:.75rem;line-height:1.5}
+.profile-completion-ring{
+  --profile-progress:0;
+  width:88px;height:88px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(#6f48e8 calc(var(--profile-progress)*1%),#e5dfef 0);
+  position:relative
+}
+.profile-completion-ring::before{
+  content:"";position:absolute;inset:9px;border-radius:50%;background:#fff
+}
+.profile-completion-ring strong{
+  position:relative;z-index:1;font-size:1rem
+}
+.profile-settings-card{
+  scroll-margin-top:86px;transition:transform .2s ease,box-shadow .2s ease
+}
+.profile-settings-card:focus-within{
+  box-shadow:0 18px 42px rgba(81,54,157,.11)
+}
+.profile-settings-form input:focus,
+.profile-settings-form select:focus,
+.profile-settings-form button:focus-visible{
+  outline:3px solid rgba(111,72,232,.18);outline-offset:2px;border-color:#6f48e8
+}
+.profile-settings-form button,
+.profile-settings-form label,
+.profile-settings-tabs button{
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease
+}
+.profile-settings-form button:active,
+.profile-settings-tabs button:active{
+  transform:scale(.98)
+}
+.tourays-dark-theme .profile-settings-tabs{
+  background:rgba(28,25,36,.9);border-color:#373043
+}
+.tourays-dark-theme .profile-completion-card{
+  background:linear-gradient(135deg,#1c1924,#24202e)
+}
+.tourays-dark-theme .profile-completion-ring::before{
+  background:#1c1924
+}
+@media(max-width:560px){
+  .profile-settings-tabs{top:4px}
+  .profile-completion-card{grid-template-columns:1fr}
+  .profile-completion-ring{width:78px;height:78px}
+}
