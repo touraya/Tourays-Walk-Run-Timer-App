@@ -1,15 +1,17 @@
-# Tourays Fitness V7 — Build 6
+# Tourays Fitness V7 — Build 7
 
-## New: AI Coach
-- Personalized daily workout recommendation
-- Readiness, training load, recovery and weekly-goal scores
-- Recommendations based on local workout history
-- Outdoor intervals, recovery walking and indoor plans
-- Explanation of why each plan was selected
-- Alternative workout options
-- Balanced, Fitness, Calorie Burn and Recovery priorities
-- One-tap setup of the recommended workout
-- No cloud account or external AI service required
-- All Build 1–5 features preserved
+## New: Smart Goals & Challenges
+- Weekly active-minute goal
+- Weekly workout-count goal
+- Weekly distance goal
+- Streak target
+- Combined weekly progress ring
+- Rotating daily challenges
+- Four weekly challenges
+- Fitness XP and level system
+- Adjustable custom targets
+- Smart-default goal reset
+- One-tap access to the AI Coach
+- All Build 1–6 features preserved
 
-Replace all repository files with the files in this ZIP. Fully close and reopen the installed app after publishing.
+Replace every repository file with the files in this ZIP. Fully close and reopen the installed app after publishing.

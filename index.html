@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#08111f" name="theme-color"/>
-<title>Tourays Fitness V7 · Build 6</title>
+<title>Tourays Fitness V7 · Build 7</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -364,7 +364,46 @@
   </article>
 </section>
 
-<nav><button class="tab active" data-screen="home"><b>⌂</b><small>Home</small></button><button class="tab" data-screen="run"><b>◉</b><small>Run</small></button><button class="tab" data-screen="indoor"><b>◆</b><small>Indoor</small></button><button class="tab" data-screen="mapScreen"><b>⌖</b><small>Map</small></button><button class="tab" data-screen="health"><b>♥</b><small>Health</small></button><button class="tab" data-screen="coach"><b>🧠</b><small>Coach</small></button></nav>
+
+<section class="screen" id="goals">
+  <div class="section-head goals-head">
+    <div><small>SMART GOALS · CHALLENGES</small><h2>Stay consistent</h2></div>
+    <span id="goalStatusChip" class="goal-status-chip">On track</span>
+  </div>
+  <article class="goals-hero">
+    <div><small>THIS WEEK</small><h3 id="goalsHeroTitle">Build your momentum</h3><p id="goalsHeroMessage">Complete your active-minute, workout and distance goals to finish the week strong.</p></div>
+    <div class="goals-hero-ring"><svg viewBox="0 0 100 100"><circle class="goals-ring-bg" cx="50" cy="50" r="39"></circle><circle class="goals-ring-progress" id="goalsOverallRing" cx="50" cy="50" r="39"></circle></svg><strong id="goalsOverallPercent">0%</strong></div>
+  </article>
+  <div class="goals-summary-grid">
+    <article><span>ACTIVE MINUTES</span><strong id="goalMinutesValue">0 / 150</strong><div><i id="goalMinutesBar"></i></div></article>
+    <article><span>WORKOUTS</span><strong id="goalWorkoutsValue">0 / 4</strong><div><i id="goalWorkoutsBar"></i></div></article>
+    <article><span>DISTANCE</span><strong id="goalDistanceValue">0 / 10 km</strong><div><i id="goalDistanceBar"></i></div></article>
+    <article><span>STREAK</span><strong id="goalStreakValue">0 / 3 days</strong><div><i id="goalStreakBar"></i></div></article>
+  </div>
+  <div class="goals-title"><div><small>DAILY CHALLENGE</small><h3>Today’s mission</h3></div><span id="dailyChallengeReward">+20 XP</span></div>
+  <article class="daily-challenge-card">
+    <div class="challenge-icon" id="dailyChallengeIcon">⚡</div>
+    <div class="challenge-copy"><strong id="dailyChallengeName">Complete 10 active minutes</strong><p id="dailyChallengeDescription">Any indoor or outdoor workout counts.</p><div class="challenge-progress"><i id="dailyChallengeBar"></i></div><small id="dailyChallengeProgress">0 of 10 minutes</small></div>
+    <span class="challenge-state" id="dailyChallengeState">ACTIVE</span>
+  </article>
+  <div class="goals-title"><div><small>WEEKLY CHALLENGES</small><h3>Push a little further</h3></div><span id="weeklyChallengeCount">0 completed</span></div>
+  <div class="weekly-challenges" id="weeklyChallenges"></div>
+  <article class="xp-card">
+    <div class="xp-top"><div><small>FITNESS LEVEL</small><h3 id="fitnessLevelName">Starter</h3></div><strong id="fitnessLevelNumber">Level 1</strong></div>
+    <div class="xp-progress"><i id="xpProgressBar"></i></div>
+    <div class="xp-footer"><span id="xpCurrent">0 XP</span><span id="xpNext">100 XP to next level</span></div>
+  </article>
+  <div class="goals-title"><div><small>CUSTOM TARGETS</small><h3>Adjust your week</h3></div><button id="resetSmartGoals">Smart defaults</button></div>
+  <article class="goal-builder-card">
+    <label><span><strong>Active minutes</strong><small>Weekly target</small></span><div><button data-goal-step="minutes" data-dir="-">−</button><b id="builderMinutes">150</b><button data-goal-step="minutes" data-dir="+">+</button></div></label>
+    <label><span><strong>Workouts</strong><small>Weekly target</small></span><div><button data-goal-step="workouts" data-dir="-">−</button><b id="builderWorkouts">4</b><button data-goal-step="workouts" data-dir="+">+</button></div></label>
+    <label><span><strong>Distance</strong><small>Weekly target</small></span><div><button data-goal-step="distance" data-dir="-">−</button><b id="builderDistance">10 km</b><button data-goal-step="distance" data-dir="+">+</button></div></label>
+    <label><span><strong>Streak</strong><small>Target days</small></span><div><button data-goal-step="streak" data-dir="-">−</button><b id="builderStreak">3</b><button data-goal-step="streak" data-dir="+">+</button></div></label>
+  </article>
+  <button class="primary" id="startGoalWorkout">Start a workout</button>
+</section>
+
+<nav><button class="tab active" data-screen="home"><b>⌂</b><small>Home</small></button><button class="tab" data-screen="run"><b>◉</b><small>Run</small></button><button class="tab" data-screen="indoor"><b>◆</b><small>Indoor</small></button><button class="tab" data-screen="mapScreen"><b>⌖</b><small>Map</small></button><button class="tab" data-screen="health"><b>♥</b><small>Health</small></button><button class="tab" data-screen="goals"><b>🎯</b><small>Goals</small></button><button class="tab" data-screen="coach"><b>🧠</b><small>Coach</small></button></nav>
 <div class="modal" id="intervalModal"><div class="sheet"><div class="sheet-head"><h2>Change intervals</h2><button class="close" id="closeIntervals">✕</button></div><p>Your time, distance and completed cycles stay unchanged.</p><div class="sheet-row"><strong>Walk</strong><div class="inputs"><label><input id="lwm" type="number"/><small>min</small></label><span>:</span><label><input id="lws" type="number"/><small>sec</small></label></div></div><div class="sheet-row"><strong>Run</strong><div class="inputs"><label><input id="lrm" type="number"/><small>min</small></label><span>:</span><label><input id="lrs" type="number"/><small>sec</small></label></div></div><label class="apply"><input id="applyNow" type="checkbox"/> Apply immediately to current interval</label><button class="primary" id="applyIntervals">Apply changes</button></div></div>
 <div class="modal" id="settingsModal"><div class="settings-sheet"><div class="sheet-head"><h2>Settings</h2><button class="close" id="closeSettings">✕</button></div><label class="setting"><div><strong>GPS tracking</strong><small>Route, distance and navigation</small></div><input checked="" id="gpsToggle" type="checkbox"/></label><div class="divider"></div><label class="setting"><div><strong>Weight</strong><small>Calories and BMI</small></div><div class="weight"><input id="weight" type="number" value="75"/>kg</div></label><div class="divider"></div><label class="setting"><div><strong>Height</strong><small>Used for BMI calculation</small></div><div class="weight"><input id="height" type="number" value="175"/>cm</div></label><div class="divider"></div><label class="setting"><div><strong>Weekly active goal</strong><small>Recommended target you control</small></div><div class="weight"><input id="weeklyGoal" type="number" value="150"/>min</div></label></div></div>
 
