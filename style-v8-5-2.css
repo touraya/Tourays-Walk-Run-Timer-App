@@ -4400,3 +4400,72 @@ body,.shell,#nutritionScreen{
 .screen.active{
   height:auto!important;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 17
+   PROFILE OVERLAY + ROUTE STABILITY
+   ========================================================= */
+
+.screen:not(.active),
+.screen[hidden]{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  position:absolute!important;
+  height:0!important;
+  min-height:0!important;
+  overflow:hidden!important;
+}
+
+.screen.active{
+  display:block!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+  position:relative!important;
+  height:auto!important;
+  min-height:0!important;
+  overflow:visible!important;
+}
+
+/* Profile is a normal screen, never a layer over another page. */
+#profileSettingsScreen{
+  inset:auto!important;
+  z-index:auto!important;
+  background:#f7f8fc!important;
+}
+
+#profileSettingsScreen:not(.active){
+  display:none!important;
+}
+
+#profileSettingsScreen.active{
+  display:block!important;
+  position:relative!important;
+  width:100%!important;
+  margin:0!important;
+  padding-bottom:calc(120px + env(safe-area-inset-bottom))!important;
+}
+
+#profileSettingsScreen.active .profile-settings-shell{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  min-height:0!important;
+  height:auto!important;
+  margin:0 auto!important;
+}
+
+/* Prevent old full-screen Profile tab layer behavior. */
+.profile-settings-tabs{
+  position:sticky!important;
+  top:0!important;
+  z-index:5!important;
+  background:rgba(247,248,252,.96)!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+}
+
+html{
+  scroll-behavior:auto!important;
+}

@@ -47,25 +47,25 @@ function show(name){
   const target=document.getElementById(name)||document.getElementById('home');
   name=target?.id||'home';
 
-  document.querySelectorAll('.screen').forEach(screen=>{
+  document.querySelectorAll('.screen[id]').forEach(screen=>{
     const active=screen===target;
     screen.classList.toggle('active',active);
     screen.hidden=!active;
     screen.setAttribute('aria-hidden',active?'false':'true');
     screen.style.display=active?'block':'none';
-    if(active)screen.scrollTop=0;
   });
 
-  document.querySelectorAll('.tab').forEach(tab=>{
-    const active=tab.dataset.screen===name;
+  document.querySelectorAll('.tab[data-screen]').forEach(tab=>{
+    const tabName=tab.dataset.screen==='profile'?'profileSettingsScreen':tab.dataset.screen;
+    const active=tabName===name;
     tab.classList.toggle('active',active);
     tab.setAttribute('aria-current',active?'page':'false');
   });
 
   try{
-    localStorage.setItem('touraysCurrentScreenV14',name);
-    sessionStorage.setItem('touraysCurrentScreenV14',name);
-    if(location.hash!==`#${name}`)history.replaceState({screen:name},'',`#${name}`);
+    localStorage.setItem('touraysCurrentScreenV17',name);
+    sessionStorage.setItem('touraysCurrentScreenV17',name);
+    history.replaceState({screen:name},'',`#${name}`);
   }catch{}
 
   window.scrollTo(0,0);
@@ -3019,29 +3019,13 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     reader.readAsDataURL(file);
   });
 
-  refs.back.addEventListener('click',()=>{
-    screen.hidden=true;
-    const home=document.querySelector('.screen:not(#profileSettingsScreen):not(#nutritionScreen):not(#coachScreen):not(#progressScreen):not(#plannerScreen):not(#walkRunScreen)');
-    if(home) home.hidden=false;
-  });
+  refs.back.addEventListener('click',()=>show('home'));
 
   function openProfile(){
-    document.querySelectorAll('.screen').forEach(s=>s.hidden=true);
-    screen.hidden=false;
-    window.scrollTo({top:0,behavior:'smooth'});
+    show('profileSettingsScreen');
     restore();
   }
 
-  document.addEventListener('click',event=>{
-    const el=event.target.closest('button,a,[data-screen],[data-page]');
-    if(!el || el.closest('#profileSettingsScreen')) return;
-    const text=(el.textContent||'').trim().toLowerCase();
-    const target=((el.dataset&&(`${el.dataset.screen||''} ${el.dataset.page||''}`))||'').toLowerCase();
-    if(text==='profile' || text.includes('profile & settings') || target.includes('profile')){
-      event.preventDefault();
-      openProfile();
-    }
-  });
 
   restore();
 })();

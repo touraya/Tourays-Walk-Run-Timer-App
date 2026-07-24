@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head><style id="tourays-prepaint-style">
-html.tourays-prepaint body{visibility:hidden!important}
-html.tourays-prepaint .screen{display:none!important}
-</style><script id="tourays-prepaint-script">
+<head><style id="tourays-v17-prepaint-style">
+html.tourays-v17-loading body{visibility:hidden!important}
+html.tourays-v17-loading .screen{display:none!important}
+</style><script id="tourays-v17-prepaint-script">
 (function(){
-  var KEY='touraysCurrentScreenV15';
-  var route=sessionStorage.getItem(KEY)||localStorage.getItem(KEY)||'home';
-  if(route==='profile')route='profileSettingsScreen';
-  document.documentElement.classList.add('tourays-prepaint');
-  window.__touraysPrepaintRoute=route;
+  var key='touraysCurrentScreenV17';
+  var saved=sessionStorage.getItem(key)||localStorage.getItem(key)||'home';
+  if(saved==='profile')saved='profileSettingsScreen';
+  window.__touraysV17Route=saved;
+  document.documentElement.classList.add('tourays-v17-loading');
 })();
 </script>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V10 · Stage 16</title>
+<title>Tourays Fitness V10 · Stage 17</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10160" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10170" rel="stylesheet"/>
 <meta content="V10-Stage2" name="tf-build"/>
 </head>
 <body>
@@ -1096,7 +1096,7 @@ html.tourays-prepaint .screen{display:none!important}
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=10160"></script>
+<script src="app-v8-5-2.js?v=10170"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2233,5 +2233,5 @@ if ('serviceWorker' in navigator) {
 </form>
 </div>
 </section>
-<script src="navigation-v16.js?v=10160"></script></body>
+<script src="navigation-v17.js?v=10170"></script></body>
 </html>
