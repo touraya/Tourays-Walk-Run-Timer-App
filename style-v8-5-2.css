@@ -4656,3 +4656,239 @@ html{
 #profileSettingsScreen .profile-save-bar{border-top:1px solid #e5deef!important;background:rgba(255,255,255,.94)!important;backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important}
 #profileSettingsScreen .profile-save-bar button{border:none!important;border-radius:16px!important;background:linear-gradient(135deg,#6540e4,#8b64f4)!important;color:#fff!important;box-shadow:0 11px 24px rgba(104,66,232,.22)!important}
 @media(max-width:680px){#profileSettingsScreen .profile-overview-card{grid-template-columns:auto 1fr!important}#profileSettingsScreen .profile-overview-side{grid-column:1/-1!important}#profileSettingsScreen .profile-metric-grid,#profileSettingsScreen .body-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 22
+   PROFILE CONTRAST + UNUSED ARROW REMOVAL
+   ========================================================= */
+
+/* The Profile screen is already reached through the bottom navigation.
+   The unused back arrow is removed. */
+#profileSettingsBackBtn{
+  display:none!important;
+}
+
+/* Allow the heading to use the full width after removing the arrow. */
+#profileSettingsScreen .profile-settings-header{
+  grid-template-columns:1fr!important;
+}
+
+#profileSettingsScreen{
+  --profile-text:#171426;
+  --profile-heading:#171426;
+  --profile-muted-strong:#596174;
+  --profile-label:#4f5668;
+  --profile-purple:#6540e4;
+  --profile-purple-dark:#4e2fc0;
+  --profile-soft:#eee8ff;
+  --profile-border:#ded6ea;
+}
+
+/* Profile identity card */
+#profileSettingsScreen .profile-overview-card{
+  grid-template-columns:112px minmax(0,1fr) auto!important;
+  color:var(--profile-text)!important;
+}
+
+#profileSettingsScreen .profile-avatar-wrap{
+  width:112px!important;
+  min-width:112px!important;
+  height:auto!important;
+  align-items:center!important;
+}
+
+#profileSettingsScreen .profile-avatar-preview{
+  width:88px!important;
+  height:88px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:4px solid #fff!important;
+  border-radius:50%!important;
+  background:linear-gradient(135deg,#6540e4,#8a62f5)!important;
+  color:#fff!important;
+  font-size:1.65rem!important;
+  font-weight:950!important;
+  box-shadow:0 10px 24px rgba(80,55,150,.18)!important;
+}
+
+#profileSettingsScreen .profile-avatar-upload{
+  color:var(--profile-purple-dark)!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  opacity:1!important;
+  text-align:center!important;
+}
+
+#profileSettingsScreen .profile-avatar-upload:active{
+  color:#351c99!important;
+}
+
+#profileSettingsScreen .profile-overview-copy>span{
+  color:var(--profile-purple-dark)!important;
+  font-weight:800!important;
+  opacity:1!important;
+}
+
+#profileSettingsScreen .profile-overview-copy h2{
+  color:var(--profile-heading)!important;
+  opacity:1!important;
+}
+
+#profileSettingsScreen .profile-overview-copy p{
+  color:var(--profile-muted-strong)!important;
+  opacity:1!important;
+  font-weight:650!important;
+}
+
+#profileSettingsScreen .profile-overview-stats{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(82px,1fr))!important;
+  gap:10px!important;
+}
+
+#profileSettingsScreen .profile-overview-stats>div{
+  padding:13px 14px!important;
+  border:1px solid #dcd2f0!important;
+  border-radius:17px!important;
+  background:#fff!important;
+  text-align:center!important;
+}
+
+#profileSettingsScreen .profile-overview-stats span{
+  color:var(--profile-label)!important;
+  opacity:1!important;
+  font-size:12px!important;
+  font-weight:850!important;
+}
+
+#profileSettingsScreen .profile-overview-stats strong{
+  color:var(--profile-heading)!important;
+  opacity:1!important;
+  font-size:1.35rem!important;
+}
+
+/* Section navigation */
+#profileSettingsScreen .profile-settings-tabs{
+  gap:7px!important;
+  padding:8px!important;
+  overflow-x:auto!important;
+  background:#fff!important;
+}
+
+#profileSettingsScreen .profile-settings-tabs button{
+  min-width:max-content!important;
+  padding:13px 17px!important;
+  border-radius:15px!important;
+  color:#555c6d!important;
+  background:transparent!important;
+  opacity:1!important;
+  font-weight:850!important;
+}
+
+#profileSettingsScreen .profile-settings-tabs button.active{
+  color:#fff!important;
+  background:linear-gradient(135deg,#6540e4,#7d55ed)!important;
+  box-shadow:0 8px 18px rgba(101,64,228,.20)!important;
+}
+
+/* Global Profile content contrast */
+#profileSettingsScreen h1,
+#profileSettingsScreen h2,
+#profileSettingsScreen h3,
+#profileSettingsScreen h4,
+#profileSettingsScreen strong{
+  color:var(--profile-heading)!important;
+  opacity:1!important;
+}
+
+#profileSettingsScreen .eyebrow{
+  color:var(--profile-purple-dark)!important;
+  opacity:1!important;
+}
+
+#profileSettingsScreen p,
+#profileSettingsScreen small{
+  color:var(--profile-muted-strong)!important;
+  opacity:1!important;
+}
+
+#profileSettingsScreen label>span,
+#profileSettingsScreen .profile-field-label,
+#profileSettingsScreen .setting-label{
+  color:var(--profile-label)!important;
+  opacity:1!important;
+  font-weight:800!important;
+}
+
+#profileSettingsScreen input,
+#profileSettingsScreen select,
+#profileSettingsScreen textarea{
+  color:var(--profile-text)!important;
+  -webkit-text-fill-color:var(--profile-text)!important;
+  opacity:1!important;
+}
+
+#profileSettingsScreen input::placeholder,
+#profileSettingsScreen textarea::placeholder{
+  color:#7a8190!important;
+  opacity:1!important;
+}
+
+#profileSettingsScreen option{
+  color:#171426!important;
+  background:#fff!important;
+}
+
+/* Cards and toggle rows remain readable */
+#profileSettingsScreen .profile-settings-card,
+#profileSettingsScreen .profile-completion-card,
+#profileSettingsScreen .profile-overview-card{
+  color:var(--profile-text)!important;
+}
+
+#profileSettingsScreen .profile-toggle-row,
+#profileSettingsScreen .profile-preference-row,
+#profileSettingsScreen .profile-data-action{
+  color:var(--profile-text)!important;
+}
+
+#profileSettingsScreen .profile-toggle-row p,
+#profileSettingsScreen .profile-preference-row p,
+#profileSettingsScreen .profile-data-action p{
+  color:var(--profile-muted-strong)!important;
+}
+
+/* Buttons */
+#profileSettingsScreen button:not(.active):not(.profile-primary-action){
+  opacity:1!important;
+}
+
+#profileSettingsScreen .profile-save-bar button,
+#profileSettingsScreen .profile-primary-action{
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+}
+
+/* Mobile identity layout */
+@media(max-width:680px){
+  #profileSettingsScreen .profile-overview-card{
+    grid-template-columns:92px minmax(0,1fr)!important;
+    align-items:start!important;
+  }
+
+  #profileSettingsScreen .profile-avatar-wrap{
+    width:92px!important;
+    min-width:92px!important;
+  }
+
+  #profileSettingsScreen .profile-avatar-preview{
+    width:78px!important;
+    height:78px!important;
+  }
+
+  #profileSettingsScreen .profile-overview-stats{
+    grid-column:1 / -1!important;
+    width:100%!important;
+  }
+}
