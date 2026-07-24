@@ -7,7 +7,7 @@ summaryViewHealth:$('summaryViewHealth'),summaryIcon:$('summaryIcon'),summaryTit
 summarySubtitle:$('summarySubtitle'),summaryTime:$('summaryTime'),summaryDistance:$('summaryDistance'),
 summaryCalories:$('summaryCalories'),summaryFourthLabel:$('summaryFourthLabel'),summaryFourth:$('summaryFourth'),
 summaryAchievement:$('summaryAchievement'),summaryAchievementIcon:$('summaryAchievementIcon'),
-summaryAchievementName:$('summaryAchievementName'),planGrid:$('planGrid'),startPlan:$('startPlan'),indoorBrowse:$('indoorBrowse'),indoorActive:$('indoorActive'),exerciseMuscle:$('exerciseMuscle'),exerciseSets:$('exerciseSets'),exerciseRest:$('exerciseRest'),exitIndoor:$('exitIndoor'),indoorModeLabel:$('indoorModeLabel'),indoorProgressLabel:$('indoorProgressLabel'),indoorTotalTime:$('indoorTotalTime'),indoorProgressBar:$('indoorProgressBar'),activeDemo:$('activeDemo'),indoorPhaseLabel:$('indoorPhaseLabel'),activeExerciseName:$('activeExerciseName'),activeExerciseTip:$('activeExerciseTip'),indoorCountdown:$('indoorCountdown'),indoorCountdownUnit:$('indoorCountdownUnit'),indoorRingProgress:$('indoorRingProgress'),indoorSetCurrent:$('indoorSetCurrent'),indoorSetTotal:$('indoorSetTotal'),indoorNextLabel:$('indoorNextLabel'),previousIndoor:$('previousIndoor'),indoorPause:$('indoorPause'),nextIndoor:$('nextIndoor'),indoorLevel:$('indoorLevel'),healthRange:$('healthRange'),healthTrendBadge:$('healthTrendBadge'),healthStreakPro:$('healthStreakPro'),healthActiveTime:$('healthActiveTime'),healthWorkoutCount:$('healthWorkoutCount'),healthActiveTrend:$('healthActiveTrend'),healthWorkoutTrend:$('healthWorkoutTrend'),healthCaloriesTrend:$('healthCaloriesTrend'),healthDistanceTrend:$('healthDistanceTrend'),healthPaceTrend:$('healthPaceTrend'),activityChart:$('activityChart'),activityChartEmpty:$('activityChartEmpty'),chartTotal:$('chartTotal'),chartAverage:$('chartAverage'),mixChart:$('mixChart'),mixTotal:$('mixTotal'),mixCenterValue:$('mixCenterValue'),mixList:$('mixList'),personalBestGrid:$('personalBestGrid'),personalBestCount:$('personalBestCount'),historySearch:$('historySearch'),historyFilter:$('historyFilter'),exportHistory:$('exportHistory'),coachChip:$('coachChip'),coachHeadline:$('coachHeadline'),coachMessage:$('coachMessage'),coachHeroIcon:$('coachHeroIcon'),coachReadiness:$('coachReadiness'),coachLoad:$('coachLoad'),coachLoadNote:$('coachLoadNote'),coachRecovery:$('coachRecovery'),coachRecoveryNote:$('coachRecoveryNote'),coachGoal:$('coachGoal'),coachGoalNote:$('coachGoalNote'),coachPlanName:$('coachPlanName'),coachPlanBadge:$('coachPlanBadge'),coachPlanIcon:$('coachPlanIcon'),coachPlanReason:$('coachPlanReason'),coachPlanIntensity:$('coachPlanIntensity'),coachPlanType:$('coachPlanType'),coachPlanCalories:$('coachPlanCalories'),startCoachPlan:$('startCoachPlan'),refreshCoach:$('refreshCoach'),coachInsights:$('coachInsights'),coachAlternatives:$('coachAlternatives'),coachGoals:$('coachGoals'),goalStatusChip:$('goalStatusChip'),goalsHeroTitle:$('goalsHeroTitle'),goalsHeroMessage:$('goalsHeroMessage'),goalsOverallRing:$('goalsOverallRing'),goalsOverallPercent:$('goalsOverallPercent'),goalMinutesValue:$('goalMinutesValue'),goalWorkoutsValue:$('goalWorkoutsValue'),goalDistanceValue:$('goalDistanceValue'),goalStreakValue:$('goalStreakValue'),goalMinutesBar:$('goalMinutesBar'),goalWorkoutsBar:$('goalWorkoutsBar'),goalDistanceBar:$('goalDistanceBar'),goalStreakBar:$('goalStreakBar'),dailyChallengeIcon:$('dailyChallengeIcon'),dailyChallengeName:$('dailyChallengeName'),dailyChallengeDescription:$('dailyChallengeDescription'),dailyChallengeBar:$('dailyChallengeBar'),dailyChallengeProgress:$('dailyChallengeProgress'),dailyChallengeState:$('dailyChallengeState'),dailyChallengeReward:$('dailyChallengeReward'),weeklyChallenges:$('weeklyChallenges'),weeklyChallengeCount:$('weeklyChallengeCount'),fitnessLevelName:$('fitnessLevelName'),fitnessLevelNumber:$('fitnessLevelNumber'),xpProgressBar:$('xpProgressBar'),xpCurrent:$('xpCurrent'),xpNext:$('xpNext'),builderMinutes:$('builderMinutes'),builderWorkouts:$('builderWorkouts'),builderDistance:$('builderDistance'),builderStreak:$('builderStreak'),resetSmartGoals:$('resetSmartGoals'),startGoalWorkout:$('startGoalWorkout'),profileStatusChip:$('profileStatusChip'),profileAvatar:$('profileAvatar'),profileDisplayName:$('profileDisplayName'),profileSummary:$('profileSummary'),editProfileButton:$('editProfileButton'),profileWorkoutCount:$('profileWorkoutCount'),profileActiveTime:$('profileActiveTime'),profileDistance:$('profileDistance'),profileFitnessLevel:$('profileFitnessLevel'),profileXpValue:$('profileXpValue'),profileCompletion:$('profileCompletion'),profileName:$('profileName'),profileAge:$('profileAge'),profileTrainingLevel:$('profileTrainingLevel'),profileHeight:$('profileHeight'),profileWeight:$('profileWeight'),profileGoal:$('profileGoal'),saveProfile:$('saveProfile'),profileVoiceToggle:$('profileVoiceToggle'),profileVibrationToggle:$('profileVibrationToggle'),profileCountdownToggle:$('profileCountdownToggle'),profileWeeklyGoal:$('profileWeeklyGoal'),downloadBackup:$('downloadBackup'),restoreBackup:$('restoreBackup'),downloadCsv:$('downloadCsv'),clearAppData:$('clearAppData'),backupFileInput:$('backupFileInput'),dataSizeLabel:$('dataSizeLabel'),runTarget:$('runTarget'),warmupToggle:$('warmupToggle'),vibrationToggle:$('vibrationToggle'),runReadyChip:$('runReadyChip'),liveWorkoutStatus:$('liveWorkoutStatus'),targetProgressText:$('targetProgressText'),targetRing:$('targetRing'),phaseProgressText:$('phaseProgressText'),skipPhase:$('skipPhase'),targetRemaining:$('targetRemaining'),averagePace:$('averagePace'),liveCalories:$('liveCalories'),liveSpeed:$('liveSpeed'),runTip:$('runTip'),startCountdown:$('startCountdown'),startCountdownNumber:$('startCountdownNumber')};
+summaryAchievementName:$('summaryAchievementName'),planGrid:$('planGrid'),startPlan:$('startPlan'),indoorBrowse:$('indoorBrowse'),indoorActive:$('indoorActive'),exerciseMuscle:$('exerciseMuscle'),exerciseSets:$('exerciseSets'),exerciseRest:$('exerciseRest'),exitIndoor:$('exitIndoor'),indoorModeLabel:$('indoorModeLabel'),indoorProgressLabel:$('indoorProgressLabel'),indoorTotalTime:$('indoorTotalTime'),indoorProgressBar:$('indoorProgressBar'),activeDemo:$('activeDemo'),indoorPhaseLabel:$('indoorPhaseLabel'),activeExerciseName:$('activeExerciseName'),activeExerciseTip:$('activeExerciseTip'),indoorCountdown:$('indoorCountdown'),indoorCountdownUnit:$('indoorCountdownUnit'),indoorRingProgress:$('indoorRingProgress'),indoorSetCurrent:$('indoorSetCurrent'),indoorSetTotal:$('indoorSetTotal'),indoorNextLabel:$('indoorNextLabel'),previousIndoor:$('previousIndoor'),indoorPause:$('indoorPause'),nextIndoor:$('nextIndoor'),indoorLevel:$('indoorLevel'),healthRange:$('healthRange'),healthTrendBadge:$('healthTrendBadge'),healthStreakPro:$('healthStreakPro'),healthActiveTime:$('healthActiveTime'),healthWorkoutCount:$('healthWorkoutCount'),healthActiveTrend:$('healthActiveTrend'),healthWorkoutTrend:$('healthWorkoutTrend'),healthCaloriesTrend:$('healthCaloriesTrend'),healthDistanceTrend:$('healthDistanceTrend'),healthPaceTrend:$('healthPaceTrend'),activityChart:$('activityChart'),activityChartEmpty:$('activityChartEmpty'),chartTotal:$('chartTotal'),chartAverage:$('chartAverage'),mixChart:$('mixChart'),mixTotal:$('mixTotal'),mixCenterValue:$('mixCenterValue'),mixList:$('mixList'),personalBestGrid:$('personalBestGrid'),personalBestCount:$('personalBestCount'),historySearch:$('historySearch'),historyFilter:$('historyFilter'),exportHistory:$('exportHistory'),coachChip:$('coachChip'),coachHeadline:$('coachHeadline'),coachMessage:$('coachMessage'),coachHeroIcon:$('coachHeroIcon'),coachReadiness:$('coachReadiness'),coachLoad:$('coachLoad'),coachLoadNote:$('coachLoadNote'),coachRecovery:$('coachRecovery'),coachRecoveryNote:$('coachRecoveryNote'),coachGoal:$('coachGoal'),coachGoalNote:$('coachGoalNote'),coachPlanName:$('coachPlanName'),coachPlanBadge:$('coachPlanBadge'),coachPlanIcon:$('coachPlanIcon'),coachPlanReason:$('coachPlanReason'),coachPlanIntensity:$('coachPlanIntensity'),coachPlanType:$('coachPlanType'),coachPlanCalories:$('coachPlanCalories'),startCoachPlan:$('startCoachPlan'),refreshCoach:$('refreshCoach'),coachInsights:$('coachInsights'),coachAlternatives:$('coachAlternatives'),coachGoals:$('coachGoals'),goalStatusChip:$('goalStatusChip'),goalsHeroTitle:$('goalsHeroTitle'),goalsHeroMessage:$('goalsHeroMessage'),goalsOverallRing:$('goalsOverallRing'),goalsOverallPercent:$('goalsOverallPercent'),goalMinutesValue:$('goalMinutesValue'),goalWorkoutsValue:$('goalWorkoutsValue'),goalDistanceValue:$('goalDistanceValue'),goalStreakValue:$('goalStreakValue'),goalMinutesBar:$('goalMinutesBar'),goalWorkoutsBar:$('goalWorkoutsBar'),goalDistanceBar:$('goalDistanceBar'),goalStreakBar:$('goalStreakBar'),dailyChallengeIcon:$('dailyChallengeIcon'),dailyChallengeName:$('dailyChallengeName'),dailyChallengeDescription:$('dailyChallengeDescription'),dailyChallengeBar:$('dailyChallengeBar'),dailyChallengeProgress:$('dailyChallengeProgress'),dailyChallengeState:$('dailyChallengeState'),dailyChallengeReward:$('dailyChallengeReward'),weeklyChallenges:$('weeklyChallenges'),weeklyChallengeCount:$('weeklyChallengeCount'),fitnessLevelName:$('fitnessLevelName'),fitnessLevelNumber:$('fitnessLevelNumber'),xpProgressBar:$('xpProgressBar'),xpCurrent:$('xpCurrent'),xpNext:$('xpNext'),builderMinutes:$('builderMinutes'),builderWorkouts:$('builderWorkouts'),builderDistance:$('builderDistance'),builderStreak:$('builderStreak'),resetSmartGoals:$('resetSmartGoals'),startGoalWorkout:$('startGoalWorkout'),profileStatusChip:$('profileStatusChip'),profileAvatar:$('profileAvatar'),profileDisplayName:$('profileDisplayName'),profileSummary:$('profileSummary'),editProfileButton:$('editProfileButton'),profileWorkoutCount:$('profileWorkoutCount'),profileActiveTime:$('profileActiveTime'),profileDistance:$('profileDistance'),profileFitnessLevel:$('profileFitnessLevel'),profileXpValue:$('profileXpValue'),profileCompletion:$('profileCompletion'),profileName:$('profileName'),profileAge:$('profileAge'),profileTrainingLevel:$('profileTrainingLevel'),profileHeight:$('profileHeight'),profileWeight:$('profileWeight'),profileGoal:$('profileGoal'),saveProfile:$('saveProfile'),profileVoiceToggle:$('profileVoiceToggle'),profileVibrationToggle:$('profileVibrationToggle'),profileCountdownToggle:$('profileCountdownToggle'),profileWeeklyGoal:$('profileWeeklyGoal'),downloadBackup:$('downloadBackup'),restoreBackup:$('restoreBackup'),downloadCsv:$('downloadCsv'),clearAppData:$('clearAppData'),backupFileInput:$('backupFileInput'),dataSizeLabel:$('dataSizeLabel'),plannerToday:$('plannerToday'),plannerHeadline:$('plannerHeadline'),plannerSummary:$('plannerSummary'),plannerRing:$('plannerRing'),plannerPercent:$('plannerPercent'),plannerPrevWeek:$('plannerPrevWeek'),plannerNextWeek:$('plannerNextWeek'),plannerWeekLabel:$('plannerWeekLabel'),plannerWeekDates:$('plannerWeekDates'),plannerDays:$('plannerDays'),plannerSelectedDayTitle:$('plannerSelectedDayTitle'),addPlannedWorkout:$('addPlannedWorkout'),plannerList:$('plannerList'),plannerInsightTitle:$('plannerInsightTitle'),plannerInsightText:$('plannerInsightText'),plannerCompletionLabel:$('plannerCompletionLabel'),plannerPlannedCount:$('plannerPlannedCount'),plannerCompletedCount:$('plannerCompletedCount'),plannerPlannedTime:$('plannerPlannedTime'),plannerRestDays:$('plannerRestDays'),exportPlannerCalendar:$('exportPlannerCalendar'),plannerModal:$('plannerModal'),plannerModalTitle:$('plannerModalTitle'),closePlannerModal:$('closePlannerModal'),plannedWorkoutType:$('plannedWorkoutType'),plannedWorkoutDate:$('plannedWorkoutDate'),plannedWorkoutTime:$('plannedWorkoutTime'),plannedWorkoutDuration:$('plannedWorkoutDuration'),plannedWorkoutNote:$('plannedWorkoutNote'),savePlannedWorkout:$('savePlannedWorkout'),runTarget:$('runTarget'),warmupToggle:$('warmupToggle'),vibrationToggle:$('vibrationToggle'),runReadyChip:$('runReadyChip'),liveWorkoutStatus:$('liveWorkoutStatus'),targetProgressText:$('targetProgressText'),targetRing:$('targetRing'),phaseProgressText:$('phaseProgressText'),skipPhase:$('skipPhase'),targetRemaining:$('targetRemaining'),averagePace:$('averagePace'),liveCalories:$('liveCalories'),liveSpeed:$('liveSpeed'),runTip:$('runTip'),startCountdown:$('startCountdown'),startCountdownNumber:$('startCountdownNumber')};
 const H={greeting:$('homeGreeting'),date:$('homeDate'),streak:$('homeStreak'),goalRing:$('homeGoalRing'),goalPercent:$('homeGoalPercent'),activeMinutes:$('homeActiveMinutes'),goalMessage:$('homeGoalMessage'),workouts:$('homeWorkouts'),calories:$('homeCalories'),distance:$('homeDistance'),gpsLabel:$('homeGpsLabel'),lastWorkout:$('homeLastWorkout'),challengeTitle:$('challengeTitle'),challengeText:$('challengeText'),challengeCheck:$('challengeCheck')};
 let S={walk:120,run:180,phase:'walk',duration:120,left:120,elapsed:0,walkTime:0,runTime:0,cycles:0,active:false,paused:false,sound:true,timer:null,end:0,last:0,audio:null,gps:true,watch:null,pos:null,start:null,total:0,walkM:0,runM:0,speed:null,map:null,userMarker:null,startMarker:null,trace:[],routeGeo:null,indoorTimer:null,target:1800,vibrate:true,wakeLock:null,goalAnnounced:false,indoorActive:false,indoorPaused:false,indoorPlan:null,indoorQueue:[],indoorIndex:0,indoorSet:1,indoorSets:2,indoorRest:30,indoorPhase:'work',indoorLeft:0,indoorDuration:0,indoorElapsed:0,indoorStarted:0,indoorMode:'single'};
 const exercises=[
@@ -247,6 +247,110 @@ function streakCount(items){
 
 
 
+
+const plannerWorkoutMeta={
+  walkrun:{name:'Balanced Walk & Run',icon:'🏃',screen:'run',duration:30},
+  recovery:{name:'Recovery Walk',icon:'🚶',screen:'run',duration:20},
+  quick:{name:'Quick Start',icon:'⚡',screen:'indoor',plan:'quick',duration:5},
+  core:{name:'Core Builder',icon:'🎯',screen:'indoor',plan:'core',duration:8},
+  full:{name:'Full Body',icon:'🔥',screen:'indoor',plan:'full',duration:12}
+};
+let plannerWeekOffset=0;
+let plannerSelectedDate=new Date().toISOString().slice(0,10);
+function loadPlanner(){try{return JSON.parse(localStorage.getItem('touraysPlanner')||'[]')}catch{return[]}}
+function savePlanner(items){localStorage.setItem('touraysPlanner',JSON.stringify(items))}
+function mondayOf(date){
+  const d=new Date(date);d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d
+}
+function plannerWeekStart(){
+  const d=mondayOf(new Date());d.setDate(d.getDate()+plannerWeekOffset*7);return d
+}
+function isoDate(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate()).toISOString().slice(0,10)}
+function plannerWeekItems(){
+  const start=plannerWeekStart(),end=new Date(start);end.setDate(start.getDate()+7);
+  return loadPlanner().filter(x=>{const d=new Date(`${x.date}T00:00:00`);return d>=start&&d<end})
+}
+function plannerCompletionForItem(item){
+  if(item.completed)return true;
+  return history().some(x=>{
+    const sameDay=new Date(x.date).toISOString().slice(0,10)===item.date;
+    const meta=plannerWorkoutMeta[item.type];
+    if(!sameDay||!meta)return false;
+    if(meta.screen==='run')return category(x)==='Outdoor';
+    return category(x)!=='Outdoor'
+  })
+}
+function plannerWeekLabelText(start){
+  const todayStart=mondayOf(new Date()),diff=Math.round((start-todayStart)/(86400000*7));
+  return diff===0?'This week':diff===1?'Next week':diff===-1?'Last week':start.toLocaleDateString([],{month:'long',year:'numeric'})
+}
+function plannerTip(items){
+  if(!items.length)return['Start with three sessions','A simple plan could include one outdoor workout, one indoor workout and one recovery day.'];
+  const demanding=items.filter(x=>['full','walkrun'].includes(x.type)).length;
+  const consecutive=items.some((x,i)=>i&&Math.abs(new Date(x.date)-new Date(items[i-1].date))<=86400000);
+  if(demanding>=4)return['Protect your recovery','You have several demanding sessions planned. Consider replacing one with a recovery walk.'];
+  if(consecutive)return['Balance hard and easy days','Back-to-back sessions are fine when one of them is light or recovery focused.'];
+  return['Your week looks balanced','Keep at least one lighter day between demanding sessions and adjust based on how you feel.']
+}
+function renderPlanner(){
+  const all=loadPlanner(),start=plannerWeekStart(),week=plannerWeekItems().sort((a,b)=>`${a.date}${a.time}`.localeCompare(`${b.date}${b.time}`));
+  const completed=week.filter(plannerCompletionForItem).length,percent=week.length?Math.round(completed/week.length*100):0;
+  E.plannerRing.style.strokeDashoffset=245.044*(1-percent/100);E.plannerPercent.textContent=`${percent}%`;
+  E.plannerHeadline.textContent=week.length?percent===100?'Your planned week is complete':`${week.length} workout${week.length===1?'':'s'} planned`:'A balanced week starts here';
+  E.plannerSummary.textContent=week.length?`${completed} completed and ${week.length-completed} remaining this week.`:'Schedule workouts, keep your routine visible and launch each session directly from the plan.';
+  E.plannerWeekLabel.textContent=plannerWeekLabelText(start);
+  const end=new Date(start);end.setDate(start.getDate()+6);
+  E.plannerWeekDates.textContent=`${start.toLocaleDateString([],{month:'short',day:'numeric'})} – ${end.toLocaleDateString([],{month:'short',day:'numeric'})}`;
+  const days=[];
+  for(let i=0;i<7;i++){
+    const d=new Date(start);d.setDate(start.getDate()+i);const iso=isoDate(d),count=week.filter(x=>x.date===iso).length;
+    days.push(`<button class="planner-day ${iso===plannerSelectedDate?'selected':''} ${iso===isoDate(new Date())?'today':''} ${count?'has-plan':''}" data-planner-day="${iso}"><span>${d.toLocaleDateString([],{weekday:'short'}).toUpperCase()}</span><strong>${d.getDate()}</strong><small>${count?`${count} plan${count===1?'':'s'}`:'Rest'}</small></button>`)
+  }
+  E.plannerDays.innerHTML=days.join('');
+  document.querySelectorAll('[data-planner-day]').forEach(b=>b.onclick=()=>{plannerSelectedDate=b.dataset.plannerDay;renderPlanner()});
+  const selected=new Date(`${plannerSelectedDate}T00:00:00`);
+  E.plannerSelectedDayTitle.textContent=plannerSelectedDate===isoDate(new Date())?'Today':selected.toLocaleDateString([],{weekday:'long',month:'short',day:'numeric'});
+  const selectedItems=all.filter(x=>x.date===plannerSelectedDate).sort((a,b)=>a.time.localeCompare(b.time));
+  E.plannerList.innerHTML=selectedItems.length?selectedItems.map(item=>{const m=plannerWorkoutMeta[item.type],done=plannerCompletionForItem(item);return`<article class="planner-item ${done?'complete':''}"><div class="planner-item-icon">${m.icon}</div><div><strong>${m.name}</strong><small>${item.time} · ${item.duration} min</small>${item.note?`<em>${item.note}</em>`:''}</div><div class="planner-item-actions"><button class="done" data-plan-done="${item.id}" title="Mark complete">${done?'✓':'○'}</button><button data-plan-start="${item.id}" title="Start">▶</button><button class="delete" data-plan-delete="${item.id}" title="Delete">✕</button></div></article>`}).join(''):'<div class="empty">No workout planned for this day.</div>';
+  document.querySelectorAll('[data-plan-done]').forEach(b=>b.onclick=()=>togglePlannedDone(b.dataset.planDone));
+  document.querySelectorAll('[data-plan-start]').forEach(b=>b.onclick=()=>startPlannedWorkout(b.dataset.planStart));
+  document.querySelectorAll('[data-plan-delete]').forEach(b=>b.onclick=()=>deletePlannedWorkout(b.dataset.planDelete));
+  const tip=plannerTip(week);E.plannerInsightTitle.textContent=tip[0];E.plannerInsightText.textContent=tip[1];
+  const activeDays=new Set(week.map(x=>x.date)).size;
+  E.plannerCompletionLabel.textContent=`${completed} of ${week.length} done`;E.plannerPlannedCount.textContent=week.length;E.plannerCompletedCount.textContent=completed;E.plannerPlannedTime.textContent=`${week.reduce((a,x)=>a+Number(x.duration||0),0)} min`;E.plannerRestDays.textContent=7-activeDays
+}
+function openPlannerModal(){
+  E.plannedWorkoutDate.value=plannerSelectedDate;E.plannedWorkoutTime.value='18:00';E.plannedWorkoutType.value='walkrun';E.plannedWorkoutDuration.value='30';E.plannedWorkoutNote.value='';E.plannerModal.hidden=false
+}
+function closePlanner(){E.plannerModal.hidden=true}
+function savePlannerWorkout(){
+  const type=E.plannedWorkoutType.value,date=E.plannedWorkoutDate.value,time=E.plannedWorkoutTime.value,duration=Number(E.plannedWorkoutDuration.value),note=E.plannedWorkoutNote.value.trim();
+  if(!date||!time)return toast('Choose a date and time');
+  const items=loadPlanner();items.push({id:`p${Date.now()}`,type,date,time,duration,note,completed:false,createdAt:new Date().toISOString()});savePlanner(items);plannerSelectedDate=date;closePlanner();renderPlanner();toast('Workout added to planner')
+}
+function togglePlannedDone(id){const items=loadPlanner(),item=items.find(x=>x.id===id);if(item){item.completed=!item.completed;savePlanner(items);renderPlanner();toast(item.completed?'Workout marked complete':'Workout reopened')}}
+function deletePlannedWorkout(id){savePlanner(loadPlanner().filter(x=>x.id!==id));renderPlanner();toast('Planned workout deleted')}
+function startPlannedWorkout(id){
+  const item=loadPlanner().find(x=>x.id===id);if(!item)return;
+  const m=plannerWorkoutMeta[item.type];
+  if(m.screen==='run'){
+    E.runTarget.value=String(item.duration*60);localStorage.setItem('touraysRunTarget',E.runTarget.value);
+    if(item.type==='recovery'){E.wm.value=5;E.rm.value=1}else{E.wm.value=2;E.rm.value=3}E.ws.value=0;E.rs.value=0;show('run')
+  }else{
+    selectedPlan=m.plan;document.querySelectorAll('.plan-card').forEach(x=>x.classList.toggle('selected',x.dataset.plan===selectedPlan));E.indoorLevel.textContent=indoorPlans[selectedPlan].level;show('indoor')
+  }
+  toast(`${m.name} is ready`)
+}
+function plannerIcsDate(date,time){
+  return `${date.replaceAll('-','')}T${time.replace(':','')}00`
+}
+function exportPlannerIcs(){
+  const items=plannerWeekItems();if(!items.length)return toast('No planned workouts this week');
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Tourays Fitness//Workout Planner//EN','CALSCALE:GREGORIAN'];
+  items.forEach(item=>{const m=plannerWorkoutMeta[item.type],start=plannerIcsDate(item.date,item.time),endDate=new Date(`${item.date}T${item.time}:00`);endDate.setMinutes(endDate.getMinutes()+Number(item.duration));const end=`${endDate.getFullYear()}${String(endDate.getMonth()+1).padStart(2,'0')}${String(endDate.getDate()).padStart(2,'0')}T${String(endDate.getHours()).padStart(2,'0')}${String(endDate.getMinutes()).padStart(2,'0')}00`;lines.push('BEGIN:VEVENT',`UID:${item.id}@touraysfitness`,`DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').split('.')[0]}Z`,`DTSTART:${start}`,`DTEND:${end}`,`SUMMARY:${m.name}`,`DESCRIPTION:${(item.note||'Planned with Tourays Fitness').replace(/\n/g,' ')}`,'END:VEVENT')});
+  lines.push('END:VCALENDAR');const blob=new Blob([lines.join('\r\n')],{type:'text/calendar'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='tourays-fitness-week.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Calendar file exported')
+}
+
 const profileDefaults={name:'Tourays Athlete',age:'',level:'beginner',height:'',weight:'',goal:'balanced'};
 function loadProfile(){
   try{return{...profileDefaults,...JSON.parse(localStorage.getItem('touraysProfile')||'{}')}}catch{return{...profileDefaults}}
@@ -421,6 +525,11 @@ function renderHealth(){
 }
 
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>show(b.dataset.screen));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));document.querySelectorAll('.preset').forEach(b=>b.onclick=()=>{setTime(+b.dataset.w,E.wm,E.ws);setTime(+b.dataset.r,E.rm,E.rs);document.querySelectorAll('.preset').forEach(x=>x.classList.toggle('selected',x===b))});
+E.plannerToday.onclick=()=>{plannerWeekOffset=0;plannerSelectedDate=isoDate(new Date());renderPlanner()};
+E.plannerPrevWeek.onclick=()=>{plannerWeekOffset--;plannerSelectedDate=isoDate(plannerWeekStart());renderPlanner()};
+E.plannerNextWeek.onclick=()=>{plannerWeekOffset++;plannerSelectedDate=isoDate(plannerWeekStart());renderPlanner()};
+E.addPlannedWorkout.onclick=openPlannerModal;E.closePlannerModal.onclick=closePlanner;E.savePlannedWorkout.onclick=savePlannerWorkout;E.exportPlannerCalendar.onclick=exportPlannerIcs;
+E.plannerModal.onclick=e=>{if(e.target===E.plannerModal)closePlanner()};
 E.saveProfile.onclick=commitProfile;E.editProfileButton.onclick=()=>E.profileName.focus();
 E.profileVoiceToggle.onchange=()=>localStorage.setItem('touraysVoice',E.profileVoiceToggle.checked);
 E.profileVibrationToggle.onchange=()=>{localStorage.setItem('touraysVibration',E.profileVibrationToggle.checked);E.vibrationToggle.checked=E.profileVibrationToggle.checked};
@@ -450,4 +559,4 @@ E.moreExercise.onclick=()=>{exerciseAmount+=exercises[currentExercise].unit==='s
 E.startExercise.onclick=startExercise;
 document.querySelectorAll('.plan-card').forEach(b=>b.onclick=()=>{selectedPlan=b.dataset.plan;document.querySelectorAll('.plan-card').forEach(x=>x.classList.toggle('selected',x===b));E.indoorLevel.textContent=indoorPlans[selectedPlan].level});
 E.startPlan.onclick=startIndoorPlan;E.indoorPause.onclick=pauseIndoor;E.nextIndoor.onclick=nextIndoor;E.previousIndoor.onclick=previousIndoor;E.exitIndoor.onclick=exitIndoorWorkout;E.recenterMap.onclick=()=>{if(S.map&&S.pos)S.map.flyTo({center:[S.pos.longitude,S.pos.latitude],zoom:17,pitch:45});else toast('Waiting for GPS')};E.routeHome.onclick=routeToStart;[E.weight,E.height,E.weeklyGoal].forEach(x=>x.onchange=()=>{renderHealth();renderHome()});E.gpsToggle.onchange=()=>{S.gps=E.gpsToggle.checked;S.gps?startGps():stopGps()};
-renderExerciseGrid();renderExercise();startGps();renderHealth();renderHome();renderGoals();renderProfile();renderCoach();updateAchievements();
+renderExerciseGrid();renderExercise();startGps();renderHealth();renderHome();renderPlanner();renderGoals();renderProfile();renderCoach();updateAchievements();
