@@ -3047,3 +3047,99 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
 /* V10 Stage 2 — keep unreliable legacy PWA banners out of the UI */
 [hidden]{display:none!important;}
 #networkStatus,#installAppBanner{display:none!important;pointer-events:none!important;}
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 4 COLOR & TOUCH POLISH
+   Conservative visual-only layer: no routing or workout logic changed.
+   ========================================================= */
+:root{
+  --tf-ink:#171426;
+  --tf-body:#4f586f;
+  --tf-muted:#69728a;
+  --tf-purple:#6842e8;
+  --tf-purple-dark:#4e2fc4;
+  --tf-surface:#ffffff;
+  --tf-border:rgba(64,49,108,.16);
+}
+
+body{color:var(--tf-ink);}
+p,.muted,.subtitle,.helper-text,.card-copy,.section-copy,
+[class*="description"],[class*="subtitle"],[class*="caption"]{
+  color:var(--tf-body);
+}
+
+/* Improve headings and labels without changing layout */
+h1,h2,h3,h4,h5,h6,strong,.title,.card-title,.section-title,
+label,.eyebrow,.kicker,[class*="headline"]{
+  color:var(--tf-ink);
+}
+
+/* Brand accents remain purple but gain stronger contrast */
+a,.link-button,.text-link,[class*="accent"],.purple-text{
+  color:var(--tf-purple-dark);
+}
+button.primary,.primary-button,.cta-button,[class*="primary-btn"]{
+  background:var(--tf-purple);
+  color:#fff;
+}
+
+/* Inputs and cards remain visually consistent and easier to read */
+input,select,textarea{
+  color:var(--tf-ink);
+  background:#fff;
+  border-color:var(--tf-border);
+}
+input::placeholder,textarea::placeholder{color:#747c91;opacity:1;}
+.card,.panel,[class*="-card"]{border-color:var(--tf-border);}
+
+/* Navigation: visual/touch robustness only; no navigation JS modified */
+nav button,.bottom-nav button,.mobile-bottom-nav button,
+[data-screen],[data-route],.menu button,.drawer button{
+  min-height:44px;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(104,66,232,.15);
+}
+nav button:focus-visible,.bottom-nav button:focus-visible,
+[data-screen]:focus-visible,[data-route]:focus-visible,
+button:focus-visible,a:focus-visible{
+  outline:3px solid rgba(104,66,232,.28);
+  outline-offset:2px;
+}
+
+/* Avoid pale grey-on-white navigation labels */
+.bottom-nav,.mobile-bottom-nav,[class*="bottom-nav"]{color:#555f75;}
+.bottom-nav .active,.mobile-bottom-nav .active,
+.bottom-nav button.active,.mobile-bottom-nav button.active{
+  color:var(--tf-purple-dark);
+}
+
+/* Dark mode contrast polish */
+.tourays-dark-theme,
+body.tourays-dark-theme{
+  --tf-ink:#f6f3ff;
+  --tf-body:#d2cde0;
+  --tf-muted:#b5aec6;
+  --tf-surface:#1c1924;
+  --tf-border:rgba(255,255,255,.14);
+}
+.tourays-dark-theme p,
+.tourays-dark-theme .muted,
+.tourays-dark-theme [class*="description"],
+.tourays-dark-theme [class*="subtitle"]{color:var(--tf-body);}
+.tourays-dark-theme input,
+.tourays-dark-theme select,
+.tourays-dark-theme textarea{
+  color:#f7f4ff;
+  background:#24202e;
+  border-color:rgba(255,255,255,.18);
+}
+.tourays-dark-theme input::placeholder,
+.tourays-dark-theme textarea::placeholder{color:#aaa2ba;}
+
+/* Keep fixed bottom navigation readable above Safari toolbar */
+@supports(padding:max(0px)){
+  .bottom-nav,.mobile-bottom-nav,[class*="bottom-nav"]{
+    padding-bottom:max(env(safe-area-inset-bottom),8px);
+  }
+}
