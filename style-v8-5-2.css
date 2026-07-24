@@ -4474,3 +4474,86 @@ html{
   scroll-behavior:auto!important;
   overflow-anchor:none!important;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 19
+   PROFILE OVERLAY / BLANK AREA REPAIR
+   ========================================================= */
+
+/* Profile content always starts immediately at the top. */
+#profileSettingsScreen.active{
+  display:block!important;
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:12px 14px calc(120px + env(safe-area-inset-bottom))!important;
+  overflow:visible!important;
+  background:#f7f8fc!important;
+}
+
+#profileSettingsScreen.active>.profile-settings-shell{
+  display:block!important;
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  max-width:1040px!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0 auto!important;
+  padding:0!important;
+  transform:none!important;
+}
+
+#profileSettingsScreen.active .profile-settings-header,
+#profileSettingsScreen.active .profile-overview-card,
+#profileSettingsScreen.active .profile-completion-card,
+#profileSettingsScreen.active .profile-settings-form{
+  display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+}
+
+/* Header keeps its intended flex layout. */
+#profileSettingsScreen.active .profile-settings-header{
+  display:flex!important;
+}
+
+/* Tabs are no longer sticky, so they cannot float as an overlay. */
+#profileSettingsScreen.active .profile-settings-tabs{
+  display:flex!important;
+  position:relative!important;
+  top:auto!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  z-index:1!important;
+  width:100%!important;
+  margin:0 0 14px!important;
+  transform:none!important;
+}
+
+/* Every profile section remains part of the normal document flow. */
+#profileSettingsScreen.active [data-profile-group]{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+}
+
+/* Nothing from Profile may remain visible over another screen. */
+#profileSettingsScreen:not(.active),
+#profileSettingsScreen[hidden]{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  position:absolute!important;
+  width:0!important;
+  height:0!important;
+  overflow:hidden!important;
+}
