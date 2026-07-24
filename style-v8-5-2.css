@@ -3509,3 +3509,284 @@ body.tourays-dark-theme{
 .tourays-dark-theme #planner .planner-item em{
   color:#c6bfd1!important;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 7 INDOOR + HEALTH LIGHT UI
+   Visual-only repair. No workout, health, history, storage,
+   navigation, timer, planner or calculation logic changed.
+   ========================================================= */
+
+/* ---------- INDOOR ---------- */
+#indoor{
+  color:#171426;
+  background:transparent;
+}
+#indoor .section-head small,
+#indoor .indoor-hero small,
+#indoor .indoor-title-row small,
+#indoor .indoor-library-head small{
+  color:#6b49da!important;
+}
+#indoor h2,
+#indoor h3,
+#indoor strong{
+  color:#171426!important;
+}
+#indoor .indoor-level{
+  border:1px solid #d8cef0!important;
+  background:#eee9ff!important;
+  color:#5d3bc9!important;
+}
+#indoor .indoor-hero{
+  border:1px solid #ded6ef!important;
+  background:linear-gradient(145deg,#ffffff 0%,#f6f2ff 100%)!important;
+  box-shadow:0 14px 34px rgba(62,45,104,.09)!important;
+}
+#indoor .indoor-hero p,
+#indoor .indoor-title-row>span{
+  color:#687186!important;
+}
+#indoor .indoor-hero>span{
+  background:#eee9ff!important;
+}
+#indoor .quick-plan,
+#indoor .quick-workout,
+#indoor [class*="plan-card"],
+#indoor [class*="quick-card"]{
+  border:1px solid #e0d9eb!important;
+  background:linear-gradient(145deg,#ffffff,#f7f5fb)!important;
+  color:#171426!important;
+  box-shadow:0 9px 23px rgba(49,39,82,.06)!important;
+}
+#indoor .quick-plan.selected,
+#indoor .quick-workout.selected,
+#indoor [class*="plan-card"].selected,
+#indoor [class*="quick-card"].selected{
+  border-color:#8f75e9!important;
+  background:#f0ebff!important;
+  box-shadow:0 10px 25px rgba(104,66,232,.12)!important;
+}
+#indoor .quick-plan span,
+#indoor .quick-workout span,
+#indoor [class*="plan-card"] span,
+#indoor [class*="quick-card"] span{
+  background:#f0ebff!important;
+}
+#indoor .quick-plan small,
+#indoor .quick-workout small,
+#indoor [class*="plan-card"] small,
+#indoor [class*="quick-card"] small{
+  color:#6f788b!important;
+}
+#indoor .indoor-plan-start{
+  background:linear-gradient(135deg,#6842e8,#865ef4)!important;
+  color:#fff!important;
+  box-shadow:0 12px 27px rgba(104,66,232,.22)!important;
+}
+#indoor .indoor-library-panel,
+#indoor .exercise-card,
+#indoor .exercise-player,
+#indoor .indoor-session-tip{
+  border-color:#e0d9eb!important;
+  background:#ffffff!important;
+  color:#171426!important;
+  box-shadow:0 9px 23px rgba(49,39,82,.06)!important;
+}
+#indoor .exercise-card{
+  background:radial-gradient(circle at 100% 0,rgba(115,87,246,.10),transparent 45%),#fff!important;
+}
+#indoor .exercise-card strong,
+#indoor .exercise-player strong{
+  color:#171426!important;
+}
+#indoor .exercise-card small,
+#indoor .exercise-player p,
+#indoor .indoor-session-tip p{
+  color:#687186!important;
+}
+#indoor .indoor-settings-row label{
+  border:1px solid #ded7e9!important;
+  background:#ffffff!important;
+}
+#indoor .indoor-settings-row label span{
+  color:#6f788b!important;
+}
+#indoor .indoor-settings-row select{
+  background:#ffffff!important;
+  color:#171426!important;
+}
+#indoor .exercise-filter-row button{
+  border-color:#ded7e9!important;
+  background:#f7f5fa!important;
+  color:#5f687a!important;
+}
+#indoor .exercise-filter-row button.active{
+  border-color:#9a82e8!important;
+  background:#eee9ff!important;
+  color:#5634c5!important;
+}
+
+/* ---------- HEALTH ---------- */
+#health{
+  color:#171426;
+  background:transparent;
+}
+#health .section-head small,
+#health .health-pro-title small,
+#health .chart-head small{
+  color:#6b49da!important;
+}
+#health h2,
+#health h3,
+#health strong{
+  color:#171426!important;
+}
+#health .health-pro-head select{
+  border:1px solid #ddd6e8!important;
+  background:#ffffff!important;
+  color:#171426!important;
+  box-shadow:0 7px 18px rgba(49,39,82,.05)!important;
+}
+#health .health-pro-hero{
+  border:1px solid #ddd5ee!important;
+  background:linear-gradient(145deg,#ffffff 0%,#f3efff 100%)!important;
+  box-shadow:0 14px 34px rgba(62,45,104,.09)!important;
+}
+#health .health-main span{
+  color:#697286!important;
+}
+#health .health-main strong{
+  color:#171426!important;
+}
+#health .goal-bg{
+  stroke:#e8e3f1!important;
+}
+#health .goal-progress{
+  stroke:#7048e8!important;
+}
+#health .goal-ring b{
+  color:#4f35b8!important;
+}
+#health .health-hero-footer{
+  border-top-color:#e4deee!important;
+}
+#health .health-hero-footer strong{
+  color:#5d6577!important;
+}
+#health .health-hero-footer span{
+  background:#eaf9f3!important;
+  color:#187c5e!important;
+}
+#health .health-hero-footer span.negative{
+  background:#fff1f2!important;
+  color:#b43b50!important;
+}
+#health .health-kpi,
+#health .health-chart-card,
+#health .personal-best{
+  border:1px solid #e0d9eb!important;
+  background:linear-gradient(145deg,#ffffff,#f7f5fb)!important;
+  box-shadow:0 9px 23px rgba(49,39,82,.06)!important;
+}
+#health .health-kpi span,
+#health .personal-best small,
+#health .chart-head>span,
+#health .health-pro-title>span{
+  color:#6d7486!important;
+}
+#health .health-kpi strong,
+#health .personal-best strong{
+  color:#191629!important;
+}
+#health .health-kpi small,
+#health .personal-best em{
+  color:#7a8396!important;
+}
+#health .health-pro-title button{
+  border:1px solid #d9d0ec!important;
+  background:#f3effc!important;
+  color:#5f3dd1!important;
+}
+#health .achievement-card{
+  border:1px solid #e0d9eb!important;
+  background:linear-gradient(145deg,#ffffff,#f7f5fb)!important;
+  color:#171426!important;
+  box-shadow:0 9px 23px rgba(49,39,82,.06)!important;
+}
+#health .achievement-card:before{
+  background:linear-gradient(135deg,rgba(112,72,232,.12),transparent 60%)!important;
+}
+#health .achievement-card.unlocked{
+  border-color:#9b83e7!important;
+  background:linear-gradient(145deg,#ffffff,#f1ecff)!important;
+  box-shadow:0 12px 28px rgba(104,66,232,.12)!important;
+}
+#health .achievement-card.locked{
+  opacity:1!important;
+  filter:none!important;
+  background:linear-gradient(145deg,#f8f8fb,#f0f1f5)!important;
+}
+#health .achievement-card strong{
+  color:#1b1729!important;
+}
+#health .achievement-card p{
+  color:#6f788b!important;
+}
+#health .achievement-state{
+  color:#6644d4!important;
+}
+#health .achievement-card.locked .achievement-state{
+  color:#7e8798!important;
+}
+#health .history-item{
+  border:1px solid #e0d9eb!important;
+  background:#ffffff!important;
+  box-shadow:0 8px 20px rgba(49,39,82,.05)!important;
+}
+#health .history-head small,
+#health .history-values span{
+  color:#737c8f!important;
+}
+#health .history-values div{
+  background:#f5f2fa!important;
+}
+#health .history-values strong{
+  color:#171426!important;
+}
+
+/* Dark mode remains intentionally dark only when selected by the user. */
+.tourays-dark-theme #indoor .indoor-hero,
+.tourays-dark-theme #indoor .quick-plan,
+.tourays-dark-theme #indoor .quick-workout,
+.tourays-dark-theme #indoor [class*="plan-card"],
+.tourays-dark-theme #indoor [class*="quick-card"],
+.tourays-dark-theme #indoor .indoor-library-panel,
+.tourays-dark-theme #indoor .exercise-card,
+.tourays-dark-theme #indoor .exercise-player,
+.tourays-dark-theme #indoor .indoor-session-tip,
+.tourays-dark-theme #health .health-pro-hero,
+.tourays-dark-theme #health .health-kpi,
+.tourays-dark-theme #health .health-chart-card,
+.tourays-dark-theme #health .personal-best,
+.tourays-dark-theme #health .achievement-card,
+.tourays-dark-theme #health .history-item{
+  background:#24202e!important;
+  border-color:#3a3347!important;
+  box-shadow:none!important;
+}
+.tourays-dark-theme #indoor h2,
+.tourays-dark-theme #indoor h3,
+.tourays-dark-theme #indoor strong,
+.tourays-dark-theme #health h2,
+.tourays-dark-theme #health h3,
+.tourays-dark-theme #health strong{
+  color:#f7f4ff!important;
+}
+.tourays-dark-theme #indoor p,
+.tourays-dark-theme #indoor small,
+.tourays-dark-theme #health p,
+.tourays-dark-theme #health small,
+.tourays-dark-theme #health span{
+  color:#c6bfd1!important;
+}
