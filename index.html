@@ -9,7 +9,7 @@
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10020" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10030" rel="stylesheet"/>
 
 <meta name="tf-build" content="V10-Stage2">
 </head>
@@ -923,7 +923,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=10020"></script>
+<script src="app-v8-5-2.js?v=10030"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -988,9 +988,27 @@
 
 
 <script>
+/* V10 Stage 3: reliable update delivery without manual cache clearing. */
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js?v=10030', {
+        updateViaCache: 'none'
+      });
+
+      // Ask GitHub Pages for the newest worker on every normal page load.
+      registration.update().catch(() => {});
+
+      // Reload once when a newly activated worker takes control.
+      let reloadingForUpdate = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (reloadingForUpdate) return;
+        reloadingForUpdate = true;
+        window.location.reload();
+      });
+    } catch (_) {
+      // The application remains usable if service-worker registration fails.
+    }
   });
 }
 </script>
@@ -2369,7 +2387,7 @@ if ('serviceWorker' in navigator) {
           </article>
           <article>
             <span>Version</span>
-            <strong id="profileAppVersion">V9.13</strong>
+            <strong id="profileAppVersion">V10.03</strong>
           </article>
           <article>
             <span>Storage</span>
