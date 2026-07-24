@@ -1,18 +1,15 @@
-# Tourays Fitness V8 — Build 3
+# Tourays Fitness V8 — Build 5.2
 
-## Premium Home Command Center
+The premium push-up animation is embedded directly in the JavaScript file.
 
-- New readiness card with dynamic score
-- Training recommendation based on recent activity
-- Today’s plan shortcut to AI Coach
-- Recent workout continuation card
-- One-tap repeat workout
-- Dynamic Walk & Run and Indoor subtitles
-- Improved weekly goal presentation
-- Better statistics cards
-- More distinctive workout tiles
-- Sticky light header
-- Refined animated bottom navigation
-- All previous Version 8 and Version 7 functionality remains included
+This fixes:
+- missed GIF uploads
+- broken file paths
+- old cached app.js and style.css files
 
-Replace all files in the existing deployment with the files from this ZIP.
+You will see a purple “NEW PREMIUM ANIMATION” label when the correct build is active.
+
+Deployment:
+1. Delete all old deployment files.
+2. Upload every file from this ZIP.
+3. Reload the page with Ctrl+F5.

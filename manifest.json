@@ -1,7 +1,7 @@
 {
-  "name": "Tourays Fitness V8 Build 3",
+  "name": "Tourays Fitness V8 Build 5.2",
   "short_name": "Tourays Fitness",
-  "description": "Premium light fitness app with a personalized home command center, readiness guidance, recent-workout continuation and refined navigation.",
+  "description": "Cache-proof build with the premium push-up animation embedded directly in the app.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -5,13 +5,20 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F5F7FC" name="theme-color"/>
-<title>Tourays Fitness V8 · Build 3</title>
+<title>Tourays Fitness V8 · Build 5.2</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style.css" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=852" rel="stylesheet"/>
 </head>
 <body>
+
+<section style="background:#6B4EFF;color:white;padding:24px;border-radius:24px;margin:16px">
+<h2>Good Morning 👋</h2>
+<h1>Welcome back!</h1>
+<p>Ready to become stronger today?</p>
+</section>
+
 <div class="shell">
 <header><div class="brand"><small>TOURAYS FITNESS · V8</small><h1>Train your way</h1></div><div class="head-actions"><button class="icon-btn" id="settingsBtn">⚙️</button><button class="icon-btn" id="soundBtn">🔊</button></div></header>
 <section class="screen active" id="home">
@@ -138,6 +145,22 @@
       <button class="preset" data-r="600" data-w="300"><strong>5 / 10</strong><small>ADVANCED</small></button>
     </div>
 
+    <article class="run-preview-card">
+      <div class="run-preview-top">
+        <div><small>WORKOUT PREVIEW</small><strong id="runPreviewTitle">30-minute balanced session</strong></div>
+        <span id="runPreviewLevel">Balanced</span>
+      </div>
+      <div class="run-preview-timeline">
+        <i class="walk-segment" id="walkPreviewSegment"></i>
+        <i class="run-segment" id="runPreviewSegment"></i>
+      </div>
+      <div class="run-preview-stats">
+        <div><small>ONE CYCLE</small><strong id="runCycleDuration">05:00</strong></div>
+        <div><small>EST. CYCLES</small><strong id="runEstimatedCycles">6</strong></div>
+        <div><small>RUN SHARE</small><strong id="runSharePercent">60%</strong></div>
+      </div>
+    </article>
+
     <article class="builder">
       <div class="builder-top"><h3>Custom interval</h3><span>minutes &amp; seconds</span></div>
       <div class="interval">
@@ -151,6 +174,21 @@
       </div>
     </article>
 
+    <section class="run-intensity-section">
+      <div class="run-pro-label"><strong>SESSION INTENSITY</strong><small>Choose how today should feel</small></div>
+      <div class="run-intensity-row" id="runIntensityRow">
+        <button data-intensity="easy"><span>🌿</span><strong>Easy</strong><small>Recovery pace</small></button>
+        <button class="selected" data-intensity="steady"><span>⚡</span><strong>Steady</strong><small>Comfortably hard</small></button>
+        <button data-intensity="strong"><span>🔥</span><strong>Strong</strong><small>Push your effort</small></button>
+      </div>
+    </section>
+
+    <article class="run-location-card">
+      <span>📍</span>
+      <div><strong>Outdoor tracking ready</strong><small id="runLocationText">GPS will start when your workout begins.</small></div>
+      <b id="runLocationStatus">READY</b>
+    </article>
+
     <div class="run-pro-options">
       <label><span><b>⏱️</b><span><strong>Workout target</strong><small>Optional duration goal</small></span></span>
         <select id="runTarget"><option value="0">Open goal</option><option value="900">15 min</option><option value="1200">20 min</option><option value="1800" selected>30 min</option><option value="2700">45 min</option><option value="3600">60 min</option></select>
@@ -159,7 +197,7 @@
       <label><span><b>📳</b><span><strong>Phase vibration</strong><small>Vibrate when phases change</small></span></span><input id="vibrationToggle" type="checkbox" checked/></label>
     </div>
 
-    <button class="primary run-pro-start" id="startRun">Start workout ▶</button>
+    <button class="primary run-pro-start" id="startRun"><span>Start workout</span><small id="runStartSummary">30 min · Balanced</small><b>▶</b></button>
   </div>
 
   <div hidden id="runActive">
@@ -251,10 +289,20 @@
     <section class="indoor-library-panel"><div class="indoor-library-head"><div><small>EXERCISE LIBRARY</small><h3>Choose your movement</h3></div><span id="exerciseLibraryCount">8 exercises</span></div><div class="exercise-filter-row" id="exerciseFilterRow"><button class="active" data-exercise-filter="all">All</button><button data-exercise-filter="upper">Upper body</button><button data-exercise-filter="lower">Lower body</button><button data-exercise-filter="core">Core</button><button data-exercise-filter="cardio">Cardio</button></div><div class="exercise-grid" id="exerciseGrid"></div></section>
 
     <article class="exercise-player indoor-player">
-      <div class="demo" id="demo">
-        <span class="demo-badge">6-second form guide</span>
+      <div class="demo premium-demo" id="demo">
+        <span class="demo-badge">10-second professional form guide</span>
+        <div class="demo-controls">
+          <button id="demoPlayPause" aria-label="Pause animation">Ⅱ</button>
+          <button id="demoReplay" aria-label="Replay animation">↻</button>
+          <button id="demoSpeed" aria-label="Change animation speed">1×</button>
+          <button id="demoMuscles" aria-label="Show muscles">Muscles</button>
+        </div>
         <div class="demo-progress"><i></i></div>
       </div>
+      <article class="animation-info-strip">
+        <span>✓</span>
+        <div><strong>Professional movement loop</strong><small>Watch the complete movement, alignment guide and working muscles before starting.</small></div>
+      </article>
       <div class="form-guide-grid" id="formGuideGrid">
         <article><span>1</span><div><strong>Start position</strong><small id="formStart">Set your body correctly.</small></div></article>
         <article><span>2</span><div><strong>Movement</strong><small id="formMove">Move with control.</small></div></article>
@@ -793,6 +841,6 @@
 
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
-<script src="app.js"></script>
+<script src="app-v8-5-2.js?v=852"></script>
 </body>
 </html>
