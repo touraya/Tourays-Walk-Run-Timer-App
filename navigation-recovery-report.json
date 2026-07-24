@@ -1,0 +1,20 @@
+{
+  "build": "Tourays Fitness V9 Standalone Navigation Recovery 9200",
+  "core_change": "Navigation moved into a separate JavaScript file so it remains functional even if another app module throws a runtime error.",
+  "fixed": [
+    "Burger menu opening and closing",
+    "Header Home button",
+    "Bottom navigation buttons",
+    "Main menu route buttons",
+    "Legacy data-screen buttons",
+    "Browser back and forward navigation",
+    "Navigation blocked by another app JavaScript error"
+  ],
+  "cache_version": 9200,
+  "validation": {
+    "main_javascript": "passed",
+    "standalone_navigation_javascript": "passed",
+    "service_worker": "passed",
+    "manifest": "passed"
+  }
+}

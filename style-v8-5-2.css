@@ -3516,3 +3516,51 @@ textarea::placeholder{
     bottom:max(8px,env(safe-area-inset-bottom));
   }
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — STANDALONE NAVIGATION RECOVERY 9200
+   ========================================================= */
+#touraysGlobalHeader,
+#touraysBottomNav,
+#touraysAppMenu,
+#touraysNavBackdrop{
+  pointer-events:auto!important;
+}
+#touraysGlobalHeader{
+  z-index:30000!important;
+}
+#touraysBottomNav{
+  z-index:30010!important;
+}
+#touraysNavBackdrop{
+  z-index:30020!important;
+}
+#touraysAppMenu{
+  z-index:30030!important;
+}
+#touraysMenuOpen,
+#touraysMenuClose,
+#touraysHeaderHome,
+#touraysBottomNav button,
+#touraysAppMenu button{
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:rgba(98,60,231,.18);
+}
+#touraysAppMenu.open{
+  transform:translateX(0)!important;
+}
+#touraysNavBackdrop[hidden]{
+  display:none!important;
+  pointer-events:none!important;
+}
+#touraysAppMenu:not(.open){
+  pointer-events:none!important;
+}
+.screen[hidden]{
+  display:none!important;
+}
+.screen.active{
+  display:block!important;
+}

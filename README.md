@@ -1,13 +1,17 @@
-Tourays Fitness V9 — Navigation Hotfix 9190
+Tourays Fitness V9 — Standalone Navigation Recovery 9200
 
-Fixed based on the supplied iPhone screenshot:
-- Burger menu now opens reliably
-- Header Home icon now returns to Home
-- All five bottom navigation buttons work
-- Bottom navigation supports left/right swipe between visible tabs
-- Pointer and click handling added for iOS in-app browsers
-- Header and bottom navigation are protected from invisible overlays
-- Navigation stacking order corrected
-- Developer QA button hidden from the normal user interface
+The navigation was moved into its own independent JavaScript file.
+This is the important difference from the previous hotfix: even if another app module has a runtime error, the menu and navigation can still initialize and work.
 
-After deploying to GitHub Pages, refresh twice or reopen the page so cache 9190 replaces the previous Service Worker cache.
+Fixed:
+- Burger menu
+- Menu close button and backdrop
+- Header Home icon
+- All bottom navigation buttons
+- All buttons inside the full menu
+- Older data-screen navigation buttons
+- Browser back and forward navigation
+- Strong iPhone touch, pointer and click fallbacks
+
+Deploy every file from this ZIP, including navigation-9200.js.
+After deployment, close the browser tab completely and reopen the site so Service Worker cache 9200 is loaded.
