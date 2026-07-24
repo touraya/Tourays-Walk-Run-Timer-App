@@ -4310,3 +4310,93 @@ body,.shell,#nutritionScreen{
 .screen[hidden]{
   display:none!important;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 15
+   NUTRITION ROOT LAYOUT + FOOD LIBRARY
+   ========================================================= */
+
+/* Nutrition now physically lives inside .shell. */
+.shell > #nutritionScreen{
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:10px 14px calc(120px + env(safe-area-inset-bottom))!important;
+  transform:none!important;
+  overflow:visible!important;
+  background:
+    radial-gradient(circle at 88% 0,rgba(112,72,232,.08),transparent 24rem),
+    #f7f8fc!important;
+}
+
+.shell > #nutritionScreen.active{
+  display:block!important;
+}
+
+.shell > #nutritionScreen > .nutrition-shell{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  width:100%!important;
+  max-width:1080px!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0 auto!important;
+  padding:0!important;
+}
+
+.shell > #nutritionScreen .nutrition-header{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  min-height:0!important;
+  margin:0 0 12px!important;
+  padding:0!important;
+}
+
+.shell > #nutritionScreen .nutrition-date-card,
+.shell > #nutritionScreen .nutrition-scan-card,
+.shell > #nutritionScreen .nutrition-summary-grid,
+.shell > #nutritionScreen .nutrition-meal-groups{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  margin-top:0!important;
+}
+
+/* More readable grouped food selector. */
+#nutritionEstimateFood{
+  min-height:54px!important;
+  font-weight:700!important;
+  color:#211a35!important;
+  background:#fff!important;
+}
+
+#nutritionEstimateFood optgroup{
+  font-weight:900;
+  color:#6842e8;
+}
+
+#nutritionEstimateFood option{
+  color:#211a35;
+  padding:8px;
+}
+
+/* Guarantee only the selected screen contributes page height. */
+.screen:not(.active),
+.screen[hidden]{
+  display:none!important;
+  height:0!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+
+.screen.active{
+  height:auto!important;
+}
