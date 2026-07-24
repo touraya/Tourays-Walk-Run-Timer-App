@@ -1,0 +1,17 @@
+{
+  "build": "Tourays Fitness V9 Navigation Hotfix 9190",
+  "fixed": [
+    "Burger menu interaction on iPhone browsers",
+    "Header Home button interaction",
+    "Bottom navigation button interaction",
+    "Swipe navigation between visible bottom tabs",
+    "Navigation layer z-index and pointer-event protection",
+    "Invisible fixed overlays blocking taps",
+    "Developer QA launcher hidden from normal users"
+  ],
+  "validation": {
+    "javascript": "passed",
+    "service_worker": "passed",
+    "manifest": "passed"
+  }
+}

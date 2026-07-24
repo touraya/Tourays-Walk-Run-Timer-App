@@ -3443,3 +3443,76 @@ textarea::placeholder{
     bottom:calc(var(--tourays-nav-height) + 18px + env(safe-area-inset-bottom));
   }
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — MOBILE NAVIGATION HOTFIX 9190
+   ========================================================= */
+.tourays-global-header,
+.tourays-bottom-nav,
+.tourays-app-menu,
+.tourays-nav-backdrop{
+  pointer-events:auto!important;
+}
+.tourays-global-header{
+  z-index:12000!important;
+  isolation:isolate;
+}
+.tourays-bottom-nav{
+  z-index:12010!important;
+  isolation:isolate;
+}
+.tourays-app-menu{
+  z-index:12030!important;
+}
+.tourays-nav-backdrop{
+  z-index:12020!important;
+}
+.tourays-header-icon,
+.tourays-bottom-nav button,
+.tourays-menu-grid button{
+  pointer-events:auto!important;
+  touch-action:manipulation;
+  -webkit-user-select:none;
+  user-select:none;
+  cursor:pointer;
+}
+.tourays-header-icon{
+  min-width:44px;
+  min-height:44px;
+}
+.tourays-bottom-nav button{
+  min-height:52px;
+}
+.tourays-bottom-nav button::before{
+  content:"";
+  position:absolute;
+  inset:0;
+}
+.tourays-bottom-nav button{
+  position:relative;
+}
+.tourays-qa-launcher[hidden]{
+  display:none!important;
+}
+
+/* No invisible fixed overlay may block the header or bottom navigation. */
+.network-status[hidden],
+.install-app-banner[hidden],
+.tourays-confirm-dialog[hidden],
+.tourays-qa-panel[hidden],
+.tourays-recovery-banner[hidden],
+.tourays-nav-backdrop[hidden]{
+  display:none!important;
+  pointer-events:none!important;
+}
+
+@media(max-width:560px){
+  .tourays-global-header{
+    padding-left:14px;
+    padding-right:14px;
+  }
+  .tourays-bottom-nav{
+    bottom:max(8px,env(safe-area-inset-bottom));
+  }
+}

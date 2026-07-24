@@ -4831,3 +4831,188 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     if(installBanner?.hidden) forceHide(installBanner);
   });
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — MOBILE NAVIGATION HOTFIX 9190
+   ========================================================= */
+(function(){
+  const routes={
+    home:['home'],
+    workouts:['indoor'],
+    walkrun:['walkRunScreen','run'],
+    planner:['plannerScreen','planner'],
+    progress:['progressScreen','performance'],
+    coach:['coachScreen','coach'],
+    nutrition:['nutritionScreen'],
+    profile:['profileSettingsScreen','profile']
+  };
+
+  const labels={
+    home:['TOURAYS FITNESS','Home'],
+    workouts:['TRAINING','Indoor Workouts'],
+    walkrun:['OUTDOOR ACTIVITY','Walk & Run'],
+    planner:['YOUR WEEK','Workout Planner'],
+    progress:['PERFORMANCE','Progress & Analytics'],
+    coach:['PERSONAL COACH','AI Coach'],
+    nutrition:['DAILY TARGETS','Nutrition'],
+    profile:['YOUR ACCOUNT','Profile & Settings']
+  };
+
+  const menu=document.getElementById('touraysAppMenu');
+  const backdrop=document.getElementById('touraysNavBackdrop');
+  const menuOpen=document.getElementById('touraysMenuOpen');
+  const menuClose=document.getElementById('touraysMenuClose');
+  const headerHome=document.getElementById('touraysHeaderHome');
+  const headerTitle=document.getElementById('touraysHeaderTitle');
+  const headerEyebrow=document.getElementById('touraysHeaderEyebrow');
+  const bottomNav=document.getElementById('touraysBottomNav');
+  let touchStartX=null;
+
+  function targetFor(route){
+    const ids=routes[route]||routes.home;
+    for(const id of ids){
+      const element=document.getElementById(id);
+      if(element) return element;
+    }
+    return document.getElementById('home');
+  }
+
+  function closeMenu(){
+    if(menu){
+      menu.classList.remove('open');
+      menu.setAttribute('aria-hidden','true');
+    }
+    if(backdrop){
+      backdrop.hidden=true;
+      backdrop.setAttribute('aria-hidden','true');
+    }
+    document.body.classList.remove('tourays-menu-open');
+  }
+
+  function openMenu(){
+    if(menu){
+      menu.classList.add('open');
+      menu.setAttribute('aria-hidden','false');
+    }
+    if(backdrop){
+      backdrop.hidden=false;
+      backdrop.setAttribute('aria-hidden','false');
+    }
+    document.body.classList.add('tourays-menu-open');
+  }
+
+  function navigate(route,options={}){
+    if(!routes[route]) route='home';
+    const target=targetFor(route);
+    if(!target) return false;
+
+    document.querySelectorAll('.screen').forEach(screen=>{
+      const active=screen===target;
+      screen.hidden=!active;
+      screen.classList.toggle('active',active);
+      screen.setAttribute('aria-hidden',active?'false':'true');
+      screen.style.removeProperty('display');
+    });
+
+    document.querySelectorAll('[data-tourays-route]').forEach(button=>{
+      const active=button.dataset.touraysRoute===route;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-current',active?'page':'false');
+    });
+
+    const [eyebrow,title]=labels[route];
+    if(headerEyebrow) headerEyebrow.textContent=eyebrow;
+    if(headerTitle) headerTitle.textContent=title;
+    document.title=`Tourays Fitness · ${title}`;
+
+    closeMenu();
+
+    if(!options.noHistory){
+      const nextHash=`#${route}`;
+      if(location.hash!==nextHash){
+        history.pushState({touraysRoute:route},'',nextHash);
+      }
+    }
+
+    window.scrollTo(0,0);
+    window.dispatchEvent(new CustomEvent('touraysRouteChanged',{
+      detail:{route,targetId:target.id}
+    }));
+    return true;
+  }
+
+  function activateRouteControl(event){
+    const button=event.target.closest('[data-tourays-route]');
+    if(!button) return;
+    event.preventDefault();
+    event.stopPropagation();
+    navigate(button.dataset.touraysRoute);
+  }
+
+  // Pointer events are more reliable than click alone in iOS in-app browsers.
+  document.addEventListener('pointerup',activateRouteControl,true);
+  document.addEventListener('click',activateRouteControl,true);
+
+  function handleMenuOpen(event){
+    event.preventDefault();
+    event.stopPropagation();
+    openMenu();
+  }
+
+  function handleMenuClose(event){
+    event.preventDefault();
+    event.stopPropagation();
+    closeMenu();
+  }
+
+  function handleHome(event){
+    event.preventDefault();
+    event.stopPropagation();
+    navigate('home');
+  }
+
+  menuOpen?.addEventListener('pointerup',handleMenuOpen,true);
+  menuOpen?.addEventListener('click',handleMenuOpen,true);
+  menuClose?.addEventListener('pointerup',handleMenuClose,true);
+  menuClose?.addEventListener('click',handleMenuClose,true);
+  backdrop?.addEventListener('pointerup',handleMenuClose,true);
+  headerHome?.addEventListener('pointerup',handleHome,true);
+  headerHome?.addEventListener('click',handleHome,true);
+
+  window.addEventListener('popstate',()=>{
+    navigate(location.hash.replace('#','')||'home',{noHistory:true});
+  });
+
+  // Horizontal swipe on the bottom navigation cycles through the five visible tabs.
+  bottomNav?.addEventListener('touchstart',event=>{
+    touchStartX=event.changedTouches?.[0]?.clientX ?? null;
+  },{passive:true});
+
+  bottomNav?.addEventListener('touchend',event=>{
+    if(touchStartX===null) return;
+    const endX=event.changedTouches?.[0]?.clientX ?? touchStartX;
+    const delta=endX-touchStartX;
+    touchStartX=null;
+    if(Math.abs(delta)<45) return;
+
+    const visibleRoutes=['home','workouts','planner','progress','profile'];
+    const current=(location.hash.replace('#','')||'home');
+    let index=visibleRoutes.indexOf(current);
+    if(index<0) index=0;
+    index += delta<0 ? 1 : -1;
+    index=Math.max(0,Math.min(visibleRoutes.length-1,index));
+    navigate(visibleRoutes[index]);
+  },{passive:true});
+
+  // Hide the developer QA launcher in the normal user interface.
+  const qaLauncher=document.getElementById('touraysQaLauncher');
+  if(qaLauncher) qaLauncher.hidden=true;
+
+  window.touraysNavigate=navigate;
+  window.touraysOpenMenu=openMenu;
+  window.touraysCloseMenu=closeMenu;
+
+  const initial=location.hash.replace('#','');
+  navigate(routes[initial]?initial:'home',{noHistory:true});
+})();
