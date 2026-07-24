@@ -52,6 +52,8 @@ function show(name){
     screen.classList.toggle('active',active);
     screen.hidden=!active;
     screen.setAttribute('aria-hidden',active?'false':'true');
+    screen.style.display=active?'block':'none';
+    if(active)screen.scrollTop=0;
   });
 
   document.querySelectorAll('.tab').forEach(tab=>{
@@ -61,20 +63,14 @@ function show(name){
   });
 
   try{
-    localStorage.setItem('touraysLastScreen',name);
-    history.replaceState({screen:name},'',`#${name}`);
+    localStorage.setItem('touraysCurrentScreenV14',name);
+    sessionStorage.setItem('touraysCurrentScreenV14',name);
+    if(location.hash!==`#${name}`)history.replaceState({screen:name},'',`#${name}`);
   }catch{}
 
-  const resetPosition=()=>{
-    window.scrollTo(0,0);
-    document.documentElement.scrollTop=0;
-    document.body.scrollTop=0;
-    if(target)target.scrollTop=0;
-  };
-  resetPosition();
-  requestAnimationFrame(resetPosition);
-  setTimeout(resetPosition,60);
-  setTimeout(resetPosition,180);
+  window.scrollTo(0,0);
+  document.documentElement.scrollTop=0;
+  document.body.scrollTop=0;
 
   if(name==='mapScreen')setTimeout(()=>{initMap();S.map?.resize()},80);
   if(name==='health')renderHealth();
@@ -4095,129 +4091,67 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
 
 /* =========================================================
-   TOURAYS FITNESS V10 — STAGE 13
-   NUTRITION DOM POSITION + EXACT MENU RESTORATION
+   TOURAYS FITNESS V10 — STAGE 14
+   EXACT MENU REFRESH RESTORATION
    ========================================================= */
 (function(){
-  const STORAGE_KEY='touraysCurrentMenuV13';
+  const KEY='touraysCurrentScreenV14';
 
-  function availableScreens(){
-    return new Set(Array.from(document.querySelectorAll('.screen[id]')).map(s=>s.id));
+  function validRoutes(){
+    return new Set(Array.from(document.querySelectorAll('.screen[id]')).map(x=>x.id));
   }
 
-  function normalizeRoute(route){
-    const valid=availableScreens();
-    return valid.has(route)?route:'home';
-  }
-
-  function remember(route){
-    route=normalizeRoute(route);
-    try{
-      localStorage.setItem(STORAGE_KEY,route);
-      sessionStorage.setItem(STORAGE_KEY,route);
-      history.replaceState({screen:route},'',`#${route}`);
-    }catch{}
-    return route;
-  }
-
-  function savedRoute(){
+  function currentRequestedRoute(){
+    const valid=validRoutes();
+    const initial=window.__touraysInitialScreen||'';
     const hash=location.hash.replace(/^#/,'');
-    const session=sessionStorage.getItem(STORAGE_KEY)||'';
-    const local=localStorage.getItem(STORAGE_KEY)||'';
-    const valid=availableScreens();
+    const session=sessionStorage.getItem(KEY)||'';
+    const local=localStorage.getItem(KEY)||'';
+
+    if(valid.has(initial))return initial;
     if(valid.has(hash))return hash;
     if(valid.has(session))return session;
     if(valid.has(local))return local;
     return 'home';
   }
 
-  function placeNutritionInsideApp(){
-    const nutrition=document.getElementById('nutritionScreen');
-    const shell=document.querySelector('.shell');
-    const nav=shell?.querySelector('nav');
-    if(!nutrition||!shell)return;
-    if(nutrition.parentElement!==shell){
-      if(nav)shell.insertBefore(nutrition,nav);
-      else shell.appendChild(nutrition);
-    }
+  function restoreExactRoute(){
+    const route=currentRequestedRoute();
+    show(route);
   }
 
-  function activate(route){
-    route=remember(route);
-    placeNutritionInsideApp();
-
-    const target=document.getElementById(route)||document.getElementById('home');
-    if(!target)return;
-
-    document.querySelectorAll('.screen[id]').forEach(screen=>{
-      const active=screen===target;
-      screen.classList.toggle('active',active);
-      screen.hidden=!active;
-      screen.setAttribute('aria-hidden',active?'false':'true');
-      screen.style.display=active?'block':'none';
-      if(active)screen.scrollTop=0;
-    });
-
-    document.querySelectorAll('.tab[data-screen]').forEach(tab=>{
-      const active=tab.dataset.screen===route;
-      tab.classList.toggle('active',active);
-      tab.setAttribute('aria-current',active?'page':'false');
-    });
-
-    window.scrollTo(0,0);
-    document.documentElement.scrollTop=0;
-    document.body.scrollTop=0;
-
-    if(route==='health')try{renderHealth()}catch{}
-    if(route==='performance')try{renderPerformance()}catch{}
-    if(route==='home')try{renderHome()}catch{}
-  }
-
-  function routeFromControl(control){
-    if(!control)return '';
-    return control.dataset.screen||control.dataset.go||control.dataset.page||'';
-  }
-
-  // Capture the selected menu before older listeners can alter another screen.
-  ['pointerdown','touchstart','click'].forEach(type=>{
-    document.addEventListener(type,event=>{
-      const control=event.target.closest('.tab[data-screen],[data-go],[data-page]');
-      const route=routeFromControl(control);
-      if(!route||!availableScreens().has(route))return;
-      remember(route);
-      if(type==='click'){
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        activate(route);
-      }
-    },true);
-  });
-
-  function restore(){
-    placeNutritionInsideApp();
-    activate(savedRoute());
-  }
+  // Save only genuine menu/card taps.
+  document.addEventListener('click',event=>{
+    const control=event.target.closest('.tab[data-screen],[data-go]');
+    if(!control)return;
+    const route=control.dataset.screen||control.dataset.go;
+    if(!validRoutes().has(route))return;
+    try{
+      localStorage.setItem(KEY,route);
+      sessionStorage.setItem(KEY,route);
+      history.replaceState({screen:route},'',`#${route}`);
+    }catch{}
+  },true);
 
   if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',restore,{once:true});
+    document.addEventListener('DOMContentLoaded',restoreExactRoute,{once:true});
   }else{
-    restore();
+    restoreExactRoute();
   }
 
-  // Repeat briefly so older startup modules cannot replace the restored menu.
+  // Re-apply after legacy startup code has finished, without changing the saved route.
   window.addEventListener('load',()=>{
-    restore();
-    setTimeout(restore,80);
-    setTimeout(restore,300);
+    restoreExactRoute();
+    setTimeout(restoreExactRoute,50);
+    setTimeout(restoreExactRoute,220);
   },{once:true});
 
-  window.addEventListener('pageshow',restore);
-
-  window.addEventListener('popstate',()=>{
-    const route=normalizeRoute(location.hash.replace(/^#/,''));
-    activate(route);
+  window.addEventListener('pageshow',event=>{
+    if(event.persisted)restoreExactRoute();
   });
 
-  // Keep the public route helper aligned with the stable router.
-  window.touraysActivateScreen=activate;
+  window.addEventListener('popstate',()=>{
+    const route=location.hash.replace(/^#/,'');
+    if(validRoutes().has(route))show(route);
+  });
 })();

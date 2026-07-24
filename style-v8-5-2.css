@@ -4149,3 +4149,164 @@ html{
 body,.shell,#nutritionScreen{
   overflow-anchor:none;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 14 NUTRITION PREMIUM DESIGN
+   ========================================================= */
+
+#nutritionScreen{
+  color:#191629!important;
+}
+
+#nutritionScreen .nutrition-shell{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:14px!important;
+}
+
+#nutritionScreen .nutrition-header{
+  padding:8px 4px 2px!important;
+}
+
+#nutritionScreen .nutrition-header .eyebrow,
+#nutritionScreen .nutrition-section-heading .eyebrow{
+  color:#6842e8!important;
+  letter-spacing:.14em!important;
+  font-weight:900!important;
+}
+
+#nutritionScreen .nutrition-header h1,
+#nutritionScreen .nutrition-section-heading h2{
+  color:#191629!important;
+}
+
+#nutritionScreen .nutrition-header p,
+#nutritionScreen .nutrition-section-heading p{
+  color:#6f7789!important;
+  line-height:1.5!important;
+}
+
+#nutritionScreen .nutrition-date-card,
+#nutritionScreen .nutrition-scan-card,
+#nutritionScreen .nutrition-summary-card,
+#nutritionScreen .nutrition-meal-card,
+#nutritionScreen .nutrition-water-card,
+#nutritionScreen .nutrition-macro-card,
+#nutritionScreen [class*="nutrition-"][class*="-card"]{
+  border:1px solid #e2daef!important;
+  background:
+    radial-gradient(circle at 100% 0,rgba(117,82,238,.09),transparent 42%),
+    linear-gradient(145deg,#ffffff,#f8f6ff)!important;
+  box-shadow:0 12px 30px rgba(59,44,101,.07)!important;
+}
+
+#nutritionScreen .nutrition-date-card{
+  border-radius:22px!important;
+  padding:15px 17px!important;
+}
+
+#nutritionScreen .nutrition-scan-card{
+  border-radius:28px!important;
+  padding:22px!important;
+}
+
+#nutritionScreen .nutrition-scan-action{
+  border:1px dashed #cdbfea!important;
+  background:linear-gradient(145deg,#ffffff,#f3efff)!important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important;
+}
+
+#nutritionScreen .nutrition-scan-action:active{
+  transform:scale(.985)!important;
+  border-color:#8a6ee7!important;
+  box-shadow:0 8px 20px rgba(104,66,232,.11)!important;
+}
+
+#nutritionScreen .nutrition-scan-action>span{
+  width:48px!important;
+  height:48px!important;
+  border-radius:15px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:#eee8ff!important;
+}
+
+#nutritionScreen .nutrition-scan-action strong{
+  color:#211b35!important;
+  font-size:16px!important;
+}
+
+#nutritionScreen .nutrition-scan-action small{
+  color:#70788a!important;
+}
+
+#nutritionScreen .nutrition-beta-chip{
+  background:#e9fff5!important;
+  color:#17825e!important;
+  border:1px solid #bfeeda!important;
+}
+
+#nutritionScreen .nutrition-estimator-grid label>span,
+#nutritionScreen .nutrition-barcode-row,
+#nutritionScreen .nutrition-scan-note{
+  color:#6e7688!important;
+}
+
+#nutritionScreen .nutrition-estimator-grid select,
+#nutritionScreen .nutrition-estimator-grid input,
+#nutritionScreen .nutrition-barcode-row input{
+  border-color:#dcd3e9!important;
+  background:#fff!important;
+  color:#191629!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8)!important;
+}
+
+#nutritionScreen .nutrition-estimate-result div{
+  border:1px solid #ddd3f4!important;
+  background:linear-gradient(145deg,#f5f1ff,#ebe4ff)!important;
+}
+
+#nutritionScreen .nutrition-estimate-result span{
+  color:#6d7485!important;
+  font-weight:700!important;
+}
+
+#nutritionScreen .nutrition-estimate-result strong{
+  color:#4e32b8!important;
+  font-size:15px!important;
+}
+
+#nutritionScreen .nutrition-primary-btn,
+#nutritionScreen button.primary,
+#nutritionScreen .primary-btn{
+  border:none!important;
+  background:linear-gradient(135deg,#6640e6,#8a62f5)!important;
+  color:#fff!important;
+  box-shadow:0 11px 24px rgba(104,66,232,.22)!important;
+}
+
+#nutritionScreen .nutrition-summary-grid{
+  gap:12px!important;
+}
+
+#nutritionScreen .nutrition-summary-grid>article,
+#nutritionScreen .nutrition-summary-grid>div{
+  border:1px solid #e2daef!important;
+  background:#fff!important;
+  box-shadow:0 9px 22px rgba(59,44,101,.05)!important;
+}
+
+#nutritionScreen input:focus,
+#nutritionScreen select:focus,
+#nutritionScreen button:focus-visible{
+  outline:3px solid rgba(104,66,232,.18)!important;
+  outline-offset:2px!important;
+}
+
+/* The first visit in the new route system begins on Home.
+   Later refreshes preserve the exact selected menu. */
+.screen:not(.active),
+.screen[hidden]{
+  display:none!important;
+}
