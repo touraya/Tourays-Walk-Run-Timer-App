@@ -3143,3 +3143,174 @@ body.tourays-dark-theme{
     padding-bottom:max(env(safe-area-inset-bottom),8px);
   }
 }
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 5 COACH LIGHT UI REDESIGN
+   Visual-only repair for the active legacy Coach screen (#coach).
+   No Coach calculations, buttons, routes or workout logic changed.
+   ========================================================= */
+#coach{
+  color:#171426;
+  background:transparent;
+}
+#coach .section-head small,
+#coach .coach-title small,
+#coach .coach-hero small,
+#coach .coach-plan-top small,
+#coach .coach-preferences>small{
+  color:#6b49da!important;
+}
+#coach .section-head h2,
+#coach .coach-title h3,
+#coach .coach-hero h3,
+#coach .coach-plan-top h3,
+#coach .coach-preferences h3{
+  color:#171426!important;
+}
+#coach .coach-chip{
+  background:#eafaf4!important;
+  border-color:#b9ead8!important;
+  color:#187c5e!important;
+  box-shadow:none!important;
+}
+#coach .coach-chip.low{
+  background:#fff1f2!important;
+  border-color:#f3c8cf!important;
+  color:#b43b50!important;
+}
+#coach .coach-hero{
+  border:1px solid #e3dcf1!important;
+  background:linear-gradient(145deg,#ffffff 0%,#f6f2ff 100%)!important;
+  box-shadow:0 13px 32px rgba(62,45,104,.09)!important;
+}
+#coach .coach-hero p{
+  color:#626b7e!important;
+}
+#coach .coach-hero>span{
+  background:#eee8ff!important;
+  color:#5f3dd1!important;
+}
+#coach .coach-score-grid article{
+  border:1px solid #e2dcec!important;
+  background:linear-gradient(145deg,#ffffff,#f7f5fb)!important;
+  box-shadow:0 9px 23px rgba(49,39,82,.07)!important;
+}
+#coach .coach-score-grid span{
+  color:#6d6680!important;
+}
+#coach .coach-score-grid strong{
+  color:#191629!important;
+}
+#coach .coach-score-grid small{
+  color:#747d90!important;
+}
+#coach .coach-plan-card{
+  border:1px solid #ded5f1!important;
+  background:linear-gradient(155deg,#ffffff 0%,#f7f3ff 100%)!important;
+  box-shadow:0 15px 38px rgba(72,48,137,.10)!important;
+}
+#coach .coach-plan-top>span{
+  background:#eee8ff!important;
+  color:#5e3bd0!important;
+}
+#coach .coach-plan-icon{
+  background:#eee8ff!important;
+  color:#5f3dd1!important;
+}
+#coach .coach-plan-body p{
+  color:#626b7e!important;
+}
+#coach .coach-plan-meta span{
+  border:1px solid #e2daf2!important;
+  background:#f4f0fc!important;
+  color:#554b68!important;
+}
+#coach #startCoachPlan{
+  background:linear-gradient(135deg,#6540df,#845df4)!important;
+  color:#fff!important;
+  box-shadow:0 12px 25px rgba(101,64,223,.24)!important;
+}
+#coach .coach-secondary{
+  color:#6744d1!important;
+}
+#coach .coach-title>span{
+  color:#747d90!important;
+}
+#coach .coach-insight{
+  border:1px solid #e3deeb!important;
+  background:#ffffff!important;
+  box-shadow:0 8px 21px rgba(49,39,82,.06)!important;
+}
+#coach .coach-insight>span{
+  background:#f0ebff!important;
+}
+#coach .coach-insight strong{
+  color:#1c182c!important;
+}
+#coach .coach-insight p{
+  color:#667084!important;
+}
+#coach .coach-alt{
+  border:1px solid #e0daea!important;
+  background:linear-gradient(145deg,#ffffff,#f6f3fb)!important;
+  color:#191629!important;
+  box-shadow:0 8px 21px rgba(49,39,82,.06)!important;
+}
+#coach .coach-alt>span{
+  background:#eee9fb!important;
+}
+#coach .coach-alt strong{
+  color:#1b1729!important;
+}
+#coach .coach-alt small{
+  color:#667084!important;
+}
+#coach .coach-alt b{
+  color:#6842df!important;
+}
+#coach .coach-preferences{
+  border:1px solid #e1daec!important;
+  background:#ffffff!important;
+  box-shadow:0 10px 25px rgba(49,39,82,.06)!important;
+}
+#coach #coachGoals button{
+  border:1px solid #ddd6e8!important;
+  background:#f7f5fa!important;
+  color:#5d6577!important;
+}
+#coach #coachGoals button.selected{
+  border-color:#8f75e9!important;
+  background:#eee9ff!important;
+  color:#5634c5!important;
+  box-shadow:0 7px 17px rgba(104,66,232,.11)!important;
+}
+#coach #coachGoals button:active,
+#coach .coach-alt:active,
+#coach #startCoachPlan:active{
+  transform:scale(.985);
+}
+
+/* Preserve a deliberate dark appearance only when the user selects dark mode. */
+.tourays-dark-theme #coach .coach-hero,
+.tourays-dark-theme #coach .coach-score-grid article,
+.tourays-dark-theme #coach .coach-plan-card,
+.tourays-dark-theme #coach .coach-alt,
+.tourays-dark-theme #coach .coach-preferences,
+.tourays-dark-theme #coach .coach-insight{
+  background:#24202e!important;
+  border-color:#3a3347!important;
+  box-shadow:none!important;
+}
+.tourays-dark-theme #coach h2,
+.tourays-dark-theme #coach h3,
+.tourays-dark-theme #coach strong,
+.tourays-dark-theme #coach .coach-alt strong{
+  color:#f7f4ff!important;
+}
+.tourays-dark-theme #coach p,
+.tourays-dark-theme #coach small,
+.tourays-dark-theme #coach .coach-score-grid span,
+.tourays-dark-theme #coach .coach-score-grid small,
+.tourays-dark-theme #coach .coach-alt small{
+  color:#c6bfd1!important;
+}
