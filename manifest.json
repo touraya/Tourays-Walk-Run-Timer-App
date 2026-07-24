@@ -1,7 +1,7 @@
 {
-  "name": "Tourays Fitness V7 Build 9",
+  "name": "Tourays Fitness V7 Build 10",
   "short_name": "Tourays V7",
-  "description": "Premium fitness tracking with Workout Planner, calendar export, profile backups, Smart Goals and AI Coach.",
+  "description": "Premium fitness tracking with Activity Details, GPS Route Replay, workout notes, planner, Smart Goals and AI Coach.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

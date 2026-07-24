@@ -1,20 +1,20 @@
-# Tourays Fitness V7 — Build 9
+# Tourays Fitness V7 — Build 10
 
-## New: Workout Planner
+## New: Activity Details & Route Replay
 
-- Full weekly workout planner
-- Previous, current and next week navigation
-- Daily schedule overview
-- Plan Walk & Run, Recovery Walk, Quick Start, Core Builder and Full Body
-- Custom date, time, duration and workout note
-- Launch planned workouts directly from the schedule
-- Mark planned workouts complete
-- Automatic matching against completed workout history
-- Weekly completion ring
-- Planned versus completed statistics
-- Planned workout time and rest-day count
-- Smart weekly planning tips
-- Export planned workouts as an iCalendar `.ics` file
-- All Build 1–8 features preserved
+- Open a complete detail view for every workout
+- Save GPS routes for new Walk & Run sessions
+- Replay saved routes on an interactive map
+- Start and finish route markers
+- Workout duration, distance, calories, pace and average speed
+- Detailed interval, cycle, set and distance breakdown
+- Personal workout notes
+- Easy, Good and Hard feeling ratings
+- Share workout summaries using the device share sheet
+- Clipboard fallback when device sharing is unavailable
+- Repeat a previous workout with its setup restored
+- Delete workouts from the detail view
+- Automatic IDs for older workout records
+- All Build 1–9 features preserved
 
-Replace every repository file with the files in this ZIP. Fully close and reopen the installed app after publishing.
+Replace every repository file with the files in this ZIP. New GPS routes are saved only for workouts recorded after installing Build 10.

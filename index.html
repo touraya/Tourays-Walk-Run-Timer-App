@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#08111f" name="theme-color"/>
-<title>Tourays Fitness V7 · Build 9</title>
+<title>Tourays Fitness V7 · Build 10</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -613,6 +613,72 @@
     </label>
     <label><span>Note</span><textarea id="plannedWorkoutNote" rows="3" placeholder="Optional reminder or focus"></textarea></label>
     <button class="primary" id="savePlannedWorkout">Save to planner</button>
+  </div>
+</div>
+
+<div class="activity-detail-modal" id="activityDetailModal" hidden>
+  <div class="activity-detail-card">
+    <div class="activity-detail-head">
+      <div>
+        <small>WORKOUT DETAILS</small>
+        <h3 id="activityDetailTitle">Workout</h3>
+        <span id="activityDetailDate">Today</span>
+      </div>
+      <button id="closeActivityDetail">✕</button>
+    </div>
+
+    <article class="activity-detail-hero">
+      <div class="activity-detail-icon" id="activityDetailIcon">🏃</div>
+      <div>
+        <small id="activityDetailCategory">OUTDOOR</small>
+        <strong id="activityDetailDuration">00:00</strong>
+        <span>Total workout time</span>
+      </div>
+      <div class="activity-detail-badge" id="activityDetailBadge">Complete</div>
+    </article>
+
+    <div class="activity-detail-grid">
+      <article><span>DISTANCE</span><strong id="activityDetailDistance">0.00 km</strong><small id="activityDetailDistanceNote">Total</small></article>
+      <article><span>CALORIES</span><strong id="activityDetailCalories">0 kcal</strong><small>Estimated</small></article>
+      <article><span>AVG. PACE</span><strong id="activityDetailPace">--</strong><small>Outdoor pace</small></article>
+      <article><span>SPEED</span><strong id="activityDetailSpeed">--</strong><small>Average</small></article>
+    </div>
+
+    <article class="activity-route-card" id="activityRouteCard">
+      <div class="activity-route-head">
+        <div><small>ROUTE REPLAY</small><h3>Your path</h3></div>
+        <span id="activityRoutePoints">0 GPS points</span>
+      </div>
+      <div id="activityDetailMap"></div>
+      <div class="activity-route-empty" id="activityRouteEmpty">No saved GPS route for this workout.</div>
+    </article>
+
+    <article class="activity-breakdown-card">
+      <div class="activity-route-head">
+        <div><small>WORKOUT BREAKDOWN</small><h3>Session details</h3></div>
+      </div>
+      <div class="activity-breakdown-list" id="activityBreakdownList"></div>
+    </article>
+
+    <article class="activity-note-card">
+      <div class="activity-route-head">
+        <div><small>PERSONAL NOTE</small><h3>How did it feel?</h3></div>
+        <span id="activityNoteStatus">Not saved</span>
+      </div>
+      <textarea id="activityNoteText" rows="3" maxlength="240" placeholder="Add a short note about this workout..."></textarea>
+      <div class="activity-feeling-row" id="activityFeelingRow">
+        <button data-feeling="easy">😊 Easy</button>
+        <button data-feeling="good">💪 Good</button>
+        <button data-feeling="hard">🔥 Hard</button>
+      </div>
+      <button class="activity-save-note" id="saveActivityNote">Save note</button>
+    </article>
+
+    <div class="activity-detail-actions">
+      <button id="shareActivity"><span>↗</span><strong>Share summary</strong></button>
+      <button id="repeatActivity"><span>↻</span><strong>Repeat workout</strong></button>
+      <button id="deleteActivityDetail" class="danger"><span>🗑</span><strong>Delete workout</strong></button>
+    </div>
   </div>
 </div>
 
