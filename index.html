@@ -15,11 +15,11 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V10 · Stage 19</title>
+<title>Tourays Fitness V10 · Stage 20</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10190" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10200" rel="stylesheet"/>
 <meta content="V10-Stage2" name="tf-build"/>
 </head>
 <body>
@@ -1064,537 +1064,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 </div>
 </form>
 </div>
-</section></div>
-<nav><button class="tab active" data-screen="home"><b>⌂</b><small>Home</small></button><button class="tab" data-screen="run"><b>◉</b><small>Run</small></button><button class="tab" data-screen="indoor"><b>◆</b><small>Indoor</small></button><button class="tab" data-screen="nutritionScreen"><b>◉</b><small>Nutrition</small></button><button class="tab" data-screen="health"><b>♥</b><small>Health</small></button><button class="tab" data-screen="planner"><b>🗓️</b><small>Plan</small></button><button class="tab" data-screen="goals"><b>🎯</b><small>Goals</small></button><button class="tab" data-screen="performance"><b>📈</b><small>Analyze</small></button><button class="tab" data-screen="profileSettingsScreen"><b>👤</b><small>Profile</small></button><button class="tab" data-screen="coach"><b>🧠</b><small>Coach</small></button></nav>
-<div class="modal" id="intervalModal"><div class="sheet"><div class="sheet-head"><h2>Change intervals</h2><button class="close" id="closeIntervals">✕</button></div><p>Your time, distance and completed cycles stay unchanged.</p><div class="sheet-row"><strong>Walk</strong><div class="inputs"><label><input id="lwm" type="number"/><small>min</small></label><span>:</span><label><input id="lws" type="number"/><small>sec</small></label></div></div><div class="sheet-row"><strong>Run</strong><div class="inputs"><label><input id="lrm" type="number"/><small>min</small></label><span>:</span><label><input id="lrs" type="number"/><small>sec</small></label></div></div><label class="apply"><input id="applyNow" type="checkbox"/> Apply immediately to current interval</label><button class="primary" id="applyIntervals">Apply changes</button></div></div>
-<div class="modal" id="settingsModal"><div class="settings-sheet"><div class="sheet-head"><h2>Settings</h2><button class="close" id="closeSettings">✕</button></div><label class="setting"><div><strong>GPS tracking</strong><small>Route, distance and navigation</small></div><input checked="" id="gpsToggle" type="checkbox"/></label><div class="divider"></div><label class="setting"><div><strong>Weight</strong><small>Calories and BMI</small></div><div class="weight"><input id="weight" type="number" value="75"/>kg</div></label><div class="divider"></div><label class="setting"><div><strong>Height</strong><small>Used for BMI calculation</small></div><div class="weight"><input id="height" type="number" value="175"/>cm</div></label><div class="divider"></div><label class="setting"><div><strong>Weekly active goal</strong><small>Recommended target you control</small></div><div class="weight"><input id="weeklyGoal" type="number" value="150"/>min</div></label></div></div>
-<div class="modal workout-summary-modal" id="summaryModal">
-<div class="summary-sheet">
-<div class="summary-glow"></div>
-<button aria-label="Close workout summary" class="close summary-close" id="closeSummary">✕</button>
-<div class="summary-celebration">
-<span class="summary-trophy" id="summaryIcon">🏆</span>
-<small>WORKOUT COMPLETE</small>
-<h2 id="summaryTitle">Excellent work!</h2>
-<p id="summarySubtitle">Your workout has been saved.</p>
-</div>
-<div class="summary-metrics">
-<article><span>TIME</span><strong id="summaryTime">00:00</strong></article>
-<article><span>DISTANCE</span><strong id="summaryDistance">0.00 km</strong></article>
-<article><span>CALORIES</span><strong id="summaryCalories">0</strong></article>
-<article><span id="summaryFourthLabel">CYCLES</span><strong id="summaryFourth">0</strong></article>
-</div>
-<div class="summary-achievement" hidden="" id="summaryAchievement">
-<span id="summaryAchievementIcon">🏅</span>
-<div><small>NEW ACHIEVEMENT</small><strong id="summaryAchievementName">First Step</strong></div>
-</div>
-<button class="primary summary-primary" id="summaryDone">Done</button>
-<button class="summary-secondary" id="summaryViewHealth">View health dashboard</button>
-</div>
-</div>
-<div class="toast" id="toast"></div>
-<script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=10190"></script>
-<section class="screen walk-run-screen" hidden="" id="walkRunScreen">
-<div class="wr-shell">
-<header class="wr-header">
-<div>
-<span class="eyebrow">OUTDOOR ACTIVITY</span>
-<h1>Walk &amp; Run</h1>
-<p>Track distance, pace, time and calories in real time.</p>
-</div>
-<button aria-label="Back" class="icon-btn" id="wrBackBtn">←</button>
-</header>
-<div class="wr-mode-tabs" role="tablist">
-<button class="wr-mode active" data-mode="walk" id="openWalkRunBtn">Walk</button>
-<button class="wr-mode" data-mode="run">Run</button>
-</div>
-<section class="wr-map-card">
-<div class="wr-map-canvas" id="wrMapCanvas">
-<div class="wr-grid"></div>
-<svg aria-label="Route preview" id="wrRouteSvg" preserveaspectratio="none" viewbox="0 0 100 100">
-<polyline id="wrRouteLine" points="10,82 20,72 34,75 44,60 58,63 68,45 83,36 91,20"></polyline>
-</svg>
-<div class="wr-map-badge" id="wrGpsState">GPS ready</div>
-<div class="wr-location-dot" id="wrLocationDot"></div>
-</div>
-</section>
-<section class="wr-primary-metric">
-<span id="wrStatusLabel">READY</span>
-<strong id="wrTimer">00:00:00</strong>
-<small>Duration</small>
-</section>
-<section class="wr-metrics-grid">
-<article><span>Distance</span><strong id="wrDistance">0.00</strong><small>km</small></article>
-<article><span>Current pace</span><strong id="wrCurrentPace">--:--</strong><small>min/km</small></article>
-<article><span>Average pace</span><strong id="wrAveragePace">--:--</strong><small>min/km</small></article>
-<article><span>Speed</span><strong id="wrSpeed">0.0</strong><small>km/h</small></article>
-<article><span>Calories</span><strong id="wrCalories">0</strong><small>kcal</small></article>
-<article><span>GPS accuracy</span><strong id="wrAccuracy">--</strong><small>m</small></article>
-</section>
-<section class="wr-controls">
-<button class="wr-main-btn" id="wrStartBtn">Start walk</button>
-<button class="wr-secondary-btn" disabled="" id="wrPauseBtn">Pause</button>
-<button class="wr-danger-btn" disabled="" id="wrFinishBtn">Finish</button>
-</section>
-<section class="wr-history-card">
-<div class="section-heading">
-<div>
-<span class="eyebrow">RECENT ACTIVITIES</span>
-<h2>History</h2>
-</div>
-<button class="text-btn" id="wrClearHistory">Clear</button>
-</div>
-<div class="wr-history-list" id="wrHistoryList"></div>
-</section>
-</div>
-</section>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
-}
-</script>
-<section class="screen planner-screen" hidden="" id="plannerScreen">
-<div class="planner-shell">
-<header class="planner-header">
-<div>
-<span class="eyebrow">WEEKLY TRAINING</span>
-<h1>Workout Planner</h1>
-<p>Build your week, move sessions between days and save reusable plans.</p>
-</div>
-<button aria-label="Back" class="icon-btn" id="plannerBackBtn">←</button>
-</header>
-<section class="planner-toolbar-card">
-<div class="planner-week-nav">
-<button aria-label="Previous week" class="planner-icon-btn" id="plannerPrevWeek">‹</button>
-<div>
-<span id="plannerWeekLabel">This week</span>
-<strong id="plannerWeekRange"></strong>
-</div>
-<button aria-label="Next week" class="planner-icon-btn" id="plannerNextWeek">›</button>
-</div>
-<div class="planner-actions">
-<button class="planner-secondary-action" id="plannerAutoPlan">Auto plan</button>
-<button class="planner-primary-action" id="plannerNewWorkout">+ New workout</button>
-</div>
-</section>
-<section class="planner-week-grid" id="plannerWeekGrid"></section>
-<section class="planner-library-card">
-<div class="section-heading">
-<div>
-<span class="eyebrow">SAVED TEMPLATES</span>
-<h2>Workout Library</h2>
-</div>
-<button class="text-btn" id="plannerResetWeek">Reset week</button>
-</div>
-<div class="planner-template-list" id="plannerTemplateList"></div>
-</section>
-</div>
-<div class="planner-modal" hidden="" id="plannerModal">
-<div class="planner-modal-backdrop" data-close-planner-modal=""></div>
-<form class="planner-modal-card" id="plannerWorkoutForm">
-<header>
-<div>
-<span class="eyebrow">WORKOUT DETAILS</span>
-<h2 id="plannerModalTitle">Create workout</h2>
-</div>
-<button class="planner-close-btn" data-close-planner-modal="" type="button">✕</button>
-</header>
-<input id="plannerEditId" type="hidden"/>
-<label>
-<span>Workout name</span>
-<input id="plannerWorkoutName" maxlength="48" placeholder="Upper Body Strength" required="" type="text"/>
-</label>
-<div class="planner-form-grid">
-<label>
-<span>Day</span>
-<select id="plannerWorkoutDay"></select>
-</label>
-<label>
-<span>Type</span>
-<select id="plannerWorkoutType">
-<option value="Strength">Strength</option>
-<option value="Cardio">Cardio</option>
-<option value="Mobility">Mobility</option>
-<option value="HIIT">HIIT</option>
-<option value="Recovery">Recovery</option>
-<option value="Outdoor">Outdoor</option>
-</select>
-</label>
-<label>
-<span>Duration</span>
-<select id="plannerWorkoutDuration">
-<option value="15">15 min</option>
-<option value="20">20 min</option>
-<option selected="" value="30">30 min</option>
-<option value="45">45 min</option>
-<option value="60">60 min</option>
-<option value="75">75 min</option>
-</select>
-</label>
-<label>
-<span>Intensity</span>
-<select id="plannerWorkoutIntensity">
-<option value="Low">Low</option>
-<option selected="" value="Moderate">Moderate</option>
-<option value="High">High</option>
-</select>
-</label>
-</div>
-<label>
-<span>Notes</span>
-<textarea id="plannerWorkoutNotes" placeholder="Focus, equipment, target muscles..." rows="4"></textarea>
-</label>
-<div class="planner-modal-actions">
-<button class="planner-delete-action" hidden="" id="plannerDeleteWorkout" type="button">Delete</button>
-<button class="planner-cancel-action" data-close-planner-modal="" type="button">Cancel</button>
-<button class="planner-save-action" type="submit">Save workout</button>
-</div>
-</form>
-</div>
-</section>
-<section class="screen progress-screen" hidden="" id="progressScreen">
-<div class="progress-shell">
-<header class="progress-header">
-<div>
-<span class="eyebrow">YOUR RESULTS</span>
-<h1>Progress &amp; Analytics</h1>
-<p>See training consistency, personal records, body progress and weekly trends.</p>
-</div>
-<button aria-label="Back" class="icon-btn" id="progressBackBtn">←</button>
-</header>
-<section class="progress-range-card">
-<div class="progress-range-tabs">
-<button class="progress-range active" data-range="7">7 days</button>
-<button class="progress-range" data-range="30">30 days</button>
-<button class="progress-range" data-range="90">90 days</button>
-<button class="progress-range" data-range="365">Year</button>
-</div>
-<button class="progress-primary-btn" id="progressLogWorkout">+ Log workout</button>
-</section>
-<section class="progress-kpi-grid">
-<article class="progress-kpi-card">
-<span>Workouts</span>
-<strong id="progressWorkoutCount">0</strong>
-<small id="progressWorkoutDelta">No activity yet</small>
-</article>
-<article class="progress-kpi-card">
-<span>Training time</span>
-<strong id="progressTrainingMinutes">0</strong>
-<small>minutes completed</small>
-</article>
-<article class="progress-kpi-card">
-<span>Calories</span>
-<strong id="progressCalories">0</strong>
-<small>estimated kcal</small>
-</article>
-<article class="progress-kpi-card">
-<span>Current streak</span>
-<strong id="progressStreak">0</strong>
-<small>consecutive days</small>
-</article>
-</section>
-<section class="progress-dashboard-grid">
-<article class="progress-panel progress-chart-panel">
-<div class="progress-panel-heading">
-<div>
-<span class="eyebrow">CONSISTENCY</span>
-<h2>Weekly activity</h2>
-</div>
-<span class="progress-panel-chip" id="progressChartSummary">0 min</span>
-</div>
-<div aria-label="Weekly workout minutes chart" class="progress-bar-chart" id="progressBarChart"></div>
-</article>
-<article class="progress-panel progress-ring-panel">
-<div class="progress-panel-heading">
-<div>
-<span class="eyebrow">WEEKLY GOAL</span>
-<h2>Completion</h2>
-</div>
-</div>
-<div class="progress-ring-wrap">
-<div class="progress-goal-ring" id="progressGoalRing">
-<div>
-<strong id="progressGoalPercent">0%</strong>
-<span>completed</span>
-</div>
-</div>
-<div class="progress-goal-copy">
-<strong id="progressGoalText">0 of 4 workouts</strong>
-<span>Complete planned sessions to close your ring.</span>
-</div>
-</div>
-</article>
-<article class="progress-panel progress-records-panel">
-<div class="progress-panel-heading">
-<div>
-<span class="eyebrow">PERSONAL BESTS</span>
-<h2>Records</h2>
-</div>
-</div>
-<div class="progress-records-list" id="progressRecordsList"></div>
-</article>
-<article class="progress-panel progress-body-panel">
-<div class="progress-panel-heading">
-<div>
-<span class="eyebrow">BODY METRICS</span>
-<h2>Weight trend</h2>
-</div>
-<button class="text-btn" id="progressAddMeasurement">Add measurement</button>
-</div>
-<div class="progress-weight-summary">
-<div>
-<strong id="progressCurrentWeight">--</strong>
-<span>Current kg</span>
-</div>
-<div>
-<strong id="progressWeightChange">--</strong>
-<span>Change</span>
-</div>
-</div>
-<div class="progress-line-chart" id="progressLineChart">
-<svg aria-label="Weight progress chart" preserveaspectratio="none" viewbox="0 0 100 50">
-<polyline id="progressWeightLine" points=""></polyline>
-<g id="progressWeightDots"></g>
-</svg>
-</div>
-<div class="progress-measurement-history" id="progressMeasurementHistory"></div>
-</article>
-</section>
-<section class="progress-panel progress-history-panel">
-<div class="progress-panel-heading">
-<div>
-<span class="eyebrow">RECENT TRAINING</span>
-<h2>Activity history</h2>
-</div>
-<button class="text-btn" id="progressClearHistory">Clear history</button>
-</div>
-<div class="progress-history-list" id="progressHistoryList"></div>
-</section>
-</div>
-<div class="planner-modal" hidden="" id="progressWorkoutModal">
-<div class="planner-modal-backdrop" data-close-progress-workout=""></div>
-<form class="planner-modal-card" id="progressWorkoutForm">
-<header>
-<div>
-<span class="eyebrow">MANUAL ENTRY</span>
-<h2>Log completed workout</h2>
-</div>
-<button class="planner-close-btn" data-close-progress-workout="" type="button">✕</button>
-</header>
-<label>
-<span>Workout name</span>
-<input id="progressWorkoutName" maxlength="48" placeholder="Full Body Strength" required=""/>
-</label>
-<div class="planner-form-grid">
-<label>
-<span>Date</span>
-<input id="progressWorkoutDate" required="" type="date"/>
-</label>
-<label>
-<span>Type</span>
-<select id="progressWorkoutType">
-<option>Strength</option>
-<option>Cardio</option>
-<option>HIIT</option>
-<option>Mobility</option>
-<option>Outdoor</option>
-<option>Recovery</option>
-</select>
-</label>
-<label>
-<span>Duration</span>
-<input id="progressWorkoutDuration" max="300" min="1" required="" type="number" value="30"/>
-</label>
-<label>
-<span>Calories</span>
-<input id="progressWorkoutCalories" max="5000" min="0" type="number" value="220"/>
-</label>
-</div>
-<label>
-<span>Notes</span>
-<textarea id="progressWorkoutNotes" placeholder="Optional notes" rows="3"></textarea>
-</label>
-<div class="planner-modal-actions">
-<button class="planner-cancel-action" data-close-progress-workout="" type="button">Cancel</button>
-<button class="planner-save-action" type="submit">Save workout</button>
-</div>
-</form>
-</div>
-<div class="planner-modal" hidden="" id="progressMeasurementModal">
-<div class="planner-modal-backdrop" data-close-progress-measurement=""></div>
-<form class="planner-modal-card" id="progressMeasurementForm">
-<header>
-<div>
-<span class="eyebrow">BODY PROGRESS</span>
-<h2>Add measurement</h2>
-</div>
-<button class="planner-close-btn" data-close-progress-measurement="" type="button">✕</button>
-</header>
-<div class="planner-form-grid">
-<label>
-<span>Date</span>
-<input id="progressMeasurementDate" required="" type="date"/>
-</label>
-<label>
-<span>Weight (kg)</span>
-<input id="progressMeasurementWeight" max="350" min="25" required="" step="0.1" type="number"/>
-</label>
-<label>
-<span>Waist (cm)</span>
-<input id="progressMeasurementWaist" max="250" min="40" step="0.1" type="number"/>
-</label>
-<label>
-<span>Body fat (%)</span>
-<input id="progressMeasurementBodyFat" max="70" min="2" step="0.1" type="number"/>
-</label>
-</div>
-<div class="planner-modal-actions">
-<button class="planner-cancel-action" data-close-progress-measurement="" type="button">Cancel</button>
-<button class="planner-save-action" type="submit">Save measurement</button>
-</div>
-</form>
-</div>
-</section>
-<section class="screen coach-screen" hidden="" id="coachScreen">
-<div class="coach-shell">
-<header class="coach-header">
-<div>
-<span class="eyebrow">PERSONAL GUIDANCE</span>
-<h1>AI Coach</h1>
-<p>Get practical recommendations based on your goal, recent activity and available time.</p>
-</div>
-<button aria-label="Back" class="icon-btn" id="coachBackBtn">←</button>
-</header>
-<section class="coach-hero-card">
-<div class="coach-avatar">T</div>
-<div class="coach-hero-copy">
-<span id="coachGreeting">Your coach is ready</span>
-<h2 id="coachHeadline">Let’s build today’s best session.</h2>
-<p id="coachSummary">Choose your available time and energy level to receive a focused recommendation.</p>
-</div>
-<button class="coach-refresh-btn" id="coachRefreshPlan">Refresh plan</button>
-</section>
-<section class="coach-input-grid">
-<article class="coach-input-card">
-<label for="coachGoal">Primary goal</label>
-<select id="coachGoal">
-<option value="general">General fitness</option>
-<option value="fatloss">Lose body fat</option>
-<option value="muscle">Build muscle</option>
-<option value="endurance">Improve endurance</option>
-<option value="mobility">Improve mobility</option>
-</select>
-</article>
-<article class="coach-input-card">
-<label for="coachTime">Available time</label>
-<select id="coachTime">
-<option value="15">15 minutes</option>
-<option value="20">20 minutes</option>
-<option selected="" value="30">30 minutes</option>
-<option value="45">45 minutes</option>
-<option value="60">60 minutes</option>
-</select>
-</article>
-<article class="coach-input-card">
-<label for="coachEnergy">Energy today</label>
-<select id="coachEnergy">
-<option value="low">Low</option>
-<option selected="" value="medium">Medium</option>
-<option value="high">High</option>
-</select>
-</article>
-<article class="coach-input-card">
-<label for="coachLocation">Training location</label>
-<select id="coachLocation">
-<option value="home">Home</option>
-<option value="gym">Gym</option>
-<option value="outdoor">Outdoor</option>
-<option value="anywhere">Anywhere</option>
-</select>
-</article>
-</section>
-<section class="coach-plan-card">
-<div class="coach-plan-heading">
-<div>
-<span class="eyebrow">TODAY’S RECOMMENDATION</span>
-<h2 id="coachPlanTitle">Balanced Full Body</h2>
-</div>
-<span class="coach-plan-badge" id="coachPlanBadge">30 min</span>
-</div>
-<div class="coach-plan-overview">
-<div>
-<span>Focus</span>
-<strong id="coachPlanFocus">Strength &amp; conditioning</strong>
-</div>
-<div>
-<span>Intensity</span>
-<strong id="coachPlanIntensity">Moderate</strong>
-</div>
-<div>
-<span>Estimated calories</span>
-<strong id="coachPlanCalories">220 kcal</strong>
-</div>
-</div>
-<div class="coach-plan-blocks" id="coachPlanBlocks"></div>
-<div class="coach-plan-actions">
-<button class="coach-secondary-btn" id="coachSaveToPlanner">Save to planner</button>
-<button class="coach-primary-btn" id="coachStartWorkout">Start workout</button>
-</div>
-</section>
-<section class="coach-insights-grid">
-<article class="coach-insight-card">
-<div class="coach-insight-icon">🔥</div>
-<div>
-<span>Consistency insight</span>
-<strong id="coachConsistencyInsight">Complete one session today to build momentum.</strong>
-</div>
-</article>
-<article class="coach-insight-card">
-<div class="coach-insight-icon">💤</div>
-<div>
-<span>Recovery insight</span>
-<strong id="coachRecoveryInsight">Your recent workload supports a moderate session.</strong>
-</div>
-</article>
-<article class="coach-insight-card">
-<div class="coach-insight-icon">🎯</div>
-<div>
-<span>Goal insight</span>
-<strong id="coachGoalInsight">Keep a balanced mix of strength and cardio.</strong>
-</div>
-</article>
-</section>
-<section class="coach-chat-card">
-<div class="coach-chat-heading">
-<div>
-<span class="eyebrow">QUICK COACH</span>
-<h2>Ask for guidance</h2>
-</div>
-</div>
-<div class="coach-chat-messages" id="coachChatMessages">
-<article class="coach-message coach-message-ai">
-<div class="coach-message-avatar">T</div>
-<p>Tell me what you need help with today.</p>
-</article>
-</div>
-<div class="coach-quick-prompts">
-<button data-coach-prompt="I feel tired today">I feel tired</button>
-<button data-coach-prompt="Give me a short workout">Short workout</button>
-<button data-coach-prompt="What should I train next?">What next?</button>
-<button data-coach-prompt="How can I improve consistency?">Consistency</button>
-</div>
-<form class="coach-chat-form" id="coachChatForm">
-<input id="coachChatInput" maxlength="180" placeholder="Ask your coach..." required="" type="text"/>
-<button type="submit">Send</button>
-</form>
-</section>
-</div>
-</section>
-<section class="screen profile-settings-screen" hidden="" id="profileSettingsScreen">
+</section><section class="screen profile-settings-screen" hidden="" id="profileSettingsScreen">
 <div class="profile-settings-shell">
 <header class="profile-settings-header">
 <div>
@@ -2231,6 +1701,536 @@ if ('serviceWorker' in navigator) {
 </div>
 </form>
 </div>
+</section></div>
+<nav><button class="tab active" data-screen="home"><b>⌂</b><small>Home</small></button><button class="tab" data-screen="run"><b>◉</b><small>Run</small></button><button class="tab" data-screen="indoor"><b>◆</b><small>Indoor</small></button><button class="tab" data-screen="nutritionScreen"><b>◉</b><small>Nutrition</small></button><button class="tab" data-screen="health"><b>♥</b><small>Health</small></button><button class="tab" data-screen="planner"><b>🗓️</b><small>Plan</small></button><button class="tab" data-screen="goals"><b>🎯</b><small>Goals</small></button><button class="tab" data-screen="performance"><b>📈</b><small>Analyze</small></button><button class="tab" data-screen="profileSettingsScreen"><b>👤</b><small>Profile</small></button><button class="tab" data-screen="coach"><b>🧠</b><small>Coach</small></button></nav>
+<div class="modal" id="intervalModal"><div class="sheet"><div class="sheet-head"><h2>Change intervals</h2><button class="close" id="closeIntervals">✕</button></div><p>Your time, distance and completed cycles stay unchanged.</p><div class="sheet-row"><strong>Walk</strong><div class="inputs"><label><input id="lwm" type="number"/><small>min</small></label><span>:</span><label><input id="lws" type="number"/><small>sec</small></label></div></div><div class="sheet-row"><strong>Run</strong><div class="inputs"><label><input id="lrm" type="number"/><small>min</small></label><span>:</span><label><input id="lrs" type="number"/><small>sec</small></label></div></div><label class="apply"><input id="applyNow" type="checkbox"/> Apply immediately to current interval</label><button class="primary" id="applyIntervals">Apply changes</button></div></div>
+<div class="modal" id="settingsModal"><div class="settings-sheet"><div class="sheet-head"><h2>Settings</h2><button class="close" id="closeSettings">✕</button></div><label class="setting"><div><strong>GPS tracking</strong><small>Route, distance and navigation</small></div><input checked="" id="gpsToggle" type="checkbox"/></label><div class="divider"></div><label class="setting"><div><strong>Weight</strong><small>Calories and BMI</small></div><div class="weight"><input id="weight" type="number" value="75"/>kg</div></label><div class="divider"></div><label class="setting"><div><strong>Height</strong><small>Used for BMI calculation</small></div><div class="weight"><input id="height" type="number" value="175"/>cm</div></label><div class="divider"></div><label class="setting"><div><strong>Weekly active goal</strong><small>Recommended target you control</small></div><div class="weight"><input id="weeklyGoal" type="number" value="150"/>min</div></label></div></div>
+<div class="modal workout-summary-modal" id="summaryModal">
+<div class="summary-sheet">
+<div class="summary-glow"></div>
+<button aria-label="Close workout summary" class="close summary-close" id="closeSummary">✕</button>
+<div class="summary-celebration">
+<span class="summary-trophy" id="summaryIcon">🏆</span>
+<small>WORKOUT COMPLETE</small>
+<h2 id="summaryTitle">Excellent work!</h2>
+<p id="summarySubtitle">Your workout has been saved.</p>
+</div>
+<div class="summary-metrics">
+<article><span>TIME</span><strong id="summaryTime">00:00</strong></article>
+<article><span>DISTANCE</span><strong id="summaryDistance">0.00 km</strong></article>
+<article><span>CALORIES</span><strong id="summaryCalories">0</strong></article>
+<article><span id="summaryFourthLabel">CYCLES</span><strong id="summaryFourth">0</strong></article>
+</div>
+<div class="summary-achievement" hidden="" id="summaryAchievement">
+<span id="summaryAchievementIcon">🏅</span>
+<div><small>NEW ACHIEVEMENT</small><strong id="summaryAchievementName">First Step</strong></div>
+</div>
+<button class="primary summary-primary" id="summaryDone">Done</button>
+<button class="summary-secondary" id="summaryViewHealth">View health dashboard</button>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script src="app-v8-5-2.js?v=10200"></script>
+<section class="screen walk-run-screen" hidden="" id="walkRunScreen">
+<div class="wr-shell">
+<header class="wr-header">
+<div>
+<span class="eyebrow">OUTDOOR ACTIVITY</span>
+<h1>Walk &amp; Run</h1>
+<p>Track distance, pace, time and calories in real time.</p>
+</div>
+<button aria-label="Back" class="icon-btn" id="wrBackBtn">←</button>
+</header>
+<div class="wr-mode-tabs" role="tablist">
+<button class="wr-mode active" data-mode="walk" id="openWalkRunBtn">Walk</button>
+<button class="wr-mode" data-mode="run">Run</button>
+</div>
+<section class="wr-map-card">
+<div class="wr-map-canvas" id="wrMapCanvas">
+<div class="wr-grid"></div>
+<svg aria-label="Route preview" id="wrRouteSvg" preserveaspectratio="none" viewbox="0 0 100 100">
+<polyline id="wrRouteLine" points="10,82 20,72 34,75 44,60 58,63 68,45 83,36 91,20"></polyline>
+</svg>
+<div class="wr-map-badge" id="wrGpsState">GPS ready</div>
+<div class="wr-location-dot" id="wrLocationDot"></div>
+</div>
 </section>
-<script src="navigation-v19.js?v=10190"></script></body>
+<section class="wr-primary-metric">
+<span id="wrStatusLabel">READY</span>
+<strong id="wrTimer">00:00:00</strong>
+<small>Duration</small>
+</section>
+<section class="wr-metrics-grid">
+<article><span>Distance</span><strong id="wrDistance">0.00</strong><small>km</small></article>
+<article><span>Current pace</span><strong id="wrCurrentPace">--:--</strong><small>min/km</small></article>
+<article><span>Average pace</span><strong id="wrAveragePace">--:--</strong><small>min/km</small></article>
+<article><span>Speed</span><strong id="wrSpeed">0.0</strong><small>km/h</small></article>
+<article><span>Calories</span><strong id="wrCalories">0</strong><small>kcal</small></article>
+<article><span>GPS accuracy</span><strong id="wrAccuracy">--</strong><small>m</small></article>
+</section>
+<section class="wr-controls">
+<button class="wr-main-btn" id="wrStartBtn">Start walk</button>
+<button class="wr-secondary-btn" disabled="" id="wrPauseBtn">Pause</button>
+<button class="wr-danger-btn" disabled="" id="wrFinishBtn">Finish</button>
+</section>
+<section class="wr-history-card">
+<div class="section-heading">
+<div>
+<span class="eyebrow">RECENT ACTIVITIES</span>
+<h2>History</h2>
+</div>
+<button class="text-btn" id="wrClearHistory">Clear</button>
+</div>
+<div class="wr-history-list" id="wrHistoryList"></div>
+</section>
+</div>
+</section>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+<section class="screen planner-screen" hidden="" id="plannerScreen">
+<div class="planner-shell">
+<header class="planner-header">
+<div>
+<span class="eyebrow">WEEKLY TRAINING</span>
+<h1>Workout Planner</h1>
+<p>Build your week, move sessions between days and save reusable plans.</p>
+</div>
+<button aria-label="Back" class="icon-btn" id="plannerBackBtn">←</button>
+</header>
+<section class="planner-toolbar-card">
+<div class="planner-week-nav">
+<button aria-label="Previous week" class="planner-icon-btn" id="plannerPrevWeek">‹</button>
+<div>
+<span id="plannerWeekLabel">This week</span>
+<strong id="plannerWeekRange"></strong>
+</div>
+<button aria-label="Next week" class="planner-icon-btn" id="plannerNextWeek">›</button>
+</div>
+<div class="planner-actions">
+<button class="planner-secondary-action" id="plannerAutoPlan">Auto plan</button>
+<button class="planner-primary-action" id="plannerNewWorkout">+ New workout</button>
+</div>
+</section>
+<section class="planner-week-grid" id="plannerWeekGrid"></section>
+<section class="planner-library-card">
+<div class="section-heading">
+<div>
+<span class="eyebrow">SAVED TEMPLATES</span>
+<h2>Workout Library</h2>
+</div>
+<button class="text-btn" id="plannerResetWeek">Reset week</button>
+</div>
+<div class="planner-template-list" id="plannerTemplateList"></div>
+</section>
+</div>
+<div class="planner-modal" hidden="" id="plannerModal">
+<div class="planner-modal-backdrop" data-close-planner-modal=""></div>
+<form class="planner-modal-card" id="plannerWorkoutForm">
+<header>
+<div>
+<span class="eyebrow">WORKOUT DETAILS</span>
+<h2 id="plannerModalTitle">Create workout</h2>
+</div>
+<button class="planner-close-btn" data-close-planner-modal="" type="button">✕</button>
+</header>
+<input id="plannerEditId" type="hidden"/>
+<label>
+<span>Workout name</span>
+<input id="plannerWorkoutName" maxlength="48" placeholder="Upper Body Strength" required="" type="text"/>
+</label>
+<div class="planner-form-grid">
+<label>
+<span>Day</span>
+<select id="plannerWorkoutDay"></select>
+</label>
+<label>
+<span>Type</span>
+<select id="plannerWorkoutType">
+<option value="Strength">Strength</option>
+<option value="Cardio">Cardio</option>
+<option value="Mobility">Mobility</option>
+<option value="HIIT">HIIT</option>
+<option value="Recovery">Recovery</option>
+<option value="Outdoor">Outdoor</option>
+</select>
+</label>
+<label>
+<span>Duration</span>
+<select id="plannerWorkoutDuration">
+<option value="15">15 min</option>
+<option value="20">20 min</option>
+<option selected="" value="30">30 min</option>
+<option value="45">45 min</option>
+<option value="60">60 min</option>
+<option value="75">75 min</option>
+</select>
+</label>
+<label>
+<span>Intensity</span>
+<select id="plannerWorkoutIntensity">
+<option value="Low">Low</option>
+<option selected="" value="Moderate">Moderate</option>
+<option value="High">High</option>
+</select>
+</label>
+</div>
+<label>
+<span>Notes</span>
+<textarea id="plannerWorkoutNotes" placeholder="Focus, equipment, target muscles..." rows="4"></textarea>
+</label>
+<div class="planner-modal-actions">
+<button class="planner-delete-action" hidden="" id="plannerDeleteWorkout" type="button">Delete</button>
+<button class="planner-cancel-action" data-close-planner-modal="" type="button">Cancel</button>
+<button class="planner-save-action" type="submit">Save workout</button>
+</div>
+</form>
+</div>
+</section>
+<section class="screen progress-screen" hidden="" id="progressScreen">
+<div class="progress-shell">
+<header class="progress-header">
+<div>
+<span class="eyebrow">YOUR RESULTS</span>
+<h1>Progress &amp; Analytics</h1>
+<p>See training consistency, personal records, body progress and weekly trends.</p>
+</div>
+<button aria-label="Back" class="icon-btn" id="progressBackBtn">←</button>
+</header>
+<section class="progress-range-card">
+<div class="progress-range-tabs">
+<button class="progress-range active" data-range="7">7 days</button>
+<button class="progress-range" data-range="30">30 days</button>
+<button class="progress-range" data-range="90">90 days</button>
+<button class="progress-range" data-range="365">Year</button>
+</div>
+<button class="progress-primary-btn" id="progressLogWorkout">+ Log workout</button>
+</section>
+<section class="progress-kpi-grid">
+<article class="progress-kpi-card">
+<span>Workouts</span>
+<strong id="progressWorkoutCount">0</strong>
+<small id="progressWorkoutDelta">No activity yet</small>
+</article>
+<article class="progress-kpi-card">
+<span>Training time</span>
+<strong id="progressTrainingMinutes">0</strong>
+<small>minutes completed</small>
+</article>
+<article class="progress-kpi-card">
+<span>Calories</span>
+<strong id="progressCalories">0</strong>
+<small>estimated kcal</small>
+</article>
+<article class="progress-kpi-card">
+<span>Current streak</span>
+<strong id="progressStreak">0</strong>
+<small>consecutive days</small>
+</article>
+</section>
+<section class="progress-dashboard-grid">
+<article class="progress-panel progress-chart-panel">
+<div class="progress-panel-heading">
+<div>
+<span class="eyebrow">CONSISTENCY</span>
+<h2>Weekly activity</h2>
+</div>
+<span class="progress-panel-chip" id="progressChartSummary">0 min</span>
+</div>
+<div aria-label="Weekly workout minutes chart" class="progress-bar-chart" id="progressBarChart"></div>
+</article>
+<article class="progress-panel progress-ring-panel">
+<div class="progress-panel-heading">
+<div>
+<span class="eyebrow">WEEKLY GOAL</span>
+<h2>Completion</h2>
+</div>
+</div>
+<div class="progress-ring-wrap">
+<div class="progress-goal-ring" id="progressGoalRing">
+<div>
+<strong id="progressGoalPercent">0%</strong>
+<span>completed</span>
+</div>
+</div>
+<div class="progress-goal-copy">
+<strong id="progressGoalText">0 of 4 workouts</strong>
+<span>Complete planned sessions to close your ring.</span>
+</div>
+</div>
+</article>
+<article class="progress-panel progress-records-panel">
+<div class="progress-panel-heading">
+<div>
+<span class="eyebrow">PERSONAL BESTS</span>
+<h2>Records</h2>
+</div>
+</div>
+<div class="progress-records-list" id="progressRecordsList"></div>
+</article>
+<article class="progress-panel progress-body-panel">
+<div class="progress-panel-heading">
+<div>
+<span class="eyebrow">BODY METRICS</span>
+<h2>Weight trend</h2>
+</div>
+<button class="text-btn" id="progressAddMeasurement">Add measurement</button>
+</div>
+<div class="progress-weight-summary">
+<div>
+<strong id="progressCurrentWeight">--</strong>
+<span>Current kg</span>
+</div>
+<div>
+<strong id="progressWeightChange">--</strong>
+<span>Change</span>
+</div>
+</div>
+<div class="progress-line-chart" id="progressLineChart">
+<svg aria-label="Weight progress chart" preserveaspectratio="none" viewbox="0 0 100 50">
+<polyline id="progressWeightLine" points=""></polyline>
+<g id="progressWeightDots"></g>
+</svg>
+</div>
+<div class="progress-measurement-history" id="progressMeasurementHistory"></div>
+</article>
+</section>
+<section class="progress-panel progress-history-panel">
+<div class="progress-panel-heading">
+<div>
+<span class="eyebrow">RECENT TRAINING</span>
+<h2>Activity history</h2>
+</div>
+<button class="text-btn" id="progressClearHistory">Clear history</button>
+</div>
+<div class="progress-history-list" id="progressHistoryList"></div>
+</section>
+</div>
+<div class="planner-modal" hidden="" id="progressWorkoutModal">
+<div class="planner-modal-backdrop" data-close-progress-workout=""></div>
+<form class="planner-modal-card" id="progressWorkoutForm">
+<header>
+<div>
+<span class="eyebrow">MANUAL ENTRY</span>
+<h2>Log completed workout</h2>
+</div>
+<button class="planner-close-btn" data-close-progress-workout="" type="button">✕</button>
+</header>
+<label>
+<span>Workout name</span>
+<input id="progressWorkoutName" maxlength="48" placeholder="Full Body Strength" required=""/>
+</label>
+<div class="planner-form-grid">
+<label>
+<span>Date</span>
+<input id="progressWorkoutDate" required="" type="date"/>
+</label>
+<label>
+<span>Type</span>
+<select id="progressWorkoutType">
+<option>Strength</option>
+<option>Cardio</option>
+<option>HIIT</option>
+<option>Mobility</option>
+<option>Outdoor</option>
+<option>Recovery</option>
+</select>
+</label>
+<label>
+<span>Duration</span>
+<input id="progressWorkoutDuration" max="300" min="1" required="" type="number" value="30"/>
+</label>
+<label>
+<span>Calories</span>
+<input id="progressWorkoutCalories" max="5000" min="0" type="number" value="220"/>
+</label>
+</div>
+<label>
+<span>Notes</span>
+<textarea id="progressWorkoutNotes" placeholder="Optional notes" rows="3"></textarea>
+</label>
+<div class="planner-modal-actions">
+<button class="planner-cancel-action" data-close-progress-workout="" type="button">Cancel</button>
+<button class="planner-save-action" type="submit">Save workout</button>
+</div>
+</form>
+</div>
+<div class="planner-modal" hidden="" id="progressMeasurementModal">
+<div class="planner-modal-backdrop" data-close-progress-measurement=""></div>
+<form class="planner-modal-card" id="progressMeasurementForm">
+<header>
+<div>
+<span class="eyebrow">BODY PROGRESS</span>
+<h2>Add measurement</h2>
+</div>
+<button class="planner-close-btn" data-close-progress-measurement="" type="button">✕</button>
+</header>
+<div class="planner-form-grid">
+<label>
+<span>Date</span>
+<input id="progressMeasurementDate" required="" type="date"/>
+</label>
+<label>
+<span>Weight (kg)</span>
+<input id="progressMeasurementWeight" max="350" min="25" required="" step="0.1" type="number"/>
+</label>
+<label>
+<span>Waist (cm)</span>
+<input id="progressMeasurementWaist" max="250" min="40" step="0.1" type="number"/>
+</label>
+<label>
+<span>Body fat (%)</span>
+<input id="progressMeasurementBodyFat" max="70" min="2" step="0.1" type="number"/>
+</label>
+</div>
+<div class="planner-modal-actions">
+<button class="planner-cancel-action" data-close-progress-measurement="" type="button">Cancel</button>
+<button class="planner-save-action" type="submit">Save measurement</button>
+</div>
+</form>
+</div>
+</section>
+<section class="screen coach-screen" hidden="" id="coachScreen">
+<div class="coach-shell">
+<header class="coach-header">
+<div>
+<span class="eyebrow">PERSONAL GUIDANCE</span>
+<h1>AI Coach</h1>
+<p>Get practical recommendations based on your goal, recent activity and available time.</p>
+</div>
+<button aria-label="Back" class="icon-btn" id="coachBackBtn">←</button>
+</header>
+<section class="coach-hero-card">
+<div class="coach-avatar">T</div>
+<div class="coach-hero-copy">
+<span id="coachGreeting">Your coach is ready</span>
+<h2 id="coachHeadline">Let’s build today’s best session.</h2>
+<p id="coachSummary">Choose your available time and energy level to receive a focused recommendation.</p>
+</div>
+<button class="coach-refresh-btn" id="coachRefreshPlan">Refresh plan</button>
+</section>
+<section class="coach-input-grid">
+<article class="coach-input-card">
+<label for="coachGoal">Primary goal</label>
+<select id="coachGoal">
+<option value="general">General fitness</option>
+<option value="fatloss">Lose body fat</option>
+<option value="muscle">Build muscle</option>
+<option value="endurance">Improve endurance</option>
+<option value="mobility">Improve mobility</option>
+</select>
+</article>
+<article class="coach-input-card">
+<label for="coachTime">Available time</label>
+<select id="coachTime">
+<option value="15">15 minutes</option>
+<option value="20">20 minutes</option>
+<option selected="" value="30">30 minutes</option>
+<option value="45">45 minutes</option>
+<option value="60">60 minutes</option>
+</select>
+</article>
+<article class="coach-input-card">
+<label for="coachEnergy">Energy today</label>
+<select id="coachEnergy">
+<option value="low">Low</option>
+<option selected="" value="medium">Medium</option>
+<option value="high">High</option>
+</select>
+</article>
+<article class="coach-input-card">
+<label for="coachLocation">Training location</label>
+<select id="coachLocation">
+<option value="home">Home</option>
+<option value="gym">Gym</option>
+<option value="outdoor">Outdoor</option>
+<option value="anywhere">Anywhere</option>
+</select>
+</article>
+</section>
+<section class="coach-plan-card">
+<div class="coach-plan-heading">
+<div>
+<span class="eyebrow">TODAY’S RECOMMENDATION</span>
+<h2 id="coachPlanTitle">Balanced Full Body</h2>
+</div>
+<span class="coach-plan-badge" id="coachPlanBadge">30 min</span>
+</div>
+<div class="coach-plan-overview">
+<div>
+<span>Focus</span>
+<strong id="coachPlanFocus">Strength &amp; conditioning</strong>
+</div>
+<div>
+<span>Intensity</span>
+<strong id="coachPlanIntensity">Moderate</strong>
+</div>
+<div>
+<span>Estimated calories</span>
+<strong id="coachPlanCalories">220 kcal</strong>
+</div>
+</div>
+<div class="coach-plan-blocks" id="coachPlanBlocks"></div>
+<div class="coach-plan-actions">
+<button class="coach-secondary-btn" id="coachSaveToPlanner">Save to planner</button>
+<button class="coach-primary-btn" id="coachStartWorkout">Start workout</button>
+</div>
+</section>
+<section class="coach-insights-grid">
+<article class="coach-insight-card">
+<div class="coach-insight-icon">🔥</div>
+<div>
+<span>Consistency insight</span>
+<strong id="coachConsistencyInsight">Complete one session today to build momentum.</strong>
+</div>
+</article>
+<article class="coach-insight-card">
+<div class="coach-insight-icon">💤</div>
+<div>
+<span>Recovery insight</span>
+<strong id="coachRecoveryInsight">Your recent workload supports a moderate session.</strong>
+</div>
+</article>
+<article class="coach-insight-card">
+<div class="coach-insight-icon">🎯</div>
+<div>
+<span>Goal insight</span>
+<strong id="coachGoalInsight">Keep a balanced mix of strength and cardio.</strong>
+</div>
+</article>
+</section>
+<section class="coach-chat-card">
+<div class="coach-chat-heading">
+<div>
+<span class="eyebrow">QUICK COACH</span>
+<h2>Ask for guidance</h2>
+</div>
+</div>
+<div class="coach-chat-messages" id="coachChatMessages">
+<article class="coach-message coach-message-ai">
+<div class="coach-message-avatar">T</div>
+<p>Tell me what you need help with today.</p>
+</article>
+</div>
+<div class="coach-quick-prompts">
+<button data-coach-prompt="I feel tired today">I feel tired</button>
+<button data-coach-prompt="Give me a short workout">Short workout</button>
+<button data-coach-prompt="What should I train next?">What next?</button>
+<button data-coach-prompt="How can I improve consistency?">Consistency</button>
+</div>
+<form class="coach-chat-form" id="coachChatForm">
+<input id="coachChatInput" maxlength="180" placeholder="Ask your coach..." required="" type="text"/>
+<button type="submit">Send</button>
+</form>
+</section>
+</div>
+</section>
+
+<script src="navigation-v20.js?v=10200"></script></body>
 </html>

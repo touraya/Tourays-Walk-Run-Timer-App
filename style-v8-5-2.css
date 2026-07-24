@@ -4557,3 +4557,78 @@ html{
   height:0!important;
   overflow:hidden!important;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 20
+   PROFILE EMPTY-SPACE POSITION FIX
+   ========================================================= */
+
+/* Profile is now physically inside .shell, directly before the bottom nav. */
+.shell > #profileSettingsScreen{
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:10px 14px calc(120px + env(safe-area-inset-bottom))!important;
+  transform:none!important;
+  overflow:visible!important;
+  background:#f7f8fc!important;
+}
+
+.shell > #profileSettingsScreen.active{
+  display:block!important;
+}
+
+.shell > #profileSettingsScreen > .profile-settings-shell{
+  display:block!important;
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  max-width:1040px!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0 auto!important;
+  padding:0!important;
+  transform:none!important;
+  overflow:visible!important;
+}
+
+.shell > #profileSettingsScreen .profile-settings-header,
+.shell > #profileSettingsScreen .profile-overview-card,
+.shell > #profileSettingsScreen .profile-completion-card,
+.shell > #profileSettingsScreen .profile-settings-tabs,
+.shell > #profileSettingsScreen .profile-settings-form{
+  position:relative!important;
+  inset:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  margin-top:0!important;
+  transform:none!important;
+}
+
+.shell > #profileSettingsScreen .profile-settings-header{
+  display:flex!important;
+}
+
+.shell > #profileSettingsScreen .profile-settings-tabs{
+  position:relative!important;
+  z-index:1!important;
+  margin:0 0 14px!important;
+}
+
+/* Remove any legacy viewport-sized spacer inherited by the old Profile overlay. */
+#profileSettingsScreen,
+#profileSettingsScreen .profile-settings-shell{
+  max-height:none!important;
+}
+
+#profileSettingsScreen::before,
+#profileSettingsScreen::after,
+#profileSettingsScreen .profile-settings-shell::before,
+#profileSettingsScreen .profile-settings-shell::after{
+  display:none!important;
+  content:none!important;
+}
