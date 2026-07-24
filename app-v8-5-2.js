@@ -1261,3 +1261,359 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   });
   window.addEventListener('pagehide',saveAutosave);
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — WORKOUT PLANNER
+   ========================================================= */
+(function(){
+  const screen = document.getElementById('plannerScreen');
+  if(!screen) return;
+
+  const dayNames = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const shortDays = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+  const typeIcons = {
+    Strength:'🏋️', Cardio:'❤️', Mobility:'🧘', HIIT:'⚡',
+    Recovery:'🌿', Outdoor:'🏃'
+  };
+
+  const $ = id => document.getElementById(id);
+  const refs = {
+    back:$('plannerBackBtn'),
+    prev:$('plannerPrevWeek'),
+    next:$('plannerNextWeek'),
+    weekLabel:$('plannerWeekLabel'),
+    weekRange:$('plannerWeekRange'),
+    weekGrid:$('plannerWeekGrid'),
+    auto:$('plannerAutoPlan'),
+    create:$('plannerNewWorkout'),
+    reset:$('plannerResetWeek'),
+    templates:$('plannerTemplateList'),
+    modal:$('plannerModal'),
+    form:$('plannerWorkoutForm'),
+    title:$('plannerModalTitle'),
+    editId:$('plannerEditId'),
+    name:$('plannerWorkoutName'),
+    day:$('plannerWorkoutDay'),
+    type:$('plannerWorkoutType'),
+    duration:$('plannerWorkoutDuration'),
+    intensity:$('plannerWorkoutIntensity'),
+    notes:$('plannerWorkoutNotes'),
+    deleteBtn:$('plannerDeleteWorkout')
+  };
+
+  const storageKey = 'touraysWorkoutPlannerV1';
+  const templateKey = 'touraysWorkoutTemplatesV1';
+  let weekOffset = 0;
+  let draggedId = null;
+
+  function mondayOf(date){
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    d.setDate(diff);
+    d.setHours(0,0,0,0);
+    return d;
+  }
+
+  function addDays(date,days){
+    const d = new Date(date);
+    d.setDate(d.getDate()+days);
+    return d;
+  }
+
+  function weekStart(){
+    return addDays(mondayOf(new Date()),weekOffset*7);
+  }
+
+  function weekKey(){
+    return weekStart().toISOString().slice(0,10);
+  }
+
+  function defaultWeek(){
+    return [
+      {id:cryptoId(),day:0,name:'Upper Body Strength',type:'Strength',duration:35,intensity:'Moderate',notes:'Push, pull and core.'},
+      {id:cryptoId(),day:1,name:'Outdoor Walk',type:'Outdoor',duration:30,intensity:'Low',notes:'Comfortable recovery pace.'},
+      {id:cryptoId(),day:2,name:'Lower Body Strength',type:'Strength',duration:40,intensity:'Moderate',notes:'Squats, lunges and glutes.'},
+      {id:cryptoId(),day:3,name:'Mobility Flow',type:'Mobility',duration:20,intensity:'Low',notes:'Hips, shoulders and back.'},
+      {id:cryptoId(),day:4,name:'Full Body HIIT',type:'HIIT',duration:25,intensity:'High',notes:'Short intervals with full-body movements.'},
+      {id:cryptoId(),day:5,name:'Easy Run',type:'Outdoor',duration:30,intensity:'Moderate',notes:'Steady conversational pace.'},
+      {id:cryptoId(),day:6,name:'Rest Day',type:'Recovery',duration:15,intensity:'Low',notes:'Light stretching and recovery.'}
+    ];
+  }
+
+  function cryptoId(){
+    return 'w_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);
+  }
+
+  function loadAll(){
+    return JSON.parse(localStorage.getItem(storageKey)||'{}');
+  }
+
+  function saveAll(data){
+    localStorage.setItem(storageKey,JSON.stringify(data));
+  }
+
+  function loadWeek(){
+    const all = loadAll();
+    if(!all[weekKey()]){
+      all[weekKey()] = weekOffset===0 ? defaultWeek() : [];
+      saveAll(all);
+    }
+    return all[weekKey()];
+  }
+
+  function saveWeek(items){
+    const all=loadAll();
+    all[weekKey()]=items;
+    saveAll(all);
+  }
+
+  function loadTemplates(){
+    const saved=JSON.parse(localStorage.getItem(templateKey)||'null');
+    if(saved) return saved;
+    const defaults=[
+      {id:'tpl_strength',name:'Full Body Strength',type:'Strength',duration:45,intensity:'Moderate',notes:'Balanced strength session.'},
+      {id:'tpl_hiit',name:'Quick HIIT',type:'HIIT',duration:20,intensity:'High',notes:'Fast full-body conditioning.'},
+      {id:'tpl_mobility',name:'Mobility Reset',type:'Mobility',duration:15,intensity:'Low',notes:'Gentle range-of-motion work.'},
+      {id:'tpl_walk',name:'Brisk Walk',type:'Outdoor',duration:30,intensity:'Moderate',notes:'Purposeful outdoor walk.'}
+    ];
+    localStorage.setItem(templateKey,JSON.stringify(defaults));
+    return defaults;
+  }
+
+  function formatRange(){
+    const start=weekStart();
+    const end=addDays(start,6);
+    const options={month:'short',day:'numeric'};
+    refs.weekRange.textContent=`${start.toLocaleDateString(undefined,options)} – ${end.toLocaleDateString(undefined,{...options,year:'numeric'})}`;
+    refs.weekLabel.textContent=weekOffset===0?'This week':weekOffset===1?'Next week':weekOffset===-1?'Last week':`Week ${weekOffset>0?'+'+weekOffset:weekOffset}`;
+  }
+
+  function itemMarkup(item){
+    return `<article class="planner-workout-card" draggable="true" data-id="${item.id}">
+      <div class="planner-workout-icon">${typeIcons[item.type]||'🏋️'}</div>
+      <div class="planner-workout-copy">
+        <strong>${escapeHtml(item.name)}</strong>
+        <span>${escapeHtml(item.type)} · ${item.duration} min · ${escapeHtml(item.intensity)}</span>
+      </div>
+      <button type="button" class="planner-card-menu" data-edit-id="${item.id}" aria-label="Edit workout">•••</button>
+    </article>`;
+  }
+
+  function renderWeek(){
+    formatRange();
+    const items=loadWeek();
+    refs.weekGrid.innerHTML=dayNames.map((day,index)=>{
+      const date=addDays(weekStart(),index);
+      const dayItems=items.filter(item=>item.day===index);
+      return `<section class="planner-day-column" data-day="${index}">
+        <header>
+          <div>
+            <span>${shortDays[index]}</span>
+            <strong>${date.getDate()}</strong>
+          </div>
+          <button type="button" data-add-day="${index}" aria-label="Add workout">+</button>
+        </header>
+        <div class="planner-day-dropzone" data-day="${index}">
+          ${dayItems.length?dayItems.map(itemMarkup).join(''):'<div class="planner-empty-day">Rest or add workout</div>'}
+        </div>
+      </section>`;
+    }).join('');
+
+    bindWeekEvents();
+  }
+
+  function bindWeekEvents(){
+    refs.weekGrid.querySelectorAll('[data-add-day]').forEach(btn=>{
+      btn.addEventListener('click',()=>openModal(null,Number(btn.dataset.addDay)));
+    });
+
+    refs.weekGrid.querySelectorAll('[data-edit-id]').forEach(btn=>{
+      btn.addEventListener('click',()=>openModal(btn.dataset.editId));
+    });
+
+    refs.weekGrid.querySelectorAll('.planner-workout-card').forEach(card=>{
+      card.addEventListener('dragstart',()=>{
+        draggedId=card.dataset.id;
+        card.classList.add('is-dragging');
+      });
+      card.addEventListener('dragend',()=>{
+        draggedId=null;
+        card.classList.remove('is-dragging');
+      });
+    });
+
+    refs.weekGrid.querySelectorAll('.planner-day-dropzone').forEach(zone=>{
+      zone.addEventListener('dragover',event=>{
+        event.preventDefault();
+        zone.classList.add('is-drag-over');
+      });
+      zone.addEventListener('dragleave',()=>zone.classList.remove('is-drag-over'));
+      zone.addEventListener('drop',event=>{
+        event.preventDefault();
+        zone.classList.remove('is-drag-over');
+        if(!draggedId) return;
+        const items=loadWeek();
+        const item=items.find(x=>x.id===draggedId);
+        if(item){
+          item.day=Number(zone.dataset.day);
+          saveWeek(items);
+          renderWeek();
+        }
+      });
+    });
+  }
+
+  function renderTemplates(){
+    const templates=loadTemplates();
+    refs.templates.innerHTML=templates.map(t=>`
+      <article class="planner-template-card">
+        <div class="planner-template-icon">${typeIcons[t.type]||'🏋️'}</div>
+        <div>
+          <strong>${escapeHtml(t.name)}</strong>
+          <span>${escapeHtml(t.type)} · ${t.duration} min</span>
+        </div>
+        <button type="button" data-use-template="${t.id}">Add</button>
+      </article>
+    `).join('');
+
+    refs.templates.querySelectorAll('[data-use-template]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const template=templates.find(t=>t.id===btn.dataset.useTemplate);
+        if(template) openModal({...template,id:''},0);
+      });
+    });
+  }
+
+  function escapeHtml(value){
+    return String(value??'').replace(/[&<>"']/g,ch=>({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+    })[ch]);
+  }
+
+  function populateDays(){
+    refs.day.innerHTML=dayNames.map((name,i)=>`<option value="${i}">${name}</option>`).join('');
+  }
+
+  function openModal(itemOrId=null,forcedDay=null){
+    const items=loadWeek();
+    let item=null;
+
+    if(typeof itemOrId==='string' && itemOrId){
+      item=items.find(x=>x.id===itemOrId)||null;
+    }else if(itemOrId && typeof itemOrId==='object'){
+      item=itemOrId;
+    }
+
+    refs.form.reset();
+    refs.editId.value=item?.id||'';
+    refs.name.value=item?.name||'';
+    refs.day.value=String(forcedDay ?? item?.day ?? 0);
+    refs.type.value=item?.type||'Strength';
+    refs.duration.value=String(item?.duration||30);
+    refs.intensity.value=item?.intensity||'Moderate';
+    refs.notes.value=item?.notes||'';
+    refs.title.textContent=item?.id?'Edit workout':'Create workout';
+    refs.deleteBtn.hidden=!item?.id;
+    refs.modal.hidden=false;
+    document.body.classList.add('planner-modal-open');
+    setTimeout(()=>refs.name.focus(),50);
+  }
+
+  function closeModal(){
+    refs.modal.hidden=true;
+    document.body.classList.remove('planner-modal-open');
+  }
+
+  refs.form.addEventListener('submit',event=>{
+    event.preventDefault();
+    const items=loadWeek();
+    const id=refs.editId.value;
+    const workout={
+      id:id||cryptoId(),
+      day:Number(refs.day.value),
+      name:refs.name.value.trim(),
+      type:refs.type.value,
+      duration:Number(refs.duration.value),
+      intensity:refs.intensity.value,
+      notes:refs.notes.value.trim()
+    };
+
+    if(id){
+      const index=items.findIndex(x=>x.id===id);
+      if(index>=0) items[index]=workout;
+    }else{
+      items.push(workout);
+    }
+
+    saveWeek(items);
+    closeModal();
+    renderWeek();
+  });
+
+  refs.deleteBtn.addEventListener('click',()=>{
+    const id=refs.editId.value;
+    if(!id) return;
+    saveWeek(loadWeek().filter(x=>x.id!==id));
+    closeModal();
+    renderWeek();
+  });
+
+  document.querySelectorAll('[data-close-planner-modal]').forEach(el=>{
+    el.addEventListener('click',closeModal);
+  });
+
+  refs.prev.addEventListener('click',()=>{weekOffset--;renderWeek();});
+  refs.next.addEventListener('click',()=>{weekOffset++;renderWeek();});
+  refs.create.addEventListener('click',()=>openModal());
+  refs.reset.addEventListener('click',()=>{
+    const all=loadAll();
+    delete all[weekKey()];
+    saveAll(all);
+    renderWeek();
+  });
+
+  refs.auto.addEventListener('click',()=>{
+    const plan=[
+      {id:cryptoId(),day:0,name:'Full Body Strength',type:'Strength',duration:40,intensity:'Moderate',notes:'Compound movements and core.'},
+      {id:cryptoId(),day:1,name:'Brisk Walk',type:'Outdoor',duration:30,intensity:'Moderate',notes:'Steady outdoor pace.'},
+      {id:cryptoId(),day:2,name:'Mobility & Core',type:'Mobility',duration:25,intensity:'Low',notes:'Mobility, stability and posture.'},
+      {id:cryptoId(),day:3,name:'Upper Body Strength',type:'Strength',duration:35,intensity:'Moderate',notes:'Push and pull emphasis.'},
+      {id:cryptoId(),day:4,name:'Interval Cardio',type:'HIIT',duration:20,intensity:'High',notes:'Short work and recovery intervals.'},
+      {id:cryptoId(),day:5,name:'Lower Body Strength',type:'Strength',duration:40,intensity:'Moderate',notes:'Legs, glutes and balance.'},
+      {id:cryptoId(),day:6,name:'Recovery Day',type:'Recovery',duration:15,intensity:'Low',notes:'Gentle stretching and rest.'}
+    ];
+    saveWeek(plan);
+    renderWeek();
+  });
+
+  refs.back.addEventListener('click',()=>{
+    screen.hidden=true;
+    const home=document.querySelector('.screen:not(#plannerScreen):not(#walkRunScreen)');
+    if(home) home.hidden=false;
+  });
+
+  function openPlanner(){
+    document.querySelectorAll('.screen').forEach(s=>s.hidden=true);
+    screen.hidden=false;
+    window.scrollTo({top:0,behavior:'smooth'});
+    renderWeek();
+    renderTemplates();
+  }
+
+  document.addEventListener('click',event=>{
+    const el=event.target.closest('button,a,[data-screen],[data-page]');
+    if(!el || el.closest('#plannerScreen')) return;
+    const text=(el.textContent||'').trim().toLowerCase();
+    const target=((el.dataset&&(`${el.dataset.screen||''} ${el.dataset.page||''}`))||'').toLowerCase();
+    if(text.includes('planner') || text.includes('plan workout') || target.includes('planner')){
+      event.preventDefault();
+      openPlanner();
+    }
+  });
+
+  populateDays();
+  renderWeek();
+  renderTemplates();
+})();

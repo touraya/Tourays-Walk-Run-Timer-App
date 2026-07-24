@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · PWA Offline Build</title>
+<title>Tourays Fitness V9 · Workout Planner Build</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9040" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9050" rel="stylesheet"/>
 </head>
 <body>
 
@@ -921,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9040"></script>
+<script src="app-v8-5-2.js?v=9050"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -992,6 +992,120 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+
+<section id="plannerScreen" class="screen planner-screen" hidden>
+  <div class="planner-shell">
+    <header class="planner-header">
+      <div>
+        <span class="eyebrow">WEEKLY TRAINING</span>
+        <h1>Workout Planner</h1>
+        <p>Build your week, move sessions between days and save reusable plans.</p>
+      </div>
+      <button id="plannerBackBtn" class="icon-btn" aria-label="Back">←</button>
+    </header>
+
+    <section class="planner-toolbar-card">
+      <div class="planner-week-nav">
+        <button id="plannerPrevWeek" class="planner-icon-btn" aria-label="Previous week">‹</button>
+        <div>
+          <span id="plannerWeekLabel">This week</span>
+          <strong id="plannerWeekRange"></strong>
+        </div>
+        <button id="plannerNextWeek" class="planner-icon-btn" aria-label="Next week">›</button>
+      </div>
+
+      <div class="planner-actions">
+        <button id="plannerAutoPlan" class="planner-secondary-action">Auto plan</button>
+        <button id="plannerNewWorkout" class="planner-primary-action">+ New workout</button>
+      </div>
+    </section>
+
+    <section id="plannerWeekGrid" class="planner-week-grid"></section>
+
+    <section class="planner-library-card">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">SAVED TEMPLATES</span>
+          <h2>Workout Library</h2>
+        </div>
+        <button id="plannerResetWeek" class="text-btn">Reset week</button>
+      </div>
+      <div id="plannerTemplateList" class="planner-template-list"></div>
+    </section>
+  </div>
+
+  <div id="plannerModal" class="planner-modal" hidden>
+    <div class="planner-modal-backdrop" data-close-planner-modal></div>
+    <form id="plannerWorkoutForm" class="planner-modal-card">
+      <header>
+        <div>
+          <span class="eyebrow">WORKOUT DETAILS</span>
+          <h2 id="plannerModalTitle">Create workout</h2>
+        </div>
+        <button type="button" class="planner-close-btn" data-close-planner-modal>✕</button>
+      </header>
+
+      <input id="plannerEditId" type="hidden">
+
+      <label>
+        <span>Workout name</span>
+        <input id="plannerWorkoutName" type="text" placeholder="Upper Body Strength" required maxlength="48">
+      </label>
+
+      <div class="planner-form-grid">
+        <label>
+          <span>Day</span>
+          <select id="plannerWorkoutDay"></select>
+        </label>
+
+        <label>
+          <span>Type</span>
+          <select id="plannerWorkoutType">
+            <option value="Strength">Strength</option>
+            <option value="Cardio">Cardio</option>
+            <option value="Mobility">Mobility</option>
+            <option value="HIIT">HIIT</option>
+            <option value="Recovery">Recovery</option>
+            <option value="Outdoor">Outdoor</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Duration</span>
+          <select id="plannerWorkoutDuration">
+            <option value="15">15 min</option>
+            <option value="20">20 min</option>
+            <option value="30" selected>30 min</option>
+            <option value="45">45 min</option>
+            <option value="60">60 min</option>
+            <option value="75">75 min</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Intensity</span>
+          <select id="plannerWorkoutIntensity">
+            <option value="Low">Low</option>
+            <option value="Moderate" selected>Moderate</option>
+            <option value="High">High</option>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        <span>Notes</span>
+        <textarea id="plannerWorkoutNotes" rows="4" placeholder="Focus, equipment, target muscles..."></textarea>
+      </label>
+
+      <div class="planner-modal-actions">
+        <button type="button" id="plannerDeleteWorkout" class="planner-delete-action" hidden>Delete</button>
+        <button type="button" class="planner-cancel-action" data-close-planner-modal>Cancel</button>
+        <button type="submit" class="planner-save-action">Save workout</button>
+      </div>
+    </form>
+  </div>
+</section>
 
 </body>
 </html>

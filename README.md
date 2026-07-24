@@ -1,5 +1,14 @@
-Tourays Fitness V9 — PWA Offline Build
+Tourays Fitness V9 — Workout Planner Build
 
-Added installable PWA support, offline app shell caching, online/offline status, install prompt, automatic settings persistence and safe background saving.
+Added a complete weekly workout planner with:
+- Monday to Sunday planning
+- Week navigation
+- Create, edit and delete workouts
+- Drag and drop workouts between days
+- Auto-generated weekly plan
+- Rest and recovery days
+- Saved workout templates
+- Local persistence for every week
+- Responsive mobile and desktop UI
 
 Upload every file in this ZIP and overwrite the existing files.
