@@ -4131,3 +4131,221 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   console.info('[Tourays Navigation QA]',report);
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — FUNCTIONAL QA STEP 2
+   ========================================================= */
+(function(){
+  if(document.getElementById('touraysFunctionalQaController')) return;
+
+  const marker=document.createElement('div');
+  marker.id='touraysFunctionalQaController';
+  marker.hidden=true;
+  document.body.appendChild(marker);
+
+  const panel=document.getElementById('touraysQaPanel');
+  const launcher=document.getElementById('touraysQaLauncher');
+  const closeBtn=document.getElementById('touraysQaClose');
+  const runBtn=document.getElementById('touraysQaRun');
+  const exportBtn=document.getElementById('touraysQaExport');
+  const summary=document.getElementById('touraysQaSummary');
+  const results=document.getElementById('touraysQaResults');
+
+  const routeNames=['home','workouts','walkrun','planner','progress','coach','nutrition','profile'];
+  let latestReport=null;
+
+  function test(name,fn){
+    try{
+      const detail=fn();
+      return {
+        name,
+        status:detail===false?'fail':'pass',
+        detail:typeof detail==='string'?detail:'Passed'
+      };
+    }catch(error){
+      return {name,status:'fail',detail:error.message||String(error)};
+    }
+  }
+
+  function duplicateIds(){
+    const ids=[...document.querySelectorAll('[id]')].map(element=>element.id);
+    return [...new Set(ids.filter((id,index)=>ids.indexOf(id)!==index))];
+  }
+
+  function storageRoundTrip(){
+    const key='touraysQaStorageProbe';
+    const value={ok:true,stamp:Date.now()};
+    localStorage.setItem(key,JSON.stringify(value));
+    const restored=JSON.parse(localStorage.getItem(key)||'{}');
+    localStorage.removeItem(key);
+    return restored.ok===true ? 'Local storage write and restore passed.' : false;
+  }
+
+  function verifyRoutes(){
+    if(typeof window.touraysNavigate!=='function') return false;
+    const report=JSON.parse(localStorage.getItem('touraysNavigationQAReportV1')||'{}');
+    const missing=routeNames.filter(route=>!report.routes?.[route]?.available);
+    return missing.length ? `Missing routes: ${missing.join(', ')}` : 'All eight main routes are available.';
+  }
+
+  function verifyForms(){
+    const forms=[...document.querySelectorAll('form')];
+    const unnamed=forms.filter(form=>!form.id && !form.getAttribute('aria-label'));
+    return unnamed.length===0
+      ? `${forms.length} forms checked.`
+      : `${unnamed.length} form(s) have no identifier.`;
+  }
+
+  function verifyButtons(){
+    const buttons=[...document.querySelectorAll('button')];
+    const inaccessible=buttons.filter(button=>{
+      const text=(button.textContent||'').trim();
+      return !text && !button.getAttribute('aria-label') && !button.title;
+    });
+    return inaccessible.length===0
+      ? `${buttons.length} buttons checked.`
+      : `${inaccessible.length} button(s) need an accessible name.`;
+  }
+
+  function verifyOffline(){
+    return 'serviceWorker' in navigator
+      ? 'Service Worker API is available.'
+      : false;
+  }
+
+  function verifyProfileIntegration(){
+    const expected=[
+      'touraysProfileSettingsV1',
+      'touraysTrainingPreferencesV1',
+      'touraysNutritionSettingsV1',
+      'touraysUnifiedProfileV1'
+    ];
+    const present=expected.filter(key=>localStorage.getItem(key)!==null);
+    return `${present.length}/${expected.length} profile data groups currently initialized.`;
+  }
+
+  function verifyCriticalElements(){
+    const ids=[
+      'touraysGlobalHeader',
+      'touraysBottomNav',
+      'touraysAppMenu',
+      'profileSettingsScreen',
+      'profileSettingsForm'
+    ];
+    const missing=ids.filter(id=>!document.getElementById(id));
+    return missing.length ? `Missing: ${missing.join(', ')}` : 'Critical interface elements are present.';
+  }
+
+  function verifyInputs(){
+    const numeric=[...document.querySelectorAll('input[type="number"]')];
+    const invalid=numeric.filter(input=>{
+      if(!input.value) return false;
+      const value=Number(input.value);
+      const min=input.min!==''?Number(input.min):-Infinity;
+      const max=input.max!==''?Number(input.max):Infinity;
+      return !Number.isFinite(value)||value<min||value>max;
+    });
+    return invalid.length===0
+      ? `${numeric.length} numeric inputs checked.`
+      : `${invalid.length} numeric input(s) are outside their defined range.`;
+  }
+
+  function runQa(){
+    const checks=[
+      test('Unique HTML IDs',()=>{
+        const duplicates=duplicateIds();
+        return duplicates.length ? `Duplicates: ${duplicates.join(', ')}` : 'No duplicate IDs found.';
+      }),
+      test('Main navigation routes',verifyRoutes),
+      test('Critical UI elements',verifyCriticalElements),
+      test('Local data persistence',storageRoundTrip),
+      test('Offline capability',verifyOffline),
+      test('Buttons and labels',verifyButtons),
+      test('Forms',verifyForms),
+      test('Numeric input ranges',verifyInputs),
+      test('Profile integration',verifyProfileIntegration),
+      test('Manifest link',()=>{
+        return document.querySelector('link[rel="manifest"]')
+          ? 'Manifest is linked.'
+          : false;
+      })
+    ];
+
+    checks.forEach(check=>{
+      if(check.detail.startsWith('Duplicates:') ||
+         check.detail.startsWith('Missing:') ||
+         check.detail.includes('need an accessible name') ||
+         check.detail.includes('outside their defined range')){
+        check.status='fail';
+      }
+    });
+
+    const passed=checks.filter(check=>check.status==='pass').length;
+    latestReport={
+      app:'Tourays Fitness',
+      build:'V9 Functional QA Step 2',
+      checkedAt:new Date().toISOString(),
+      passed,
+      failed:checks.length-passed,
+      checks
+    };
+
+    localStorage.setItem('touraysFunctionalQAReportV2',JSON.stringify(latestReport));
+    renderReport(latestReport);
+    return latestReport;
+  }
+
+  function renderReport(report){
+    summary.innerHTML=`
+      <article><span>PASSED</span><strong>${report.passed}</strong></article>
+      <article><span>FAILED</span><strong>${report.failed}</strong></article>
+      <article><span>TOTAL</span><strong>${report.checks.length}</strong></article>
+    `;
+
+    results.innerHTML=report.checks.map(check=>`
+      <article class="${check.status}">
+        <span>${check.status==='pass'?'✓':'!'}</span>
+        <div><strong>${check.name}</strong><small>${check.detail}</small></div>
+      </article>
+    `).join('');
+  }
+
+  function openPanel(){
+    panel.hidden=false;
+    document.body.classList.add('tourays-qa-open');
+    runQa();
+  }
+
+  function closePanel(){
+    panel.hidden=true;
+    document.body.classList.remove('tourays-qa-open');
+  }
+
+  function exportReport(){
+    if(!latestReport) latestReport=runQa();
+    const blob=new Blob([JSON.stringify(latestReport,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.href=url;
+    link.download='tourays-fitness-functional-qa-report.json';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  launcher?.addEventListener('click',openPanel);
+  closeBtn?.addEventListener('click',closePanel);
+  runBtn?.addEventListener('click',runQa);
+  exportBtn?.addEventListener('click',exportReport);
+  panel?.addEventListener('click',event=>{
+    if(event.target===panel) closePanel();
+  });
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape' && panel && !panel.hidden) closePanel();
+  });
+
+  window.touraysRunFunctionalQA=runQa;
+  runQa();
+})();

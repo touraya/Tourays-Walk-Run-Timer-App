@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Navigation QA Step 1</title>
+<title>Tourays Fitness V9 · Functional QA Step 2</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9150" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9160" rel="stylesheet"/>
 </head>
 <body>
 
@@ -544,18 +544,18 @@
   </div>
 <article class="screen-intro-strip coach-strip"><span>🧠</span><div><strong>Your coach is ready</strong><small>Recommendations adapt to recent activity.</small></div></article>
   <article class="coach-hero">
-    <div><small>TODAY'S GUIDANCE</small><h3 id="coachHeadline">Your plan is ready</h3><p id="coachMessage">Recommendations adapt to your recent activity, recovery time and weekly goal.</p></div>
+    <div><small>TODAY'S GUIDANCE</small><h3 id="coachLegacyHeadline">Your plan is ready</h3><p id="coachMessage">Recommendations adapt to your recent activity, recovery time and weekly goal.</p></div>
     <span id="coachHeroIcon">🧠</span>
   </article>
   <div class="coach-score-grid">
     <article><span>READINESS</span><strong id="coachReadiness">75</strong><small>/ 100</small></article>
     <article><span>TRAINING LOAD</span><strong id="coachLoad">Balanced</strong><small id="coachLoadNote">Last 7 days</small></article>
     <article><span>RECOVERY</span><strong id="coachRecovery">Good</strong><small id="coachRecoveryNote">Activity based</small></article>
-    <article><span>WEEKLY GOAL</span><strong id="coachGoal">0%</strong><small id="coachGoalNote">Active minutes</small></article>
+    <article><span>WEEKLY GOAL</span><strong id="coachGoalProgress">0%</strong><small id="coachGoalNote">Active minutes</small></article>
   </div>
   <article class="coach-plan-card">
-    <div class="coach-plan-top"><div><small>RECOMMENDED TODAY</small><h3 id="coachPlanName">Balanced Walk &amp; Run</h3></div><span id="coachPlanBadge">30 min</span></div>
-    <div class="coach-plan-body"><div class="coach-plan-icon" id="coachPlanIcon">🏃</div><div><p id="coachPlanReason">A moderate session matches your current activity.</p><div class="coach-plan-meta"><span id="coachPlanIntensity">Moderate</span><span id="coachPlanType">Outdoor</span><span id="coachPlanCalories">≈ 240 kcal</span></div></div></div>
+    <div class="coach-plan-top"><div><small>RECOMMENDED TODAY</small><h3 id="coachPlanName">Balanced Walk &amp; Run</h3></div><span id="coachLegacyPlanBadge">30 min</span></div>
+    <div class="coach-plan-body"><div class="coach-plan-icon" id="coachPlanIcon">🏃</div><div><p id="coachPlanReason">A moderate session matches your current activity.</p><div class="coach-plan-meta"><span id="coachLegacyPlanIntensity">Moderate</span><span id="coachPlanType">Outdoor</span><span id="coachLegacyPlanCalories">≈ 240 kcal</span></div></div></div>
     <button class="primary" id="startCoachPlan">Start recommended workout</button>
     <button class="coach-secondary" id="refreshCoach">Refresh recommendation</button>
   </article>
@@ -629,7 +629,7 @@
     <article><span>TOTAL WORKOUTS</span><strong id="profileWorkoutCount">0</strong><small>All time</small></article>
     <article><span>ACTIVE TIME</span><strong id="profileActiveTime">0 min</strong><small>All time</small></article>
     <article><span>DISTANCE</span><strong id="profileDistance">0 km</strong><small>Outdoor</small></article>
-    <article><span>FITNESS LEVEL</span><strong id="profileFitnessLevel">Starter</strong><small id="profileXpValue">0 XP</small></article>
+    <article><span>FITNESS LEVEL</span><strong id="profileLegacyFitnessLevel">Starter</strong><small id="profileXpValue">0 XP</small></article>
   </div>
 
   <article class="profile-card" id="profileFormCard">
@@ -657,11 +657,11 @@
       </label>
       <label>
         <span>Height</span>
-        <div class="profile-input-unit"><input id="profileHeight" type="number" min="120" max="230" placeholder="175"/><b>cm</b></div>
+        <div class="profile-input-unit"><input id="profileLegacyHeight" type="number" min="120" max="230" placeholder="175"/><b>cm</b></div>
       </label>
       <label>
         <span>Weight</span>
-        <div class="profile-input-unit"><input id="profileWeight" type="number" min="30" max="250" placeholder="75"/><b>kg</b></div>
+        <div class="profile-input-unit"><input id="profileLegacyWeight" type="number" min="30" max="250" placeholder="75"/><b>kg</b></div>
       </label>
       <label class="profile-wide">
         <span>Primary fitness goal</span>
@@ -752,9 +752,9 @@
   </article>
 
   <div class="planner-week-nav">
-    <button id="plannerPrevWeek">‹</button>
-    <div><strong id="plannerWeekLabel">This week</strong><small id="plannerWeekDates"></small></div>
-    <button id="plannerNextWeek">›</button>
+    <button id="plannerLegacyPrevWeek">‹</button>
+    <div><strong id="plannerLegacyWeekLabel">This week</strong><small id="plannerWeekDates"></small></div>
+    <button id="plannerLegacyNextWeek">›</button>
   </div>
 
   <div class="planner-days" id="plannerDays"></div>
@@ -786,10 +786,10 @@
   <button class="planner-export-button" id="exportPlannerCalendar">Export week to calendar</button>
 </section>
 
-<div class="planner-modal" id="plannerModal" hidden>
+<div class="planner-modal" id="plannerLegacyModal" hidden>
   <div class="planner-modal-card">
     <div class="planner-modal-head">
-      <div><small>PLAN A WORKOUT</small><h3 id="plannerModalTitle">Add workout</h3></div>
+      <div><small>PLAN A WORKOUT</small><h3 id="plannerLegacyModalTitle">Add workout</h3></div>
       <button id="closePlannerModal">✕</button>
     </div>
     <label>
@@ -962,7 +962,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9150"></script>
+<script src="app-v8-5-2.js?v=9160"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -2428,6 +2428,29 @@ if ('serviceWorker' in navigator) {
     </form>
   </div>
 </section>
+
+
+<section id="touraysQaPanel" class="tourays-qa-panel" hidden>
+  <div class="tourays-qa-card">
+    <header>
+      <div>
+        <small>FUNCTIONAL QA</small>
+        <h2>App health check</h2>
+      </div>
+      <button id="touraysQaClose" type="button" aria-label="Close QA panel">✕</button>
+    </header>
+
+    <div id="touraysQaSummary" class="tourays-qa-summary"></div>
+    <div id="touraysQaResults" class="tourays-qa-results"></div>
+
+    <footer>
+      <button id="touraysQaRun" type="button">Run checks again</button>
+      <button id="touraysQaExport" type="button" class="secondary">Export report</button>
+    </footer>
+  </div>
+</section>
+
+<button id="touraysQaLauncher" class="tourays-qa-launcher" type="button" aria-label="Open app QA">QA</button>
 
 </body>
 </html>

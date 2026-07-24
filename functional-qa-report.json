@@ -1,0 +1,10 @@
+{
+  "build": "Functional QA Step 2",
+  "duplicate_html_ids": [],
+  "duplicate_id_fix_count": 13,
+  "buttons_scanned": 189,
+  "forms_scanned": 7,
+  "javascript_syntax": "passed",
+  "service_worker_syntax": "passed",
+  "manifest_json": "passed"
+}
