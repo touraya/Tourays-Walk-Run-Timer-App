@@ -13,3 +13,70 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 nav{position:fixed;left:50%;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(5,1fr);width:min(100%,550px);padding:7px 5px calc(7px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:rgba(7,17,31,.95);backdrop-filter:blur(18px);transform:translateX(-50%)}.tab{display:grid;place-items:center;gap:2px;min-height:52px;border:0;background:transparent;color:#758399}.tab b{font-size:1.04rem}.tab small{font-size:.57rem}.tab.active{color:#d8d3ff}
 .modal{position:fixed;inset:0;z-index:40;display:none;align-items:flex-end;padding:14px;background:rgba(0,0,0,.68)}.modal.open{display:flex}.sheet,.settings-sheet{width:min(100%,520px);margin:auto;padding:19px;border-radius:24px;background:#111c30}.sheet{border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.65)}.sheet-head{display:flex;align-items:center;justify-content:space-between}.sheet-head h2{margin:0}.close{width:39px;height:39px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.05);color:white}.sheet>p{color:var(--muted);font-size:.79rem}.sheet-row{display:flex;align-items:center;justify-content:space-between;margin:13px 0}.apply{display:flex;gap:8px;margin:15px 0;color:#cbd2df;font-size:.78rem}.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 0}.setting strong,.setting small{display:block}.setting small{margin-top:3px;color:var(--muted);font-size:.67rem}.weight{display:flex;align-items:center;gap:4px;color:var(--muted)}.weight input{width:62px;height:39px;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.14);color:white;text-align:center}.toast{position:fixed;left:15px;right:15px;bottom:86px;z-index:50;max-width:500px;margin:auto;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(4,11,21,.96);text-align:center;font-weight:700;opacity:0;transform:translateY(14px);transition:.22s;pointer-events:none}.toast.show{opacity:1;transform:none}
 @media(max-width:390px){.shell{padding-left:11px;padding-right:11px}.ring-box{min-height:270px}.ring-box svg{width:207px;height:207px}.ring-content strong{font-size:3.3rem}#map{height:390px}.demo{height:225px}}
+
+
+/* ===== TOURAYS FITNESS V7 · PREMIUM HOME ===== */
+.home-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin:2px 0 16px}
+.eyebrow,.home-section-title small,.challenge-card small{display:block;color:var(--accent);font-size:.62rem;font-weight:900;letter-spacing:.16em}
+.home-intro h2{margin:5px 0 4px;font-size:1.65rem;letter-spacing:-.035em}
+.home-intro p{margin:0;color:var(--muted);font-size:.76rem}
+.streak-pill{display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.05);box-shadow:0 12px 28px rgba(0,0,0,.2)}
+.streak-pill>span{font-size:1.35rem}
+.streak-pill strong,.streak-pill small{display:block}
+.streak-pill strong{font-size:1.05rem}
+.streak-pill small{color:var(--muted);font-size:.56rem}
+
+.v7-activity-card{display:grid;grid-template-columns:145px 1fr;align-items:center;gap:8px;padding:15px;border:1px solid rgba(141,124,255,.28);border-radius:27px;background:
+radial-gradient(circle at 12% 8%,rgba(141,124,255,.24),transparent 45%),
+linear-gradient(145deg,rgba(23,36,60,.98),rgba(12,24,42,.96));box-shadow:0 24px 60px rgba(0,0,0,.35);overflow:hidden}
+.v7-ring-wrap{position:relative;width:132px;height:132px}
+.v7-ring{width:132px;height:132px;transform:rotate(-90deg);filter:drop-shadow(0 10px 22px rgba(141,124,255,.23))}
+.v7-ring circle{stroke-width:13}
+.v7-ring-track{stroke:rgba(255,255,255,.075)}
+.v7-ring-value{stroke:url(#none);stroke:#8d7cff;stroke-linecap:round;stroke-dasharray:339.292;stroke-dashoffset:339.292;transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1)}
+.v7-ring-center{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.v7-ring-center strong{font-size:1.7rem;letter-spacing:-.05em}
+.v7-ring-center small{color:var(--muted);font-size:.56rem}
+.v7-activity-copy>span{color:var(--muted);font-size:.67rem}
+.v7-activity-copy>strong{display:block;margin-top:4px;font-size:1.78rem;letter-spacing:-.04em}
+.v7-activity-copy>strong b{font-size:inherit}
+.v7-activity-copy p{min-height:34px;margin:6px 0 10px;color:var(--muted);font-size:.7rem;line-height:1.35}
+.mini-action{min-height:37px;padding:0 14px;border:0;border-radius:12px;background:linear-gradient(135deg,#7c72ff,#a36fff);color:white;font-size:.72rem;font-weight:800;box-shadow:0 10px 23px rgba(141,124,255,.25)}
+
+.today-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.today-stats article{padding:12px;border:1px solid var(--line);border-radius:18px;background:rgba(17,28,48,.86);box-shadow:0 12px 30px rgba(0,0,0,.18)}
+.today-stats small,.today-stats strong{display:block}
+.today-stats small{margin-top:8px;color:var(--muted);font-size:.58rem}
+.today-stats strong{margin-top:2px;font-size:.91rem}
+.stat-icon{display:grid;place-items:center;width:31px;height:31px;border-radius:10px;font-size:.95rem}
+.walk-soft{background:rgba(66,213,161,.13)}.fire-soft{background:rgba(255,123,101,.14)}.blue-soft{background:rgba(81,168,255,.14);color:#8fc7ff}
+
+.home-section-title{display:flex;align-items:flex-end;justify-content:space-between;margin:20px 1px 10px}
+.home-section-title h3{margin:4px 0 0;font-size:1.12rem}
+.text-action{padding:4px 0;border:0;background:none;color:#bcb5ff;font-size:.68rem;font-weight:800}
+.v7-home-grid{grid-template-columns:1fr;gap:8px;margin-top:0}
+.v7-home-grid .home-tile{position:relative;display:grid;grid-template-columns:48px 1fr 20px;align-items:center;gap:11px;min-height:76px;padding:13px 14px;border-radius:20px;background:linear-gradient(135deg,rgba(17,28,48,.98),rgba(14,26,44,.94));overflow:hidden;transition:transform .18s ease,border-color .18s ease}
+.v7-home-grid .home-tile:active{transform:scale(.985)}
+.v7-home-grid .home-tile:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--tile-color,#8d7cff)}
+.tile-run{--tile-color:#42d5a1}.tile-indoor{--tile-color:#8d7cff}.tile-map{--tile-color:#51a8ff}.tile-health{--tile-color:#ff7b65}
+.tile-icon{display:grid;place-items:center;width:45px;height:45px;border-radius:15px;background:rgba(255,255,255,.055);font-size:1.35rem}
+.v7-home-grid .home-tile div{min-width:0}
+.v7-home-grid .home-tile strong{margin:0;font-size:.94rem}
+.v7-home-grid .home-tile small{margin-top:4px;font-size:.66rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile-arrow{color:#70809a;font-size:1.55rem;font-weight:400}
+
+.challenge-card{display:grid;grid-template-columns:45px 1fr 30px;align-items:center;gap:11px;margin-top:10px;padding:14px;border:1px solid rgba(255,255,255,.09);border-radius:21px;background:linear-gradient(135deg,rgba(255,174,66,.1),rgba(17,28,48,.94))}
+.challenge-icon{display:grid;place-items:center;width:43px;height:43px;border-radius:14px;background:rgba(255,174,66,.12);font-size:1.2rem}
+.challenge-card strong{display:block;margin-top:4px;font-size:.86rem}
+.challenge-card p{margin:3px 0 0;color:var(--muted);font-size:.63rem;line-height:1.35}
+.challenge-check{display:grid;place-items:center;width:27px;height:27px;border:1px solid rgba(255,255,255,.13);border-radius:50%;color:#8794a9;font-size:1rem}
+.challenge-card.done .challenge-check{border-color:rgba(66,213,161,.45);background:rgba(66,213,161,.14);color:var(--walk)}
+.challenge-card.done{border-color:rgba(66,213,161,.22)}
+
+.screen.active{animation:v7ScreenIn .26s ease both}
+@keyframes v7ScreenIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(max-width:390px){
+  .v7-activity-card{grid-template-columns:126px 1fr;padding:12px}
+  .v7-ring-wrap,.v7-ring{width:118px;height:118px}
+  .v7-activity-copy>strong{font-size:1.52rem}
+}

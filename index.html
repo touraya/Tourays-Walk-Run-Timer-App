@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-<meta content="#07111f" name="theme-color"/>
-<title>Tourays Fitness</title>
+<meta content="#08111f" name="theme-color"/>
+<title>Tourays Fitness V7</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -13,15 +13,82 @@
 </head>
 <body>
 <div class="shell">
-<header><div class="brand"><small>TOURAYS FITNESS</small><h1>Train your way</h1></div><div class="head-actions"><button class="icon-btn" id="settingsBtn">⚙️</button><button class="icon-btn" id="soundBtn">🔊</button></div></header>
+<header><div class="brand"><small>TOURAYS FITNESS · V7</small><h1>Train your way</h1></div><div class="head-actions"><button class="icon-btn" id="settingsBtn">⚙️</button><button class="icon-btn" id="soundBtn">🔊</button></div></header>
 <section class="screen active" id="home">
-<article class="hero"><div class="hero-visual"><b>🏃</b><i></i><b>❤️</b></div><h2>Move. Train. Improve.</h2><p>Run outdoors, exercise at home, navigate your route and follow your health progress.</p></article>
-<div class="home-grid">
-<button class="home-tile" data-go="run"><span>🏃</span><strong>Walk &amp; Run</strong><small>Intervals with GPS</small></button>
-<button class="home-tile" data-go="indoor"><span>💪</span><strong>Indoor</strong><small>Animated form guides</small></button>
-<button class="home-tile" data-go="mapScreen"><span>🗺️</span><strong>Navigation</strong><small>Modern live map</small></button>
-<button class="home-tile" data-go="health"><span>❤️</span><strong>Health</strong><small>Activity and progress</small></button>
-</div>
+  <div class="home-intro">
+    <div>
+      <small class="eyebrow">TODAY'S ACTIVITY</small>
+      <h2 id="homeGreeting">Ready to move?</h2>
+      <p id="homeDate">Your progress starts here.</p>
+    </div>
+    <div class="streak-pill" aria-label="Current workout streak">
+      <span>🔥</span>
+      <div><strong id="homeStreak">0</strong><small>day streak</small></div>
+    </div>
+  </div>
+
+  <article class="v7-activity-card">
+    <div class="v7-ring-wrap">
+      <svg class="v7-ring" viewBox="0 0 140 140" aria-label="Weekly goal progress">
+        <circle class="v7-ring-track" cx="70" cy="70" r="54"></circle>
+        <circle class="v7-ring-value" id="homeGoalRing" cx="70" cy="70" r="54"></circle>
+      </svg>
+      <div class="v7-ring-center">
+        <strong id="homeGoalPercent">0%</strong>
+        <small>weekly goal</small>
+      </div>
+    </div>
+    <div class="v7-activity-copy">
+      <span>Active minutes</span>
+      <strong><b id="homeActiveMinutes">0</b> min</strong>
+      <p id="homeGoalMessage">Start your first workout this week.</p>
+      <button class="mini-action" data-go="run">Start workout</button>
+    </div>
+  </article>
+
+  <div class="today-stats">
+    <article><span class="stat-icon walk-soft">👣</span><small>Workouts</small><strong id="homeWorkouts">0</strong></article>
+    <article><span class="stat-icon fire-soft">🔥</span><small>Calories</small><strong id="homeCalories">0</strong></article>
+    <article><span class="stat-icon blue-soft">↗</span><small>Distance</small><strong id="homeDistance">0.00 km</strong></article>
+  </div>
+
+  <div class="home-section-title">
+    <div><small>QUICK START</small><h3>Choose your workout</h3></div>
+    <button class="text-action" data-go="health">View progress</button>
+  </div>
+
+  <div class="home-grid v7-home-grid">
+    <button class="home-tile tile-run" data-go="run">
+      <span class="tile-icon">🏃</span>
+      <div><strong>Walk &amp; Run</strong><small>Intervals with live GPS</small></div>
+      <b class="tile-arrow">›</b>
+    </button>
+    <button class="home-tile tile-indoor" data-go="indoor">
+      <span class="tile-icon">💪</span>
+      <div><strong>Indoor</strong><small>8 guided exercises</small></div>
+      <b class="tile-arrow">›</b>
+    </button>
+    <button class="home-tile tile-map" data-go="mapScreen">
+      <span class="tile-icon">⌖</span>
+      <div><strong>Navigation</strong><small id="homeGpsLabel">GPS ready</small></div>
+      <b class="tile-arrow">›</b>
+    </button>
+    <button class="home-tile tile-health" data-go="health">
+      <span class="tile-icon">♥</span>
+      <div><strong>Health</strong><small id="homeLastWorkout">No workouts yet</small></div>
+      <b class="tile-arrow">›</b>
+    </button>
+  </div>
+
+  <article class="challenge-card">
+    <div class="challenge-icon">⚡</div>
+    <div>
+      <small>DAILY CHALLENGE</small>
+      <strong id="challengeTitle">Complete one workout</strong>
+      <p id="challengeText">A short session still counts. Keep your momentum going.</p>
+    </div>
+    <span class="challenge-check" id="challengeCheck">○</span>
+  </article>
 </section>
 <section class="screen" id="run">
 <div class="section-head"><small>INTERVAL TRAINING</small><h2>Walk &amp; Run</h2></div>
