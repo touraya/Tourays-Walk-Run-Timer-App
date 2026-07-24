@@ -1,14 +1,15 @@
-Tourays Fitness V9 — Workout Planner Build
+Tourays Fitness V9 — Progress & Analytics Build
 
-Added a complete weekly workout planner with:
-- Monday to Sunday planning
-- Week navigation
-- Create, edit and delete workouts
-- Drag and drop workouts between days
-- Auto-generated weekly plan
-- Rest and recovery days
-- Saved workout templates
-- Local persistence for every week
-- Responsive mobile and desktop UI
+Added:
+- 7/30/90-day and yearly analytics ranges
+- Workout count, training minutes, calories and streaks
+- Weekly activity chart
+- Weekly goal completion ring
+- Personal records
+- Manual workout logging
+- Weight, waist and body-fat measurement tracking
+- Weight trend chart
+- Unified activity history including Walk & Run sessions
+- Local persistence and offline compatibility
 
-Upload every file in this ZIP and overwrite the existing files.
+Upload every file and overwrite the current version.

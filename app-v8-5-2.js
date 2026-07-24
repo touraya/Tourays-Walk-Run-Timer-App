@@ -1617,3 +1617,417 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   renderWeek();
   renderTemplates();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — PROGRESS & ANALYTICS
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('progressScreen');
+  if(!screen) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    back:$('progressBackBtn'),
+    count:$('progressWorkoutCount'),
+    delta:$('progressWorkoutDelta'),
+    minutes:$('progressTrainingMinutes'),
+    calories:$('progressCalories'),
+    streak:$('progressStreak'),
+    bars:$('progressBarChart'),
+    chartSummary:$('progressChartSummary'),
+    ring:$('progressGoalRing'),
+    goalPercent:$('progressGoalPercent'),
+    goalText:$('progressGoalText'),
+    records:$('progressRecordsList'),
+    currentWeight:$('progressCurrentWeight'),
+    weightChange:$('progressWeightChange'),
+    weightLine:$('progressWeightLine'),
+    weightDots:$('progressWeightDots'),
+    measurements:$('progressMeasurementHistory'),
+    history:$('progressHistoryList'),
+    clear:$('progressClearHistory'),
+    workoutBtn:$('progressLogWorkout'),
+    measurementBtn:$('progressAddMeasurement'),
+    workoutModal:$('progressWorkoutModal'),
+    workoutForm:$('progressWorkoutForm'),
+    workoutName:$('progressWorkoutName'),
+    workoutDate:$('progressWorkoutDate'),
+    workoutType:$('progressWorkoutType'),
+    workoutDuration:$('progressWorkoutDuration'),
+    workoutCalories:$('progressWorkoutCalories'),
+    workoutNotes:$('progressWorkoutNotes'),
+    measurementModal:$('progressMeasurementModal'),
+    measurementForm:$('progressMeasurementForm'),
+    measurementDate:$('progressMeasurementDate'),
+    measurementWeight:$('progressMeasurementWeight'),
+    measurementWaist:$('progressMeasurementWaist'),
+    measurementBodyFat:$('progressMeasurementBodyFat')
+  };
+
+  const workoutKey='touraysCompletedWorkoutsV1';
+  const measurementKey='touraysBodyMeasurementsV1';
+  let selectedRange=7;
+
+  function uid(prefix='x'){
+    return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,8)}`;
+  }
+
+  function loadWorkouts(){
+    const manual=JSON.parse(localStorage.getItem(workoutKey)||'[]');
+    const outdoor=(JSON.parse(localStorage.getItem('touraysWalkRunHistory')||'[]')).map(item=>({
+      id:`outdoor_${item.id}`,
+      name:item.mode==='run'?'Outdoor Run':'Outdoor Walk',
+      type:'Outdoor',
+      date:item.date,
+      duration:Math.round((item.duration||0)/60000),
+      calories:item.calories||0,
+      distance:item.distance||0,
+      source:'outdoor'
+    }));
+    const byId=new Map();
+    [...manual,...outdoor].forEach(item=>byId.set(item.id,item));
+    return [...byId.values()].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  }
+
+  function saveWorkouts(items){
+    const manual=items.filter(item=>item.source!=='outdoor');
+    localStorage.setItem(workoutKey,JSON.stringify(manual));
+  }
+
+  function loadMeasurements(){
+    return JSON.parse(localStorage.getItem(measurementKey)||'[]')
+      .sort((a,b)=>new Date(a.date)-new Date(b.date));
+  }
+
+  function saveMeasurements(items){
+    localStorage.setItem(measurementKey,JSON.stringify(items));
+  }
+
+  function rangeStart(days){
+    const d=new Date();
+    d.setHours(0,0,0,0);
+    d.setDate(d.getDate()-(days-1));
+    return d;
+  }
+
+  function filteredWorkouts(){
+    const start=rangeStart(selectedRange);
+    return loadWorkouts().filter(item=>new Date(item.date)>=start);
+  }
+
+  function dayKey(date){
+    const d=new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function computeStreak(items){
+    const days=new Set(items.map(item=>dayKey(item.date)));
+    let cursor=new Date();
+    cursor.setHours(0,0,0,0);
+    if(!days.has(dayKey(cursor))){
+      cursor.setDate(cursor.getDate()-1);
+    }
+    let streak=0;
+    while(days.has(dayKey(cursor))){
+      streak++;
+      cursor.setDate(cursor.getDate()-1);
+    }
+    return streak;
+  }
+
+  function escapeHtml(value){
+    return String(value??'').replace(/[&<>"']/g,ch=>({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+    })[ch]);
+  }
+
+  function renderKpis(){
+    const all=loadWorkouts();
+    const items=filteredWorkouts();
+    const totalMinutes=items.reduce((sum,item)=>sum+(Number(item.duration)||0),0);
+    const totalCalories=items.reduce((sum,item)=>sum+(Number(item.calories)||0),0);
+
+    refs.count.textContent=items.length;
+    refs.minutes.textContent=totalMinutes;
+    refs.calories.textContent=Math.round(totalCalories);
+    refs.streak.textContent=computeStreak(all);
+
+    const previousStart=new Date(rangeStart(selectedRange));
+    previousStart.setDate(previousStart.getDate()-selectedRange);
+    const currentStart=rangeStart(selectedRange);
+    const previousCount=all.filter(item=>{
+      const d=new Date(item.date);
+      return d>=previousStart && d<currentStart;
+    }).length;
+
+    const diff=items.length-previousCount;
+    refs.delta.textContent=diff===0?'Same as previous period':`${diff>0?'+':''}${diff} vs previous period`;
+  }
+
+  function renderBars(){
+    const items=filteredWorkouts();
+    const days=Math.min(selectedRange,14);
+    const start=rangeStart(days);
+    const buckets=[];
+
+    for(let i=0;i<days;i++){
+      const date=new Date(start);
+      date.setDate(start.getDate()+i);
+      const key=dayKey(date);
+      const minutes=items.filter(item=>dayKey(item.date)===key)
+        .reduce((sum,item)=>sum+(Number(item.duration)||0),0);
+      buckets.push({
+        label:date.toLocaleDateString(undefined,{weekday:'short'}),
+        date:date.getDate(),
+        minutes
+      });
+    }
+
+    const max=Math.max(30,...buckets.map(x=>x.minutes));
+    refs.bars.innerHTML=buckets.map(bucket=>`
+      <div class="progress-bar-column">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" style="height:${Math.max(4,(bucket.minutes/max)*100)}%">
+            <span>${bucket.minutes||''}</span>
+          </div>
+        </div>
+        <strong>${bucket.label}</strong>
+        <small>${bucket.date}</small>
+      </div>
+    `).join('');
+
+    refs.chartSummary.textContent=`${buckets.reduce((s,x)=>s+x.minutes,0)} min`;
+  }
+
+  function renderGoal(){
+    const weekStart=new Date();
+    const day=weekStart.getDay();
+    weekStart.setDate(weekStart.getDate()-day+(day===0?-6:1));
+    weekStart.setHours(0,0,0,0);
+
+    const weekCount=loadWorkouts().filter(item=>new Date(item.date)>=weekStart).length;
+    const settings=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    const target=Math.max(1,Number(settings.weeklyGoal||settings.profileWeeklyGoal||4));
+    const percent=Math.min(100,Math.round((weekCount/target)*100));
+
+    refs.ring.style.setProperty('--goal-progress',`${percent*3.6}deg`);
+    refs.goalPercent.textContent=`${percent}%`;
+    refs.goalText.textContent=`${weekCount} of ${target} workouts`;
+  }
+
+  function renderRecords(){
+    const items=loadWorkouts();
+    const outdoor=items.filter(item=>item.type==='Outdoor');
+    const longest=items.reduce((best,item)=>(Number(item.duration)||0)>(Number(best?.duration)||0)?item:best,null);
+    const calorieBest=items.reduce((best,item)=>(Number(item.calories)||0)>(Number(best?.calories)||0)?item:best,null);
+    const longestDistance=outdoor.reduce((best,item)=>(Number(item.distance)||0)>(Number(best?.distance)||0)?item:best,null);
+    const total=items.length;
+
+    const records=[
+      {icon:'⏱️',label:'Longest workout',value:longest?`${longest.duration} min`:'--'},
+      {icon:'🔥',label:'Most calories',value:calorieBest?`${Math.round(calorieBest.calories)} kcal`:'--'},
+      {icon:'🏃',label:'Longest distance',value:longestDistance?`${Number(longestDistance.distance).toFixed(2)} km`:'--'},
+      {icon:'🏆',label:'Total sessions',value:String(total)}
+    ];
+
+    refs.records.innerHTML=records.map(record=>`
+      <article>
+        <span>${record.icon}</span>
+        <div>
+          <small>${record.label}</small>
+          <strong>${record.value}</strong>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  function renderWeight(){
+    const items=loadMeasurements();
+    if(!items.length){
+      refs.currentWeight.textContent='--';
+      refs.weightChange.textContent='--';
+      refs.weightLine.setAttribute('points','');
+      refs.weightDots.innerHTML='';
+      refs.measurements.innerHTML='<div class="progress-empty">No body measurements yet.</div>';
+      return;
+    }
+
+    const current=items[items.length-1];
+    const first=items[0];
+    const change=Number(current.weight)-Number(first.weight);
+
+    refs.currentWeight.textContent=Number(current.weight).toFixed(1);
+    refs.weightChange.textContent=`${change>0?'+':''}${change.toFixed(1)} kg`;
+
+    const recent=items.slice(-10);
+    const weights=recent.map(x=>Number(x.weight));
+    const min=Math.min(...weights);
+    const max=Math.max(...weights);
+    const range=max-min||1;
+
+    const points=recent.map((item,index)=>{
+      const x=recent.length===1?50:(index/(recent.length-1))*92+4;
+      const y=44-((Number(item.weight)-min)/range)*36;
+      return {x,y,item};
+    });
+
+    refs.weightLine.setAttribute('points',points.map(p=>`${p.x},${p.y}`).join(' '));
+    refs.weightDots.innerHTML=points.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="1.8"></circle>`).join('');
+
+    refs.measurements.innerHTML=recent.slice().reverse().map(item=>`
+      <article>
+        <div>
+          <strong>${Number(item.weight).toFixed(1)} kg</strong>
+          <span>${new Date(item.date).toLocaleDateString()}</span>
+        </div>
+        <div>
+          <small>Waist</small>
+          <strong>${item.waist?`${Number(item.waist).toFixed(1)} cm`:'--'}</strong>
+        </div>
+        <div>
+          <small>Body fat</small>
+          <strong>${item.bodyFat?`${Number(item.bodyFat).toFixed(1)}%`:'--'}</strong>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  function renderHistory(){
+    const items=filteredWorkouts();
+    if(!items.length){
+      refs.history.innerHTML='<div class="progress-empty">No workouts in this period.</div>';
+      return;
+    }
+
+    refs.history.innerHTML=items.map(item=>`
+      <article class="progress-history-item">
+        <div class="progress-history-icon">${item.type==='Outdoor'?'🏃':item.type==='Strength'?'🏋️':item.type==='HIIT'?'⚡':item.type==='Mobility'?'🧘':'❤️'}</div>
+        <div class="progress-history-copy">
+          <strong>${escapeHtml(item.name)}</strong>
+          <span>${new Date(item.date).toLocaleDateString()} · ${escapeHtml(item.type||'Workout')}</span>
+        </div>
+        <div class="progress-history-stats">
+          <strong>${Number(item.duration)||0} min</strong>
+          <span>${Math.round(Number(item.calories)||0)} kcal${item.distance?` · ${Number(item.distance).toFixed(2)} km`:''}</span>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  function renderAll(){
+    renderKpis();
+    renderBars();
+    renderGoal();
+    renderRecords();
+    renderWeight();
+    renderHistory();
+  }
+
+  function openModal(modal){
+    modal.hidden=false;
+    document.body.classList.add('planner-modal-open');
+  }
+
+  function closeModal(modal){
+    modal.hidden=true;
+    document.body.classList.remove('planner-modal-open');
+  }
+
+  refs.workoutBtn.addEventListener('click',()=>{
+    refs.workoutForm.reset();
+    refs.workoutDate.value=new Date().toISOString().slice(0,10);
+    refs.workoutDuration.value=30;
+    refs.workoutCalories.value=220;
+    openModal(refs.workoutModal);
+  });
+
+  refs.measurementBtn.addEventListener('click',()=>{
+    refs.measurementForm.reset();
+    refs.measurementDate.value=new Date().toISOString().slice(0,10);
+    const saved=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    if(saved.weight||saved.profileWeight){
+      refs.measurementWeight.value=saved.weight||saved.profileWeight;
+    }
+    openModal(refs.measurementModal);
+  });
+
+  document.querySelectorAll('[data-close-progress-workout]').forEach(el=>{
+    el.addEventListener('click',()=>closeModal(refs.workoutModal));
+  });
+  document.querySelectorAll('[data-close-progress-measurement]').forEach(el=>{
+    el.addEventListener('click',()=>closeModal(refs.measurementModal));
+  });
+
+  refs.workoutForm.addEventListener('submit',event=>{
+    event.preventDefault();
+    const items=loadWorkouts().filter(item=>item.source!=='outdoor');
+    items.unshift({
+      id:uid('workout'),
+      name:refs.workoutName.value.trim(),
+      type:refs.workoutType.value,
+      date:new Date(`${refs.workoutDate.value}T12:00:00`).toISOString(),
+      duration:Number(refs.workoutDuration.value),
+      calories:Number(refs.workoutCalories.value)||0,
+      notes:refs.workoutNotes.value.trim()
+    });
+    saveWorkouts(items);
+    closeModal(refs.workoutModal);
+    renderAll();
+  });
+
+  refs.measurementForm.addEventListener('submit',event=>{
+    event.preventDefault();
+    const items=loadMeasurements();
+    items.push({
+      id:uid('measure'),
+      date:new Date(`${refs.measurementDate.value}T12:00:00`).toISOString(),
+      weight:Number(refs.measurementWeight.value),
+      waist:refs.measurementWaist.value?Number(refs.measurementWaist.value):null,
+      bodyFat:refs.measurementBodyFat.value?Number(refs.measurementBodyFat.value):null
+    });
+    saveMeasurements(items);
+    closeModal(refs.measurementModal);
+    renderAll();
+  });
+
+  refs.clear.addEventListener('click',()=>{
+    localStorage.removeItem(workoutKey);
+    renderAll();
+  });
+
+  document.querySelectorAll('.progress-range').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.progress-range').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      selectedRange=Number(btn.dataset.range);
+      renderAll();
+    });
+  });
+
+  refs.back.addEventListener('click',()=>{
+    screen.hidden=true;
+    const home=document.querySelector('.screen:not(#progressScreen):not(#plannerScreen):not(#walkRunScreen)');
+    if(home) home.hidden=false;
+  });
+
+  function openProgress(){
+    document.querySelectorAll('.screen').forEach(s=>s.hidden=true);
+    screen.hidden=false;
+    window.scrollTo({top:0,behavior:'smooth'});
+    renderAll();
+  }
+
+  document.addEventListener('click',event=>{
+    const el=event.target.closest('button,a,[data-screen],[data-page]');
+    if(!el || el.closest('#progressScreen')) return;
+    const text=(el.textContent||'').trim().toLowerCase();
+    const target=((el.dataset&&(`${el.dataset.screen||''} ${el.dataset.page||''}`))||'').toLowerCase();
+    if(text.includes('progress') || text.includes('analytics') || text.includes('statistics') || target.includes('progress') || target.includes('analytics')){
+      event.preventDefault();
+      openProgress();
+    }
+  });
+
+  renderAll();
+})();
