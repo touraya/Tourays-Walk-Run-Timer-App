@@ -3829,3 +3829,142 @@ body.tourays-dark-theme{
 #run .toast{
   max-width:360px;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 10
+   Run glitch cleanup + nutrition scanning foundation
+   ========================================================= */
+
+/* Countdown overlay is disabled: pressing Start leaves the page stable. */
+.run-countdown,
+.run-countdown.open{
+  display:none!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+
+/* Nutrition scanner */
+.nutrition-scan-card{
+  padding:22px;
+  border:1px solid #e1daee;
+  border-radius:26px;
+  background:linear-gradient(145deg,#fff,#f7f4ff);
+  box-shadow:0 12px 30px rgba(55,43,91,.07);
+}
+.nutrition-scan-card .nutrition-section-heading p{
+  margin:6px 0 0;
+  color:#6d7486;
+}
+.nutrition-beta-chip{
+  padding:7px 11px;
+  border-radius:999px;
+  background:#eee8ff;
+  color:#6744d5;
+  font-size:12px;
+  font-weight:800;
+}
+.nutrition-scan-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:18px;
+}
+.nutrition-scan-action{
+  min-height:145px;
+  padding:18px;
+  border:1px dashed #cfc3eb;
+  border-radius:20px;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  cursor:pointer;
+}
+.nutrition-scan-action input{display:none}
+.nutrition-scan-action>span{font-size:30px}
+.nutrition-scan-action strong{color:#1b1729}
+.nutrition-scan-action small{color:#737b8d;line-height:1.4}
+.nutrition-scan-preview{
+  margin-top:14px;
+  padding:10px;
+  border-radius:18px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.nutrition-scan-preview img{
+  width:74px;
+  height:74px;
+  object-fit:cover;
+  border-radius:14px;
+}
+.nutrition-scan-preview div{display:flex;flex-direction:column;gap:4px}
+.nutrition-scan-preview small{color:#737b8d}
+.nutrition-estimator-grid{
+  display:grid;
+  grid-template-columns:1.4fr .8fr;
+  gap:12px;
+  margin-top:16px;
+}
+.nutrition-estimator-grid label{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  color:#5f6678;
+  font-size:13px;
+  font-weight:700;
+}
+.nutrition-estimator-grid select,
+.nutrition-estimator-grid input,
+.nutrition-barcode-row input{
+  width:100%;
+  min-height:50px;
+  border:1px solid #ddd6e8;
+  border-radius:15px;
+  background:#fff;
+  color:#171426;
+  padding:0 14px;
+  font-size:16px;
+}
+.nutrition-grams-input{position:relative}
+.nutrition-grams-input b{
+  position:absolute;
+  right:14px;
+  top:15px;
+  color:#747b8d;
+}
+.nutrition-estimate-result{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+  margin-top:14px;
+}
+.nutrition-estimate-result div{
+  padding:13px 10px;
+  border-radius:15px;
+  background:#f0ebff;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+.nutrition-estimate-result span{font-size:11px;color:#6e7587}
+.nutrition-estimate-result strong{font-size:14px;color:#33236f}
+.nutrition-barcode-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  margin-top:14px;
+}
+.nutrition-scan-note{
+  margin:12px 0 0;
+  color:#7b8293;
+  font-size:12px;
+  line-height:1.5;
+}
+@media(max-width:620px){
+  .nutrition-scan-grid{grid-template-columns:1fr}
+  .nutrition-estimate-result{grid-template-columns:1fr 1fr}
+  .nutrition-barcode-row{grid-template-columns:1fr}
+}

@@ -240,7 +240,7 @@ function closeSummary(goHealth=false){
 }
 
 function stopRun(){if(!S.active)return;S.active=false;S.paused=false;clearInterval(S.timer);stopGps();releaseWakeLock();const before=history();const route=S.trace.length<=350?S.trace:S.trace.filter((_,i)=>i%Math.ceil(S.trace.length/350)===0);const workout={id:`w${Date.now()}`,type:'Walk & Run',date:new Date().toISOString(),duration:S.elapsed,distance:S.total,cycles:S.cycles,calories:estimateCalories(),walk:S.walk,run:S.run,walkDistance:S.walkM,runDistance:S.runM,target:S.target,averagePace:averagePaceText(),route};const after=[workout,...before];saveHistory(after);const unlocked=newlyUnlocked(before,after);E.runSetup.hidden=false;E.runActive.hidden=true;E.runReadyChip.textContent='Ready';E.pauseRun.innerHTML='<span>Ⅱ</span><small>Pause</small>';E.pauseRun.classList.remove('resume');updateAchievements(after);openSummary(workout,unlocked)}
-function openIntervals(){setTime(S.walk,E.lwm,E.lws);setTime(S.run,E.lrm,E.lrs);E.applyNow.checked=false;E.intervalModal.classList.add('open')}function applyIntervals(){const w=read(E.lwm,E.lws),r=read(E.lrm,E.lrs);if(w<1||r<1)return toast('Each interval must be at least 1 second');S.walk=w;S.run=r;if(E.applyNow.checked){S.duration=S.phase==='walk'?w:r;S.left=S.duration;S.end=Date.now()+S.left*1000;S.last=Date.now()}phaseUI();renderRun();E.intervalModal.classList.remove('open');say('New intervals applied')}
+function openIntervals(){setTime(S.walk,E.lwm,E.lws);setTime(S.run,E.lrm,E.lrs);E.applyNow.checked=false;E.intervalModal.classList.add('open')}function applyIntervals(){const w=read(E.lwm,E.lws),r=read(E.lrm,E.lrs);if(w<1||r<1)return toast('Each interval must be at least 1 second');S.walk=w;S.run=r;if(E.applyNow.checked){S.duration=S.phase==='walk'?w:r;S.left=S.duration;S.end=Date.now()+S.left*1000;S.last=Date.now()}phaseUI();renderRun();E.intervalModal.classList.remove('open')}
 
 function exercisePose(type,pose){
   const P={
@@ -3952,4 +3952,107 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   updateCompletion();
   setActiveTab('personal');
+})();
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — NUTRITION PHOTO / BARCODE FOUNDATION
+   ========================================================= */
+(function(){
+  const photo=document.getElementById('nutritionFoodPhoto');
+  const barcodePhoto=document.getElementById('nutritionBarcodePhoto');
+  const preview=document.getElementById('nutritionScanPreview');
+  const image=document.getElementById('nutritionScanImage');
+  const status=document.getElementById('nutritionScanStatus');
+  const food=document.getElementById('nutritionEstimateFood');
+  const grams=document.getElementById('nutritionEstimateGrams');
+  const barcode=document.getElementById('nutritionBarcodeValue');
+  const add=document.getElementById('nutritionUseEstimate');
+  if(!photo||!food||!grams||!add)return;
+
+  const database={
+    rice:{name:'Cooked rice',calories:130,protein:2.7,carbs:28,fat:.3},
+    chicken:{name:'Chicken breast',calories:165,protein:31,carbs:0,fat:3.6},
+    pasta:{name:'Cooked pasta',calories:158,protein:5.8,carbs:30.9,fat:.9},
+    banana:{name:'Banana',calories:89,protein:1.1,carbs:22.8,fat:.3},
+    egg:{name:'Egg',calories:155,protein:12.6,carbs:1.1,fat:10.6},
+    bread:{name:'Bread',calories:265,protein:9,carbs:49,fat:3.2},
+    potato:{name:'Boiled potato',calories:87,protein:1.9,carbs:20.1,fat:.1},
+    apple:{name:'Apple',calories:52,protein:.3,carbs:13.8,fat:.2},
+    peanut:{name:'Peanut butter',calories:588,protein:25,carbs:20,fat:50}
+  };
+
+  const result={
+    calories:document.getElementById('nutritionEstimateCalories'),
+    protein:document.getElementById('nutritionEstimateProtein'),
+    carbs:document.getElementById('nutritionEstimateCarbs'),
+    fat:document.getElementById('nutritionEstimateFat')
+  };
+
+  function estimate(){
+    const item=database[food.value]||database.rice;
+    const amount=Math.max(1,Number(grams.value)||100);
+    const factor=amount/100;
+    const values={
+      name:item.name,
+      grams:amount,
+      calories:item.calories*factor,
+      protein:item.protein*factor,
+      carbs:item.carbs*factor,
+      fat:item.fat*factor
+    };
+    result.calories.textContent=`${Math.round(values.calories)} kcal`;
+    result.protein.textContent=`${values.protein.toFixed(1)} g`;
+    result.carbs.textContent=`${values.carbs.toFixed(1)} g`;
+    result.fat.textContent=`${values.fat.toFixed(1)} g`;
+    return values
+  }
+
+  async function showFile(file,label){
+    if(!file)return;
+    const url=URL.createObjectURL(file);
+    image.src=url;
+    preview.hidden=false;
+    status.textContent=label;
+    if(label.includes('barcode')&&'BarcodeDetector'in window){
+      try{
+        const detector=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});
+        const bitmap=await createImageBitmap(file);
+        const codes=await detector.detect(bitmap);
+        if(codes[0]?.rawValue){
+          barcode.value=codes[0].rawValue;
+          status.textContent=`Barcode detected: ${codes[0].rawValue}`;
+        }else status.textContent='Label photo ready — enter the barcode if needed';
+      }catch{
+        status.textContent='Label photo ready — enter the barcode if needed';
+      }
+    }
+  }
+
+  photo.addEventListener('change',()=>showFile(photo.files?.[0],'Food photo ready'));
+  barcodePhoto.addEventListener('change',()=>showFile(barcodePhoto.files?.[0],'Checking barcode or label…'));
+  food.addEventListener('change',estimate);
+  grams.addEventListener('input',estimate);
+
+  add.addEventListener('click',()=>{
+    const values=estimate();
+    const addMeal=document.getElementById('nutritionAddMeal');
+    addMeal?.click();
+    setTimeout(()=>{
+      const name=document.getElementById('nutritionFoodName');
+      const serving=document.getElementById('nutritionServing');
+      const calories=document.getElementById('nutritionFoodCalories');
+      const protein=document.getElementById('nutritionFoodProtein');
+      const carbs=document.getElementById('nutritionFoodCarbs');
+      const fat=document.getElementById('nutritionFoodFat');
+      if(name)name.value=barcode.value?`${values.name} · ${barcode.value}`:values.name;
+      if(serving)serving.value=`${values.grams} g`;
+      if(calories)calories.value=Math.round(values.calories);
+      if(protein)protein.value=values.protein.toFixed(1);
+      if(carbs)carbs.value=values.carbs.toFixed(1);
+      if(fat)fat.value=values.fat.toFixed(1);
+    },80)
+  });
+
+  estimate();
 })();
