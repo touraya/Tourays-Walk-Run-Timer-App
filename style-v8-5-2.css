@@ -3968,3 +3968,60 @@ body.tourays-dark-theme{
   .nutrition-estimate-result{grid-template-columns:1fr 1fr}
   .nutrition-barcode-row{grid-template-columns:1fr}
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 11 NUTRITION LAYOUT FIX
+   ========================================================= */
+#nutritionScreen.screen.active,
+#nutritionScreen:not([hidden]){
+  display:block!important;
+  position:relative!important;
+  margin:0!important;
+  padding:12px 14px calc(118px + env(safe-area-inset-bottom))!important;
+  min-height:calc(100dvh - 110px)!important;
+  background:
+    radial-gradient(circle at 85% 0,rgba(111,72,232,.08),transparent 22rem),
+    #f7f8fc!important;
+  overflow:visible!important;
+}
+
+#nutritionScreen .nutrition-shell{
+  width:100%!important;
+  max-width:1080px!important;
+  margin:0 auto!important;
+  padding:0!important;
+  transform:none!important;
+}
+
+#nutritionScreen .nutrition-header{
+  margin:0 0 12px!important;
+  padding:4px 2px 0!important;
+  min-height:0!important;
+}
+
+#nutritionScreen .nutrition-header h1{
+  margin:3px 0 5px!important;
+  font-size:clamp(2rem,7vw,3rem)!important;
+}
+
+#nutritionScreen .nutrition-date-card{
+  margin:0 0 12px!important;
+}
+
+#nutritionScreen .nutrition-scan-card{
+  margin:0 0 12px!important;
+}
+
+/* Prevent inherited screen/map dimensions from creating blank space. */
+#nutritionScreen,
+#nutritionScreen .nutrition-shell,
+#nutritionScreen .nutrition-header,
+#nutritionScreen .nutrition-date-card,
+#nutritionScreen .nutrition-scan-card{
+  top:auto!important;
+  bottom:auto!important;
+  height:auto!important;
+  max-height:none!important;
+  translate:none!important;
+}

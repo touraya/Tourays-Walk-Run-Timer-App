@@ -4056,3 +4056,38 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   estimate();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 11 NUTRITION OPEN POSITION
+   ========================================================= */
+(function(){
+  const nutrition=document.getElementById('nutritionScreen');
+  if(!nutrition)return;
+
+  function resetNutritionPosition(){
+    requestAnimationFrame(()=>{
+      window.scrollTo({top:0,left:0,behavior:'auto'});
+      document.documentElement.scrollTop=0;
+      document.body.scrollTop=0;
+      nutrition.scrollTop=0;
+    });
+  }
+
+  document.addEventListener('click',event=>{
+    const control=event.target.closest('[data-screen="nutritionScreen"],[data-go="nutritionScreen"]');
+    if(!control)return;
+    resetNutritionPosition();
+    setTimeout(resetNutritionPosition,40);
+    setTimeout(resetNutritionPosition,160);
+  },true);
+
+  window.addEventListener('hashchange',()=>{
+    if(!nutrition.hidden)resetNutritionPosition();
+  });
+
+  const observer=new MutationObserver(()=>{
+    if(!nutrition.hidden)resetNutritionPosition();
+  });
+  observer.observe(nutrition,{attributes:true,attributeFilter:['hidden','class']});
+})();
