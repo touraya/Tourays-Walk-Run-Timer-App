@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#08111f" name="theme-color"/>
-<title>Tourays Fitness V7 · Build 4</title>
+<title>Tourays Fitness V7 · Build 5</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -276,14 +276,61 @@
   </div>
 </section>
 <section class="screen" id="mapScreen"><div class="section-head"><small>IN-APP NAVIGATION</small><h2>Live map</h2></div><article class="map-shell"><div class="map-wrap"><div id="map"></div><div class="map-overlay"><span class="map-chip" id="mapDistance">From start: --</span><span class="map-chip" id="mapAccuracy">GPS: --</span></div></div><div class="map-actions"><button class="secondary" id="recenterMap">◎ Recenter</button><button class="primary" id="routeHome">↩ Route to start</button></div><div class="directions" id="directions"><div class="direction-summary"><strong id="routeDistance">--</strong><span id="routeDuration">--</span></div><div class="direction-steps" id="directionSteps"></div></div><p class="map-note">Navigation remains inside Tourays Fitness. Walking directions are calculated online from OpenStreetMap routing data.</p></article></section>
-<section class="screen" id="health"><div class="section-head"><small>YOUR FITNESS DATA</small><h2>Health</h2></div><article class="health-hero"><div class="health-main"><div><span>This week</span><strong id="weeklyMinutes">0 active min</strong><small id="weeklyMessage">Start your first workout</small></div><div class="goal-ring"><svg viewbox="0 0 80 80"><circle class="goal-bg" cx="40" cy="40" r="32"></circle><circle class="goal-progress" cx="40" cy="40" id="goalProgress" r="32"></circle></svg><b id="goalPercent">0%</b></div></div></article><div class="health-grid"><article class="health-card"><span>Calories</span><strong id="healthCalories">0 kcal</strong><small>Estimated from activity</small></article><article class="health-card"><span>Distance</span><strong id="healthDistance">0.00 km</strong><small>All outdoor sessions</small></article><article class="health-card"><span>BMI</span><strong id="healthBmi">--</strong><small id="bmiLabel">Add height in settings</small></article><article class="health-card"><span>Average pace</span><strong id="healthPace">--</strong><small>Outdoor workouts</small></article></div>
-<div class="health-subhead">
-  <div><small>YOUR MILESTONES</small><h3>Achievements</h3></div>
-  <span id="achievementCount">0 unlocked</span>
-</div>
-<div class="achievement-grid" id="achievementGrid"></div>
-<h3 class="history-title">Recent workouts</h3>
-<div class="history-list" id="historyList"></div>
+<section class="screen" id="health">
+  <div class="section-head health-pro-head">
+    <div><small>HEALTH DASHBOARD · PRO</small><h2>Your progress</h2></div>
+    <select id="healthRange">
+      <option value="7">7 days</option>
+      <option value="28" selected>4 weeks</option>
+      <option value="90">3 months</option>
+      <option value="365">1 year</option>
+      <option value="all">All time</option>
+    </select>
+  </div>
+
+  <article class="health-pro-hero">
+    <div class="health-main">
+      <div><span>This week</span><strong id="weeklyMinutes">0 active min</strong><small id="weeklyMessage">Start your first workout</small></div>
+      <div class="goal-ring"><svg viewBox="0 0 80 80"><circle class="goal-bg" cx="40" cy="40" r="32"></circle><circle class="goal-progress" cx="40" cy="40" id="goalProgress" r="32"></circle></svg><b id="goalPercent">0%</b></div>
+    </div>
+    <div class="health-hero-footer"><span id="healthTrendBadge">No comparison yet</span><strong id="healthStreakPro">0-day streak</strong></div>
+  </article>
+
+  <div class="health-pro-grid">
+    <article class="health-kpi"><span>ACTIVE TIME</span><strong id="healthActiveTime">0 min</strong><small id="healthActiveTrend">Selected period</small></article>
+    <article class="health-kpi"><span>WORKOUTS</span><strong id="healthWorkoutCount">0</strong><small id="healthWorkoutTrend">Selected period</small></article>
+    <article class="health-kpi"><span>CALORIES</span><strong id="healthCalories">0 kcal</strong><small id="healthCaloriesTrend">Estimated</small></article>
+    <article class="health-kpi"><span>DISTANCE</span><strong id="healthDistance">0.00 km</strong><small id="healthDistanceTrend">Outdoor sessions</small></article>
+    <article class="health-kpi"><span>AVG. PACE</span><strong id="healthPace">--</strong><small id="healthPaceTrend">Outdoor workouts</small></article>
+    <article class="health-kpi"><span>BMI</span><strong id="healthBmi">--</strong><small id="bmiLabel">Add height in settings</small></article>
+  </div>
+
+  <article class="health-chart-card">
+    <div class="chart-head"><div><small>ACTIVITY TREND</small><h3>Active minutes</h3></div><span id="chartTotal">0 min total</span></div>
+    <div class="chart-wrap"><canvas id="activityChart" height="185"></canvas><div class="chart-empty" id="activityChartEmpty">Complete workouts to see your trend.</div></div>
+    <div class="chart-legend"><span><i></i>Active minutes</span><strong id="chartAverage">0 min average</strong></div>
+  </article>
+
+  <article class="health-chart-card">
+    <div class="chart-head"><div><small>WORKOUT MIX</small><h3>How you train</h3></div><span id="mixTotal">0 workouts</span></div>
+    <div class="mix-layout">
+      <div class="mix-donut"><canvas id="mixChart" width="150" height="150"></canvas><div><strong id="mixCenterValue">0</strong><small>sessions</small></div></div>
+      <div class="mix-list" id="mixList"></div>
+    </div>
+  </article>
+
+  <div class="health-pro-title"><div><small>PERSONAL BESTS</small><h3>Your records</h3></div><span id="personalBestCount">0 records</span></div>
+  <div class="personal-best-grid" id="personalBestGrid"></div>
+
+  <div class="health-pro-title"><div><small>YOUR MILESTONES</small><h3>Achievements</h3></div><span id="achievementCount">0 unlocked</span></div>
+  <div class="achievement-grid" id="achievementGrid"></div>
+
+  <div class="health-pro-title"><div><small>WORKOUT HISTORY</small><h3>Recent activity</h3></div><button id="exportHistory">Export</button></div>
+  <div class="history-toolbar">
+    <input id="historySearch" type="search" placeholder="Search workouts"/>
+    <select id="historyFilter"><option value="all">All</option><option value="outdoor">Outdoor</option><option value="indoor">Indoor</option></select>
+  </div>
+  <div class="history-list" id="historyList"></div>
 </section>
 </div>
 <nav><button class="tab active" data-screen="home"><b>⌂</b><small>Home</small></button><button class="tab" data-screen="run"><b>◉</b><small>Run</small></button><button class="tab" data-screen="indoor"><b>◆</b><small>Indoor</small></button><button class="tab" data-screen="mapScreen"><b>⌖</b><small>Map</small></button><button class="tab" data-screen="health"><b>♥</b><small>Health</small></button></nav>

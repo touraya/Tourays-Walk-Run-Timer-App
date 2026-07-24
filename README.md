@@ -1,20 +1,15 @@
-# Tourays Fitness V7 — Build 4
+# Tourays Fitness V7 — Build 5
 
-This is the complete continuation of Build 3.
+## New: Health Dashboard Pro
+- 7-day, 4-week, 3-month, 1-year and all-time reporting
+- Previous-period comparisons
+- Active time, workout, calorie, distance, pace and BMI cards
+- Active-minutes trend chart
+- Workout-mix donut chart
+- Personal records
+- Searchable and filterable workout history
+- Delete individual workout records
+- Export workout history to CSV
+- All previous Home, Walk & Run Pro, Indoor Trainer 2.0, GPS and achievement features preserved
 
-## New: Indoor Trainer 2.0
-- Three ready-made workout plans
-- Quick Start, Core Builder and Full Body
-- Guided exercise sequencing
-- Configurable sets and rest periods
-- Active workout screen with animated exercise guide
-- Live set, exercise and session progress
-- Work and rest countdowns
-- Pause, resume, previous and next controls
-- Dynamic form guidance
-- Indoor workout completion summary
-- Improved exercise library with muscle-group labels
-- Existing Home, Walk & Run Pro, GPS map, achievements and Health features preserved
-
-## Installation
-Replace every file in the GitHub repository with the files from this ZIP. After publishing, fully close and reopen the installed app to clear cached assets.
+Replace every repository file with the files from this ZIP. Fully close and reopen the installed app after publishing.

@@ -7,7 +7,7 @@ summaryViewHealth:$('summaryViewHealth'),summaryIcon:$('summaryIcon'),summaryTit
 summarySubtitle:$('summarySubtitle'),summaryTime:$('summaryTime'),summaryDistance:$('summaryDistance'),
 summaryCalories:$('summaryCalories'),summaryFourthLabel:$('summaryFourthLabel'),summaryFourth:$('summaryFourth'),
 summaryAchievement:$('summaryAchievement'),summaryAchievementIcon:$('summaryAchievementIcon'),
-summaryAchievementName:$('summaryAchievementName'),planGrid:$('planGrid'),startPlan:$('startPlan'),indoorBrowse:$('indoorBrowse'),indoorActive:$('indoorActive'),exerciseMuscle:$('exerciseMuscle'),exerciseSets:$('exerciseSets'),exerciseRest:$('exerciseRest'),exitIndoor:$('exitIndoor'),indoorModeLabel:$('indoorModeLabel'),indoorProgressLabel:$('indoorProgressLabel'),indoorTotalTime:$('indoorTotalTime'),indoorProgressBar:$('indoorProgressBar'),activeDemo:$('activeDemo'),indoorPhaseLabel:$('indoorPhaseLabel'),activeExerciseName:$('activeExerciseName'),activeExerciseTip:$('activeExerciseTip'),indoorCountdown:$('indoorCountdown'),indoorCountdownUnit:$('indoorCountdownUnit'),indoorRingProgress:$('indoorRingProgress'),indoorSetCurrent:$('indoorSetCurrent'),indoorSetTotal:$('indoorSetTotal'),indoorNextLabel:$('indoorNextLabel'),previousIndoor:$('previousIndoor'),indoorPause:$('indoorPause'),nextIndoor:$('nextIndoor'),indoorLevel:$('indoorLevel'),runTarget:$('runTarget'),warmupToggle:$('warmupToggle'),vibrationToggle:$('vibrationToggle'),runReadyChip:$('runReadyChip'),liveWorkoutStatus:$('liveWorkoutStatus'),targetProgressText:$('targetProgressText'),targetRing:$('targetRing'),phaseProgressText:$('phaseProgressText'),skipPhase:$('skipPhase'),targetRemaining:$('targetRemaining'),averagePace:$('averagePace'),liveCalories:$('liveCalories'),liveSpeed:$('liveSpeed'),runTip:$('runTip'),startCountdown:$('startCountdown'),startCountdownNumber:$('startCountdownNumber')};
+summaryAchievementName:$('summaryAchievementName'),planGrid:$('planGrid'),startPlan:$('startPlan'),indoorBrowse:$('indoorBrowse'),indoorActive:$('indoorActive'),exerciseMuscle:$('exerciseMuscle'),exerciseSets:$('exerciseSets'),exerciseRest:$('exerciseRest'),exitIndoor:$('exitIndoor'),indoorModeLabel:$('indoorModeLabel'),indoorProgressLabel:$('indoorProgressLabel'),indoorTotalTime:$('indoorTotalTime'),indoorProgressBar:$('indoorProgressBar'),activeDemo:$('activeDemo'),indoorPhaseLabel:$('indoorPhaseLabel'),activeExerciseName:$('activeExerciseName'),activeExerciseTip:$('activeExerciseTip'),indoorCountdown:$('indoorCountdown'),indoorCountdownUnit:$('indoorCountdownUnit'),indoorRingProgress:$('indoorRingProgress'),indoorSetCurrent:$('indoorSetCurrent'),indoorSetTotal:$('indoorSetTotal'),indoorNextLabel:$('indoorNextLabel'),previousIndoor:$('previousIndoor'),indoorPause:$('indoorPause'),nextIndoor:$('nextIndoor'),indoorLevel:$('indoorLevel'),healthRange:$('healthRange'),healthTrendBadge:$('healthTrendBadge'),healthStreakPro:$('healthStreakPro'),healthActiveTime:$('healthActiveTime'),healthWorkoutCount:$('healthWorkoutCount'),healthActiveTrend:$('healthActiveTrend'),healthWorkoutTrend:$('healthWorkoutTrend'),healthCaloriesTrend:$('healthCaloriesTrend'),healthDistanceTrend:$('healthDistanceTrend'),healthPaceTrend:$('healthPaceTrend'),activityChart:$('activityChart'),activityChartEmpty:$('activityChartEmpty'),chartTotal:$('chartTotal'),chartAverage:$('chartAverage'),mixChart:$('mixChart'),mixTotal:$('mixTotal'),mixCenterValue:$('mixCenterValue'),mixList:$('mixList'),personalBestGrid:$('personalBestGrid'),personalBestCount:$('personalBestCount'),historySearch:$('historySearch'),historyFilter:$('historyFilter'),exportHistory:$('exportHistory'),runTarget:$('runTarget'),warmupToggle:$('warmupToggle'),vibrationToggle:$('vibrationToggle'),runReadyChip:$('runReadyChip'),liveWorkoutStatus:$('liveWorkoutStatus'),targetProgressText:$('targetProgressText'),targetRing:$('targetRing'),phaseProgressText:$('phaseProgressText'),skipPhase:$('skipPhase'),targetRemaining:$('targetRemaining'),averagePace:$('averagePace'),liveCalories:$('liveCalories'),liveSpeed:$('liveSpeed'),runTip:$('runTip'),startCountdown:$('startCountdown'),startCountdownNumber:$('startCountdownNumber')};
 const H={greeting:$('homeGreeting'),date:$('homeDate'),streak:$('homeStreak'),goalRing:$('homeGoalRing'),goalPercent:$('homeGoalPercent'),activeMinutes:$('homeActiveMinutes'),goalMessage:$('homeGoalMessage'),workouts:$('homeWorkouts'),calories:$('homeCalories'),distance:$('homeDistance'),gpsLabel:$('homeGpsLabel'),lastWorkout:$('homeLastWorkout'),challengeTitle:$('challengeTitle'),challengeText:$('challengeText'),challengeCheck:$('challengeCheck')};
 let S={walk:120,run:180,phase:'walk',duration:120,left:120,elapsed:0,walkTime:0,runTime:0,cycles:0,active:false,paused:false,sound:true,timer:null,end:0,last:0,audio:null,gps:true,watch:null,pos:null,start:null,total:0,walkM:0,runM:0,speed:null,map:null,userMarker:null,startMarker:null,trace:[],routeGeo:null,indoorTimer:null,target:1800,vibrate:true,wakeLock:null,goalAnnounced:false,indoorActive:false,indoorPaused:false,indoorPlan:null,indoorQueue:[],indoorIndex:0,indoorSet:1,indoorSets:2,indoorRest:30,indoorPhase:'work',indoorLeft:0,indoorDuration:0,indoorElapsed:0,indoorStarted:0,indoorMode:'single'};
 const exercises=[
@@ -266,8 +266,81 @@ function renderHome(){
   H.challengeCheck.closest('.challenge-card')?.classList.toggle('done',todayDone)
 }
 
-function renderHealth(){const h=history(),now=new Date(),monday=new Date(now);monday.setDate(now.getDate()-((now.getDay()+6)%7));monday.setHours(0,0,0,0);const week=h.filter(x=>new Date(x.date)>=monday),mins=Math.round(week.reduce((a,x)=>a+(x.duration||0),0)/60),goal=Math.max(1,clamp(E.weeklyGoal.value,30,1000)||150),pct=Math.min(100,Math.round(mins/goal*100)),dist=h.reduce((a,x)=>a+(x.distance||0),0),cal=h.reduce((a,x)=>a+(x.calories||0),0),outdoor=h.filter(x=>(x.distance||0)>50),outTime=outdoor.reduce((a,x)=>a+(x.duration||0),0),outDist=outdoor.reduce((a,x)=>a+(x.distance||0),0);E.weeklyMinutes.textContent=`${mins} active min`;E.weeklyMessage.textContent=`${Math.max(0,goal-mins)} min remaining to your goal`;E.goalProgress.style.strokeDashoffset=201*(1-pct/100);E.goalPercent.textContent=`${pct}%`;E.healthCalories.textContent=`${cal} kcal`;E.healthDistance.textContent=km(dist);const w=(clamp(E.weight.value,30,250)||75),ht=(clamp(E.height.value,120,230)||0)/100,bmi=ht?w/(ht*ht):0;E.healthBmi.textContent=bmi?bmi.toFixed(1):'--';E.bmiLabel.textContent=bmi<18.5?'Below standard range':bmi<25?'Standard range':bmi<30?'Above standard range':'High range';E.healthPace.textContent=outDist>50?`${Math.floor((outTime/(outDist/1000))/60)}:${String(Math.round((outTime/(outDist/1000))%60)).padStart(2,'0')}/km`:'--';updateAchievements(h);E.historyList.innerHTML=h.length?h.slice(0,20).map(x=>`<article class="history-item"><div class="history-head"><strong>${x.type||'Workout'}</strong><small>${new Date(x.date).toLocaleDateString()} · ${new Date(x.date).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</small></div><div class="history-values"><div><span>TIME</span><strong>${fmt(x.duration||0)}</strong></div><div><span>DISTANCE</span><strong>${km(x.distance||0)}</strong></div><div><span>CALORIES</span><strong>${x.calories||0}</strong></div></div></article>`).join(''):'<div class="empty">No workouts saved yet.</div>'}
+
+function healthDays(){const v=E.healthRange.value;return v==='all'?Infinity:Number(v)}
+function rangeItems(items,days,offset=0){
+  if(!Number.isFinite(days))return offset?[]:items;
+  const end=new Date();end.setHours(23,59,59,999);end.setDate(end.getDate()-offset*days);
+  const start=new Date(end);start.setDate(end.getDate()-days+1);start.setHours(0,0,0,0);
+  return items.filter(x=>{const d=new Date(x.date);return d>=start&&d<=end})
+}
+function healthStats(items){
+  const duration=items.reduce((a,x)=>a+(x.duration||0),0),distance=items.reduce((a,x)=>a+(x.distance||0),0),calories=items.reduce((a,x)=>a+(x.calories||0),0);
+  const outdoor=items.filter(x=>(x.distance||0)>20),outTime=outdoor.reduce((a,x)=>a+(x.duration||0),0),outDist=outdoor.reduce((a,x)=>a+(x.distance||0),0);
+  return{duration,minutes:duration/60,distance,calories,count:items.length,outTime,outDist}
+}
+function changeText(now,before,invert=false){
+  if(!now&&!before)return'No activity yet';if(!before)return now?'New activity':'No comparison';
+  let p=(now-before)/before*100;if(invert)p=-p;
+  return Math.abs(p)<1?'About the same':`${p>0?'↑':'↓'} ${Math.abs(Math.round(p))}% vs previous`
+}
+function paceLabel(sec){if(!sec||!Number.isFinite(sec))return'--';return`${Math.floor(sec/60)}:${String(Math.round(sec%60)).padStart(2,'0')}/km`}
+function drawActivity(items,days){
+  const c=E.activityChart,x=c.getContext('2d'),ratio=Math.max(1,devicePixelRatio||1),box=c.getBoundingClientRect(),w=Math.max(300,box.width),h=185;
+  c.width=w*ratio;c.height=h*ratio;x.setTransform(ratio,0,0,ratio,0,0);x.clearRect(0,0,w,h);
+  const count=days<=7?7:14,span=Number.isFinite(days)?days:28,bucket=Math.max(1,Math.ceil(span/count)),end=new Date(),data=[];
+  end.setHours(23,59,59,999);
+  for(let i=count-1;i>=0;i--){const e=new Date(end);e.setDate(end.getDate()-i*bucket);const s=new Date(e);s.setDate(e.getDate()-bucket+1);s.setHours(0,0,0,0);data.push({label:e.toLocaleDateString([],{month:'short',day:'numeric'}),value:items.filter(v=>{const d=new Date(v.date);return d>=s&&d<=e}).reduce((a,v)=>a+(v.duration||0),0)/60})}
+  const max=Math.max(10,...data.map(v=>v.value)),pad={l:18,r:8,t:12,b:25},step=(w-pad.l-pad.r)/(data.length-1);
+  E.activityChartEmpty.style.display=data.some(v=>v.value>0)?'none':'grid';
+  x.strokeStyle='rgba(255,255,255,.07)';for(let i=0;i<4;i++){const y=pad.t+(h-pad.t-pad.b)*i/3;x.beginPath();x.moveTo(pad.l,y);x.lineTo(w-pad.r,y);x.stroke()}
+  const pts=data.map((v,i)=>({x:pad.l+i*step,y:pad.t+(h-pad.t-pad.b)*(1-v.value/max),...v}));
+  const g=x.createLinearGradient(0,pad.t,0,h-pad.b);g.addColorStop(0,'rgba(141,124,255,.32)');g.addColorStop(1,'rgba(141,124,255,0)');
+  x.beginPath();pts.forEach((p,i)=>i?x.lineTo(p.x,p.y):x.moveTo(p.x,p.y));x.lineTo(pts.at(-1).x,h-pad.b);x.lineTo(pts[0].x,h-pad.b);x.closePath();x.fillStyle=g;x.fill();
+  x.beginPath();pts.forEach((p,i)=>i?x.lineTo(p.x,p.y):x.moveTo(p.x,p.y));x.strokeStyle='#9c8cff';x.lineWidth=2.4;x.stroke();
+  x.fillStyle='rgba(205,214,226,.55)';x.font='9px system-ui';x.textAlign='center';data.forEach((v,i)=>{if(i%3===0||i===data.length-1)x.fillText(v.label,pts[i].x,h-7)});
+  const total=Math.round(data.reduce((a,v)=>a+v.value,0));E.chartTotal.textContent=`${total} min total`;E.chartAverage.textContent=`${Math.round(total/data.length)} min average`
+}
+function category(x){return x.type==='Walk & Run'||(x.distance||0)>20?'Outdoor':['Quick Start','Core Builder','Full Body'].includes(x.type)?'Plans':'Indoor'}
+function drawMix(items){
+  const groups={Outdoor:0,Plans:0,Indoor:0},colors=['#8d7cff','#42d5a1','#51a8ff'];items.forEach(v=>groups[category(v)]++);
+  const values=Object.values(groups),total=values.reduce((a,b)=>a+b,0),c=E.mixChart,x=c.getContext('2d'),ratio=Math.max(1,devicePixelRatio||1);c.width=150*ratio;c.height=150*ratio;x.setTransform(ratio,0,0,ratio,0,0);x.clearRect(0,0,150,150);
+  let a=-Math.PI/2;if(!total){x.beginPath();x.arc(75,75,55,0,Math.PI*2);x.strokeStyle='rgba(255,255,255,.08)';x.lineWidth=16;x.stroke()}else values.forEach((v,i)=>{if(!v)return;const n=a+Math.PI*2*v/total;x.beginPath();x.arc(75,75,55,a+.03,n-.03);x.strokeStyle=colors[i];x.lineWidth=16;x.lineCap='round';x.stroke();a=n});
+  E.mixCenterValue.textContent=total;E.mixTotal.textContent=`${total} workout${total===1?'':'s'}`;E.mixList.innerHTML=Object.keys(groups).map((n,i)=>`<div class="mix-row" style="--mix-color:${colors[i]}"><i></i><span>${n}</span><strong>${groups[n]}</strong></div>`).join('')
+}
+function renderBests(items){
+  const outdoor=items.filter(x=>(x.distance||0)>20),longest=items.reduce((b,x)=>(x.duration||0)>(b.duration||0)?x:b,{}),farthest=outdoor.reduce((b,x)=>(x.distance||0)>(b.distance||0)?x:b,{});
+  const fastest=outdoor.filter(x=>(x.distance||0)>=500).reduce((b,x)=>{const p=(x.duration||0)/(x.distance/1000);return p<(b.p||Infinity)?{...x,p}:b},{}),cal=items.reduce((b,x)=>(x.calories||0)>(b.calories||0)?x:b,{});
+  const list=[['⏱️','LONGEST WORKOUT',longest.duration?fmt(longest.duration):'--',longest.date],['🛣️','FARTHEST DISTANCE',farthest.distance?km(farthest.distance):'--',farthest.date],['⚡','FASTEST PACE',fastest.p?paceLabel(fastest.p):'--',fastest.date],['🔥','MOST CALORIES',cal.calories?`${cal.calories} kcal`:'--',cal.date]];
+  E.personalBestCount.textContent=`${list.filter(v=>v[2]!=='--').length} records`;E.personalBestGrid.innerHTML=list.map(v=>`<article class="personal-best"><span>${v[0]}</span><small>${v[1]}</small><strong>${v[2]}</strong><em>${v[3]?new Date(v[3]).toLocaleDateString():'No record yet'}</em></article>`).join('')
+}
+function renderHistory(items){
+  const q=E.historySearch.value.trim().toLowerCase(),f=E.historyFilter.value;
+  const list=items.map((x,i)=>({...x,_i:i})).filter(x=>{const out=category(x)==='Outdoor';return(!q||String(x.type||'Workout').toLowerCase().includes(q))&&(f==='all'||(f==='outdoor'&&out)||(f==='indoor'&&!out))});
+  E.historyList.innerHTML=list.length?list.slice(0,40).map(x=>`<article class="history-item"><button class="history-delete" data-del="${x._i}">✕</button><div class="history-head"><strong>${x.type||'Workout'}</strong><small>${new Date(x.date).toLocaleDateString()} · ${new Date(x.date).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</small><span class="history-type-chip">${category(x)}</span></div><div class="history-values"><div><span>TIME</span><strong>${fmt(x.duration||0)}</strong></div><div><span>DISTANCE</span><strong>${km(x.distance||0)}</strong></div><div><span>CALORIES</span><strong>${x.calories||0}</strong></div></div>${x.sets||x.cycles?`<div class="history-extra">${x.sets?`<span>${x.sets} sets</span>`:''}${x.cycles?`<span>${x.cycles} reps / cycles</span>`:''}</div>`:''}</article>`).join(''):'<div class="empty">No matching workouts.</div>';
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const h=history();h.splice(Number(b.dataset.del),1);saveHistory(h);renderHealth();toast('Workout deleted')})
+}
+function exportWorkoutHistory(){
+  const h=history();if(!h.length)return toast('No workouts to export');
+  const rows=[['Date','Workout','Duration seconds','Distance metres','Calories','Cycles','Sets'],...h.map(x=>[x.date,x.type||'Workout',x.duration||0,Math.round(x.distance||0),x.calories||0,x.cycles||0,x.sets||''])];
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(',')).join('\n'),blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`tourays-fitness-${new Date().toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('History exported')
+}
+function renderHealth(){
+  const all=history(),days=healthDays(),current=rangeItems(all,days),previous=rangeItems(all,days,1),s=healthStats(current),p=healthStats(previous);
+  const monday=new Date();monday.setDate(monday.getDate()-((monday.getDay()+6)%7));monday.setHours(0,0,0,0);const week=all.filter(x=>new Date(x.date)>=monday),mins=Math.round(week.reduce((a,x)=>a+(x.duration||0),0)/60),goal=Math.max(1,clamp(E.weeklyGoal.value,30,1000)||150),pct=Math.min(100,Math.round(mins/goal*100));
+  E.weeklyMinutes.textContent=`${mins} active min`;E.weeklyMessage.textContent=mins>=goal?'Weekly goal complete':`${goal-mins} min remaining`;E.goalProgress.style.strokeDashoffset=201*(1-pct/100);E.goalPercent.textContent=`${pct}%`;
+  const delta=p.minutes?(s.minutes-p.minutes)/p.minutes*100:0;E.healthTrendBadge.textContent=!Number.isFinite(days)?'All-time overview':p.minutes||s.minutes?`${delta>=0?'↑':'↓'} ${Math.abs(Math.round(delta))}% active time`:'No comparison yet';E.healthTrendBadge.classList.toggle('negative',delta<0);E.healthStreakPro.textContent=`${streakCount(all)}-day streak`;
+  E.healthActiveTime.textContent=`${Math.round(s.minutes)} min`;E.healthWorkoutCount.textContent=s.count;E.healthCalories.textContent=`${s.calories} kcal`;E.healthDistance.textContent=km(s.distance);
+  E.healthActiveTrend.textContent=changeText(s.minutes,p.minutes);E.healthWorkoutTrend.textContent=changeText(s.count,p.count);E.healthCaloriesTrend.textContent=changeText(s.calories,p.calories);E.healthDistanceTrend.textContent=changeText(s.distance,p.distance);
+  const pace=s.outDist>20?s.outTime/(s.outDist/1000):0,prevPace=p.outDist>20?p.outTime/(p.outDist/1000):0;E.healthPace.textContent=paceLabel(pace);E.healthPaceTrend.textContent=pace&&prevPace?changeText(pace,prevPace,true):'Outdoor workouts';
+  const w=clamp(E.weight.value,30,250)||75,h=(clamp(E.height.value,120,230)||0)/100,bmi=h?w/(h*h):0;E.healthBmi.textContent=bmi?bmi.toFixed(1):'--';E.bmiLabel.textContent=!bmi?'Add height in settings':bmi<18.5?'Below standard range':bmi<25?'Standard range':bmi<30?'Above standard range':'High range';
+  drawActivity(current,Number.isFinite(days)?days:28);drawMix(current);renderBests(all);updateAchievements(all);renderHistory(all)
+}
+
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>show(b.dataset.screen));document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));document.querySelectorAll('.preset').forEach(b=>b.onclick=()=>{setTime(+b.dataset.w,E.wm,E.ws);setTime(+b.dataset.r,E.rm,E.rs);document.querySelectorAll('.preset').forEach(x=>x.classList.toggle('selected',x===b))});
+E.healthRange.value=localStorage.getItem('touraysHealthRange')||'28';
+E.healthRange.onchange=()=>{localStorage.setItem('touraysHealthRange',E.healthRange.value);renderHealth()};
+E.historySearch.oninput=()=>renderHistory(history());E.historyFilter.onchange=()=>renderHistory(history());E.exportHistory.onclick=exportWorkoutHistory;
 E.closeSummary.onclick=()=>closeSummary(false);E.summaryDone.onclick=()=>closeSummary(false);E.summaryViewHealth.onclick=()=>closeSummary(true);E.summaryModal.onclick=x=>{if(x.target===E.summaryModal)closeSummary(false)};
 E.skipPhase.onclick=()=>{if(S.active&&!S.paused){S.end=Date.now();switchPhase()}};
 E.runTarget.value=localStorage.getItem('touraysRunTarget')||'1800';
