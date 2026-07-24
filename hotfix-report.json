@@ -1,0 +1,17 @@
+{
+  "build": "Tourays Fitness V9 Stability Hotfix 9180",
+  "fixed": [
+    "Hidden attribute overridden by display:flex/grid",
+    "Offline badge remaining visible while connected",
+    "Install banner remaining visible without a valid install prompt",
+    "Install banner close button not responding reliably on mobile Safari",
+    "Confirmation dialog buttons trapped by stacking and hidden-state issues",
+    "Low-contrast secondary and helper text",
+    "Modal/install stacking order"
+  ],
+  "validation": {
+    "javascript": "passed",
+    "service_worker": "passed",
+    "manifest": "passed"
+  }
+}

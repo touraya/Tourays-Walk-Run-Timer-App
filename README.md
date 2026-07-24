@@ -1,23 +1,18 @@
-Tourays Fitness V9 — Functional QA Step 3
+Tourays Fitness V9 — Stability Hotfix 9180
 
-Added:
-- Global success, warning and error toast messages
-- Reusable confirmation dialog
-- Protection for delete, remove, clear and reset actions
-- Automatic form draft saving
-- Recovery of unsaved form changes after closing or refreshing
-- Recovery notification banner
-- Offline status handling
-- Local protection of changes while offline
-- Before-close protection for unsaved forms
-- CRUD audit log stored locally
-- Reusable create, update and delete helpers
-- Empty states for Planner, Walk & Run, Nutrition and Progress
-- Updated PWA cache version 9170
+This build directly fixes the issues shown in the supplied iPhone screenshots.
 
-Validation completed:
-- Main JavaScript syntax passed
-- Service Worker syntax passed
-- Manifest JSON passed
+Fixed:
+- Offline badge no longer remains visible from a single unreliable browser status
+- Same-origin connectivity verification added
+- Install banner only appears when a genuine install prompt is available
+- Install X button now closes reliably on mobile Safari
+- Install banner stays hidden after dismissal
+- Confirmation Cancel and Confirm controls now respond reliably
+- Hidden components can no longer be forced visible by display:flex/grid CSS
+- Modal stacking order corrected
+- Text, labels, placeholders and secondary controls have stronger contrast
+- Mobile touch targets improved
 
-Recommended next build: Release Polish Step 4 covering loading states, skeletons, visual consistency, error boundaries and final accessibility cleanup.
+Important after uploading to GitHub Pages:
+Open the site once, refresh it, and allow the new Service Worker cache 9180 to replace the old cached version.

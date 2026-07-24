@@ -1159,64 +1159,157 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
 /* =========================================================
    TOURAYS FITNESS V9 — PWA, INSTALL & OFFLINE SUPPORT
+   HOTFIX 9180: reliable status, working dismissal and iOS handling
    ========================================================= */
 (function(){
-  const banner = document.getElementById('installAppBanner');
-  const installButton = document.getElementById('installAppButton');
-  const dismissButton = document.getElementById('dismissInstallBanner');
-  const networkStatus = document.getElementById('networkStatus');
-  let deferredPrompt = null;
+  const banner=document.getElementById('installAppBanner');
+  const installButton=document.getElementById('installAppButton');
+  const dismissButton=document.getElementById('dismissInstallBanner');
+  const networkStatus=document.getElementById('networkStatus');
+  let deferredPrompt=null;
+  let failedChecks=0;
+  let networkTimer=null;
 
-  function updateNetworkState(){
-    const offline = !navigator.onLine;
-    document.documentElement.classList.toggle('is-offline', offline);
-    if(networkStatus){
-      networkStatus.hidden = !offline;
-      networkStatus.querySelector('strong').textContent = offline ? 'Offline mode' : 'Back online';
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone===true ||
+      localStorage.getItem('touraysAppInstalled')==='true';
+  }
+
+  function hideInstallBanner(){
+    if(!banner) return;
+    banner.hidden=true;
+    banner.setAttribute('aria-hidden','true');
+    banner.classList.remove('is-visible');
+  }
+
+  function showInstallBanner(){
+    if(!banner || isStandalone()) return;
+    banner.hidden=false;
+    banner.setAttribute('aria-hidden','false');
+    requestAnimationFrame(()=>banner.classList.add('is-visible'));
+  }
+
+  function setNetworkBadge(mode){
+    if(!networkStatus) return;
+
+    if(mode==='offline'){
+      document.documentElement.classList.add('is-offline');
+      networkStatus.querySelector('strong').textContent='Offline mode';
+      networkStatus.hidden=false;
+      networkStatus.setAttribute('aria-hidden','false');
+      return;
+    }
+
+    document.documentElement.classList.remove('is-offline');
+
+    if(mode==='online-message'){
+      networkStatus.querySelector('strong').textContent='Back online';
+      networkStatus.hidden=false;
+      networkStatus.setAttribute('aria-hidden','false');
+      clearTimeout(networkTimer);
+      networkTimer=setTimeout(()=>{
+        networkStatus.hidden=true;
+        networkStatus.setAttribute('aria-hidden','true');
+      },1800);
+      return;
+    }
+
+    networkStatus.hidden=true;
+    networkStatus.setAttribute('aria-hidden','true');
+  }
+
+  async function verifyConnection(showRecovery=false){
+    if(!navigator.onLine){
+      failedChecks++;
+      if(failedChecks>=2) setNetworkBadge('offline');
+      return false;
+    }
+
+    try{
+      const controller=new AbortController();
+      const timeout=setTimeout(()=>controller.abort(),4500);
+      const response=await fetch(`./?tourays-network-check=${Date.now()}`,{
+        method:'HEAD',
+        cache:'no-store',
+        credentials:'same-origin',
+        signal:controller.signal
+      });
+      clearTimeout(timeout);
+
+      if(!response.ok) throw new Error(`Status ${response.status}`);
+
+      const wasOffline=document.documentElement.classList.contains('is-offline');
+      failedChecks=0;
+      setNetworkBadge(showRecovery && wasOffline ? 'online-message' : 'online');
+      return true;
+    }catch(error){
+      failedChecks++;
+      if(failedChecks>=2) setNetworkBadge('offline');
+      return false;
     }
   }
 
-  window.addEventListener('online',()=>{
-    updateNetworkState();
-    if(networkStatus){
-      networkStatus.hidden=false;
-      networkStatus.querySelector('strong').textContent='Back online';
-      setTimeout(()=>{ if(navigator.onLine) networkStatus.hidden=true; },2500);
-    }
+  window.addEventListener('online',()=>verifyConnection(true));
+  window.addEventListener('offline',()=>{
+    failedChecks=2;
+    setNetworkBadge('offline');
   });
-  window.addEventListener('offline',updateNetworkState);
-  updateNetworkState();
+
+  // A single unreliable browser status must not leave a permanent offline badge.
+  verifyConnection(false);
+  setTimeout(()=>verifyConnection(false),1800);
 
   window.addEventListener('beforeinstallprompt',event=>{
     event.preventDefault();
     deferredPrompt=event;
+
     const dismissedAt=Number(localStorage.getItem('touraysInstallDismissedAt')||0);
-    const sevenDays=7*24*60*60*1000;
-    if(Date.now()-dismissedAt>sevenDays && banner) banner.hidden=false;
+    const hideForDays=7*24*60*60*1000;
+    if(Date.now()-dismissedAt>hideForDays) showInstallBanner();
   });
 
-  if(installButton){
-    installButton.addEventListener('click',async()=>{
-      if(!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt=null;
-      banner.hidden=true;
-    });
-  }
+  installButton?.addEventListener('click',async event=>{
+    event.preventDefault();
+    event.stopPropagation();
 
-  if(dismissButton){
-    dismissButton.addEventListener('click',()=>{
+    if(!deferredPrompt){
+      hideInstallBanner();
       localStorage.setItem('touraysInstallDismissedAt',String(Date.now()));
-      banner.hidden=true;
-    });
-  }
+      if(typeof window.touraysToast==='function'){
+        window.touraysToast('Use your browser Share menu and choose “Add to Home Screen”.','warning',4200);
+      }
+      return;
+    }
+
+    deferredPrompt.prompt();
+    const choice=await deferredPrompt.userChoice;
+    deferredPrompt=null;
+    hideInstallBanner();
+
+    if(choice?.outcome!=='accepted'){
+      localStorage.setItem('touraysInstallDismissedAt',String(Date.now()));
+    }
+  });
+
+  dismissButton?.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopPropagation();
+    localStorage.setItem('touraysInstallDismissedAt',String(Date.now()));
+    hideInstallBanner();
+  });
 
   window.addEventListener('appinstalled',()=>{
     deferredPrompt=null;
-    if(banner) banner.hidden=true;
+    hideInstallBanner();
     localStorage.setItem('touraysAppInstalled','true');
   });
+
+  // Never leave the banner visible without an actual install prompt.
+  if(isStandalone()) hideInstallBanner();
+  else setTimeout(()=>{
+    if(!deferredPrompt) hideInstallBanner();
+  },1200);
 
   // Persist the most important profile and settings inputs automatically.
   const autosaveIds=[
@@ -1228,38 +1321,32 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   function restoreAutosave(){
     const saved=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
     autosaveIds.forEach(id=>{
-      const el=document.getElementById(id);
-      if(!el || !(id in saved)) return;
-      if(el.type==='checkbox') el.checked=Boolean(saved[id]);
-      else el.value=saved[id];
+      const input=document.getElementById(id);
+      if(!input || saved[id]===undefined) return;
+      if(input.type==='checkbox') input.checked=Boolean(saved[id]);
+      else input.value=saved[id];
     });
   }
 
-  function saveAutosave(){
-    const data={};
-    autosaveIds.forEach(id=>{
-      const el=document.getElementById(id);
-      if(!el) return;
-      data[id]=el.type==='checkbox'?el.checked:el.value;
+  autosaveIds.forEach(id=>{
+    const input=document.getElementById(id);
+    if(!input) return;
+    input.addEventListener('change',()=>{
+      const saved=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+      saved[id]=input.type==='checkbox'?input.checked:input.value;
+      localStorage.setItem('touraysAutosaveSettings',JSON.stringify(saved));
     });
-    localStorage.setItem('touraysAutosaveSettings',JSON.stringify(data));
-    localStorage.setItem('touraysLastSavedAt',new Date().toISOString());
-  }
+  });
 
   restoreAutosave();
-  autosaveIds.forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){
-      el.addEventListener('change',saveAutosave);
-      el.addEventListener('input',saveAutosave);
-    }
-  });
 
-  // Flush data before the browser closes or backgrounds the app.
-  document.addEventListener('visibilitychange',()=>{
-    if(document.visibilityState==='hidden') saveAutosave();
-  });
-  window.addEventListener('pagehide',saveAutosave);
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',()=>{
+      navigator.serviceWorker.register('./sw.js').catch(error=>{
+        console.warn('Service Worker registration failed',error);
+      });
+    });
+  }
 })();
 
 
@@ -4692,4 +4779,55 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     installEmptyStates();
   });
   observer.observe(document.body,{childList:true,subtree:true});
+})();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — INTERACTION SAFETY HOTFIX 9180
+   ========================================================= */
+(function(){
+  const dialog=document.getElementById('touraysConfirmDialog');
+  const cancel=document.getElementById('touraysConfirmCancel');
+  const accept=document.getElementById('touraysConfirmAccept');
+  const installBanner=document.getElementById('installAppBanner');
+  const dismissInstall=document.getElementById('dismissInstallBanner');
+
+  function forceHide(element){
+    if(!element) return;
+    element.hidden=true;
+    element.setAttribute('aria-hidden','true');
+    element.style.removeProperty('display');
+  }
+
+  // Hidden elements had display:grid/flex rules that overruled the native hidden attribute.
+  document.querySelectorAll('[hidden]').forEach(element=>{
+    element.setAttribute('aria-hidden','true');
+  });
+
+  // Extra direct listeners are intentionally placed in capture phase for mobile Safari.
+  cancel?.addEventListener('pointerup',event=>{
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    forceHide(dialog);
+    document.body.classList.remove('tourays-dialog-open');
+  },true);
+
+  accept?.addEventListener('pointerup',event=>{
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    forceHide(dialog);
+    document.body.classList.remove('tourays-dialog-open');
+  },true);
+
+  dismissInstall?.addEventListener('pointerup',event=>{
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    localStorage.setItem('touraysInstallDismissedAt',String(Date.now()));
+    forceHide(installBanner);
+  },true);
+
+  window.addEventListener('pageshow',()=>{
+    if(dialog?.hidden) forceHide(dialog);
+    if(installBanner?.hidden) forceHide(installBanner);
+  });
 })();

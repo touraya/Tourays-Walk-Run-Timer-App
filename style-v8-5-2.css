@@ -3314,3 +3314,132 @@ body.tourays-dialog-open{overflow:hidden}
   .tourays-confirm-card>div{flex-direction:column-reverse}
   .tourays-confirm-card button{width:100%}
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — STABILITY & CONTRAST HOTFIX 9180
+   ========================================================= */
+
+/* Native hidden must always win over component display declarations. */
+[hidden]{
+  display:none!important;
+}
+
+/* Modal and toast layers must sit above install/navigation surfaces. */
+.tourays-confirm-dialog{z-index:20050!important}
+.tourays-toast-region{z-index:20060!important}
+.tourays-recovery-banner{z-index:20040!important}
+.install-app-banner{z-index:10020}
+.network-status{
+  z-index:10030;
+  top:calc(env(safe-area-inset-top) + 8px);
+}
+
+/* Prevent permanent visual obstruction and improve mobile control behavior. */
+.install-app-banner,
+.tourays-confirm-dialog,
+.network-status{
+  touch-action:manipulation;
+}
+.install-app-banner button,
+.tourays-confirm-card button{
+  min-height:48px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.install-app-banner .install-dismiss{
+  min-width:44px;
+  min-height:44px;
+  font-size:1rem;
+  color:#4e4958;
+}
+.install-app-banner[hidden],
+.tourays-confirm-dialog[hidden],
+.network-status[hidden]{
+  display:none!important;
+}
+
+/* Stronger app-wide readable colors. */
+:root{
+  --tourays-text:#171827;
+  --tourays-muted:#5f667c;
+  --tourays-soft-text:#6a7188;
+  --tourays-purple:#623ce7;
+  --tourays-purple-dark:#4e2dc7;
+}
+body{color:var(--tourays-text)}
+p,small,.muted,.subtitle,.helper-text,
+.install-app-banner span,
+.tourays-confirm-card p,
+.tourays-qa-results small,
+.profile-completion-card p{
+  color:var(--tourays-muted);
+}
+.eyebrow,
+.v9-brand small,
+.tourays-header-title small,
+.profile-section-heading .eyebrow{
+  color:#6553bb;
+}
+a,
+.link-button,
+.text-link{
+  color:var(--tourays-purple-dark);
+}
+button{
+  color:inherit;
+}
+.primary-button,
+.install-app-banner button:not(.install-dismiss),
+.tourays-confirm-card button:not(.secondary),
+.tourays-bottom-nav button.active,
+.tourays-menu-grid button.active{
+  background:#623ce7;
+  color:#fff;
+}
+.tourays-confirm-card button.secondary{
+  background:#ece8fa;
+  color:#4e2dc7;
+}
+input,select,textarea{
+  color:#171827;
+}
+input::placeholder,
+textarea::placeholder{
+  color:#757c90;
+  opacity:1;
+}
+
+/* Make pale cards and labels readable on iPhone displays. */
+.card,
+.profile-settings-card,
+.planner-card,
+.nutrition-card,
+.progress-card{
+  color:#171827;
+}
+.tourays-bottom-nav button{
+  color:#5e6579;
+}
+.tourays-bottom-nav button small{
+  color:inherit;
+}
+.network-status{
+  background:#211d2d;
+  color:#fff;
+}
+
+/* Avoid header/banner collision on narrow mobile screens. */
+@media(max-width:560px){
+  .network-status{
+    position:fixed;
+    top:calc(env(safe-area-inset-top) + 6px);
+    padding:8px 13px;
+    font-size:.7rem;
+  }
+  .install-app-banner{
+    left:10px;
+    right:10px;
+    bottom:calc(var(--tourays-nav-height) + 18px + env(safe-area-inset-bottom));
+  }
+}
