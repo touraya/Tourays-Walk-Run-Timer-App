@@ -1,7 +1,7 @@
 {
-  "name": "Tourays Fitness V7 Build 5",
+  "name": "Tourays Fitness V7 Build 6",
   "short_name": "Tourays V7",
-  "description": "Premium fitness tracking with Health Dashboard Pro, trends, records, indoor plans and GPS intervals.",
+  "description": "Premium fitness tracking with personalized AI Coach, Health Dashboard Pro, indoor plans and GPS intervals.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
