@@ -3516,3 +3516,210 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   restorePreferences();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — PROFILE STEP 5: DATA, PRIVACY & LOCALIZATION
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('profileSettingsScreen');
+  if(!screen || !document.getElementById('profileExportDataBtn')) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    form:$('profileSettingsForm'),
+    language:$('profileLanguage'),
+    unitSystem:$('profileUnitSystem'),
+    distanceUnit:$('profileDistanceUnit'),
+    temperatureUnit:$('profileTemperatureUnit'),
+    weightUnitSummary:$('profileWeightUnitSummary'),
+    distanceUnitSummary:$('profileDistanceUnitSummary'),
+    temperatureUnitSummary:$('profileTemperatureUnitSummary'),
+    exportBtn:$('profileExportDataBtn'),
+    importInput:$('profileImportDataInput'),
+    clearHistoryBtn:$('profileClearHistoryBtn'),
+    resetBtn:$('profileResetAppBtn'),
+    dataStatus:$('profileDataStatus'),
+    dataDetails:$('profileDataDetails'),
+    locationPermission:$('profileLocationPermission'),
+    healthPermission:$('profileHealthDataPermission'),
+    analyticsConsent:$('profileAnalyticsConsent'),
+    offlineSupport:$('profileOfflineSupport')
+  };
+
+  const localizationKey='touraysLocalizationSettingsV1';
+  const privacyKey='touraysPrivacySettingsV1';
+
+  function localKeys(){
+    const keys=[];
+    for(let i=0;i<localStorage.length;i++){
+      const key=localStorage.key(i);
+      if(key && (
+        key.toLowerCase().includes('tourays') ||
+        key.toLowerCase().includes('workout') ||
+        key.toLowerCase().includes('nutrition') ||
+        key.toLowerCase().includes('planner') ||
+        key.toLowerCase().includes('progress') ||
+        key.toLowerCase().includes('walk')
+      )) keys.push(key);
+    }
+    return [...new Set(keys)].sort();
+  }
+
+  function exportData(){
+    const data={};
+    localKeys().forEach(key=>{
+      const raw=localStorage.getItem(key);
+      try{ data[key]=JSON.parse(raw); }
+      catch{ data[key]=raw; }
+    });
+
+    const backup={
+      app:'Tourays Fitness',
+      version:'V9.13',
+      exportedAt:new Date().toISOString(),
+      storage:data
+    };
+
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    const stamp=new Date().toISOString().slice(0,10);
+    a.href=url;
+    a.download=`tourays-fitness-backup-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+
+    refs.dataStatus.textContent='Backup exported successfully.';
+    refs.dataDetails.textContent=`${Object.keys(data).length} local data groups were included.`;
+  }
+
+  async function importData(file){
+    if(!file) return;
+    try{
+      const text=await file.text();
+      const backup=JSON.parse(text);
+      if(!backup || typeof backup.storage!=='object'){
+        throw new Error('Invalid backup format');
+      }
+
+      Object.entries(backup.storage).forEach(([key,value])=>{
+        localStorage.setItem(key,typeof value==='string'?value:JSON.stringify(value));
+      });
+
+      refs.dataStatus.textContent='Backup imported successfully.';
+      refs.dataDetails.textContent='Reloading the app to apply restored settings.';
+      setTimeout(()=>location.reload(),900);
+    }catch(error){
+      refs.dataStatus.textContent='Backup import failed.';
+      refs.dataDetails.textContent='Please select a valid Tourays Fitness JSON backup.';
+    }
+  }
+
+  function clearWorkoutHistory(){
+    const candidates=localKeys().filter(key=>{
+      const lower=key.toLowerCase();
+      return lower.includes('history') ||
+             lower.includes('workoutlog') ||
+             lower.includes('activitylog') ||
+             lower.includes('walkrun') ||
+             lower.includes('progressworkout');
+    });
+
+    if(!confirm(`Remove ${candidates.length} workout history data group${candidates.length===1?'':'s'}?`)) return;
+    candidates.forEach(key=>localStorage.removeItem(key));
+
+    refs.dataStatus.textContent='Workout history cleared.';
+    refs.dataDetails.textContent='Profile, settings and nutrition targets were kept.';
+  }
+
+  function resetApp(){
+    if(!confirm('Delete all Tourays Fitness data stored on this device? This cannot be undone.')) return;
+    localKeys().forEach(key=>localStorage.removeItem(key));
+    refs.dataStatus.textContent='Application data reset.';
+    refs.dataDetails.textContent='Reloading Tourays Fitness with default settings.';
+    setTimeout(()=>location.reload(),900);
+  }
+
+  function updateUnitSummary(){
+    const metric=refs.unitSystem.value==='metric';
+    if(metric){
+      refs.distanceUnit.value='km';
+      refs.temperatureUnit.value='c';
+    }
+    refs.weightUnitSummary.textContent=metric?'Kilograms':'Pounds';
+    refs.distanceUnitSummary.textContent=refs.distanceUnit.value==='km'?'Kilometres':'Miles';
+    refs.temperatureUnitSummary.textContent=refs.temperatureUnit.value==='c'?'Celsius':'Fahrenheit';
+  }
+
+  function saveSettings(){
+    const localization={
+      language:refs.language.value,
+      unitSystem:refs.unitSystem.value,
+      distanceUnit:refs.distanceUnit.value,
+      temperatureUnit:refs.temperatureUnit.value
+    };
+
+    const privacy={
+      locationPermission:refs.locationPermission.checked,
+      healthDataPermission:refs.healthPermission.checked,
+      analyticsConsent:refs.analyticsConsent.checked
+    };
+
+    localStorage.setItem(localizationKey,JSON.stringify(localization));
+    localStorage.setItem(privacyKey,JSON.stringify(privacy));
+
+    const autosave=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    localStorage.setItem('touraysAutosaveSettings',JSON.stringify({
+      ...autosave,
+      language:localization.language,
+      unitSystem:localization.unitSystem,
+      distanceUnit:localization.distanceUnit,
+      temperatureUnit:localization.temperatureUnit,
+      locationPermission:privacy.locationPermission,
+      healthDataPermission:privacy.healthDataPermission,
+      analyticsConsent:privacy.analyticsConsent
+    }));
+  }
+
+  function restoreSettings(){
+    const localization=JSON.parse(localStorage.getItem(localizationKey)||'{}');
+    const privacy=JSON.parse(localStorage.getItem(privacyKey)||'{}');
+
+    refs.language.value=localization.language||'en';
+    refs.unitSystem.value=localization.unitSystem||'metric';
+    refs.distanceUnit.value=localization.distanceUnit||'km';
+    refs.temperatureUnit.value=localization.temperatureUnit||'c';
+
+    refs.locationPermission.checked=privacy.locationPermission!==false;
+    refs.healthPermission.checked=privacy.healthDataPermission!==false;
+    refs.analyticsConsent.checked=Boolean(privacy.analyticsConsent);
+
+    refs.offlineSupport.textContent=('serviceWorker' in navigator)?'Available':'Not supported';
+    updateUnitSummary();
+
+    const count=localKeys().length;
+    refs.dataStatus.textContent='Your data is stored locally on this device.';
+    refs.dataDetails.textContent=`${count} Tourays Fitness data group${count===1?' is':'s are'} currently stored.`;
+  }
+
+  refs.exportBtn.addEventListener('click',exportData);
+  refs.importInput.addEventListener('change',event=>importData(event.target.files?.[0]));
+  refs.clearHistoryBtn.addEventListener('click',clearWorkoutHistory);
+  refs.resetBtn.addEventListener('click',resetApp);
+
+  refs.unitSystem.addEventListener('change',updateUnitSummary);
+  refs.distanceUnit.addEventListener('change',updateUnitSummary);
+  refs.temperatureUnit.addEventListener('change',updateUnitSummary);
+
+  refs.form.addEventListener('submit',saveSettings);
+
+  const observer=new MutationObserver(()=>{
+    if(!screen.hidden) restoreSettings();
+  });
+  observer.observe(screen,{attributes:true,attributeFilter:['hidden']});
+
+  restoreSettings();
+})();

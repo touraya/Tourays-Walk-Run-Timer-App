@@ -1,21 +1,18 @@
-Tourays Fitness V9 — Profile & Settings Step 4
+Tourays Fitness V9 — Profile & Settings Step 5
 
-Added notifications and app preferences:
-- Workout reminders
-- Water reminders
-- Meal reminders
-- Daily summary
-- Weekly report
-- Achievement alerts
-- Reminder times
-- Browser notification permission handling
-- Light, dark and system theme settings
-- Countdown setting
-- Voice coach setting
-- GPS accuracy setting
-- Vibration and sound settings
-- Walk & Run auto-pause setting
-- Keep-screen-awake preference
-- Shared local persistence across the app
+Added localization, data management and privacy controls:
+- English, German and French language foundation
+- Metric and imperial unit settings
+- Kilometres or miles
+- Celsius or Fahrenheit
+- Complete JSON data export
+- JSON backup import
+- Workout history clearing
+- Full local app reset
+- Location permission preference
+- Health data storage preference
+- Analytics consent preference
+- App version and offline support information
+- Shared local persistence across modules
 
-Next step: units, language foundation, backup/export/import and privacy controls.
+Next step: final Profile & Settings integration cleanup and premium UI polish.

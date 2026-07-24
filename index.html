@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Profile Step 4</title>
+<title>Tourays Fitness V9 · Profile Step 5</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9120" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9130" rel="stylesheet"/>
 </head>
 <body>
 
@@ -921,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9120"></script>
+<script src="app-v8-5-2.js?v=9130"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -2205,6 +2205,157 @@ if ('serviceWorker' in navigator) {
           <article>
             <span>Voice coach</span>
             <strong id="profileVoiceSummary">On</strong>
+          </article>
+        </div>
+      </section>
+
+
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">UNITS &amp; LANGUAGE</span>
+            <h2>Localization</h2>
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <label>
+            <span>Language</span>
+            <select id="profileLanguage">
+              <option value="en" selected>English</option>
+              <option value="de">Deutsch</option>
+              <option value="fr">Français</option>
+            </select>
+          </label>
+          <label>
+            <span>Measurement system</span>
+            <select id="profileUnitSystem">
+              <option value="metric" selected>Metric</option>
+              <option value="imperial">Imperial</option>
+            </select>
+          </label>
+          <label>
+            <span>Distance unit</span>
+            <select id="profileDistanceUnit">
+              <option value="km" selected>Kilometres</option>
+              <option value="mi">Miles</option>
+            </select>
+          </label>
+          <label>
+            <span>Temperature unit</span>
+            <select id="profileTemperatureUnit">
+              <option value="c" selected>Celsius</option>
+              <option value="f">Fahrenheit</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="profile-preference-summary">
+          <article>
+            <span>Weight</span>
+            <strong id="profileWeightUnitSummary">Kilograms</strong>
+          </article>
+          <article>
+            <span>Distance</span>
+            <strong id="profileDistanceUnitSummary">Kilometres</strong>
+          </article>
+          <article>
+            <span>Temperature</span>
+            <strong id="profileTemperatureUnitSummary">Celsius</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">DATA &amp; BACKUP</span>
+            <h2>Export, import and reset</h2>
+          </div>
+        </div>
+
+        <div class="profile-action-grid">
+          <button id="profileExportDataBtn" type="button" class="profile-action-card">
+            <strong>Export all data</strong>
+            <span>Download a complete JSON backup of your local Tourays Fitness data.</span>
+          </button>
+
+          <label class="profile-action-card profile-action-upload">
+            <strong>Import backup</strong>
+            <span>Restore settings, workouts, nutrition and progress from a JSON file.</span>
+            <input id="profileImportDataInput" type="file" accept=".json,application/json" hidden>
+          </label>
+
+          <button id="profileClearHistoryBtn" type="button" class="profile-action-card">
+            <strong>Clear workout history</strong>
+            <span>Remove logged workouts and activity history only.</span>
+          </button>
+
+          <button id="profileResetAppBtn" type="button" class="profile-action-card profile-danger-card">
+            <strong>Reset application</strong>
+            <span>Delete all locally stored Tourays Fitness data from this device.</span>
+          </button>
+        </div>
+
+        <div class="profile-data-status">
+          <strong id="profileDataStatus">Your data is stored locally on this device.</strong>
+          <span id="profileDataDetails">No cloud account is required for this build.</span>
+        </div>
+      </section>
+
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">PRIVACY &amp; PERMISSIONS</span>
+            <h2>Control app access</h2>
+          </div>
+        </div>
+
+        <div class="profile-toggle-list">
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Location access</strong>
+              <small>Allow Walk &amp; Run to use GPS when you start tracking.</small>
+            </div>
+            <input id="profileLocationPermission" type="checkbox" checked>
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Health data storage</strong>
+              <small>Store weight, body measurements and nutrition data locally.</small>
+            </div>
+            <input id="profileHealthDataPermission" type="checkbox" checked>
+            <span class="profile-toggle-ui"></span>
+          </label>
+
+          <label class="profile-toggle-row">
+            <div>
+              <strong>Analytics consent</strong>
+              <small>Allow anonymous local usage statistics for future quality improvements.</small>
+            </div>
+            <input id="profileAnalyticsConsent" type="checkbox">
+            <span class="profile-toggle-ui"></span>
+          </label>
+        </div>
+
+        <div class="profile-about-grid">
+          <article>
+            <span>Application</span>
+            <strong>Tourays Fitness</strong>
+          </article>
+          <article>
+            <span>Version</span>
+            <strong id="profileAppVersion">V9.13</strong>
+          </article>
+          <article>
+            <span>Storage</span>
+            <strong>Local-first</strong>
+          </article>
+          <article>
+            <span>Offline support</span>
+            <strong id="profileOfflineSupport">Available</strong>
           </article>
         </div>
       </section>
