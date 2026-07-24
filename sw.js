@@ -1,9 +1,9 @@
-const CACHE_NAME = 'tourays-fitness-v9-9060';
+const CACHE_NAME = 'tourays-fitness-v9-9070';
 const APP_SHELL = [
   './',
   './index.html',
-  './style-v8-5-2.css?v=9060',
-  './app-v8-5-2.js?v=9060',
+  './style-v8-5-2.css?v=9070',
+  './app-v8-5-2.js?v=9070',
   './manifest.json',
   './icon.svg',
   './pushup-premium-master.png'

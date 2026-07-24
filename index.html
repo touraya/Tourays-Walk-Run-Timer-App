@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Progress Analytics Build</title>
+<title>Tourays Fitness V9 · AI Coach Build</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9060" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9070" rel="stylesheet"/>
 </head>
 <body>
 
@@ -921,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9060"></script>
+<script src="app-v8-5-2.js?v=9070"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -1324,6 +1324,157 @@ if ('serviceWorker' in navigator) {
         <button type="submit" class="planner-save-action">Save measurement</button>
       </div>
     </form>
+  </div>
+</section>
+
+
+<section id="coachScreen" class="screen coach-screen" hidden>
+  <div class="coach-shell">
+    <header class="coach-header">
+      <div>
+        <span class="eyebrow">PERSONAL GUIDANCE</span>
+        <h1>AI Coach</h1>
+        <p>Get practical recommendations based on your goal, recent activity and available time.</p>
+      </div>
+      <button id="coachBackBtn" class="icon-btn" aria-label="Back">←</button>
+    </header>
+
+    <section class="coach-hero-card">
+      <div class="coach-avatar">T</div>
+      <div class="coach-hero-copy">
+        <span id="coachGreeting">Your coach is ready</span>
+        <h2 id="coachHeadline">Let’s build today’s best session.</h2>
+        <p id="coachSummary">Choose your available time and energy level to receive a focused recommendation.</p>
+      </div>
+      <button id="coachRefreshPlan" class="coach-refresh-btn">Refresh plan</button>
+    </section>
+
+    <section class="coach-input-grid">
+      <article class="coach-input-card">
+        <label for="coachGoal">Primary goal</label>
+        <select id="coachGoal">
+          <option value="general">General fitness</option>
+          <option value="fatloss">Lose body fat</option>
+          <option value="muscle">Build muscle</option>
+          <option value="endurance">Improve endurance</option>
+          <option value="mobility">Improve mobility</option>
+        </select>
+      </article>
+
+      <article class="coach-input-card">
+        <label for="coachTime">Available time</label>
+        <select id="coachTime">
+          <option value="15">15 minutes</option>
+          <option value="20">20 minutes</option>
+          <option value="30" selected>30 minutes</option>
+          <option value="45">45 minutes</option>
+          <option value="60">60 minutes</option>
+        </select>
+      </article>
+
+      <article class="coach-input-card">
+        <label for="coachEnergy">Energy today</label>
+        <select id="coachEnergy">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+      </article>
+
+      <article class="coach-input-card">
+        <label for="coachLocation">Training location</label>
+        <select id="coachLocation">
+          <option value="home">Home</option>
+          <option value="gym">Gym</option>
+          <option value="outdoor">Outdoor</option>
+          <option value="anywhere">Anywhere</option>
+        </select>
+      </article>
+    </section>
+
+    <section class="coach-plan-card">
+      <div class="coach-plan-heading">
+        <div>
+          <span class="eyebrow">TODAY’S RECOMMENDATION</span>
+          <h2 id="coachPlanTitle">Balanced Full Body</h2>
+        </div>
+        <span id="coachPlanBadge" class="coach-plan-badge">30 min</span>
+      </div>
+
+      <div class="coach-plan-overview">
+        <div>
+          <span>Focus</span>
+          <strong id="coachPlanFocus">Strength & conditioning</strong>
+        </div>
+        <div>
+          <span>Intensity</span>
+          <strong id="coachPlanIntensity">Moderate</strong>
+        </div>
+        <div>
+          <span>Estimated calories</span>
+          <strong id="coachPlanCalories">220 kcal</strong>
+        </div>
+      </div>
+
+      <div id="coachPlanBlocks" class="coach-plan-blocks"></div>
+
+      <div class="coach-plan-actions">
+        <button id="coachSaveToPlanner" class="coach-secondary-btn">Save to planner</button>
+        <button id="coachStartWorkout" class="coach-primary-btn">Start workout</button>
+      </div>
+    </section>
+
+    <section class="coach-insights-grid">
+      <article class="coach-insight-card">
+        <div class="coach-insight-icon">🔥</div>
+        <div>
+          <span>Consistency insight</span>
+          <strong id="coachConsistencyInsight">Complete one session today to build momentum.</strong>
+        </div>
+      </article>
+      <article class="coach-insight-card">
+        <div class="coach-insight-icon">💤</div>
+        <div>
+          <span>Recovery insight</span>
+          <strong id="coachRecoveryInsight">Your recent workload supports a moderate session.</strong>
+        </div>
+      </article>
+      <article class="coach-insight-card">
+        <div class="coach-insight-icon">🎯</div>
+        <div>
+          <span>Goal insight</span>
+          <strong id="coachGoalInsight">Keep a balanced mix of strength and cardio.</strong>
+        </div>
+      </article>
+    </section>
+
+    <section class="coach-chat-card">
+      <div class="coach-chat-heading">
+        <div>
+          <span class="eyebrow">QUICK COACH</span>
+          <h2>Ask for guidance</h2>
+        </div>
+      </div>
+
+      <div id="coachChatMessages" class="coach-chat-messages">
+        <article class="coach-message coach-message-ai">
+          <div class="coach-message-avatar">T</div>
+          <p>Tell me what you need help with today.</p>
+        </article>
+      </div>
+
+      <div class="coach-quick-prompts">
+        <button data-coach-prompt="I feel tired today">I feel tired</button>
+        <button data-coach-prompt="Give me a short workout">Short workout</button>
+        <button data-coach-prompt="What should I train next?">What next?</button>
+        <button data-coach-prompt="How can I improve consistency?">Consistency</button>
+      </div>
+
+      <form id="coachChatForm" class="coach-chat-form">
+        <input id="coachChatInput" type="text" placeholder="Ask your coach..." maxlength="180" required>
+        <button type="submit">Send</button>
+      </form>
+    </section>
   </div>
 </section>
 

@@ -1,15 +1,12 @@
-Tourays Fitness V9 — Progress & Analytics Build
+Tourays Fitness V9 — AI Coach Build
 
 Added:
-- 7/30/90-day and yearly analytics ranges
-- Workout count, training minutes, calories and streaks
-- Weekly activity chart
-- Weekly goal completion ring
-- Personal records
-- Manual workout logging
-- Weight, waist and body-fat measurement tracking
-- Weight trend chart
-- Unified activity history including Walk & Run sessions
-- Local persistence and offline compatibility
+- Goal-based workout recommendations
+- Time, energy and location controls
+- Adaptive workout title, intensity, calories and session blocks
+- Consistency, recovery and goal insights
+- Save AI recommendation directly to the weekly planner
+- Quick coach chat with practical local responses
+- Preference persistence and offline support
 
 Upload every file and overwrite the current version.

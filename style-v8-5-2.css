@@ -2367,3 +2367,141 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
   .progress-history-item{grid-template-columns:auto 1fr}
   .progress-history-stats{grid-column:2;text-align:left}
 }
+
+
+/* =========================================================
+   V9 AI COACH
+   ========================================================= */
+.coach-screen{
+  min-height:100vh;
+  background:#f7f8fc;
+  padding:20px 14px 110px;
+}
+.coach-shell{max-width:1080px;margin:0 auto}
+.coach-header{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:18px
+}
+.coach-header h1{
+  margin:4px 0 6px;font-size:clamp(2rem,7vw,3.4rem);line-height:1
+}
+.coach-header p{margin:0;color:#77798b;max-width:660px}
+.coach-hero-card{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;
+  padding:20px;margin-bottom:14px;border-radius:26px;
+  background:linear-gradient(135deg,#2c214e,#6f48e8);
+  color:#fff;box-shadow:0 18px 46px rgba(73,49,145,.25)
+}
+.coach-avatar{
+  width:64px;height:64px;display:grid;place-items:center;border-radius:20px;
+  background:rgba(255,255,255,.16);font-size:1.8rem;font-weight:900
+}
+.coach-hero-copy{display:flex;flex-direction:column;gap:4px}
+.coach-hero-copy>span{font-size:.68rem;letter-spacing:.12em;font-weight:900;color:#d9cff9}
+.coach-hero-copy h2{margin:0;font-size:1.55rem}
+.coach-hero-copy p{margin:0;color:#e7e1f7;font-size:.8rem}
+.coach-refresh-btn{
+  border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:11px 14px;
+  background:rgba(255,255,255,.12);color:#fff;font-weight:900
+}
+.coach-input-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px
+}
+.coach-input-card{
+  padding:14px;border-radius:18px;background:#fff;box-shadow:0 10px 28px rgba(45,38,75,.06)
+}
+.coach-input-card label{display:block;margin-bottom:7px;font-size:.68rem;font-weight:900;color:#6c6879}
+.coach-input-card select{
+  width:100%;border:1px solid #ded9eb;border-radius:12px;padding:11px;background:#fbfaff;font:inherit
+}
+.coach-plan-card{
+  padding:20px;margin-bottom:14px;border-radius:26px;background:#fff;
+  box-shadow:0 14px 38px rgba(45,38,75,.07)
+}
+.coach-plan-heading{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:16px
+}
+.coach-plan-heading h2{margin:4px 0 0}
+.coach-plan-badge{
+  padding:9px 11px;border-radius:12px;background:#eeeafb;color:#633fd0;font-size:.72rem;font-weight:900
+}
+.coach-plan-overview{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px
+}
+.coach-plan-overview>div{
+  padding:13px;border-radius:15px;background:#f7f6fb
+}
+.coach-plan-overview span{display:block;font-size:.65rem;color:#8c8998}
+.coach-plan-overview strong{display:block;margin-top:4px;font-size:.85rem}
+.coach-plan-blocks{display:grid;gap:9px}
+.coach-plan-block{
+  display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;
+  padding:13px;border:1px solid #ece7f8;border-radius:16px;background:#fbfaff
+}
+.coach-block-number{
+  width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:#e9e3fb;
+  color:#623ccf;font-weight:900
+}
+.coach-plan-block>div:nth-child(2){display:flex;flex-direction:column;gap:3px}
+.coach-plan-block span{font-size:.68rem;color:#858291;line-height:1.4}
+.coach-plan-block small{font-weight:900;color:#6842d5;white-space:nowrap}
+.coach-plan-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+.coach-plan-actions button{
+  border:0;border-radius:14px;padding:12px 16px;font-weight:900
+}
+.coach-secondary-btn{background:#eeebf8;color:#633fd0}
+.coach-primary-btn{background:#6f48e8;color:#fff;box-shadow:0 10px 22px rgba(111,72,232,.24)}
+.coach-insights-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px
+}
+.coach-insight-card{
+  display:flex;align-items:flex-start;gap:11px;padding:15px;border-radius:18px;background:#fff;
+  box-shadow:0 10px 28px rgba(45,38,75,.06)
+}
+.coach-insight-icon{
+  width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:#ebe6fb
+}
+.coach-insight-card>div:nth-child(2){display:flex;flex-direction:column;gap:4px}
+.coach-insight-card span{font-size:.64rem;color:#8b8796}
+.coach-insight-card strong{font-size:.75rem;line-height:1.45}
+.coach-chat-card{
+  padding:18px;border-radius:24px;background:#fff;box-shadow:0 14px 38px rgba(45,38,75,.07)
+}
+.coach-chat-heading h2{margin:4px 0 12px}
+.coach-chat-messages{
+  display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:auto;
+  padding:12px;border-radius:18px;background:#f7f6fb
+}
+.coach-message{display:flex;align-items:flex-start;gap:8px}
+.coach-message p{
+  margin:0;padding:11px 13px;border-radius:14px;font-size:.77rem;line-height:1.5;max-width:78%
+}
+.coach-message-ai p{background:#fff;color:#373342}
+.coach-message-user{justify-content:flex-end}
+.coach-message-user p{background:#6f48e8;color:#fff}
+.coach-message-avatar{
+  width:30px;height:30px;display:grid;place-items:center;flex:0 0 auto;border-radius:10px;
+  background:#6f48e8;color:#fff;font-weight:900;font-size:.75rem
+}
+.coach-quick-prompts{display:flex;gap:8px;overflow:auto;padding:12px 0}
+.coach-quick-prompts button{
+  border:1px solid #e2dcef;border-radius:999px;padding:9px 12px;background:#fff;
+  color:#625d70;font-weight:800;white-space:nowrap
+}
+.coach-chat-form{display:grid;grid-template-columns:1fr auto;gap:9px}
+.coach-chat-form input{
+  border:1px solid #ddd8e9;border-radius:14px;padding:12px 13px;background:#fbfaff;font:inherit
+}
+.coach-chat-form button{
+  border:0;border-radius:14px;padding:12px 17px;background:#6f48e8;color:#fff;font-weight:900
+}
+@media(max-width:850px){
+  .coach-input-grid{grid-template-columns:1fr 1fr}
+  .coach-insights-grid{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .coach-hero-card{grid-template-columns:auto 1fr}
+  .coach-refresh-btn{grid-column:1/-1;width:100%}
+  .coach-input-grid{grid-template-columns:1fr 1fr}
+  .coach-plan-overview{grid-template-columns:1fr}
+  .coach-plan-actions{display:grid;grid-template-columns:1fr 1fr}
+}

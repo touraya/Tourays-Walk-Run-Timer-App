@@ -2031,3 +2031,323 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   renderAll();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — AI COACH
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('coachScreen');
+  if(!screen) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    back:$('coachBackBtn'),
+    goal:$('coachGoal'),
+    time:$('coachTime'),
+    energy:$('coachEnergy'),
+    location:$('coachLocation'),
+    refresh:$('coachRefreshPlan'),
+    greeting:$('coachGreeting'),
+    headline:$('coachHeadline'),
+    summary:$('coachSummary'),
+    title:$('coachPlanTitle'),
+    badge:$('coachPlanBadge'),
+    focus:$('coachPlanFocus'),
+    intensity:$('coachPlanIntensity'),
+    calories:$('coachPlanCalories'),
+    blocks:$('coachPlanBlocks'),
+    save:$('coachSaveToPlanner'),
+    start:$('coachStartWorkout'),
+    consistency:$('coachConsistencyInsight'),
+    recovery:$('coachRecoveryInsight'),
+    goalInsight:$('coachGoalInsight'),
+    messages:$('coachChatMessages'),
+    chatForm:$('coachChatForm'),
+    chatInput:$('coachChatInput')
+  };
+
+  const storageKey='touraysCoachPreferencesV1';
+  let currentPlan=null;
+
+  const planLibrary={
+    general:{
+      low:{title:'Mobility & Core Reset',focus:'Mobility & stability',intensity:'Low',factor:5.5},
+      medium:{title:'Balanced Full Body',focus:'Strength & conditioning',intensity:'Moderate',factor:7.3},
+      high:{title:'Full Body Power',focus:'Strength & performance',intensity:'High',factor:9.2}
+    },
+    fatloss:{
+      low:{title:'Low-Impact Cardio Flow',focus:'Cardio & mobility',intensity:'Low',factor:6.0},
+      medium:{title:'Fat-Burn Circuit',focus:'Conditioning & strength',intensity:'Moderate',factor:8.0},
+      high:{title:'High-Energy HIIT',focus:'Intervals & calorie burn',intensity:'High',factor:10.0}
+    },
+    muscle:{
+      low:{title:'Technique Strength Session',focus:'Controlled strength',intensity:'Low',factor:5.8},
+      medium:{title:'Muscle Builder',focus:'Progressive strength',intensity:'Moderate',factor:7.0},
+      high:{title:'Strength Overload',focus:'Heavy strength work',intensity:'High',factor:8.5}
+    },
+    endurance:{
+      low:{title:'Easy Endurance Base',focus:'Aerobic recovery',intensity:'Low',factor:6.2},
+      medium:{title:'Steady Endurance',focus:'Aerobic capacity',intensity:'Moderate',factor:8.1},
+      high:{title:'Tempo Intervals',focus:'Speed endurance',intensity:'High',factor:10.2}
+    },
+    mobility:{
+      low:{title:'Gentle Mobility Reset',focus:'Recovery & range',intensity:'Low',factor:4.2},
+      medium:{title:'Mobility Strength Flow',focus:'Mobility & control',intensity:'Moderate',factor:5.8},
+      high:{title:'Dynamic Mobility Power',focus:'Mobility & athletic control',intensity:'High',factor:7.0}
+    }
+  };
+
+  function loadPrefs(){
+    return JSON.parse(localStorage.getItem(storageKey)||'{}');
+  }
+
+  function savePrefs(){
+    localStorage.setItem(storageKey,JSON.stringify({
+      goal:refs.goal.value,
+      time:refs.time.value,
+      energy:refs.energy.value,
+      location:refs.location.value
+    }));
+  }
+
+  function restorePrefs(){
+    const prefs=loadPrefs();
+    ['goal','time','energy','location'].forEach(key=>{
+      if(prefs[key] && refs[key]) refs[key].value=prefs[key];
+    });
+
+    const profile=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    const profileGoal=(profile.profileGoal||'').toLowerCase();
+    if(!prefs.goal){
+      if(profileGoal.includes('muscle')) refs.goal.value='muscle';
+      else if(profileGoal.includes('fat') || profileGoal.includes('lose')) refs.goal.value='fatloss';
+      else if(profileGoal.includes('endurance')) refs.goal.value='endurance';
+      else if(profileGoal.includes('mobility')) refs.goal.value='mobility';
+    }
+  }
+
+  function loadRecentWorkouts(){
+    const manual=JSON.parse(localStorage.getItem('touraysCompletedWorkoutsV1')||'[]');
+    const outdoor=JSON.parse(localStorage.getItem('touraysWalkRunHistory')||'[]');
+    return [...manual,...outdoor].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  }
+
+  function buildBlocks(goal,energy,time,location){
+    const duration=Number(time);
+    const warmup=Math.max(3,Math.round(duration*.15));
+    const cooldown=Math.max(3,Math.round(duration*.12));
+    const main=Math.max(8,duration-warmup-cooldown);
+
+    const focusMap={
+      general:['Squat to reach','Push-up variation','Reverse lunge','Mountain climber'],
+      fatloss:['Fast march','Squat thrust','Alternating lunge','Low-impact climber'],
+      muscle:['Tempo squat','Push-up','Split squat','Plank shoulder tap'],
+      endurance:['March or jog','Step-back lunge','Skater step','Fast feet'],
+      mobility:['World’s greatest stretch','Deep squat hold','Thoracic rotation','Hip flow']
+    };
+
+    const locationNote={
+      home:'No equipment required',
+      gym:'Use available machines or weights',
+      outdoor:'Use open space and a steady route',
+      anywhere:'Adapt movements to your surroundings'
+    }[location];
+
+    return [
+      {label:'Warm-up',minutes:warmup,detail:'Raise body temperature and prepare the joints.'},
+      {label:'Main block',minutes:main,detail:`${focusMap[goal].join(' · ')}. ${locationNote}.`},
+      {label:'Cooldown',minutes:cooldown,detail:'Slow breathing, stretch and recover.'}
+    ];
+  }
+
+  function workoutCountThisWeek(){
+    const items=loadRecentWorkouts();
+    const start=new Date();
+    const day=start.getDay();
+    start.setDate(start.getDate()-day+(day===0?-6:1));
+    start.setHours(0,0,0,0);
+    return items.filter(item=>new Date(item.date)>=start).length;
+  }
+
+  function generatePlan(){
+    savePrefs();
+    const goal=refs.goal.value;
+    const energy=refs.energy.value;
+    const time=Number(refs.time.value);
+    const location=refs.location.value;
+    const base=planLibrary[goal][energy];
+    const settings=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    const weight=Number(settings.weight||settings.profileWeight||75);
+    const calories=Math.max(60,Math.round(base.factor*weight*(time/60)));
+    const blocks=buildBlocks(goal,energy,time,location);
+
+    currentPlan={
+      id:`coach_${Date.now()}`,
+      name:base.title,
+      type:goal==='endurance'?'Cardio':goal==='mobility'?'Mobility':goal==='fatloss'?'HIIT':'Strength',
+      duration:time,
+      intensity:base.intensity,
+      notes:blocks.map(x=>`${x.label}: ${x.detail}`).join(' '),
+      focus:base.focus,
+      calories,
+      location
+    };
+
+    refs.title.textContent=base.title;
+    refs.badge.textContent=`${time} min`;
+    refs.focus.textContent=base.focus;
+    refs.intensity.textContent=base.intensity;
+    refs.calories.textContent=`${calories} kcal`;
+    refs.headline.textContent=`${base.title} fits your day.`;
+    refs.summary.textContent=`A ${base.intensity.toLowerCase()} ${time}-minute session designed for ${base.focus.toLowerCase()} at ${location}.`;
+
+    refs.blocks.innerHTML=blocks.map((block,index)=>`
+      <article class="coach-plan-block">
+        <div class="coach-block-number">${index+1}</div>
+        <div>
+          <strong>${block.label}</strong>
+          <span>${block.detail}</span>
+        </div>
+        <small>${block.minutes} min</small>
+      </article>
+    `).join('');
+
+    const weekCount=workoutCountThisWeek();
+    refs.consistency.textContent=weekCount===0
+      ? 'Your first session this week will restart your momentum.'
+      : `You have completed ${weekCount} session${weekCount===1?'':'s'} this week. Keep the streak moving.`;
+
+    refs.recovery.textContent=energy==='low'
+      ? 'Low energy detected. Keep the session controlled and stop before form breaks down.'
+      : energy==='high'
+        ? 'Your energy is high. Use the intensity, but keep movement quality first.'
+        : 'Your current energy supports a productive moderate session.';
+
+    refs.goalInsight.textContent={
+      general:'A balanced mix of strength, cardio and mobility will support your goal.',
+      fatloss:'Consistency and total weekly activity matter more than one very hard session.',
+      muscle:'Prioritize controlled repetitions, recovery and gradual progression.',
+      endurance:'Build easy volume first, then add controlled intervals.',
+      mobility:'Frequent short mobility sessions usually work better than rare long sessions.'
+    }[goal];
+  }
+
+  function saveToPlanner(){
+    if(!currentPlan) generatePlan();
+    const all=JSON.parse(localStorage.getItem('touraysWorkoutPlannerV1')||'{}');
+    const monday=new Date();
+    const day=monday.getDay();
+    monday.setDate(monday.getDate()-day+(day===0?-6:1));
+    monday.setHours(0,0,0,0);
+    const key=monday.toISOString().slice(0,10);
+    if(!all[key]) all[key]=[];
+
+    const targetDay=(new Date().getDay()+6)%7;
+    all[key].push({
+      id:`coachplan_${Date.now()}`,
+      day:targetDay,
+      name:currentPlan.name,
+      type:currentPlan.type,
+      duration:currentPlan.duration,
+      intensity:currentPlan.intensity,
+      notes:currentPlan.notes
+    });
+
+    localStorage.setItem('touraysWorkoutPlannerV1',JSON.stringify(all));
+    refs.save.textContent='Saved ✓';
+    setTimeout(()=>refs.save.textContent='Save to planner',1800);
+  }
+
+  function startWorkout(){
+    if(!currentPlan) generatePlan();
+    const message=`${currentPlan.name} is ready. Follow the three blocks and complete ${currentPlan.duration} minutes at ${currentPlan.intensity.toLowerCase()} intensity.`;
+    addMessage(message,'ai');
+    refs.messages.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+
+  function addMessage(text,type){
+    const article=document.createElement('article');
+    article.className=`coach-message coach-message-${type}`;
+    article.innerHTML=type==='ai'
+      ? `<div class="coach-message-avatar">T</div><p>${escapeHtml(text)}</p>`
+      : `<p>${escapeHtml(text)}</p>`;
+    refs.messages.appendChild(article);
+    refs.messages.scrollTop=refs.messages.scrollHeight;
+  }
+
+  function escapeHtml(value){
+    return String(value??'').replace(/[&<>"']/g,ch=>({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+    })[ch]);
+  }
+
+  function coachReply(message){
+    const text=message.toLowerCase();
+    if(text.includes('tired') || text.includes('low energy')){
+      return 'Choose low intensity today. A short mobility, walking or core session is enough to protect consistency without forcing recovery.';
+    }
+    if(text.includes('short')){
+      return 'Use 3 minutes to warm up, 10 minutes for a focused circuit and 2 minutes to cool down. Keep transitions quick and form controlled.';
+    }
+    if(text.includes('next') || text.includes('train')){
+      return `Based on your selected goal, your next priority should be ${currentPlan?.focus?.toLowerCase()||'a balanced full-body session'}.`;
+    }
+    if(text.includes('consistency')){
+      return 'Lower the minimum. Commit to starting for 10 minutes. Once you begin, continue only when your body feels ready.';
+    }
+    if(text.includes('pain') || text.includes('injury')){
+      return 'Do not train through sharp, worsening or unexplained pain. Stop the movement and seek qualified medical guidance when needed.';
+    }
+    return 'Keep today simple: choose one clear goal, train with controlled form and finish with enough energy to recover well for the next session.';
+  }
+
+  refs.refresh.addEventListener('click',generatePlan);
+  [refs.goal,refs.time,refs.energy,refs.location].forEach(el=>el.addEventListener('change',generatePlan));
+  refs.save.addEventListener('click',saveToPlanner);
+  refs.start.addEventListener('click',startWorkout);
+
+  refs.chatForm.addEventListener('submit',event=>{
+    event.preventDefault();
+    const text=refs.chatInput.value.trim();
+    if(!text) return;
+    addMessage(text,'user');
+    refs.chatInput.value='';
+    setTimeout(()=>addMessage(coachReply(text),'ai'),250);
+  });
+
+  document.querySelectorAll('[data-coach-prompt]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const text=btn.dataset.coachPrompt;
+      addMessage(text,'user');
+      setTimeout(()=>addMessage(coachReply(text),'ai'),250);
+    });
+  });
+
+  refs.back.addEventListener('click',()=>{
+    screen.hidden=true;
+    const home=document.querySelector('.screen:not(#coachScreen):not(#progressScreen):not(#plannerScreen):not(#walkRunScreen)');
+    if(home) home.hidden=false;
+  });
+
+  function openCoach(){
+    document.querySelectorAll('.screen').forEach(s=>s.hidden=true);
+    screen.hidden=false;
+    window.scrollTo({top:0,behavior:'smooth'});
+    generatePlan();
+  }
+
+  document.addEventListener('click',event=>{
+    const el=event.target.closest('button,a,[data-screen],[data-page]');
+    if(!el || el.closest('#coachScreen')) return;
+    const text=(el.textContent||'').trim().toLowerCase();
+    const target=((el.dataset&&(`${el.dataset.screen||''} ${el.dataset.page||''}`))||'').toLowerCase();
+    if(text.includes('ai coach') || text==='coach' || target.includes('coach')){
+      event.preventDefault();
+      openCoach();
+    }
+  });
+
+  restorePrefs();
+  generatePlan();
+})();
