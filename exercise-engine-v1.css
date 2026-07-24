@@ -68,3 +68,28 @@
 .engine-alignment,.engine-muscle-overlay,.engine-lottie{
   z-index:7;
 }
+
+
+/* E1.3 — actual pose-changing animated WebP */
+.engine-pose-frame{display:none!important}
+.engine-motion-webp{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  filter:saturate(1.04) contrast(1.06);
+  background:#0a0c12;
+}
+.engine-stage::after{
+  content:"";
+  position:absolute;
+  left:8%;
+  right:8%;
+  bottom:12%;
+  height:2px;
+  z-index:4;
+  background:linear-gradient(90deg,transparent,rgba(114,87,245,.85),transparent);
+  box-shadow:0 0 18px rgba(114,87,245,.42);
+}

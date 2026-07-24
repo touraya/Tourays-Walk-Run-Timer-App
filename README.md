@@ -5,3 +5,5 @@ This build adds the Push-up Master exercise player with a 16-second Lottie motio
 
 
 E1.2: Replaced whole-picture bobbing with five synchronized push-up body poses. Removed the Movement Active label.
+
+E1.3: Replaced low-quality thumbnail frames with a high-resolution animated WebP built from separate top and bottom push-up poses.

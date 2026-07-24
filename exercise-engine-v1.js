@@ -1,6 +1,5 @@
 (()=>{
   const TOTAL=16;
-  const FRAME_SEQUENCE=[0,1,2,2,3,4,4,3,2,1,0];
   let anim=null,playing=true,speed=1,start=performance.now(),elapsed=0,raf=0;
   const $=s=>document.querySelector(s);
   function isPush(){return (($('#exerciseName')?.textContent||'').toLowerCase().includes('push'))}
@@ -8,11 +7,7 @@
     <div class="premium-engine" id="premiumExerciseEngine">
       <div class="engine-stage">
         <div class="engine-pose-player" id="enginePosePlayer" aria-label="Animated push-up demonstration">
-          <img class="engine-pose-frame active" src="pushup-frame-1.webp" alt="Push-up setup position">
-          <img class="engine-pose-frame" src="pushup-frame-2.webp" alt="Push-up lowering phase">
-          <img class="engine-pose-frame" src="pushup-frame-3.webp" alt="Push-up bottom position">
-          <img class="engine-pose-frame" src="pushup-frame-4.webp" alt="Push-up upward phase">
-          <img class="engine-pose-frame" src="pushup-frame-5.webp" alt="Push-up lockout position">
+          <img class="engine-motion-webp" id="engineMotionWebp" src="pushup-premium-motion.webp" alt="Animated push-up demonstration">
         </div>
         <div class="engine-lottie" id="pushupLottieGuide"></div>
         <span class="engine-alignment" aria-hidden="true"></span>
@@ -60,11 +55,6 @@
     if(prog)prog.style.width=pct+'%'; if(time)time.textContent=`00:${String(Math.floor(elapsed)).padStart(2,'0')} / 00:16`;
     const phase=Math.min(4,Math.floor(elapsed/(TOTAL/5)));
     document.querySelectorAll('#enginePhases span').forEach((x,i)=>x.classList.toggle('active',i===phase));
-    const frames=document.querySelectorAll('.engine-pose-frame');
-    if(frames.length){
-      const seqIndex=Math.min(FRAME_SEQUENCE.length-1,Math.floor((elapsed/TOTAL)*FRAME_SEQUENCE.length));
-      const frameIndex=FRAME_SEQUENCE[seqIndex];
-      frames.forEach((frame,i)=>frame.classList.toggle('active',i===frameIndex));
     }
     raf=requestAnimationFrame(tick);
   }
