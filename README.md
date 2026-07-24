@@ -1,14 +1,14 @@
-Tourays Fitness V9 — Profile & Settings Step 2
+Tourays Fitness V9 — Profile & Settings Step 3
 
-Added training preferences:
-- Preferred workout duration
-- Preferred workout time
-- Training location
-- Weekly workout target
-- Preferred workout days
-- Available equipment
-- Training preference summary
-- Local persistence
-- Integration with AI Coach and weekly goals through shared settings
+Added nutrition settings:
+- Automatic nutrition targets from profile data
+- Manual nutrition targets
+- Calories, protein, carbohydrates, fat and water goals
+- Goal-specific calorie adjustment
+- Activity-level calorie calculation
+- Meal frequency setting
+- Macro calorie validation
+- Shared storage integration with the Nutrition module
+- Automatic recalculation button
 
-Next step: nutrition settings and automatic nutrition target calculation.
+Next step: notifications, reminders and app preferences.

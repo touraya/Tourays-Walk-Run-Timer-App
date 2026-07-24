@@ -2789,3 +2789,65 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
 @media(max-width:560px){
   .profile-day-selector{grid-template-columns:repeat(4,1fr)}
 }
+
+
+/* =========================================================
+   V9 PROFILE STEP 3 — NUTRITION SETTINGS
+   ========================================================= */
+.profile-section-heading-split{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:12px
+}
+.profile-outline-btn{
+  border:1px solid #d9d1ec;border-radius:13px;padding:10px 13px;
+  background:#f8f6fc;color:#633fd0;font-weight:900
+}
+.profile-nutrition-mode{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px
+}
+.profile-nutrition-mode label{cursor:pointer}
+.profile-nutrition-mode input{position:absolute;opacity:0;pointer-events:none}
+.profile-nutrition-mode label>span{
+  display:flex;flex-direction:column;gap:4px;min-height:82px;padding:14px;
+  border:1px solid #e2ddec;border-radius:16px;background:#fbfaff
+}
+.profile-nutrition-mode strong{font-size:.8rem}
+.profile-nutrition-mode small{font-size:.65rem;color:#858191;line-height:1.45}
+.profile-nutrition-mode input:checked+span{
+  border-color:#6f48e8;background:#eeeafb;box-shadow:0 8px 18px rgba(111,72,232,.1)
+}
+.profile-nutrition-mode input:checked+span strong{color:#613bd0}
+.profile-input-unit{position:relative}
+.profile-input-unit input{padding-right:54px}
+.profile-input-unit small{
+  position:absolute;right:13px;top:50%;transform:translateY(-50%);
+  color:#8a8694;font-size:.68rem;font-weight:900
+}
+.profile-field-readonly input{
+  background:#f2eff8;color:#625d70
+}
+.profile-nutrition-summary{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px
+}
+.profile-nutrition-summary article{
+  padding:13px;border-radius:15px;background:#f7f6fb
+}
+.profile-nutrition-summary span{
+  display:block;font-size:.62rem;color:#8a8796
+}
+.profile-nutrition-summary strong{
+  display:block;margin-top:5px;font-size:.8rem
+}
+.profile-nutrition-note{
+  display:flex;flex-direction:column;gap:4px;margin-top:13px;padding:13px;
+  border-radius:15px;background:#f0ecfb
+}
+.profile-nutrition-note strong{font-size:.76rem;color:#623fd0}
+.profile-nutrition-note span{font-size:.66rem;color:#777281;line-height:1.45}
+@media(max-width:760px){
+  .profile-nutrition-summary{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .profile-section-heading-split{align-items:stretch;flex-direction:column}
+  .profile-nutrition-mode{grid-template-columns:1fr}
+  .profile-nutrition-summary{grid-template-columns:1fr}
+}

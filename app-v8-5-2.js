@@ -3080,3 +3080,242 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   restoreTraining();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — PROFILE STEP 3: NUTRITION SETTINGS
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('profileSettingsScreen');
+  if(!screen || !document.getElementById('profileNutritionCalories')) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    form:$('profileSettingsForm'),
+    autoBtn:$('profileAutoNutritionBtn'),
+    calories:$('profileNutritionCalories'),
+    protein:$('profileNutritionProtein'),
+    carbs:$('profileNutritionCarbs'),
+    fat:$('profileNutritionFat'),
+    water:$('profileNutritionWater'),
+    mealFrequency:$('profileMealFrequency'),
+    proteinCalories:$('profileProteinCalories'),
+    carbCalories:$('profileCarbCalories'),
+    fatCalories:$('profileFatCalories'),
+    macroCalories:$('profileMacroCalories'),
+    status:$('profileNutritionStatus'),
+    explanation:$('profileNutritionExplanation'),
+    saveStatus:$('profileSaveStatus')
+  };
+
+  const profileKey='touraysProfileSettingsV1';
+  const nutritionKey='touraysNutritionGoalsV1';
+  const settingsKey='touraysNutritionSettingsV1';
+
+  function selectedMode(){
+    return document.querySelector('input[name="profileNutritionMode"]:checked')?.value||'auto';
+  }
+
+  function setMode(value){
+    const input=document.querySelector(`input[name="profileNutritionMode"][value="${value}"]`);
+    if(input) input.checked=true;
+  }
+
+  function readProfile(){
+    const profile=JSON.parse(localStorage.getItem(profileKey)||'{}');
+    const auto=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    return {
+      ...auto,
+      ...profile,
+      height:Number(profile.height||auto.height||auto.profileHeight||0),
+      weight:Number(profile.weight||auto.weight||auto.profileWeight||75),
+      goal:profile.goal||auto.profileGoal||'general',
+      gender:profile.gender||auto.gender||'',
+      birthDate:profile.birthDate||auto.birthDate||'',
+      activityLevel:Number(profile.activityLevel||auto.activityLevel||1.55)
+    };
+  }
+
+  function getAge(value){
+    if(!value) return 30;
+    const birth=new Date(value);
+    const now=new Date();
+    let age=now.getFullYear()-birth.getFullYear();
+    const m=now.getMonth()-birth.getMonth();
+    if(m<0 || (m===0 && now.getDate()<birth.getDate())) age--;
+    return Math.max(15,Math.min(100,age||30));
+  }
+
+  function calculateTargets(){
+    const p=readProfile();
+    const weight=Math.max(35,p.weight||75);
+    const height=Math.max(130,p.height||175);
+    const age=getAge(p.birthDate);
+    let bmr;
+
+    if(p.gender==='male') bmr=10*weight+6.25*height-5*age+5;
+    else if(p.gender==='female') bmr=10*weight+6.25*height-5*age-161;
+    else bmr=10*weight+6.25*height-5*age-78;
+
+    let calories=bmr*(p.activityLevel||1.55);
+
+    const goalAdjustments={
+      fatloss:-400,
+      muscle:250,
+      maintain:0,
+      endurance:150,
+      mobility:0,
+      general:0
+    };
+    calories+=goalAdjustments[p.goal]||0;
+    calories=Math.round(Math.max(1400,Math.min(5000,calories))/10)*10;
+
+    const proteinFactor={
+      fatloss:2.0,
+      muscle:2.0,
+      endurance:1.7,
+      mobility:1.5,
+      maintain:1.6,
+      general:1.6
+    }[p.goal]||1.6;
+
+    let protein=Math.round(weight*proteinFactor);
+    let fat=Math.round(weight*.8);
+    let carbs=Math.round((calories-(protein*4+fat*9))/4);
+
+    if(carbs<80){
+      carbs=80;
+      fat=Math.max(35,Math.round((calories-(protein*4+carbs*4))/9));
+    }
+
+    const water=Math.round((weight*35)/100)*100;
+
+    return {calories,protein,carbs,fat,water};
+  }
+
+  function applyTargets(targets){
+    refs.calories.value=targets.calories;
+    refs.protein.value=targets.protein;
+    refs.carbs.value=targets.carbs;
+    refs.fat.value=targets.fat;
+    refs.water.value=targets.water;
+    updateSummary();
+  }
+
+  function updateSummary(){
+    const protein=Math.max(0,Number(refs.protein.value)||0);
+    const carbs=Math.max(0,Number(refs.carbs.value)||0);
+    const fat=Math.max(0,Number(refs.fat.value)||0);
+    const targetCalories=Math.max(0,Number(refs.calories.value)||0);
+
+    const proteinCalories=protein*4;
+    const carbCalories=carbs*4;
+    const fatCalories=fat*9;
+    const total=proteinCalories+carbCalories+fatCalories;
+    const difference=Math.abs(total-targetCalories);
+
+    refs.proteinCalories.textContent=`${proteinCalories} kcal`;
+    refs.carbCalories.textContent=`${carbCalories} kcal`;
+    refs.fatCalories.textContent=`${fatCalories} kcal`;
+    refs.macroCalories.textContent=`${total} kcal`;
+
+    if(selectedMode()==='auto'){
+      refs.status.textContent='Automatic targets are active.';
+      refs.explanation.textContent='Targets use your saved body metrics, activity level and fitness goal.';
+    }else if(difference<=80){
+      refs.status.textContent='Manual targets are balanced.';
+      refs.explanation.textContent='Your macro calories are close to the selected daily calorie target.';
+    }else{
+      refs.status.textContent='Check your manual targets.';
+      refs.explanation.textContent=`Macro calories differ from the calorie target by ${difference} kcal.`;
+    }
+
+    const disabled=selectedMode()==='auto';
+    [refs.calories,refs.protein,refs.carbs,refs.fat,refs.water].forEach(input=>{
+      input.readOnly=disabled;
+      input.closest('label')?.classList.toggle('profile-field-readonly',disabled);
+    });
+  }
+
+  function saveNutrition(){
+    const data={
+      mode:selectedMode(),
+      calories:Number(refs.calories.value)||2200,
+      protein:Number(refs.protein.value)||150,
+      carbs:Number(refs.carbs.value)||240,
+      fat:Number(refs.fat.value)||70,
+      water:Number(refs.water.value)||2500,
+      mealFrequency:Number(refs.mealFrequency.value)||4
+    };
+
+    localStorage.setItem(settingsKey,JSON.stringify(data));
+    localStorage.setItem(nutritionKey,JSON.stringify({
+      calories:data.calories,
+      protein:data.protein,
+      carbs:data.carbs,
+      fat:data.fat,
+      water:data.water
+    }));
+
+    const profile=JSON.parse(localStorage.getItem(profileKey)||'{}');
+    localStorage.setItem(profileKey,JSON.stringify({...profile,nutrition:data}));
+
+    const autosave=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    localStorage.setItem('touraysAutosaveSettings',JSON.stringify({
+      ...autosave,
+      nutritionMode:data.mode,
+      calorieGoal:data.calories,
+      proteinGoal:data.protein,
+      carbsGoal:data.carbs,
+      fatGoal:data.fat,
+      waterGoal:data.water,
+      mealFrequency:data.mealFrequency
+    }));
+  }
+
+  function restoreNutrition(){
+    const saved=JSON.parse(localStorage.getItem(settingsKey)||'null');
+
+    if(saved){
+      setMode(saved.mode||'auto');
+      refs.calories.value=saved.calories||2200;
+      refs.protein.value=saved.protein||150;
+      refs.carbs.value=saved.carbs||240;
+      refs.fat.value=saved.fat||70;
+      refs.water.value=saved.water||2500;
+      refs.mealFrequency.value=String(saved.mealFrequency||4);
+    }else{
+      setMode('auto');
+      applyTargets(calculateTargets());
+    }
+
+    updateSummary();
+  }
+
+  refs.autoBtn.addEventListener('click',()=>{
+    setMode('auto');
+    applyTargets(calculateTargets());
+    refs.saveStatus.textContent='Nutrition targets recalculated from your current profile.';
+  });
+
+  document.querySelectorAll('input[name="profileNutritionMode"]').forEach(input=>{
+    input.addEventListener('change',()=>{
+      if(selectedMode()==='auto') applyTargets(calculateTargets());
+      else updateSummary();
+    });
+  });
+
+  [refs.calories,refs.protein,refs.carbs,refs.fat,refs.water]
+    .forEach(input=>input.addEventListener('input',updateSummary));
+
+  refs.form.addEventListener('submit',()=>{
+    saveNutrition();
+  });
+
+  const observer=new MutationObserver(()=>{
+    if(!screen.hidden) restoreNutrition();
+  });
+  observer.observe(screen,{attributes:true,attributeFilter:['hidden']});
+
+  restoreNutrition();
+})();
