@@ -3042,3 +3042,8 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
   .profile-completion-card{grid-template-columns:1fr}
   .profile-completion-ring{width:78px;height:78px}
 }
+
+
+/* V10 Stage 2 — keep unreliable legacy PWA banners out of the UI */
+[hidden]{display:none!important;}
+#networkStatus,#installAppBanner{display:none!important;pointer-events:none!important;}

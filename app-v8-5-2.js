@@ -1158,65 +1158,34 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
 
 /* =========================================================
-   TOURAYS FITNESS V9 — PWA, INSTALL & OFFLINE SUPPORT
+   TOURAYS FITNESS V10 — STAGE 2: STABLE BANNER SUPPRESSION
+   The unreliable iOS online/install banners are disabled until the
+   later dedicated PWA stage. No fitness feature or navigation logic
+   is changed here.
    ========================================================= */
 (function(){
-  const banner = document.getElementById('installAppBanner');
-  const installButton = document.getElementById('installAppButton');
-  const dismissButton = document.getElementById('dismissInstallBanner');
   const networkStatus = document.getElementById('networkStatus');
-  let deferredPrompt = null;
+  const installBanner = document.getElementById('installAppBanner');
 
-  function updateNetworkState(){
-    const offline = !navigator.onLine;
-    document.documentElement.classList.toggle('is-offline', offline);
+  function suppressLegacyBanners(){
     if(networkStatus){
-      networkStatus.hidden = !offline;
-      networkStatus.querySelector('strong').textContent = offline ? 'Offline mode' : 'Back online';
+      networkStatus.hidden = true;
+      networkStatus.style.setProperty('display','none','important');
+      networkStatus.setAttribute('aria-hidden','true');
     }
-  }
-
-  window.addEventListener('online',()=>{
-    updateNetworkState();
-    if(networkStatus){
-      networkStatus.hidden=false;
-      networkStatus.querySelector('strong').textContent='Back online';
-      setTimeout(()=>{ if(navigator.onLine) networkStatus.hidden=true; },2500);
+    if(installBanner){
+      installBanner.hidden = true;
+      installBanner.style.setProperty('display','none','important');
+      installBanner.setAttribute('aria-hidden','true');
     }
-  });
-  window.addEventListener('offline',updateNetworkState);
-  updateNetworkState();
-
-  window.addEventListener('beforeinstallprompt',event=>{
-    event.preventDefault();
-    deferredPrompt=event;
-    const dismissedAt=Number(localStorage.getItem('touraysInstallDismissedAt')||0);
-    const sevenDays=7*24*60*60*1000;
-    if(Date.now()-dismissedAt>sevenDays && banner) banner.hidden=false;
-  });
-
-  if(installButton){
-    installButton.addEventListener('click',async()=>{
-      if(!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt=null;
-      banner.hidden=true;
-    });
+    document.documentElement.classList.remove('is-offline');
   }
 
-  if(dismissButton){
-    dismissButton.addEventListener('click',()=>{
-      localStorage.setItem('touraysInstallDismissedAt',String(Date.now()));
-      banner.hidden=true;
-    });
-  }
-
-  window.addEventListener('appinstalled',()=>{
-    deferredPrompt=null;
-    if(banner) banner.hidden=true;
-    localStorage.setItem('touraysAppInstalled','true');
-  });
+  suppressLegacyBanners();
+  document.addEventListener('DOMContentLoaded', suppressLegacyBanners, {once:true});
+  window.addEventListener('pageshow', suppressLegacyBanners);
+  window.addEventListener('online', suppressLegacyBanners);
+  window.addEventListener('offline', suppressLegacyBanners);
 
   // Persist the most important profile and settings inputs automatically.
   const autosaveIds=[
