@@ -1,25 +1,24 @@
-# Tourays Fitness V7 — Build 1
+# Tourays Fitness V6 Premium
 
-## Included in this build
-- Premium, data-driven Home dashboard
-- Weekly goal progress ring
-- Live weekly active minutes, workout count, calories and distance
-- Workout streak calculation
-- Daily workout challenge
-- Last-workout summary
-- GPS status on the Home screen
-- Smooth screen transitions
-- Existing V6 functionality preserved:
-  - Walk/run interval training
-  - GPS distance tracking
-  - MapLibre map and route back to start
-  - Indoor guided exercises
-  - Health dashboard and workout history
+## Major changes
+- Modern MapLibre vector map using OpenFreeMap
+- In-app walking route back to the recorded starting point
+- Turn-by-turn steps shown inside the app
+- Redesigned six-second multi-pose exercise demonstrations
+- Health dashboard with weekly active minutes, calories, distance, BMI, pace and dated workout history
+- No Apple Maps redirection
+- Existing walk/run timer, GPS separation and live interval editing remain included
 
-## Files
-Upload all files in this ZIP to the GitHub repository root.
+## Important limitation
+Apple Health/HealthKit cannot be accessed by a GitHub Pages browser app. HealthKit requires a native iOS application and Apple entitlement. This version stores and calculates its own fitness metrics locally.
 
-## Technical limitation
-Apple Health/HealthKit cannot be accessed directly by a GitHub Pages web app. Native HealthKit access requires an iOS application and Apple entitlements.
+## Upload
+Replace:
+- index.html
+- manifest.json
+- icon.svg
+- README.md
+
+Keep style.css, app.js and sw.js deleted.
 
 The map and route calculation require an internet connection.
