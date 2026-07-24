@@ -4349,3 +4349,347 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   window.touraysRunFunctionalQA=runQa;
   runQa();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — FUNCTIONAL QA STEP 3
+   CRUD WORKFLOWS, EMPTY STATES, CONFIRMATIONS & OFFLINE RECOVERY
+   ========================================================= */
+(function(){
+  if(document.getElementById('touraysFunctionalQaStep3Controller')) return;
+
+  const marker=document.createElement('div');
+  marker.id='touraysFunctionalQaStep3Controller';
+  marker.hidden=true;
+  document.body.appendChild(marker);
+
+  const toastRegion=document.getElementById('touraysToastRegion');
+  const confirmDialog=document.getElementById('touraysConfirmDialog');
+  const confirmTitle=document.getElementById('touraysConfirmTitle');
+  const confirmMessage=document.getElementById('touraysConfirmMessage');
+  const confirmCancel=document.getElementById('touraysConfirmCancel');
+  const confirmAccept=document.getElementById('touraysConfirmAccept');
+  const recoveryBanner=document.getElementById('touraysRecoveryBanner');
+  const recoveryTitle=document.getElementById('touraysRecoveryTitle');
+  const recoveryText=document.getElementById('touraysRecoveryText');
+  const recoveryDismiss=document.getElementById('touraysRecoveryDismiss');
+
+  const DRAFT_KEY='touraysUnsavedDraftsV1';
+  const CRUD_LOG_KEY='touraysCrudAuditLogV1';
+  let confirmResolver=null;
+  let autosaveTimer=null;
+
+  function showToast(message,type='success',duration=2600){
+    if(!toastRegion) return;
+    const toast=document.createElement('div');
+    toast.className=`tourays-toast ${type}`;
+    toast.innerHTML=`<span>${type==='error'?'!':type==='warning'?'⚠':'✓'}</span><strong>${message}</strong>`;
+    toastRegion.appendChild(toast);
+    requestAnimationFrame(()=>toast.classList.add('show'));
+    setTimeout(()=>{
+      toast.classList.remove('show');
+      setTimeout(()=>toast.remove(),220);
+    },duration);
+  }
+
+  function confirmAction(options={}){
+    const {
+      title='Confirm action',
+      message='Are you sure you want to continue?',
+      confirmLabel='Confirm',
+      danger=false
+    }=options;
+
+    confirmTitle.textContent=title;
+    confirmMessage.textContent=message;
+    confirmAccept.textContent=confirmLabel;
+    confirmAccept.classList.toggle('danger',danger);
+    confirmDialog.hidden=false;
+    document.body.classList.add('tourays-dialog-open');
+
+    return new Promise(resolve=>{
+      confirmResolver=resolve;
+      setTimeout(()=>confirmAccept.focus(),30);
+    });
+  }
+
+  function closeConfirm(result){
+    confirmDialog.hidden=true;
+    document.body.classList.remove('tourays-dialog-open');
+    if(confirmResolver){
+      const resolve=confirmResolver;
+      confirmResolver=null;
+      resolve(result);
+    }
+  }
+
+  confirmCancel?.addEventListener('click',()=>closeConfirm(false));
+  confirmAccept?.addEventListener('click',()=>closeConfirm(true));
+  confirmDialog?.addEventListener('click',event=>{
+    if(event.target===confirmDialog) closeConfirm(false);
+  });
+
+  function readJson(key,fallback){
+    try{
+      const value=localStorage.getItem(key);
+      return value===null?fallback:JSON.parse(value);
+    }catch(error){
+      console.warn(`[Tourays] Invalid storage for ${key}`,error);
+      return fallback;
+    }
+  }
+
+  function writeJson(key,value){
+    localStorage.setItem(key,JSON.stringify(value));
+  }
+
+  function logCrud(action,entity,detail={}){
+    const log=readJson(CRUD_LOG_KEY,[]);
+    log.unshift({
+      id:`crud-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+      action,
+      entity,
+      detail,
+      timestamp:new Date().toISOString(),
+      online:navigator.onLine
+    });
+    writeJson(CRUD_LOG_KEY,log.slice(0,100));
+  }
+
+  function collectFormDraft(form){
+    const data={};
+    new FormData(form).forEach((value,key)=>{
+      if(data[key]!==undefined){
+        data[key]=Array.isArray(data[key])?[...data[key],value]:[data[key],value];
+      }else{
+        data[key]=value;
+      }
+    });
+
+    form.querySelectorAll('input[type="checkbox"]').forEach(input=>{
+      if(input.name) data[input.name]=input.checked;
+    });
+
+    return data;
+  }
+
+  function restoreFormDraft(form,draft){
+    Object.entries(draft||{}).forEach(([name,value])=>{
+      const fields=[...form.querySelectorAll(`[name="${CSS.escape(name)}"]`)];
+      fields.forEach(field=>{
+        if(field.type==='checkbox'){
+          field.checked=Boolean(value);
+        }else if(field.type==='radio'){
+          field.checked=String(field.value)===String(value);
+        }else if(!Array.isArray(value)){
+          field.value=value;
+        }
+      });
+    });
+  }
+
+  function saveDrafts(){
+    const drafts={};
+    document.querySelectorAll('form').forEach(form=>{
+      const id=form.id||form.getAttribute('aria-label');
+      if(!id) return;
+      if(form.dataset.touraysDirty==='true'){
+        drafts[id]={
+          savedAt:new Date().toISOString(),
+          route:location.hash.replace('#','')||'home',
+          values:collectFormDraft(form)
+        };
+      }
+    });
+    writeJson(DRAFT_KEY,drafts);
+  }
+
+  function markDirty(event){
+    const form=event.target.closest('form');
+    if(!form) return;
+    form.dataset.touraysDirty='true';
+    clearTimeout(autosaveTimer);
+    autosaveTimer=setTimeout(saveDrafts,450);
+  }
+
+  document.addEventListener('input',markDirty,true);
+  document.addEventListener('change',markDirty,true);
+
+  document.addEventListener('submit',event=>{
+    const form=event.target.closest('form');
+    if(!form) return;
+    form.dataset.touraysDirty='false';
+    const id=form.id||form.getAttribute('aria-label');
+    const drafts=readJson(DRAFT_KEY,{});
+    if(id && drafts[id]){
+      delete drafts[id];
+      writeJson(DRAFT_KEY,drafts);
+    }
+    logCrud('save',id||'form');
+    showToast('Changes saved successfully.');
+  },true);
+
+  function recoverDrafts(){
+    const drafts=readJson(DRAFT_KEY,{});
+    const entries=Object.entries(drafts);
+    if(!entries.length) return;
+
+    let restored=0;
+    entries.forEach(([formId,draft])=>{
+      const form=document.getElementById(formId) || [...document.forms].find(item=>item.getAttribute('aria-label')===formId);
+      if(!form) return;
+      restoreFormDraft(form,draft.values);
+      form.dataset.touraysDirty='true';
+      restored++;
+    });
+
+    if(restored){
+      recoveryTitle.textContent=`${restored} unsaved draft${restored===1?'':'s'} recovered`;
+      recoveryText.textContent='Your last changes were restored from this device.';
+      recoveryBanner.hidden=false;
+      logCrud('recover','drafts',{count:restored});
+    }
+  }
+
+  recoveryDismiss?.addEventListener('click',()=>{
+    recoveryBanner.hidden=true;
+  });
+
+  function enhanceDeleteButtons(){
+    const deletePatterns=/delete|remove|clear|reset/i;
+    document.querySelectorAll('button').forEach(button=>{
+      const text=`${button.textContent||''} ${button.getAttribute('aria-label')||''}`.trim();
+      if(!deletePatterns.test(text)) return;
+      if(button.dataset.touraysConfirmEnhanced==='true') return;
+      if(button.id==='touraysConfirmAccept' || button.id==='touraysConfirmCancel') return;
+
+      button.dataset.touraysConfirmEnhanced='true';
+      button.addEventListener('click',async event=>{
+        if(button.dataset.touraysConfirmed==='true'){
+          button.dataset.touraysConfirmed='false';
+          return;
+        }
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const approved=await confirmAction({
+          title:'Confirm this change',
+          message:`${text || 'This action'} may remove saved information. This cannot always be undone.`,
+          confirmLabel:'Continue',
+          danger:true
+        });
+
+        if(approved){
+          button.dataset.touraysConfirmed='true';
+          logCrud('delete-or-reset','button',{label:text});
+          button.click();
+          showToast('Action completed.','warning');
+        }
+      },true);
+    });
+  }
+
+  function addEmptyState(container,message,actionLabel,route){
+    if(!container || container.children.length || container.querySelector('.tourays-empty-state')) return;
+    const empty=document.createElement('div');
+    empty.className='tourays-empty-state';
+    empty.innerHTML=`
+      <span>○</span>
+      <strong>${message}</strong>
+      <small>Your information will appear here after you create or record it.</small>
+      ${actionLabel?`<button type="button">${actionLabel}</button>`:''}
+    `;
+    if(actionLabel){
+      empty.querySelector('button').addEventListener('click',()=>{
+        if(route && typeof window.touraysNavigate==='function') window.touraysNavigate(route);
+      });
+    }
+    container.appendChild(empty);
+  }
+
+  function installEmptyStates(){
+    const selectors=[
+      ['#plannerEventsList, #plannerEventList, .planner-events-list','No workouts planned yet','Create a workout','planner'],
+      ['#runHistoryList, #walkRunHistoryList, .run-history-list','No walks or runs recorded yet','Start an activity','walkrun'],
+      ['#nutritionMealList, #mealLogList, .meal-log-list','No meals logged today','Open nutrition','nutrition'],
+      ['#progressHistoryList, .progress-history-list','No progress records yet','Open progress','progress']
+    ];
+    selectors.forEach(([selector,message,label,route])=>{
+      const container=document.querySelector(selector);
+      if(container && !container.textContent.trim()) addEmptyState(container,message,label,route);
+    });
+  }
+
+  function onlineStatusChanged(){
+    if(navigator.onLine){
+      document.body.classList.remove('tourays-offline-mode');
+      showToast('You are back online. Local changes are safe.','success');
+      logCrud('network','online');
+    }else{
+      document.body.classList.add('tourays-offline-mode');
+      showToast('Offline mode active. Changes will stay on this device.','warning',3800);
+      logCrud('network','offline');
+      saveDrafts();
+    }
+  }
+
+  window.addEventListener('online',onlineStatusChanged);
+  window.addEventListener('offline',onlineStatusChanged);
+
+  window.addEventListener('beforeunload',event=>{
+    const dirty=[...document.querySelectorAll('form[data-tourays-dirty="true"]')];
+    if(!dirty.length) return;
+    saveDrafts();
+    event.preventDefault();
+    event.returnValue='';
+  });
+
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape' && confirmDialog && !confirmDialog.hidden) closeConfirm(false);
+  });
+
+  window.touraysCrud={
+    create(entity,record){
+      logCrud('create',entity,{id:record?.id||null});
+      showToast(`${entity} created.`);
+      return record;
+    },
+    update(entity,record){
+      logCrud('update',entity,{id:record?.id||null});
+      showToast(`${entity} updated.`);
+      return record;
+    },
+    async remove(entity,callback){
+      const approved=await confirmAction({
+        title:`Delete ${entity}?`,
+        message:`This will remove the selected ${entity}.`,
+        confirmLabel:'Delete',
+        danger:true
+      });
+      if(!approved) return false;
+      const result=typeof callback==='function'?callback():true;
+      logCrud('delete',entity);
+      showToast(`${entity} deleted.`,'warning');
+      return result;
+    },
+    readLog(){
+      return readJson(CRUD_LOG_KEY,[]);
+    }
+  };
+
+  window.touraysConfirm=confirmAction;
+  window.touraysToast=showToast;
+  window.touraysSaveDrafts=saveDrafts;
+
+  enhanceDeleteButtons();
+  installEmptyStates();
+  recoverDrafts();
+  onlineStatusChanged();
+
+  const observer=new MutationObserver(()=>{
+    enhanceDeleteButtons();
+    installEmptyStates();
+  });
+  observer.observe(document.body,{childList:true,subtree:true});
+})();

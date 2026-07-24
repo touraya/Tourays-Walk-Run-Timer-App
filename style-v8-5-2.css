@@ -3222,3 +3222,95 @@ body.tourays-qa-open{overflow:hidden}
   .tourays-qa-card footer{flex-direction:column}
   .tourays-qa-card footer button{width:100%}
 }
+
+
+/* =========================================================
+   V9 FUNCTIONAL QA STEP 3
+   ========================================================= */
+.tourays-toast-region{
+  position:fixed;top:78px;right:14px;z-index:180;
+  display:grid;gap:8px;width:min(330px,calc(100vw - 28px))
+}
+.tourays-toast{
+  display:grid;grid-template-columns:32px 1fr;align-items:center;gap:10px;
+  padding:12px 14px;border-radius:16px;background:#fff;
+  border:1px solid #e8e2ef;box-shadow:0 16px 40px rgba(29,22,43,.18);
+  transform:translateY(-10px);opacity:0;transition:.22s ease
+}
+.tourays-toast.show{transform:translateY(0);opacity:1}
+.tourays-toast>span{
+  width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  background:#e9f7ef;color:#16884b;font-weight:1000
+}
+.tourays-toast.warning>span{background:#fff3df;color:#b36b00}
+.tourays-toast.error>span{background:#fff0f2;color:#c43953}
+.tourays-toast strong{font-size:.7rem;line-height:1.4}
+.tourays-confirm-dialog{
+  position:fixed;inset:0;z-index:190;padding:18px;
+  display:grid;place-items:center;background:rgba(17,13,25,.58);backdrop-filter:blur(5px)
+}
+.tourays-confirm-card{
+  width:min(430px,100%);padding:22px;border-radius:24px;background:#fff;
+  box-shadow:0 28px 70px rgba(15,10,24,.3)
+}
+.tourays-confirm-card small{
+  font-size:.58rem;font-weight:900;letter-spacing:.12em;color:#8a8393
+}
+.tourays-confirm-card h2{margin:6px 0 8px}
+.tourays-confirm-card p{margin:0;color:#777180;font-size:.75rem;line-height:1.55}
+.tourays-confirm-card>div{
+  display:flex;justify-content:flex-end;gap:9px;margin-top:20px
+}
+.tourays-confirm-card button{
+  border:0;border-radius:13px;padding:11px 16px;background:#6f48e8;color:#fff;font-weight:900
+}
+.tourays-confirm-card button.secondary{background:#efebf7;color:#5e3bc8}
+.tourays-confirm-card button.danger{background:#c83f56}
+body.tourays-dialog-open{overflow:hidden}
+.tourays-recovery-banner{
+  position:fixed;left:14px;right:14px;top:72px;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:13px 15px;border-radius:17px;background:#1d1728;color:#fff;
+  box-shadow:0 16px 38px rgba(23,16,34,.24)
+}
+.tourays-recovery-banner>div{display:flex;flex-direction:column;gap:3px}
+.tourays-recovery-banner strong{font-size:.72rem}
+.tourays-recovery-banner small{font-size:.61rem;color:#cbc3d5}
+.tourays-recovery-banner button{
+  border:0;border-radius:11px;padding:9px 12px;background:#fff;color:#4e3378;font-weight:900
+}
+.tourays-empty-state{
+  min-height:180px;padding:24px;border:1px dashed #d9d0e3;border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;background:#fbfaff
+}
+.tourays-empty-state>span{
+  width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+  background:#eee9f7;color:#6f48e8;font-size:1.4rem
+}
+.tourays-empty-state strong{margin-top:12px;font-size:.82rem}
+.tourays-empty-state small{
+  max-width:300px;margin-top:5px;color:#827b8b;font-size:.64rem;line-height:1.5
+}
+.tourays-empty-state button{
+  margin-top:14px;border:0;border-radius:12px;padding:10px 14px;
+  background:#6f48e8;color:#fff;font-weight:900
+}
+.tourays-offline-mode .tourays-global-header::after{
+  content:"OFFLINE";position:absolute;right:62px;top:9px;
+  padding:3px 6px;border-radius:7px;background:#fff0d8;color:#a76500;
+  font-size:.48rem;font-weight:1000;letter-spacing:.08em
+}
+.tourays-dark-theme .tourays-toast,
+.tourays-dark-theme .tourays-confirm-card{
+  background:#1c1924;color:#f4f1fa;border-color:#393143
+}
+.tourays-dark-theme .tourays-empty-state{
+  background:#24202e;border-color:#443a50;color:#f3eff8
+}
+@media(max-width:560px){
+  .tourays-toast-region{top:70px;right:8px;width:calc(100vw - 16px)}
+  .tourays-recovery-banner{left:8px;right:8px}
+  .tourays-confirm-card>div{flex-direction:column-reverse}
+  .tourays-confirm-card button{width:100%}
+}
