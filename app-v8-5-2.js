@@ -97,7 +97,8 @@ function unlockTouraysVoice(){
   }catch{}
 }
 function say(t){
-  toast(t);
+  const intervalCue=/^Start (walking|running)$/i.test(String(t).trim());
+  if(!intervalCue)toast(t);
   if(!S.sound)return;
   const lower=String(t).toLowerCase();
   beep(lower.includes('running')?'run':lower.includes('walking')?'walk':'normal');
@@ -150,8 +151,24 @@ function renderRun(){E.countdown.textContent=fmt(S.left);E.elapsed.textContent=f
 function switchPhase(){vibratePhase();if(S.phase==='walk'){S.phase='run';S.duration=S.run;S.left=S.run;say('Start running')}else{S.phase='walk';S.duration=S.walk;S.left=S.walk;S.cycles++;say('Start walking')}S.end=Date.now()+S.left*1000;S.last=Date.now();phaseUI();renderRun()}
 function tick(){if(!S.active||S.paused)return;const n=Date.now(),d=Math.max(0,(n-S.last)/1000);S.elapsed+=d;S.phase==='walk'?S.walkTime+=d:S.runTime+=d;S.last=n;S.left=Math.max(0,(S.end-n)/1000);S.left<=.02?switchPhase():renderRun()}
 
-async function holdWakeLock(){try{if('wakeLock'in navigator)S.wakeLock=await navigator.wakeLock.request('screen')}catch{}}
+async function holdWakeLock(){
+  try{
+    if(!S.active||document.visibilityState!=='visible'||!('wakeLock'in navigator))return;
+    if(S.wakeLock&&!S.wakeLock.released)return;
+    S.wakeLock=await navigator.wakeLock.request('screen');
+    S.wakeLock.addEventListener?.('release',()=>{S.wakeLock=null},{once:true})
+  }catch{}
+}
 function releaseWakeLock(){try{S.wakeLock?.release()}catch{}S.wakeLock=null}
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&S.active&&!S.paused){
+    holdWakeLock();
+    if(S.end){
+      S.left=Math.max(0,Math.ceil((S.end-Date.now())/1000));
+      renderRun()
+    }
+  }
+});
 function averagePaceText(){if(S.total<10||S.elapsed<1)return'--';const v=S.elapsed/(S.total/1000),m=Math.floor(v/60),s=Math.round(v%60);return`${m}:${String(s).padStart(2,'0')}`}
 function speedText(){return Number.isFinite(S.speed)&&S.speed>=0?(S.speed*3.6).toFixed(1):'--'}
 function vibratePhase(pattern=[100,60,140]){if(S.vibrate)navigator.vibrate?.(pattern)}

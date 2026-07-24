@@ -3790,3 +3790,42 @@ body.tourays-dark-theme{
 .tourays-dark-theme #health span{
   color:#c6bfd1!important;
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 9 RUN UI + WAKE LOCK
+   ========================================================= */
+
+/* The start countdown is now a premium light transition instead
+   of the dark-blue full-screen flash. */
+.run-countdown{
+  background:rgba(247,245,255,.94)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+}
+.run-countdown>div{
+  width:min(82%,360px)!important;
+  padding:30px 24px!important;
+  border:1px solid #ded6ef!important;
+  border-radius:28px!important;
+  background:rgba(255,255,255,.96)!important;
+  box-shadow:0 24px 60px rgba(70,48,125,.16)!important;
+}
+.run-countdown small{
+  color:#6945dc!important;
+}
+.run-countdown strong{
+  background:linear-gradient(135deg,#39249f,#835cf2)!important;
+  -webkit-background-clip:text!important;
+  background-clip:text!important;
+  color:transparent!important;
+}
+.run-countdown p{
+  color:#687186!important;
+}
+
+/* Interval changes are spoken and signalled by tone; the old large
+   black notification bar is intentionally not shown for these cues. */
+#run .toast{
+  max-width:360px;
+}
