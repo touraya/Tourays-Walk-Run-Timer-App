@@ -46,8 +46,78 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,Number(v)||0));function fmt(n){n=Math
 function show(name){
   window.scrollTo({top:0,left:0,behavior:'instant'});document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===name));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.screen===name));if(name==='mapScreen')setTimeout(()=>{initMap();S.map?.resize()},80);if(name==='health')renderHealth();if(name==='performance')renderPerformance();if(name==='home')renderHome()}
 function toast(t){E.toast.textContent=t;E.toast.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>E.toast.classList.remove('show'),2300)}
-function beep(){try{S.audio??=new(AudioContext||webkitAudioContext);S.audio.resume();const n=S.audio.currentTime;[[0,760],[.18,960]].forEach(([t,f])=>{const o=S.audio.createOscillator(),g=S.audio.createGain();o.frequency.value=f;g.gain.setValueAtTime(.0001,n+t);g.gain.exponentialRampToValueAtTime(.2,n+t+.02);g.gain.exponentialRampToValueAtTime(.0001,n+t+.17);o.connect(g);g.connect(S.audio.destination);o.start(n+t);o.stop(n+t+.2)})}catch{}}
-function say(t){toast(t);if(!S.sound)return;beep();if('speechSynthesis'in window){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(t))}navigator.vibrate?.([180,80,180])}
+function beep(pattern='normal'){
+  try{
+    const AudioCtx=window.AudioContext||window.webkitAudioContext;
+    if(!AudioCtx)return;
+    S.audio??=new AudioCtx();
+    if(S.audio.state==='suspended')S.audio.resume();
+    const n=S.audio.currentTime;
+    const tones=pattern==='run'?[[0,900],[.16,1120],[.32,1320]]
+      :pattern==='walk'?[[0,760],[.20,620]]
+      :[[0,760],[.18,960]];
+    tones.forEach(([t,f])=>{
+      const o=S.audio.createOscillator(),g=S.audio.createGain();
+      o.frequency.value=f;
+      g.gain.setValueAtTime(.0001,n+t);
+      g.gain.exponentialRampToValueAtTime(.22,n+t+.02);
+      g.gain.exponentialRampToValueAtTime(.0001,n+t+.18);
+      o.connect(g);g.connect(S.audio.destination);o.start(n+t);o.stop(n+t+.21)
+    })
+  }catch{}
+}
+let touraysVoiceUnlocked=false;
+let touraysPreferredVoice=null;
+function loadTouraysVoice(){
+  if(!('speechSynthesis'in window))return null;
+  const voices=window.speechSynthesis.getVoices()||[];
+  touraysPreferredVoice=
+    voices.find(v=>/^en-(GB|US)$/i.test(v.lang)&&/Samantha|Daniel|Karen|Moira|Serena|Google/i.test(v.name))||
+    voices.find(v=>/^en-(GB|US)/i.test(v.lang))||
+    voices.find(v=>/^en/i.test(v.lang))||
+    voices[0]||null;
+  return touraysPreferredVoice
+}
+if('speechSynthesis'in window){
+  loadTouraysVoice();
+  window.speechSynthesis.onvoiceschanged=loadTouraysVoice;
+}
+function unlockTouraysVoice(){
+  if(touraysVoiceUnlocked)return;
+  touraysVoiceUnlocked=true;
+  try{
+    if(S.audio?.state==='suspended')S.audio.resume();
+    if('speechSynthesis'in window){
+      window.speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance('Voice coach ready');
+      u.lang='en-GB';u.rate=.98;u.pitch=1;u.volume=1;
+      const v=loadTouraysVoice();if(v)u.voice=v;
+      window.speechSynthesis.speak(u)
+    }
+  }catch{}
+}
+function say(t){
+  toast(t);
+  if(!S.sound)return;
+  const lower=String(t).toLowerCase();
+  beep(lower.includes('running')?'run':lower.includes('walking')?'walk':'normal');
+  if('speechSynthesis'in window){
+    try{
+      const synth=window.speechSynthesis;
+      synth.cancel();
+      synth.resume?.();
+      const utterance=new SpeechSynthesisUtterance(t);
+      utterance.lang='en-GB';
+      utterance.rate=.94;
+      utterance.pitch=1;
+      utterance.volume=1;
+      const voice=loadTouraysVoice();if(voice)utterance.voice=voice;
+      synth.speak(utterance);
+      setTimeout(()=>{if(synth.paused)synth.resume?.()},250)
+    }catch{}
+  }
+  navigator.vibrate?.([180,80,180])
+}
 function read(m,s){m.value=clamp(m.value,0,99);s.value=clamp(s.value,0,59);return Number(m.value)*60+Number(s.value)}function setTime(n,m,s){m.value=Math.floor(n/60);s.value=n%60}
 let runIntensity='steady';
 function renderRunSetupPreview(){
@@ -88,7 +158,7 @@ function vibratePhase(pattern=[100,60,140]){if(S.vibrate)navigator.vibrate?.(pat
 function updateRunTip(){E.runTip.innerHTML=S.phase==='run'?'<span>⚡</span><div><strong>Run tall and relaxed</strong><p>Keep your shoulders loose and use short, controlled steps.</p></div>':'<span>💡</span><div><strong>Recover without stopping</strong><p>Use the walk phase to steady your breathing.</p></div>'}
 async function warmupCountdown(){if(!E.warmupToggle.checked)return;E.startCountdown.classList.add('open');for(let n=3;n>=1;n--){E.startCountdownNumber.textContent=n;vibratePhase([40]);await new Promise(r=>setTimeout(r,750))}E.startCountdownNumber.textContent='GO';vibratePhase([80,50,150]);await new Promise(r=>setTimeout(r,500));E.startCountdown.classList.remove('open')}
 
-async function startRun(){S.walk=read(E.wm,E.ws);S.run=read(E.rm,E.rs);if(S.walk<1||S.run<1)return toast('Each interval must be at least 1 second');S.gps=E.gpsToggle.checked;S.target=Number(E.runTarget.value)||0;S.vibrate=E.vibrationToggle.checked;E.startRun.disabled=true;await warmupCountdown();Object.assign(S,{phase:'walk',duration:S.walk,left:S.walk,elapsed:0,walkTime:0,runTime:0,cycles:0,active:true,paused:false,total:0,walkM:0,runM:0,speed:null,pos:null,start:null,trace:[],goalAnnounced:false});E.runSetup.hidden=true;E.runActive.hidden=false;E.runReadyChip.textContent='Live';phaseUI();renderRun();S.end=Date.now()+S.left*1000;S.last=Date.now();clearInterval(S.timer);S.timer=setInterval(tick,200);startGps();holdWakeLock();say('Start walking');E.startRun.disabled=false}
+async function startRun(){S.walk=read(E.wm,E.ws);S.run=read(E.rm,E.rs);if(S.walk<1||S.run<1)return toast('Each interval must be at least 1 second');S.sound=localStorage.getItem('touraysVoice')!=='false';unlockTouraysVoice();S.gps=E.gpsToggle.checked;S.target=Number(E.runTarget.value)||0;S.vibrate=E.vibrationToggle.checked;E.startRun.disabled=true;await warmupCountdown();Object.assign(S,{phase:'walk',duration:S.walk,left:S.walk,elapsed:0,walkTime:0,runTime:0,cycles:0,active:true,paused:false,total:0,walkM:0,runM:0,speed:null,pos:null,start:null,trace:[],goalAnnounced:false});E.runSetup.hidden=true;E.runActive.hidden=false;E.runReadyChip.textContent='Live';phaseUI();renderRun();S.end=Date.now()+S.left*1000;S.last=Date.now();clearInterval(S.timer);S.timer=setInterval(tick,200);startGps();holdWakeLock();say('Start walking');E.startRun.disabled=false}
 function pauseRun(){if(!S.active)return;S.paused=!S.paused;E.pauseRun.innerHTML=S.paused?'<span>▶</span><small>Resume</small>':'<span>Ⅱ</span><small>Pause</small>';E.pauseRun.classList.toggle('resume',S.paused);E.liveWorkoutStatus.textContent=S.paused?'WORKOUT PAUSED':'WORKOUT LIVE';if(S.paused){S.left=Math.max(0,(S.end-Date.now())/1000);releaseWakeLock();say('Workout paused')}else{S.end=Date.now()+S.left*1000;S.last=Date.now();holdWakeLock();say(S.phase==='walk'?'Continue walking':'Continue running')}renderRun()}
 function estimateCalories(){const w=clamp(E.weight.value,30,250)||75;return Math.round((3.5*w*S.walkTime/3600)+(8.3*w*S.runTime/3600))}
 
@@ -839,7 +909,7 @@ E.plannerNextWeek.onclick=()=>{plannerWeekOffset++;plannerSelectedDate=isoDate(p
 E.addPlannedWorkout.onclick=openPlannerModal;E.closePlannerModal.onclick=closePlanner;E.savePlannedWorkout.onclick=savePlannerWorkout;E.exportPlannerCalendar.onclick=exportPlannerIcs;
 E.plannerModal.onclick=e=>{if(e.target===E.plannerModal)closePlanner()};
 E.saveProfile.onclick=commitProfile;E.editProfileButton.onclick=()=>E.profileName.focus();
-E.profileVoiceToggle.onchange=()=>localStorage.setItem('touraysVoice',E.profileVoiceToggle.checked);
+E.profileVoiceToggle.onchange=()=>{S.sound=E.profileVoiceToggle.checked;localStorage.setItem('touraysVoice',String(S.sound));if(E.soundBtn)E.soundBtn.textContent=S.sound?'🔊':'🔇';if(S.sound){unlockTouraysVoice();setTimeout(()=>say('Voice coach on'),80)}else window.speechSynthesis?.cancel()};
 E.profileVibrationToggle.onchange=()=>{localStorage.setItem('touraysVibration',E.profileVibrationToggle.checked);E.vibrationToggle.checked=E.profileVibrationToggle.checked};
 E.profileCountdownToggle.onchange=()=>{localStorage.setItem('touraysWarmup',E.profileCountdownToggle.checked);E.warmupToggle.checked=E.profileCountdownToggle.checked};
 E.profileWeeklyGoal.onchange=()=>{const g=loadSmartGoals();g.minutes=Number(E.profileWeeklyGoal.value);saveSmartGoals(g);E.weeklyGoal.value=g.minutes;localStorage.setItem('touraysWeeklyGoal',g.minutes);renderGoals();renderHealth();renderHome()};
@@ -861,7 +931,7 @@ E.runTarget.onchange=()=>localStorage.setItem('touraysRunTarget',E.runTarget.val
 E.warmupToggle.onchange=()=>localStorage.setItem('touraysWarmup',E.warmupToggle.checked);
 E.vibrationToggle.onchange=()=>localStorage.setItem('touraysVibration',E.vibrationToggle.checked);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&S.active&&!S.paused)holdWakeLock()});
-E.startRun.onclick=startRun;E.pauseRun.onclick=pauseRun;E.stopRun.onclick=stopRun;E.changeIntervals.onclick=openIntervals;E.closeIntervals.onclick=()=>E.intervalModal.classList.remove('open');E.applyIntervals.onclick=applyIntervals;E.settingsBtn.onclick=()=>E.settingsModal.classList.add('open');E.closeSettings.onclick=()=>E.settingsModal.classList.remove('open');E.soundBtn.onclick=()=>{S.sound=!S.sound;E.soundBtn.textContent=S.sound?'🔊':'🔇'};E.intervalModal.onclick=x=>{if(x.target===E.intervalModal)E.intervalModal.classList.remove('open')};E.settingsModal.onclick=x=>{if(x.target===E.settingsModal)E.settingsModal.classList.remove('open')};
+E.startRun.onclick=startRun;E.pauseRun.onclick=pauseRun;E.stopRun.onclick=stopRun;E.changeIntervals.onclick=openIntervals;E.closeIntervals.onclick=()=>E.intervalModal.classList.remove('open');E.applyIntervals.onclick=applyIntervals;E.settingsBtn.onclick=()=>E.settingsModal.classList.add('open');E.closeSettings.onclick=()=>E.settingsModal.classList.remove('open');S.sound=localStorage.getItem('touraysVoice')!=='false';E.soundBtn.textContent=S.sound?'🔊':'🔇';E.soundBtn.onclick=()=>{S.sound=!S.sound;localStorage.setItem('touraysVoice',String(S.sound));E.soundBtn.textContent=S.sound?'🔊':'🔇';if(S.sound){unlockTouraysVoice();setTimeout(()=>say('Voice coach on'),80)}else{window.speechSynthesis?.cancel();toast('Voice coach off')}};E.intervalModal.onclick=x=>{if(x.target===E.intervalModal)E.intervalModal.classList.remove('open')};E.settingsModal.onclick=x=>{if(x.target===E.settingsModal)E.settingsModal.classList.remove('open')};
 E.lessExercise.onclick=()=>{exerciseAmount=Math.max(1,exerciseAmount-(exercises[currentExercise].unit==='seconds'?5:1));renderExercise()};
 E.moreExercise.onclick=()=>{exerciseAmount+=exercises[currentExercise].unit==='seconds'?5:1;renderExercise()};
 E.startExercise.onclick=startExercise;
