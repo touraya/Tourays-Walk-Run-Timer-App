@@ -7,19 +7,26 @@ summaryViewHealth:$('summaryViewHealth'),summaryIcon:$('summaryIcon'),summaryTit
 summarySubtitle:$('summarySubtitle'),summaryTime:$('summaryTime'),summaryDistance:$('summaryDistance'),
 summaryCalories:$('summaryCalories'),summaryFourthLabel:$('summaryFourthLabel'),summaryFourth:$('summaryFourth'),
 summaryAchievement:$('summaryAchievement'),summaryAchievementIcon:$('summaryAchievementIcon'),
-summaryAchievementName:$('summaryAchievementName'),runTarget:$('runTarget'),warmupToggle:$('warmupToggle'),vibrationToggle:$('vibrationToggle'),runReadyChip:$('runReadyChip'),liveWorkoutStatus:$('liveWorkoutStatus'),targetProgressText:$('targetProgressText'),targetRing:$('targetRing'),phaseProgressText:$('phaseProgressText'),skipPhase:$('skipPhase'),targetRemaining:$('targetRemaining'),averagePace:$('averagePace'),liveCalories:$('liveCalories'),liveSpeed:$('liveSpeed'),runTip:$('runTip'),startCountdown:$('startCountdown'),startCountdownNumber:$('startCountdownNumber')};
+summaryAchievementName:$('summaryAchievementName'),planGrid:$('planGrid'),startPlan:$('startPlan'),indoorBrowse:$('indoorBrowse'),indoorActive:$('indoorActive'),exerciseMuscle:$('exerciseMuscle'),exerciseSets:$('exerciseSets'),exerciseRest:$('exerciseRest'),exitIndoor:$('exitIndoor'),indoorModeLabel:$('indoorModeLabel'),indoorProgressLabel:$('indoorProgressLabel'),indoorTotalTime:$('indoorTotalTime'),indoorProgressBar:$('indoorProgressBar'),activeDemo:$('activeDemo'),indoorPhaseLabel:$('indoorPhaseLabel'),activeExerciseName:$('activeExerciseName'),activeExerciseTip:$('activeExerciseTip'),indoorCountdown:$('indoorCountdown'),indoorCountdownUnit:$('indoorCountdownUnit'),indoorRingProgress:$('indoorRingProgress'),indoorSetCurrent:$('indoorSetCurrent'),indoorSetTotal:$('indoorSetTotal'),indoorNextLabel:$('indoorNextLabel'),previousIndoor:$('previousIndoor'),indoorPause:$('indoorPause'),nextIndoor:$('nextIndoor'),indoorLevel:$('indoorLevel'),runTarget:$('runTarget'),warmupToggle:$('warmupToggle'),vibrationToggle:$('vibrationToggle'),runReadyChip:$('runReadyChip'),liveWorkoutStatus:$('liveWorkoutStatus'),targetProgressText:$('targetProgressText'),targetRing:$('targetRing'),phaseProgressText:$('phaseProgressText'),skipPhase:$('skipPhase'),targetRemaining:$('targetRemaining'),averagePace:$('averagePace'),liveCalories:$('liveCalories'),liveSpeed:$('liveSpeed'),runTip:$('runTip'),startCountdown:$('startCountdown'),startCountdownNumber:$('startCountdownNumber')};
 const H={greeting:$('homeGreeting'),date:$('homeDate'),streak:$('homeStreak'),goalRing:$('homeGoalRing'),goalPercent:$('homeGoalPercent'),activeMinutes:$('homeActiveMinutes'),goalMessage:$('homeGoalMessage'),workouts:$('homeWorkouts'),calories:$('homeCalories'),distance:$('homeDistance'),gpsLabel:$('homeGpsLabel'),lastWorkout:$('homeLastWorkout'),challengeTitle:$('challengeTitle'),challengeText:$('challengeText'),challengeCheck:$('challengeCheck')};
-let S={walk:120,run:180,phase:'walk',duration:120,left:120,elapsed:0,walkTime:0,runTime:0,cycles:0,active:false,paused:false,sound:true,timer:null,end:0,last:0,audio:null,gps:true,watch:null,pos:null,start:null,total:0,walkM:0,runM:0,speed:null,map:null,userMarker:null,startMarker:null,trace:[],routeGeo:null,indoorTimer:null,target:1800,vibrate:true,wakeLock:null,goalAnnounced:false};
+let S={walk:120,run:180,phase:'walk',duration:120,left:120,elapsed:0,walkTime:0,runTime:0,cycles:0,active:false,paused:false,sound:true,timer:null,end:0,last:0,audio:null,gps:true,watch:null,pos:null,start:null,total:0,walkM:0,runM:0,speed:null,map:null,userMarker:null,startMarker:null,trace:[],routeGeo:null,indoorTimer:null,target:1800,vibrate:true,wakeLock:null,goalAnnounced:false,indoorActive:false,indoorPaused:false,indoorPlan:null,indoorQueue:[],indoorIndex:0,indoorSet:1,indoorSets:2,indoorRest:30,indoorPhase:'work',indoorLeft:0,indoorDuration:0,indoorElapsed:0,indoorStarted:0,indoorMode:'single'};
 const exercises=[
-{name:'Push-ups',icon:'💪',amount:10,unit:'repetitions',tip:'Keep a straight line from shoulders to heels. Lower your chest between your hands.',type:'push'},
-{name:'Squats',icon:'🦵',amount:15,unit:'repetitions',tip:'Sit your hips back, keep your chest lifted and track knees over toes.',type:'squat'},
-{name:'Sit-ups',icon:'🧘',amount:12,unit:'repetitions',tip:'Brace your core and rise smoothly. Do not pull your head with your hands.',type:'sit'},
-{name:'Lunges',icon:'🚶',amount:10,unit:'each leg',tip:'Take a stable step, keep your front knee aligned and lower the back knee.',type:'lunge'},
-{name:'Plank',icon:'⏱️',amount:30,unit:'seconds',tip:'Brace your core and keep shoulders, hips and heels in one straight line.',type:'plank'},
-{name:'Mountain climbers',icon:'🏔️',amount:30,unit:'seconds',tip:'Keep shoulders above hands and alternate knees without bouncing your hips.',type:'climber'},
-{name:'Burpees',icon:'🔥',amount:8,unit:'repetitions',tip:'Move through squat, plank and stand with control. Land softly.',type:'burpee'},
-{name:'Jumping jacks',icon:'⭐',amount:30,unit:'seconds',tip:'Land softly and keep a steady rhythm while arms and legs move together.',type:'jack'}
-];let currentExercise=0,exerciseAmount=10;
+{name:'Push-ups',icon:'💪',muscle:'Chest & arms',amount:10,unit:'repetitions',tip:'Keep a straight line from shoulders to heels. Lower your chest between your hands.',type:'push'},
+{name:'Squats',icon:'🦵',muscle:'Legs & glutes',amount:15,unit:'repetitions',tip:'Sit your hips back, keep your chest lifted and track knees over toes.',type:'squat'},
+{name:'Sit-ups',icon:'🧘',muscle:'Core',amount:12,unit:'repetitions',tip:'Brace your core and rise smoothly. Do not pull your head with your hands.',type:'sit'},
+{name:'Lunges',icon:'🚶',muscle:'Legs & balance',amount:10,unit:'each leg',tip:'Take a stable step, keep your front knee aligned and lower the back knee.',type:'lunge'},
+{name:'Plank',icon:'⏱️',muscle:'Core stability',amount:30,unit:'seconds',tip:'Brace your core and keep shoulders, hips and heels in one straight line.',type:'plank'},
+{name:'Mountain climbers',icon:'🏔️',muscle:'Core & cardio',amount:30,unit:'seconds',tip:'Keep shoulders above hands and alternate knees without bouncing your hips.',type:'climber'},
+{name:'Burpees',icon:'🔥',muscle:'Full body',amount:8,unit:'repetitions',tip:'Move through squat, plank and stand with control. Land softly.',type:'burpee'},
+{name:'Jumping jacks',icon:'⭐',muscle:'Cardio',amount:30,unit:'seconds',tip:'Land softly and keep a steady rhythm while arms and legs move together.',type:'jack'}
+];
+const indoorPlans={
+ quick:{name:'Quick Start',level:'Beginner',sets:1,rest:20,queue:[0,1,4,7]},
+ core:{name:'Core Builder',level:'Intermediate',sets:2,rest:25,queue:[2,4,5,2]},
+ full:{name:'Full Body',level:'Intermediate',sets:2,rest:30,queue:[0,1,3,5,6,7]}
+};
+let selectedPlan='quick';
+let currentExercise=0,exerciseAmount=10;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,Number(v)||0));function fmt(n){n=Math.max(0,Math.ceil(n));return`${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`}const km=m=>`${(m/1000).toFixed(2)} km`;function pace(v){if(!v||v<.45)return'--';const x=1000/v;if(!isFinite(x)||x>3600)return'--';return`${Math.floor(x/60)}:${String(Math.round(x%60)).padStart(2,'0')}/km`}
 function show(name){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===name));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.screen===name));if(name==='mapScreen')setTimeout(()=>{initMap();S.map?.resize()},80);if(name==='health')renderHealth();if(name==='home')renderHome()}
 function toast(t){E.toast.textContent=t;E.toast.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>E.toast.classList.remove('show'),2300)}
@@ -122,10 +129,103 @@ jack:[['120','48','120','101','98','146','142','146'],['120','48','120','101','7
 };return P[name][pose]}
 function drawPerson(type,pose){const a=personPose(type,pose);if(['push','plank','climber'].includes(type)||type==='burpee'&&pose===1){const [hx,hy,sx,sy,fx,fy,ax,ay,lx,ly]=a;return `<g class="pose${['A','B','C'][pose]}"><ellipse class="mat" cx="125" cy="153" rx="104" ry="10"/><circle class="skin" cx="${hx}" cy="${hy}" r="13"/><path class="limb" d="M${Number(hx)+14} ${Number(hy)+3} L${sx} ${sy} L${fx} ${fy}"/><path class="limb" d="M${Number(sx)-18} ${Number(sy)-4} L${ax} ${ay} M${Number(sx)+26} ${Number(sy)+5} L${lx} ${ly}"/><path class="shirt" d="M${Number(hx)+13} ${Number(hy)-5} L${Number(sx)+8} ${Number(sy)-11} L${Number(sx)+17} ${Number(sy)+11} L${Number(hx)+16} ${Number(hy)+13} Z"/></g>`}const [hx,hy,sx,sy,lx,ly,rx,ry]=a;return `<g class="pose${['A','B','C'][pose]}"><ellipse class="mat" cx="120" cy="153" rx="92" ry="9"/><circle class="skin" cx="${hx}" cy="${hy}" r="13"/><path class="limb" d="M${hx} ${Number(hy)+14} L${sx} ${sy} M${sx} ${Number(sy)-28} L${Number(sx)-34} ${Number(sy)-6} M${sx} ${Number(sy)-28} L${Number(sx)+34} ${Number(sy)-6} M${sx} ${sy} L${lx} ${ly} M${sx} ${sy} L${rx} ${ry}"/><path class="shirt" d="M${Number(sx)-14} ${Number(sy)-45} Q${sx} ${Number(sy)-55} ${Number(sx)+14} ${Number(sy)-45} L${Number(sx)+13} ${Number(sy)-5} L${Number(sx)-13} ${Number(sy)-5} Z"/><path class="shorts" d="M${Number(sx)-14} ${Number(sy)-7} L${Number(sx)+14} ${Number(sy)-7} L${Number(sx)+20} ${Number(sy)+9} L${sx} ${Number(sy)+5} L${Number(sx)-20} ${Number(sy)+9} Z"/></g>`}
 function demoSvg(type){return `<svg viewBox="0 0 240 180" aria-label="Animated ${type} form guide"><line class="floor" x1="20" y1="155" x2="220" y2="155"/>${drawPerson(type,0)}${drawPerson(type,1)}${drawPerson(type,2)}<path class="arrow" d="M210 55 Q225 90 210 125"/><path fill="#42d5a1" d="M204 119 L212 134 L219 119 Z"/></svg>`}
-function renderExerciseGrid(){E.exerciseGrid.innerHTML=exercises.map((x,i)=>`<button class="exercise-card ${i===currentExercise?'selected':''}" data-i="${i}"><span>${x.icon}</span><strong>${x.name}</strong><small>${x.amount} ${x.unit}</small></button>`).join('');document.querySelectorAll('.exercise-card').forEach(b=>b.onclick=()=>{currentExercise=+b.dataset.i;exerciseAmount=exercises[currentExercise].amount;renderExerciseGrid();renderExercise()})}
-function renderExercise(){const x=exercises[currentExercise];E.demo.innerHTML=`<span class="demo-badge">6-second form guide</span>${demoSvg(x.type)}<div class="demo-progress"><i></i></div>`;E.exerciseName.textContent=x.name;E.exerciseTarget.textContent=`${exerciseAmount} ${x.unit}`;E.exerciseTip.textContent=x.tip;E.exerciseAmount.textContent=exerciseAmount;E.exerciseUnit.textContent=x.unit}
-function saveExercise(x,amount,duration){const before=history();const workout={type:x.name,date:new Date().toISOString(),duration,distance:0,cycles:amount,calories:Math.round((clamp(E.weight.value,30,250)||75)*duration/3600*6)};const after=[workout,...before];saveHistory(after);const unlocked=newlyUnlocked(before,after);updateAchievements(after);openSummary(workout,unlocked)}
-function startExercise(){const x=exercises[currentExercise];if(x.unit==='seconds'){let left=exerciseAmount;E.startExercise.textContent='Running…';say(`Start ${x.name}`);clearInterval(S.indoorTimer);S.indoorTimer=setInterval(()=>{left--;E.exerciseAmount.textContent=left;if(left<=0){clearInterval(S.indoorTimer);E.startExercise.textContent='Start exercise';E.exerciseAmount.textContent=exerciseAmount;say('Exercise complete');saveExercise(x,exerciseAmount,exerciseAmount)}},1000)}else{say(`Start ${x.name}. ${exerciseAmount} repetitions`);saveExercise(x,exerciseAmount,Math.round(exerciseAmount*3));toast('Exercise saved')}}
+function renderExerciseGrid(){
+  E.exerciseGrid.innerHTML=exercises.map((x,i)=>`<button class="exercise-card ${i===currentExercise?'selected':''}" data-i="${i}"><span>${x.icon}</span><strong>${x.name}</strong><small>${x.muscle}</small></button>`).join('');
+  document.querySelectorAll('.exercise-card').forEach(b=>b.onclick=()=>{currentExercise=+b.dataset.i;exerciseAmount=exercises[currentExercise].amount;renderExerciseGrid();renderExercise()})
+}
+function renderExercise(){
+  const x=exercises[currentExercise];
+  E.demo.innerHTML=`<span class="demo-badge">6-second form guide</span>${demoSvg(x.type)}<div class="demo-progress"><i></i></div>`;
+  E.exerciseName.textContent=x.name;E.exerciseMuscle.textContent=x.muscle;
+  E.exerciseTarget.textContent=`${exerciseAmount} ${x.unit}`;E.exerciseTip.textContent=x.tip;
+  E.exerciseAmount.textContent=exerciseAmount;E.exerciseUnit.textContent=x.unit
+}
+function saveExercise(x,amount,duration,type=x.name,sets=1){
+  const before=history();
+  const workout={type,date:new Date().toISOString(),duration,distance:0,cycles:amount*sets,sets,calories:Math.round((clamp(E.weight.value,30,250)||75)*duration/3600*6)};
+  const after=[workout,...before];saveHistory(after);const unlocked=newlyUnlocked(before,after);updateAchievements(after);openSummary(workout,unlocked)
+}
+function indoorExerciseDuration(x,amount){
+  return x.unit==='seconds'?amount:Math.max(12,Math.round(amount*3))
+}
+function startExercise(){
+  S.indoorMode='single';S.indoorQueue=[currentExercise];S.indoorSets=Number(E.exerciseSets.value)||1;S.indoorRest=Number(E.exerciseRest.value)||30;
+  S.indoorIndex=0;S.indoorSet=1;S.indoorElapsed=0;S.indoorStarted=Date.now();S.indoorActive=true;S.indoorPaused=false;
+  beginIndoorWork()
+}
+function startIndoorPlan(){
+  const p=indoorPlans[selectedPlan];S.indoorMode='plan';S.indoorPlan=p;S.indoorQueue=[...p.queue];S.indoorSets=p.sets;S.indoorRest=p.rest;
+  S.indoorIndex=0;S.indoorSet=1;S.indoorElapsed=0;S.indoorStarted=Date.now();S.indoorActive=true;S.indoorPaused=false;
+  beginIndoorWork()
+}
+function currentIndoorExercise(){return exercises[S.indoorQueue[S.indoorIndex]]}
+function beginIndoorWork(){
+  clearInterval(S.indoorTimer);const x=currentIndoorExercise();currentExercise=S.indoorQueue[S.indoorIndex];
+  const amount=S.indoorMode==='single'?exerciseAmount:x.amount;
+  S.indoorPhase='work';S.indoorDuration=indoorExerciseDuration(x,amount);S.indoorLeft=S.indoorDuration;
+  E.indoorBrowse.hidden=true;E.indoorActive.hidden=false;E.indoorModeLabel.textContent=S.indoorMode==='plan'?S.indoorPlan.name.toUpperCase():'SINGLE EXERCISE';
+  E.activeExerciseName.textContent=x.name;E.activeExerciseTip.textContent=x.tip;E.activeDemo.innerHTML=demoSvg(x.type);
+  E.indoorPhaseLabel.textContent='WORK';E.indoorCountdownUnit.textContent=x.unit==='seconds'?'seconds':'reps';
+  E.indoorSetTotal.textContent=S.indoorSets;E.indoorSetCurrent.textContent=S.indoorSet;
+  E.indoorProgressLabel.textContent=`Exercise ${S.indoorIndex+1} of ${S.indoorQueue.length}`;
+  E.indoorNextLabel.textContent=S.indoorSet<S.indoorSets?`Next: Rest ${S.indoorRest} sec`:S.indoorIndex<S.indoorQueue.length-1?`Next: ${exercises[S.indoorQueue[S.indoorIndex+1]].name}`:'Final exercise';
+  say(`Start ${x.name}`);holdWakeLock();renderIndoorActive();
+  S.indoorTimer=setInterval(indoorTick,1000)
+}
+function beginIndoorRest(){
+  clearInterval(S.indoorTimer);S.indoorPhase='rest';S.indoorDuration=S.indoorRest;S.indoorLeft=S.indoorRest;
+  E.indoorPhaseLabel.textContent='REST';E.activeExerciseName.textContent='Recover';
+  E.activeExerciseTip.textContent='Breathe slowly, shake out tension and prepare for the next set.';
+  E.indoorCountdownUnit.textContent='seconds';E.indoorNextLabel.textContent=`Next: ${currentIndoorExercise().name}`;
+  say(`Rest for ${S.indoorRest} seconds`);renderIndoorActive();S.indoorTimer=setInterval(indoorTick,1000)
+}
+function indoorTick(){
+  if(!S.indoorActive||S.indoorPaused)return;
+  S.indoorLeft=Math.max(0,S.indoorLeft-1);S.indoorElapsed++;renderIndoorActive();
+  if(S.indoorLeft<=0){navigator.vibrate?.([100,60,150]);if(S.indoorPhase==='work')finishIndoorWork();else beginIndoorWork()}
+}
+function finishIndoorWork(){
+  if(S.indoorSet<S.indoorSets){S.indoorSet++;beginIndoorRest();return}
+  S.indoorSet=1;
+  if(S.indoorIndex<S.indoorQueue.length-1){S.indoorIndex++;beginIndoorRest();return}
+  finishIndoorSession()
+}
+function renderIndoorActive(){
+  const x=currentIndoorExercise(),amount=S.indoorMode==='single'?exerciseAmount:x.amount;
+  const display=S.indoorPhase==='work'&&x.unit!=='seconds'?Math.max(1,Math.ceil(amount*(S.indoorLeft/S.indoorDuration))):Math.ceil(S.indoorLeft);
+  E.indoorCountdown.textContent=display;E.indoorTotalTime.textContent=fmt(S.indoorElapsed);
+  const ring=2*Math.PI*72,ratio=S.indoorDuration?S.indoorLeft/S.indoorDuration:0;
+  E.indoorRingProgress.style.strokeDasharray=ring;E.indoorRingProgress.style.strokeDashoffset=ring*(1-ratio);
+  const totalSteps=S.indoorQueue.length*S.indoorSets,done=S.indoorIndex*S.indoorSets+(S.indoorSet-1)+(S.indoorPhase==='rest'?1:1-ratio);
+  E.indoorProgressBar.style.width=`${Math.min(100,done/totalSteps*100)}%`
+}
+function pauseIndoor(){
+  if(!S.indoorActive)return;S.indoorPaused=!S.indoorPaused;
+  E.indoorPause.innerHTML=S.indoorPaused?'<span>▶</span><small>Resume</small>':'<span>Ⅱ</span><small>Pause</small>';
+  E.indoorPause.classList.toggle('resume',S.indoorPaused);S.indoorPaused?releaseWakeLock():holdWakeLock();
+  say(S.indoorPaused?'Workout paused':'Workout resumed')
+}
+function nextIndoor(){
+  if(!S.indoorActive)return;
+  if(S.indoorIndex<S.indoorQueue.length-1){S.indoorIndex++;S.indoorSet=1;beginIndoorWork()}else finishIndoorSession()
+}
+function previousIndoor(){
+  if(!S.indoorActive)return;
+  if(S.indoorIndex>0){S.indoorIndex--;S.indoorSet=1;beginIndoorWork()}else toast('This is the first exercise')
+}
+function exitIndoorWorkout(){
+  if(!S.indoorActive)return;clearInterval(S.indoorTimer);S.indoorActive=false;S.indoorPaused=false;releaseWakeLock();
+  E.indoorActive.hidden=true;E.indoorBrowse.hidden=false;E.indoorPause.innerHTML='<span>Ⅱ</span><small>Pause</small>';E.indoorPause.classList.remove('resume');toast('Indoor workout ended')
+}
+function finishIndoorSession(){
+  clearInterval(S.indoorTimer);S.indoorActive=false;releaseWakeLock();
+  const x=currentIndoorExercise(),label=S.indoorMode==='plan'?S.indoorPlan.name:x.name;
+  const before=history(),totalMoves=S.indoorQueue.reduce((n,i)=>n+(exercises[i].amount||0),0)*S.indoorSets;
+  const workout={type:label,date:new Date().toISOString(),duration:Math.max(1,S.indoorElapsed),distance:0,cycles:totalMoves,sets:S.indoorSets,calories:Math.round((clamp(E.weight.value,30,250)||75)*Math.max(1,S.indoorElapsed)/3600*6)};
+  const after=[workout,...before];saveHistory(after);const unlocked=newlyUnlocked(before,after);updateAchievements(after);
+  E.indoorActive.hidden=true;E.indoorBrowse.hidden=false;E.indoorPause.innerHTML='<span>Ⅱ</span><small>Pause</small>';E.indoorPause.classList.remove('resume');
+  say('Indoor workout complete');openSummary(workout,unlocked)
+}
 async function routeToStart(){if(!S.pos||!S.start)return toast('Start GPS tracking before routing');E.routeHome.textContent='Calculating…';try{const u=`https://routing.openstreetmap.de/routed-foot/route/v1/driving/${S.pos.longitude},${S.pos.latitude};${S.start.longitude},${S.start.latitude}?overview=full&steps=true&geometries=geojson`;const r=await fetch(u);const d=await r.json();if(!d.routes?.length)throw Error();const route=d.routes[0],coords=route.geometry.coordinates;const src=S.map?.getSource('route-home');if(src)src.setData({type:'Feature',geometry:{type:'LineString',coordinates:coords}});const bounds=coords.reduce((b,c)=>b.extend(c),new maplibregl.LngLatBounds(coords[0],coords[0]));S.map?.fitBounds(bounds,{padding:45});E.routeDistance.textContent=km(route.distance);E.routeDuration.textContent=`${Math.round(route.duration/60)} min walk`;const steps=route.legs.flatMap(l=>l.steps||[]);E.directionSteps.innerHTML=steps.map((x,i)=>`<div class="direction-step"><b>${i+1}</b><span>${instruction(x)}<br><small>${Math.round(x.distance)} m</small></span></div>`).join('');E.directions.classList.add('show')}catch{toast('Walking route could not be calculated')}finally{E.routeHome.textContent='↩ Route to start'}}
 function instruction(x){const t=x.maneuver?.type||'continue',m=x.maneuver?.modifier||'';if(t==='depart')return`Start ${m}`;if(t==='arrive')return'You have reached your starting point';if(t==='turn')return`Turn ${m}`;if(t==='new name')return`Continue ${m}`;if(t==='roundabout')return'Enter the roundabout';return`${t.replaceAll('_',' ')} ${m}`.trim()}
 function history(){return JSON.parse(localStorage.getItem('touraysHealthHistory')||localStorage.getItem('touraysHistory')||'[]')}function saveHistory(h){localStorage.setItem('touraysHealthHistory',JSON.stringify(h.slice(0,60)));renderHome()}
@@ -178,5 +278,9 @@ E.warmupToggle.onchange=()=>localStorage.setItem('touraysWarmup',E.warmupToggle.
 E.vibrationToggle.onchange=()=>localStorage.setItem('touraysVibration',E.vibrationToggle.checked);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&S.active&&!S.paused)holdWakeLock()});
 E.startRun.onclick=startRun;E.pauseRun.onclick=pauseRun;E.stopRun.onclick=stopRun;E.changeIntervals.onclick=openIntervals;E.closeIntervals.onclick=()=>E.intervalModal.classList.remove('open');E.applyIntervals.onclick=applyIntervals;E.settingsBtn.onclick=()=>E.settingsModal.classList.add('open');E.closeSettings.onclick=()=>E.settingsModal.classList.remove('open');E.soundBtn.onclick=()=>{S.sound=!S.sound;E.soundBtn.textContent=S.sound?'🔊':'🔇'};E.intervalModal.onclick=x=>{if(x.target===E.intervalModal)E.intervalModal.classList.remove('open')};E.settingsModal.onclick=x=>{if(x.target===E.settingsModal)E.settingsModal.classList.remove('open')};
-E.lessExercise.onclick=()=>{exerciseAmount=Math.max(1,exerciseAmount-(exercises[currentExercise].unit==='seconds'?5:1));renderExercise()};E.moreExercise.onclick=()=>{exerciseAmount+=exercises[currentExercise].unit==='seconds'?5:1;renderExercise()};E.startExercise.onclick=startExercise;E.recenterMap.onclick=()=>{if(S.map&&S.pos)S.map.flyTo({center:[S.pos.longitude,S.pos.latitude],zoom:17,pitch:45});else toast('Waiting for GPS')};E.routeHome.onclick=routeToStart;[E.weight,E.height,E.weeklyGoal].forEach(x=>x.onchange=()=>{renderHealth();renderHome()});E.gpsToggle.onchange=()=>{S.gps=E.gpsToggle.checked;S.gps?startGps():stopGps()};
+E.lessExercise.onclick=()=>{exerciseAmount=Math.max(1,exerciseAmount-(exercises[currentExercise].unit==='seconds'?5:1));renderExercise()};
+E.moreExercise.onclick=()=>{exerciseAmount+=exercises[currentExercise].unit==='seconds'?5:1;renderExercise()};
+E.startExercise.onclick=startExercise;
+document.querySelectorAll('.plan-card').forEach(b=>b.onclick=()=>{selectedPlan=b.dataset.plan;document.querySelectorAll('.plan-card').forEach(x=>x.classList.toggle('selected',x===b));E.indoorLevel.textContent=indoorPlans[selectedPlan].level});
+E.startPlan.onclick=startIndoorPlan;E.indoorPause.onclick=pauseIndoor;E.nextIndoor.onclick=nextIndoor;E.previousIndoor.onclick=previousIndoor;E.exitIndoor.onclick=exitIndoorWorkout;E.recenterMap.onclick=()=>{if(S.map&&S.pos)S.map.flyTo({center:[S.pos.longitude,S.pos.latitude],zoom:17,pitch:45});else toast('Waiting for GPS')};E.routeHome.onclick=routeToStart;[E.weight,E.height,E.weeklyGoal].forEach(x=>x.onchange=()=>{renderHealth();renderHome()});E.gpsToggle.onchange=()=>{S.gps=E.gpsToggle.checked;S.gps?startGps():stopGps()};
 renderExerciseGrid();renderExercise();startGps();renderHealth();renderHome();updateAchievements();

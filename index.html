@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#08111f" name="theme-color"/>
-<title>Tourays Fitness V7 · Build 3</title>
+<title>Tourays Fitness V7 · Build 4</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -171,7 +171,110 @@
 
   <div id="startCountdown" class="run-countdown"><div><small>GET READY</small><strong id="startCountdownNumber">3</strong><p>Your workout is about to begin</p></div></div>
 </section>
-<section class="screen" id="indoor"><div class="section-head"><small>FORM &amp; TECHNIQUE</small><h2>Indoor training</h2></div><div class="exercise-grid" id="exerciseGrid"></div><article class="exercise-player"><div class="demo" id="demo"><span class="demo-badge">6-second form guide</span><div class="demo-progress"><i></i></div></div><div class="exercise-title"><h3 id="exerciseName"></h3><span id="exerciseTarget"></span></div><p class="form-tip" id="exerciseTip"></p><div class="amount"><strong id="exerciseAmount"></strong><span id="exerciseUnit"></span></div><div class="amount-buttons"><button class="secondary" id="lessExercise">− Less</button><button class="secondary" id="moreExercise">+ More</button></div><button class="primary" id="startExercise" style="margin-top:8px">Start exercise</button></article></section>
+<section class="screen" id="indoor">
+  <div class="section-head indoor-head">
+    <div><small>INDOOR TRAINER · 2.0</small><h2>Train anywhere</h2></div>
+    <span class="indoor-level" id="indoorLevel">Beginner</span>
+  </div>
+
+  <div id="indoorBrowse">
+    <article class="indoor-hero">
+      <div>
+        <small>GUIDED WORKOUTS</small>
+        <h3>Choose a plan or one exercise</h3>
+        <p>Follow timed sets, rest periods and form guidance directly inside the app.</p>
+      </div>
+      <span>💪</span>
+    </article>
+
+    <div class="indoor-title-row">
+      <div><small>QUICK WORKOUTS</small><h3>Ready-made plans</h3></div>
+      <span>5–12 min</span>
+    </div>
+
+    <div class="plan-grid" id="planGrid">
+      <button class="plan-card selected" data-plan="quick">
+        <span class="plan-icon">⚡</span>
+        <strong>Quick Start</strong>
+        <small>4 exercises · 5 min</small>
+        <i>Beginner</i>
+      </button>
+      <button class="plan-card" data-plan="core">
+        <span class="plan-icon">🎯</span>
+        <strong>Core Builder</strong>
+        <small>4 exercises · 8 min</small>
+        <i>Intermediate</i>
+      </button>
+      <button class="plan-card" data-plan="full">
+        <span class="plan-icon">🔥</span>
+        <strong>Full Body</strong>
+        <small>6 exercises · 12 min</small>
+        <i>Intermediate</i>
+      </button>
+    </div>
+
+    <button class="primary indoor-plan-start" id="startPlan">Start selected plan</button>
+
+    <div class="indoor-title-row">
+      <div><small>EXERCISE LIBRARY</small><h3>Train one movement</h3></div>
+      <span id="exerciseCount">8 exercises</span>
+    </div>
+
+    <div class="exercise-grid" id="exerciseGrid"></div>
+
+    <article class="exercise-player indoor-player">
+      <div class="demo" id="demo"><span class="demo-badge">6-second form guide</span><div class="demo-progress"><i></i></div></div>
+      <div class="exercise-title"><div><h3 id="exerciseName"></h3><small id="exerciseMuscle">Full body</small></div><span id="exerciseTarget"></span></div>
+      <p class="form-tip" id="exerciseTip"></p>
+      <div class="indoor-settings-row">
+        <div class="amount"><strong id="exerciseAmount"></strong><span id="exerciseUnit"></span></div>
+        <label><span>Sets</span><select id="exerciseSets"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        <label><span>Rest</span><select id="exerciseRest"><option value="15">15 sec</option><option value="30" selected>30 sec</option><option value="45">45 sec</option><option value="60">60 sec</option></select></label>
+      </div>
+      <div class="amount-buttons"><button class="secondary" id="lessExercise">− Less</button><button class="secondary" id="moreExercise">+ More</button></div>
+      <button class="primary" id="startExercise" style="margin-top:8px">Start exercise</button>
+    </article>
+  </div>
+
+  <div id="indoorActive" hidden>
+    <div class="indoor-live-top">
+      <button id="exitIndoor" aria-label="Exit workout">✕</button>
+      <div><small id="indoorModeLabel">QUICK START</small><strong id="indoorProgressLabel">Exercise 1 of 4</strong></div>
+      <span id="indoorTotalTime">00:00</span>
+    </div>
+
+    <article class="indoor-active-card">
+      <div class="indoor-progress-track"><i id="indoorProgressBar"></i></div>
+      <div class="indoor-active-demo" id="activeDemo"></div>
+      <div class="indoor-active-copy">
+        <small id="indoorPhaseLabel">GET READY</small>
+        <h2 id="activeExerciseName">Push-ups</h2>
+        <p id="activeExerciseTip">Keep your body in one straight line.</p>
+      </div>
+
+      <div class="indoor-count-ring">
+        <svg viewBox="0 0 180 180">
+          <circle class="indoor-ring-bg" cx="90" cy="90" r="72"></circle>
+          <circle class="indoor-ring-progress" id="indoorRingProgress" cx="90" cy="90" r="72"></circle>
+        </svg>
+        <div><strong id="indoorCountdown">10</strong><span id="indoorCountdownUnit">reps</span></div>
+      </div>
+
+      <div class="indoor-set-info">
+        <span>Set <strong id="indoorSetCurrent">1</strong> of <strong id="indoorSetTotal">2</strong></span>
+        <span id="indoorNextLabel">Next: Rest 30 sec</span>
+      </div>
+
+      <div class="indoor-controls">
+        <button id="previousIndoor"><span>‹</span><small>Previous</small></button>
+        <button class="main" id="indoorPause"><span>Ⅱ</span><small>Pause</small></button>
+        <button id="nextIndoor"><span>›</span><small>Next</small></button>
+      </div>
+    </article>
+
+    <article class="indoor-session-tip"><span>✨</span><div><strong>Quality over speed</strong><p>Use controlled movements and stop if your form breaks down.</p></div></article>
+  </div>
+</section>
 <section class="screen" id="mapScreen"><div class="section-head"><small>IN-APP NAVIGATION</small><h2>Live map</h2></div><article class="map-shell"><div class="map-wrap"><div id="map"></div><div class="map-overlay"><span class="map-chip" id="mapDistance">From start: --</span><span class="map-chip" id="mapAccuracy">GPS: --</span></div></div><div class="map-actions"><button class="secondary" id="recenterMap">◎ Recenter</button><button class="primary" id="routeHome">↩ Route to start</button></div><div class="directions" id="directions"><div class="direction-summary"><strong id="routeDistance">--</strong><span id="routeDuration">--</span></div><div class="direction-steps" id="directionSteps"></div></div><p class="map-note">Navigation remains inside Tourays Fitness. Walking directions are calculated online from OpenStreetMap routing data.</p></article></section>
 <section class="screen" id="health"><div class="section-head"><small>YOUR FITNESS DATA</small><h2>Health</h2></div><article class="health-hero"><div class="health-main"><div><span>This week</span><strong id="weeklyMinutes">0 active min</strong><small id="weeklyMessage">Start your first workout</small></div><div class="goal-ring"><svg viewbox="0 0 80 80"><circle class="goal-bg" cx="40" cy="40" r="32"></circle><circle class="goal-progress" cx="40" cy="40" id="goalProgress" r="32"></circle></svg><b id="goalPercent">0%</b></div></div></article><div class="health-grid"><article class="health-card"><span>Calories</span><strong id="healthCalories">0 kcal</strong><small>Estimated from activity</small></article><article class="health-card"><span>Distance</span><strong id="healthDistance">0.00 km</strong><small>All outdoor sessions</small></article><article class="health-card"><span>BMI</span><strong id="healthBmi">--</strong><small id="bmiLabel">Add height in settings</small></article><article class="health-card"><span>Average pace</span><strong id="healthPace">--</strong><small>Outdoor workouts</small></article></div>
 <div class="health-subhead">

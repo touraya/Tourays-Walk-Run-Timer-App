@@ -1,7 +1,7 @@
 {
-  "name": "Tourays Fitness V7 Build 3",
+  "name": "Tourays Fitness V7 Build 4",
   "short_name": "Tourays V7",
-  "description": "Premium walk and run interval training with goals, live pace, GPS and achievements.",
+  "description": "Premium fitness tracking with Indoor Trainer 2.0, guided plans, intervals, GPS and achievements.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

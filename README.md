@@ -1,17 +1,20 @@
-# Tourays Fitness V7 — Build 3
+# Tourays Fitness V7 — Build 4
 
-## Walk & Run Pro
-- Redesigned setup and live workout screens
-- Workout targets from 15 to 60 minutes, plus open goal
-- Three-second start countdown
-- Optional phase vibration
-- Live target ring and phase completion percentage
-- Skip-phase control
-- Current pace, average pace, speed and live calories
-- Remaining goal time and goal-complete alert
-- Dynamic walk/run coaching tips
-- Screen Wake Lock support where available
-- Improved pause, resume and finish controls
-- All Build 1 and Build 2 features preserved
+This is the complete continuation of Build 3.
 
-Replace all repository files with the files in this ZIP. Fully close and reopen the installed app after publishing.
+## New: Indoor Trainer 2.0
+- Three ready-made workout plans
+- Quick Start, Core Builder and Full Body
+- Guided exercise sequencing
+- Configurable sets and rest periods
+- Active workout screen with animated exercise guide
+- Live set, exercise and session progress
+- Work and rest countdowns
+- Pause, resume, previous and next controls
+- Dynamic form guidance
+- Indoor workout completion summary
+- Improved exercise library with muscle-group labels
+- Existing Home, Walk & Run Pro, GPS map, achievements and Health features preserved
+
+## Installation
+Replace every file in the GitHub repository with the files from this ZIP. After publishing, fully close and reopen the installed app to clear cached assets.
