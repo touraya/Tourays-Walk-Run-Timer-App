@@ -4,126 +4,190 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-<meta content="#F5F7FC" name="theme-color"/>
-<title>Tourays Fitness V8 · Build 5.2</title>
+<meta content="#F7F8FC" name="theme-color"/>
+<title>Tourays Fitness V9 · Build 1</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=852" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9012" rel="stylesheet"/>
 </head>
 <body>
-
-<section style="background:#6B4EFF;color:white;padding:24px;border-radius:24px;margin:16px">
-<h2>Good Morning 👋</h2>
-<h1>Welcome back!</h1>
-<p>Ready to become stronger today?</p>
-</section>
-
 <div class="shell">
-<header><div class="brand"><small>TOURAYS FITNESS · V8</small><h1>Train your way</h1></div><div class="head-actions"><button class="icon-btn" id="settingsBtn">⚙️</button><button class="icon-btn" id="soundBtn">🔊</button></div></header>
-<section class="screen active" id="home">
-  <div class="home-intro">
+
+<header class="v9-app-header">
+  <div class="v9-brand">
+    <span class="v9-logo-mark" aria-hidden="true">T</span>
     <div>
-      <small class="eyebrow">TODAY'S ACTIVITY</small>
+      <small>TOURAYS FITNESS</small>
+      <strong>Move better. Feel stronger.</strong>
+    </div>
+  </div>
+  <div class="head-actions">
+    <button class="icon-btn" id="soundBtn" aria-label="Sound">🔊</button>
+    <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙️</button>
+  </div>
+</header>
+
+
+<section class="screen active v9-home" id="home">
+  <section class="v9-welcome">
+    <div>
+      <span class="v9-overline">YOUR DAILY FITNESS</span>
       <h2 id="homeGreeting">Ready to move?</h2>
       <p id="homeDate">Your progress starts here.</p>
     </div>
-    <div class="streak-pill" aria-label="Current workout streak">
+    <div class="v9-streak">
       <span>🔥</span>
       <div><strong id="homeStreak">0</strong><small>day streak</small></div>
     </div>
-  </div>
+  </section>
 
-  <section class="home-command-center">
-    <article class="readiness-mini-card">
-      <div class="readiness-mini-ring">
-        <svg viewBox="0 0 56 56">
-          <circle cx="28" cy="28" r="22"></circle>
-          <circle id="homeReadinessRing" class="value" cx="28" cy="28" r="22"></circle>
-        </svg>
-        <strong id="homeReadinessScore">72</strong>
+  <section class="v9-hero-grid">
+    <article class="v9-readiness-card">
+      <div class="v9-card-heading">
+        <div><small>DAILY READINESS</small><h3 id="homeReadinessLabel">Ready to train</h3></div>
+        <span class="v9-status-dot">LIVE</span>
       </div>
-      <div><small>READINESS</small><strong id="homeReadinessLabel">Ready to train</strong><span id="homeReadinessText">Balanced training is recommended today.</span></div>
+      <div class="v9-readiness-content">
+        <div class="v9-readiness-ring">
+          <svg viewBox="0 0 100 100" aria-label="Readiness score">
+            <circle cx="50" cy="50" r="40"></circle>
+            <circle id="homeReadinessRing" class="value" cx="50" cy="50" r="40"></circle>
+          </svg>
+          <div><strong id="homeReadinessScore">72</strong><small>/100</small></div>
+        </div>
+        <div class="v9-readiness-copy">
+          <p id="homeReadinessText">Balanced training is recommended today.</p>
+          <button class="v9-link-button" data-go="performance">View analysis <span>→</span></button>
+        </div>
+      </div>
     </article>
-    <button class="today-plan-card" id="homeTodayPlan" data-go="coach">
-      <span class="today-plan-icon">✨</span>
-      <div><small>TODAY'S PLAN</small><strong id="homePlanTitle">Balanced session</strong><span id="homePlanText">Open Coach for your recommendation</span></div>
-      <b>›</b>
+
+    <button class="v9-plan-card" id="homeTodayPlan" data-go="coach">
+      <span class="v9-plan-icon">✦</span>
+      <div>
+        <small>AI COACH PLAN</small>
+        <strong id="homePlanTitle">Balanced session</strong>
+        <span id="homePlanText">Open Coach for your recommendation</span>
+      </div>
+      <b>→</b>
     </button>
   </section>
 
-  <article class="v7-activity-card">
-    <div class="v7-ring-wrap">
-      <svg class="v7-ring" viewBox="0 0 140 140" aria-label="Weekly goal progress">
-        <circle class="v7-ring-track" cx="70" cy="70" r="54"></circle>
-        <circle class="v7-ring-value" id="homeGoalRing" cx="70" cy="70" r="54"></circle>
-      </svg>
-      <div class="v7-ring-center">
-        <strong id="homeGoalPercent">0%</strong>
-        <small>weekly goal</small>
+  <article class="v9-workout-hero">
+    <div class="v9-workout-copy">
+      <span class="v9-workout-label">TODAY'S WORKOUT</span>
+      <h3>Build strength. Keep momentum.</h3>
+      <p>A focused session adapted to your recent activity and weekly goal.</p>
+      <div class="v9-workout-meta">
+        <span>⏱ 30 min</span>
+        <span>⚡ Balanced</span>
+        <span>🔥 Full body</span>
       </div>
+      <button class="v9-primary-action" data-go="indoor">Start workout <span>▶</span></button>
     </div>
-    <div class="v7-activity-copy">
-      <span>Active minutes</span>
-      <strong><b id="homeActiveMinutes">0</b> min</strong>
-      <p id="homeGoalMessage">Start your first workout this week.</p>
-      <button class="mini-action" data-go="run">Start workout</button>
+    <div class="v9-workout-visual" aria-hidden="true">
+      <span class="v9-orbit orbit-one"></span>
+      <span class="v9-orbit orbit-two"></span>
+      <div class="v9-athlete">🏋️</div>
     </div>
   </article>
 
-  <div class="today-stats">
-    <article><span class="stat-icon walk-soft">👣</span><small>Workouts</small><strong id="homeWorkouts">0</strong></article>
-    <article><span class="stat-icon fire-soft">🔥</span><small>Calories</small><strong id="homeCalories">0</strong></article>
-    <article><span class="stat-icon blue-soft">↗</span><small>Distance</small><strong id="homeDistance">0.00 km</strong></article>
-  </div>
+  <section class="v9-section-heading">
+    <div><small>THIS WEEK</small><h3>Your progress</h3></div>
+    <button class="v9-link-button" data-go="health">View all <span>→</span></button>
+  </section>
 
-  <div class="home-section-title">
-    <div><small>QUICK START</small><h3>Choose your workout</h3></div>
-    <button class="text-action" data-go="health">View progress</button>
-  </div>
+  <section class="v9-progress-layout">
+    <article class="v9-goal-card">
+      <div class="v9-goal-ring-wrap">
+        <svg class="v9-goal-ring" viewBox="0 0 140 140" aria-label="Weekly goal progress">
+          <circle class="v9-goal-track" cx="70" cy="70" r="54"></circle>
+          <circle class="v9-goal-value" id="homeGoalRing" cx="70" cy="70" r="54"></circle>
+        </svg>
+        <div>
+          <strong id="homeGoalPercent">0%</strong>
+          <small>weekly goal</small>
+        </div>
+      </div>
+      <div class="v9-goal-copy">
+        <span>ACTIVE MINUTES</span>
+        <strong><b id="homeActiveMinutes">0</b> min</strong>
+        <p id="homeGoalMessage">Start your first workout this week.</p>
+        <button data-go="run">Add activity</button>
+      </div>
+    </article>
 
-  <div class="home-grid v7-home-grid">
-    <button class="home-tile tile-run" data-go="run">
-      <span class="tile-icon">🏃</span>
+    <div class="v9-stat-grid">
+      <article>
+        <span class="v9-stat-icon purple">◆</span>
+        <small>Workouts</small>
+        <strong id="homeWorkouts">0</strong>
+        <em>This week</em>
+      </article>
+      <article>
+        <span class="v9-stat-icon orange">🔥</span>
+        <small>Calories</small>
+        <strong id="homeCalories">0</strong>
+        <em>Estimated kcal</em>
+      </article>
+      <article>
+        <span class="v9-stat-icon blue">↗</span>
+        <small>Distance</small>
+        <strong id="homeDistance">0.00 km</strong>
+        <em>Outdoor total</em>
+      </article>
+    </div>
+  </section>
+
+  <section class="v9-section-heading">
+    <div><small>QUICK START</small><h3>Choose your activity</h3></div>
+  </section>
+
+  <div class="v9-activity-grid">
+    <button class="v9-activity-card run" data-go="run">
+      <span class="v9-activity-icon">🏃</span>
       <div><strong>Walk &amp; Run</strong><small id="homeRunSubtitle">Intervals with live GPS</small></div>
-      <b class="tile-arrow">›</b>
+      <b>→</b>
     </button>
-    <button class="home-tile tile-indoor" data-go="indoor">
-      <span class="tile-icon">💪</span>
-      <div><strong>Indoor</strong><small id="homeIndoorSubtitle">8 guided exercises</small></div>
-      <b class="tile-arrow">›</b>
+    <button class="v9-activity-card indoor" data-go="indoor">
+      <span class="v9-activity-icon">💪</span>
+      <div><strong>Indoor Trainer</strong><small id="homeIndoorSubtitle">8 guided exercises</small></div>
+      <b>→</b>
     </button>
-    <button class="home-tile tile-map" data-go="mapScreen">
-      <span class="tile-icon">⌖</span>
+    <button class="v9-activity-card map" data-go="mapScreen">
+      <span class="v9-activity-icon">⌖</span>
       <div><strong>Navigation</strong><small id="homeGpsLabel">GPS ready</small></div>
-      <b class="tile-arrow">›</b>
+      <b>→</b>
     </button>
-    <button class="home-tile tile-health" data-go="health">
-      <span class="tile-icon">♥</span>
+    <button class="v9-activity-card health" data-go="health">
+      <span class="v9-activity-icon">♥</span>
       <div><strong>Health</strong><small id="homeLastWorkout">No workouts yet</small></div>
-      <b class="tile-arrow">›</b>
+      <b>→</b>
     </button>
   </div>
 
-  <article class="home-recent-card" id="homeRecentCard">
-    <div class="home-recent-icon">↻</div>
-    <div>
-      <small>RECENT ACTIVITY</small>
-      <strong id="homeRecentTitle">No recent workout</strong>
-      <p id="homeRecentText">Your latest completed workout will appear here.</p>
-    </div>
-    <button id="homeRepeatWorkout">Repeat</button>
-  </article>
+  <section class="v9-bottom-grid">
+    <article class="v9-recent-card" id="homeRecentCard">
+      <div class="v9-recent-icon">↻</div>
+      <div>
+        <small>RECENT ACTIVITY</small>
+        <strong id="homeRecentTitle">No recent workout</strong>
+        <p id="homeRecentText">Your latest completed workout will appear here.</p>
+      </div>
+      <button id="homeRepeatWorkout">Repeat</button>
+    </article>
 
-  <article class="challenge-card">
-    <div class="challenge-icon">⚡</div>
-    <div>
-      <small>DAILY CHALLENGE</small>
+    <article class="v9-challenge-card">
+      <div class="v9-challenge-top">
+        <span>⚡</span>
+        <small>DAILY CHALLENGE</small>
+        <b class="challenge-check" id="challengeCheck">○</b>
+      </div>
       <strong id="challengeTitle">Complete one workout</strong>
       <p id="challengeText">A short session still counts. Keep your momentum going.</p>
-    </div>
-    <span class="challenge-check" id="challengeCheck">○</span>
-  </article>
+    </article>
+  </section>
 </section>
 <section class="screen" id="run">
   <div class="section-head run-pro-head">
@@ -841,6 +905,6 @@
 
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
-<script src="app-v8-5-2.js?v=852"></script>
+<script src="app-v8-5-2.js?v=9012"></script>
 </body>
 </html>
