@@ -3314,3 +3314,198 @@ body.tourays-dark-theme{
 .tourays-dark-theme #coach .coach-alt small{
   color:#c6bfd1!important;
 }
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 6 PLANNER LIGHT UI REDESIGN
+   Visual-only repair for the active legacy Planner screen (#planner).
+   No planner calculations, storage, buttons, routes or scheduling logic changed.
+   ========================================================= */
+#planner{
+  color:#171426;
+  background:transparent;
+}
+#planner .section-head small,
+#planner .planner-title small,
+#planner .planner-hero small,
+#planner .planner-modal-head small{
+  color:#6b49da!important;
+}
+#planner .section-head h2,
+#planner .planner-title h3,
+#planner .planner-hero h3,
+#planner .planner-modal-head h3,
+#planner strong{
+  color:#171426!important;
+}
+#planner #plannerToday,
+#planner #plannerAddWorkout,
+#planner .planner-export-button{
+  border:1px solid #d9cff0!important;
+  background:linear-gradient(135deg,#6842e8,#865ef4)!important;
+  color:#fff!important;
+  box-shadow:0 10px 24px rgba(104,66,232,.20)!important;
+}
+#planner .planner-hero{
+  border:1px solid #ded6ef!important;
+  background:linear-gradient(145deg,#ffffff 0%,#f6f2ff 100%)!important;
+  box-shadow:0 14px 34px rgba(62,45,104,.09)!important;
+}
+#planner .planner-hero p,
+#planner .planner-title span,
+#planner .planner-insight-card p{
+  color:#626b7e!important;
+}
+#planner .planner-week-ring{
+  background:#ffffff!important;
+  border:1px solid #e0d8ef!important;
+  box-shadow:0 8px 22px rgba(65,46,113,.08)!important;
+}
+#planner .planner-ring-bg{
+  stroke:#ece7f5!important;
+}
+#planner .planner-ring-progress{
+  stroke:#7048e8!important;
+}
+#planner .planner-week-nav{
+  border:1px solid #e0d9eb!important;
+  background:#ffffff!important;
+  box-shadow:0 9px 22px rgba(49,39,82,.06)!important;
+}
+#planner .planner-week-nav button{
+  border:1px solid #ddd5eb!important;
+  background:#f5f2fb!important;
+  color:#5e3aca!important;
+}
+#planner .planner-week-nav small{
+  color:#747d90!important;
+}
+#planner .planner-days button,
+#planner .planner-day{
+  border:1px solid #e0d9eb!important;
+  background:#ffffff!important;
+  color:#5d6577!important;
+  box-shadow:0 7px 18px rgba(49,39,82,.05)!important;
+}
+#planner .planner-days button.active,
+#planner .planner-day.active,
+#planner .planner-days button.selected,
+#planner .planner-day.selected{
+  border-color:#8f75e9!important;
+  background:#eee9ff!important;
+  color:#5634c5!important;
+}
+#planner .planner-item{
+  border:1px solid #e0d9eb!important;
+  background:linear-gradient(145deg,#ffffff,#f7f5fb)!important;
+  box-shadow:0 9px 23px rgba(49,39,82,.06)!important;
+}
+#planner .planner-item strong{
+  color:#191629!important;
+}
+#planner .planner-item small,
+#planner .planner-item em{
+  color:#687186!important;
+}
+#planner .planner-item-icon{
+  background:#eee9ff!important;
+  color:#6340d4!important;
+}
+#planner .planner-item-actions button{
+  border:1px solid #ddd6e8!important;
+  background:#f7f5fa!important;
+  color:#5d6577!important;
+}
+#planner .planner-item-actions .done{
+  color:#188a66!important;
+}
+#planner .planner-item-actions .delete{
+  color:#b84558!important;
+}
+#planner .planner-insight-card{
+  border:1px solid #ddd6ec!important;
+  background:linear-gradient(145deg,#ffffff,#f6f2ff)!important;
+  box-shadow:0 10px 25px rgba(49,39,82,.06)!important;
+}
+#planner .planner-insight-icon{
+  background:#eee9ff!important;
+}
+#planner .planner-overview-grid article{
+  border:1px solid #e1dbea!important;
+  background:#ffffff!important;
+  box-shadow:0 8px 21px rgba(49,39,82,.05)!important;
+}
+#planner .planner-overview-grid article span,
+#planner .planner-overview-grid article small{
+  color:#6d7486!important;
+}
+#planner .planner-overview-grid article strong{
+  color:#1b1729!important;
+}
+#planner .planner-export-button{
+  width:100%;
+}
+
+/* Planner modal stays light and readable in the normal theme. */
+#plannerModal .planner-modal-card{
+  border:1px solid #ddd5eb!important;
+  background:#ffffff!important;
+  box-shadow:0 -24px 60px rgba(51,38,89,.18)!important;
+}
+#plannerModal .planner-modal-head button,
+#plannerModal .planner-close-btn{
+  border:1px solid #ddd6e8!important;
+  background:#f5f2fa!important;
+  color:#5e3aca!important;
+}
+#plannerModal input,
+#plannerModal select,
+#plannerModal textarea{
+  border:1px solid #dcd5e8!important;
+  background:#ffffff!important;
+  color:#171426!important;
+}
+#plannerModal label>span{
+  color:#687186!important;
+}
+#plannerModal .planner-save-action{
+  background:linear-gradient(135deg,#6842e8,#865ef4)!important;
+  color:#fff!important;
+}
+#plannerModal .planner-cancel-action{
+  border:1px solid #ddd6e8!important;
+  background:#f7f5fa!important;
+  color:#5d6577!important;
+}
+#plannerModal .planner-delete-action{
+  border:1px solid #efc9d0!important;
+  background:#fff1f3!important;
+  color:#b84558!important;
+}
+
+/* Preserve a deliberate dark appearance only when the user selects dark mode. */
+.tourays-dark-theme #planner .planner-hero,
+.tourays-dark-theme #planner .planner-week-nav,
+.tourays-dark-theme #planner .planner-item,
+.tourays-dark-theme #planner .planner-insight-card,
+.tourays-dark-theme #planner .planner-overview-grid article,
+.tourays-dark-theme #planner .planner-days button,
+.tourays-dark-theme #planner .planner-day,
+.tourays-dark-theme #plannerModal .planner-modal-card{
+  background:#24202e!important;
+  border-color:#3a3347!important;
+  box-shadow:none!important;
+}
+.tourays-dark-theme #planner h2,
+.tourays-dark-theme #planner h3,
+.tourays-dark-theme #planner strong,
+.tourays-dark-theme #planner .planner-item strong,
+.tourays-dark-theme #planner .planner-overview-grid article strong{
+  color:#f7f4ff!important;
+}
+.tourays-dark-theme #planner p,
+.tourays-dark-theme #planner small,
+.tourays-dark-theme #planner span,
+.tourays-dark-theme #planner .planner-item small,
+.tourays-dark-theme #planner .planner-item em{
+  color:#c6bfd1!important;
+}
