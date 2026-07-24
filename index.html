@@ -5,13 +5,54 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Profile Final</title>
+<title>Tourays Fitness V9 · Navigation QA Step 1</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9140" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9150" rel="stylesheet"/>
 </head>
 <body>
+
+<div id="touraysNavBackdrop" class="tourays-nav-backdrop" hidden></div>
+
+<aside id="touraysAppMenu" class="tourays-app-menu" aria-hidden="true">
+  <div class="tourays-menu-head">
+    <div>
+      <span>TOURAYS FITNESS</span>
+      <strong>App navigation</strong>
+    </div>
+    <button id="touraysMenuClose" type="button" aria-label="Close navigation">✕</button>
+  </div>
+
+  <div class="tourays-menu-grid">
+    <button type="button" data-tourays-route="home"><b>⌂</b><span>Home</span></button>
+    <button type="button" data-tourays-route="workouts"><b>◆</b><span>Workouts</span></button>
+    <button type="button" data-tourays-route="walkrun"><b>◉</b><span>Walk &amp; Run</span></button>
+    <button type="button" data-tourays-route="planner"><b>🗓️</b><span>Planner</span></button>
+    <button type="button" data-tourays-route="progress"><b>📈</b><span>Progress</span></button>
+    <button type="button" data-tourays-route="coach"><b>🧠</b><span>AI Coach</span></button>
+    <button type="button" data-tourays-route="nutrition"><b>🥗</b><span>Nutrition</span></button>
+    <button type="button" data-tourays-route="profile"><b>👤</b><span>Profile</span></button>
+  </div>
+</aside>
+
+<header id="touraysGlobalHeader" class="tourays-global-header">
+  <button id="touraysMenuOpen" type="button" class="tourays-header-icon" aria-label="Open navigation">☰</button>
+  <div class="tourays-header-title">
+    <small id="touraysHeaderEyebrow">TOURAYS FITNESS</small>
+    <strong id="touraysHeaderTitle">Home</strong>
+  </div>
+  <button id="touraysHeaderHome" type="button" class="tourays-header-icon" aria-label="Go to home">⌂</button>
+</header>
+
+<nav id="touraysBottomNav" class="tourays-bottom-nav" aria-label="Main navigation">
+  <button type="button" data-tourays-route="home"><b>⌂</b><small>Home</small></button>
+  <button type="button" data-tourays-route="workouts"><b>◆</b><small>Workout</small></button>
+  <button type="button" data-tourays-route="planner"><b>🗓️</b><small>Plan</small></button>
+  <button type="button" data-tourays-route="progress"><b>📈</b><small>Progress</small></button>
+  <button type="button" data-tourays-route="profile"><b>👤</b><small>Profile</small></button>
+</nav>
+
 
 <div id="networkStatus" class="network-status" hidden>
   <span></span><strong>Offline mode</strong>
@@ -921,7 +962,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9140"></script>
+<script src="app-v8-5-2.js?v=9150"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">

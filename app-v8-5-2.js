@@ -3897,3 +3897,237 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   updateCompletion();
   setActiveTab('personal');
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — NAVIGATION CLEANUP & QA STEP 1
+   ========================================================= */
+(function(){
+  if(document.getElementById('touraysNavigationController')) return;
+
+  const marker=document.createElement('div');
+  marker.id='touraysNavigationController';
+  marker.hidden=true;
+  document.body.appendChild(marker);
+
+  const routes={
+    home:{
+      title:'Home',
+      eyebrow:'TOURAYS FITNESS',
+      candidates:['home']
+    },
+    workouts:{
+      title:'Indoor Workouts',
+      eyebrow:'TRAINING',
+      candidates:['indoor']
+    },
+    walkrun:{
+      title:'Walk & Run',
+      eyebrow:'OUTDOOR ACTIVITY',
+      candidates:['walkRunScreen','run']
+    },
+    planner:{
+      title:'Workout Planner',
+      eyebrow:'YOUR WEEK',
+      candidates:['plannerScreen','planner']
+    },
+    progress:{
+      title:'Progress & Analytics',
+      eyebrow:'PERFORMANCE',
+      candidates:['progressScreen','performance']
+    },
+    coach:{
+      title:'AI Coach',
+      eyebrow:'PERSONAL COACH',
+      candidates:['coachScreen','coach']
+    },
+    nutrition:{
+      title:'Nutrition',
+      eyebrow:'DAILY TARGETS',
+      candidates:['nutritionScreen']
+    },
+    profile:{
+      title:'Profile & Settings',
+      eyebrow:'YOUR ACCOUNT',
+      candidates:['profileSettingsScreen','profile']
+    }
+  };
+
+  const legacyToRoute={
+    home:'home',
+    indoor:'workouts',
+    run:'walkrun',
+    walkRunScreen:'walkrun',
+    planner:'planner',
+    plannerScreen:'planner',
+    performance:'progress',
+    progressScreen:'progress',
+    coach:'coach',
+    coachScreen:'coach',
+    nutritionScreen:'nutrition',
+    profile:'profile',
+    profileSettingsScreen:'profile'
+  };
+
+  const header=document.getElementById('touraysGlobalHeader');
+  const menu=document.getElementById('touraysAppMenu');
+  const backdrop=document.getElementById('touraysNavBackdrop');
+  const menuOpen=document.getElementById('touraysMenuOpen');
+  const menuClose=document.getElementById('touraysMenuClose');
+  const homeButton=document.getElementById('touraysHeaderHome');
+  const title=document.getElementById('touraysHeaderTitle');
+  const eyebrow=document.getElementById('touraysHeaderEyebrow');
+
+  function getTarget(route){
+    const config=routes[route];
+    if(!config) return null;
+    return config.candidates.map(id=>document.getElementById(id)).find(Boolean)||null;
+  }
+
+  function closeMenu(){
+    menu?.classList.remove('open');
+    menu?.setAttribute('aria-hidden','true');
+    if(backdrop) backdrop.hidden=true;
+    document.body.classList.remove('tourays-menu-open');
+  }
+
+  function openMenu(){
+    menu?.classList.add('open');
+    menu?.setAttribute('aria-hidden','false');
+    if(backdrop) backdrop.hidden=false;
+    document.body.classList.add('tourays-menu-open');
+  }
+
+  function hideAllScreens(){
+    document.querySelectorAll('.screen').forEach(screen=>{
+      screen.classList.remove('active');
+      screen.hidden=true;
+      screen.setAttribute('aria-hidden','true');
+    });
+  }
+
+  function updateNavigationState(route){
+    const config=routes[route]||routes.home;
+    if(title) title.textContent=config.title;
+    if(eyebrow) eyebrow.textContent=config.eyebrow;
+    document.title=`Tourays Fitness · ${config.title}`;
+
+    document.querySelectorAll('[data-tourays-route]').forEach(button=>{
+      const active=button.dataset.touraysRoute===route;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-current',active?'page':'false');
+    });
+
+    document.querySelectorAll('.tab[data-screen]').forEach(button=>{
+      const mapped=legacyToRoute[button.dataset.screen];
+      button.classList.toggle('active',mapped===route);
+    });
+  }
+
+  function renderRoute(route, options={}){
+    const normalized=routes[route]?route:'home';
+    const target=getTarget(normalized);
+
+    if(!target){
+      console.warn(`[Tourays Navigation] Missing target for route: ${normalized}`);
+      return false;
+    }
+
+    hideAllScreens();
+    target.hidden=false;
+    target.classList.add('active');
+    target.setAttribute('aria-hidden','false');
+
+    updateNavigationState(normalized);
+    closeMenu();
+
+    if(!options.skipHistory){
+      const hash=`#${normalized}`;
+      if(location.hash!==hash) history.pushState({touraysRoute:normalized},'',hash);
+    }
+
+    window.scrollTo({top:0,left:0,behavior:options.instant?'auto':'smooth'});
+
+    window.dispatchEvent(new CustomEvent('touraysRouteChanged',{
+      detail:{route:normalized,targetId:target.id}
+    }));
+
+    if(normalized==='planner' && typeof window.renderPlanner==='function'){
+      try{ window.renderPlanner(); }catch(error){ console.warn(error); }
+    }
+    if(normalized==='progress' && typeof window.renderProgress==='function'){
+      try{ window.renderProgress(); }catch(error){ console.warn(error); }
+    }
+
+    return true;
+  }
+
+  window.touraysNavigate=renderRoute;
+
+  document.querySelectorAll('[data-tourays-route]').forEach(button=>{
+    button.addEventListener('click',()=>renderRoute(button.dataset.touraysRoute));
+  });
+
+  menuOpen?.addEventListener('click',openMenu);
+  menuClose?.addEventListener('click',closeMenu);
+  backdrop?.addEventListener('click',closeMenu);
+  homeButton?.addEventListener('click',()=>renderRoute('home'));
+
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape') closeMenu();
+  });
+
+  document.addEventListener('click',event=>{
+    const legacy=event.target.closest('[data-screen]');
+    if(!legacy || legacy.hasAttribute('data-tourays-route')) return;
+    const route=legacyToRoute[legacy.dataset.screen];
+    if(!route) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    renderRoute(route);
+  },true);
+
+  window.addEventListener('popstate',()=>{
+    const route=location.hash.replace('#','');
+    renderRoute(routes[route]?route:'home',{skipHistory:true,instant:true});
+  });
+
+  function runNavigationQA(){
+    const report={
+      checkedAt:new Date().toISOString(),
+      routes:{},
+      duplicateScreenIds:[],
+      brokenDataScreenButtons:[]
+    };
+
+    Object.entries(routes).forEach(([route,config])=>{
+      const target=getTarget(route);
+      report.routes[route]={
+        available:Boolean(target),
+        targetId:target?.id||null,
+        candidateIds:config.candidates
+      };
+    });
+
+    const ids=[...document.querySelectorAll('[id]')].map(el=>el.id);
+    report.duplicateScreenIds=[...new Set(ids.filter((id,index)=>ids.indexOf(id)!==index))];
+
+    document.querySelectorAll('[data-screen]').forEach(button=>{
+      const targetId=button.dataset.screen;
+      if(!document.getElementById(targetId) && !legacyToRoute[targetId]){
+        report.brokenDataScreenButtons.push(targetId);
+      }
+    });
+
+    localStorage.setItem('touraysNavigationQAReportV1',JSON.stringify(report));
+    return report;
+  }
+
+  window.touraysRunNavigationQA=runNavigationQA;
+  const report=runNavigationQA();
+
+  const initial=location.hash.replace('#','');
+  renderRoute(routes[initial]?initial:'home',{skipHistory:true,instant:true});
+
+  console.info('[Tourays Navigation QA]',report);
+})();

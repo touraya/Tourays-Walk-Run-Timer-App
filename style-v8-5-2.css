@@ -3042,3 +3042,111 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
   .profile-completion-card{grid-template-columns:1fr}
   .profile-completion-ring{width:78px;height:78px}
 }
+
+
+/* =========================================================
+   V9 NAVIGATION CLEANUP & QA STEP 1
+   ========================================================= */
+:root{
+  --tourays-nav-height:72px;
+  --tourays-header-height:64px;
+}
+body{
+  padding-top:var(--tourays-header-height);
+  padding-bottom:calc(var(--tourays-nav-height) + env(safe-area-inset-bottom));
+}
+body>nav:not(.tourays-bottom-nav):not(.profile-settings-tabs){
+  display:none!important;
+}
+.tourays-global-header{
+  position:fixed;top:0;left:0;right:0;z-index:90;
+  min-height:var(--tourays-header-height);display:grid;
+  grid-template-columns:44px 1fr 44px;align-items:center;gap:10px;
+  padding:8px max(12px,env(safe-area-inset-left));
+  background:rgba(255,255,255,.9);backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(226,220,235,.85)
+}
+.tourays-header-icon{
+  width:42px;height:42px;border:0;border-radius:14px;
+  background:#f2eef9;color:#5f3dcc;font-size:1.05rem;font-weight:900
+}
+.tourays-header-title{display:flex;flex-direction:column;min-width:0}
+.tourays-header-title small{
+  font-size:.58rem;font-weight:900;letter-spacing:.11em;color:#8d8798
+}
+.tourays-header-title strong{
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.92rem
+}
+.tourays-bottom-nav{
+  position:fixed;left:10px;right:10px;bottom:max(8px,env(safe-area-inset-bottom));
+  z-index:95;display:grid!important;grid-template-columns:repeat(5,1fr);
+  min-height:64px;padding:6px;border-radius:22px;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(18px);
+  border:1px solid rgba(225,219,236,.9);
+  box-shadow:0 18px 45px rgba(41,31,70,.16)
+}
+.tourays-bottom-nav button{
+  border:0;border-radius:16px;background:transparent;color:#8d8795;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  min-width:0;font-weight:900
+}
+.tourays-bottom-nav b{font-size:1rem;line-height:1}
+.tourays-bottom-nav small{font-size:.57rem}
+.tourays-bottom-nav button.active{
+  background:#6f48e8;color:#fff;box-shadow:0 8px 20px rgba(111,72,232,.25)
+}
+.tourays-nav-backdrop{
+  position:fixed;inset:0;z-index:109;background:rgba(19,15,28,.45);
+  backdrop-filter:blur(3px)
+}
+.tourays-app-menu{
+  position:fixed;top:0;left:0;bottom:0;z-index:110;width:min(340px,88vw);
+  padding:18px;background:#fff;box-shadow:22px 0 55px rgba(32,24,51,.2);
+  transform:translateX(-105%);transition:transform .24s ease
+}
+.tourays-app-menu.open{transform:translateX(0)}
+.tourays-menu-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px
+}
+.tourays-menu-head>div{display:flex;flex-direction:column}
+.tourays-menu-head span{font-size:.58rem;font-weight:900;letter-spacing:.12em;color:#8d8798}
+.tourays-menu-head strong{font-size:1.08rem}
+.tourays-menu-head button{
+  width:40px;height:40px;border:0;border-radius:13px;background:#f2eef9;color:#5f3dcc
+}
+.tourays-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tourays-menu-grid button{
+  min-height:92px;padding:14px;border:1px solid #e9e3f0;border-radius:18px;
+  background:#fbfaff;display:flex;flex-direction:column;align-items:flex-start;
+  justify-content:space-between;color:#514b5b;text-align:left
+}
+.tourays-menu-grid button b{font-size:1.25rem}
+.tourays-menu-grid button span{font-size:.72rem;font-weight:900}
+.tourays-menu-grid button.active{
+  background:#6f48e8;border-color:#6f48e8;color:#fff;
+  box-shadow:0 12px 25px rgba(111,72,232,.22)
+}
+body.tourays-menu-open{overflow:hidden}
+.screen[hidden]{display:none!important}
+.screen.active{display:block}
+.tourays-dark-theme .tourays-global-header,
+.tourays-dark-theme .tourays-bottom-nav{
+  background:rgba(27,24,35,.94);border-color:#3a3347
+}
+.tourays-dark-theme .tourays-app-menu{background:#1c1924}
+.tourays-dark-theme .tourays-header-icon,
+.tourays-dark-theme .tourays-menu-head button{
+  background:#2b2635;color:#bda9ff
+}
+.tourays-dark-theme .tourays-menu-grid button{
+  background:#24202e;border-color:#3a3347;color:#eee9f7
+}
+@media(min-width:900px){
+  .tourays-bottom-nav{
+    left:50%;right:auto;width:560px;transform:translateX(-50%)
+  }
+}
+@media(max-width:420px){
+  .tourays-bottom-nav{left:6px;right:6px}
+  .tourays-bottom-nav small{font-size:.53rem}
+}
