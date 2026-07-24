@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F5F7FC" name="theme-color"/>
-<title>Tourays Fitness V8 · Build 1</title>
+<title>Tourays Fitness V8 · Build 2</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -220,7 +220,7 @@
       <span id="exerciseCount">8 exercises</span>
     </div>
 
-    <div class="exercise-grid" id="exerciseGrid"></div>
+    <section class="indoor-library-panel"><div class="indoor-library-head"><div><small>EXERCISE LIBRARY</small><h3>Choose your movement</h3></div><span id="exerciseLibraryCount">8 exercises</span></div><div class="exercise-filter-row" id="exerciseFilterRow"><button class="active" data-exercise-filter="all">All</button><button data-exercise-filter="upper">Upper body</button><button data-exercise-filter="lower">Lower body</button><button data-exercise-filter="core">Core</button><button data-exercise-filter="cardio">Cardio</button></div><div class="exercise-grid" id="exerciseGrid"></div></section>
 
     <article class="exercise-player indoor-player">
       <div class="demo" id="demo">
@@ -233,7 +233,7 @@
         <article><span>3</span><div><strong>Key focus</strong><small id="formFocus">Maintain safe alignment.</small></div></article>
       </div>
       <div class="exercise-title"><div><h3 id="exerciseName"></h3><small id="exerciseMuscle">Full body</small></div><span id="exerciseTarget"></span></div>
-      <p class="form-tip" id="exerciseTip"></p>
+      <p class="form-tip" id="exerciseTip"></p><div class="exercise-detail-pills"><span id="exerciseDifficulty">Beginner</span><span id="exerciseEquipment">No equipment</span><span id="exerciseCalories">Low impact</span></div><article class="exercise-mistakes-card"><div><small>COMMON MISTAKE</small><strong id="exerciseMistake">Move too quickly and lose form.</strong></div><span>!</span></article>
       <div class="indoor-settings-row">
         <div class="amount"><strong id="exerciseAmount"></strong><span id="exerciseUnit"></span></div>
         <label><span>Sets</span><select id="exerciseSets"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
@@ -346,6 +346,7 @@
     <div><small>AI COACH · PERSONALIZED</small><h2>Your next workout</h2></div>
     <span class="coach-chip" id="coachChip">Ready</span>
   </div>
+<article class="screen-intro-strip coach-strip"><span>🧠</span><div><strong>Your coach is ready</strong><small>Recommendations adapt to recent activity.</small></div></article>
   <article class="coach-hero">
     <div><small>TODAY'S GUIDANCE</small><h3 id="coachHeadline">Your plan is ready</h3><p id="coachMessage">Recommendations adapt to your recent activity, recovery time and weekly goal.</p></div>
     <span id="coachHeroIcon">🧠</span>
@@ -377,6 +378,7 @@
     <div><small>SMART GOALS · CHALLENGES</small><h2>Stay consistent</h2></div>
     <span id="goalStatusChip" class="goal-status-chip">On track</span>
   </div>
+<article class="screen-intro-strip goals-strip"><span>🎯</span><div><strong>Keep your momentum</strong><small>Your goals update after every workout.</small></div></article>
   <article class="goals-hero">
     <div><small>THIS WEEK</small><h3 id="goalsHeroTitle">Build your momentum</h3><p id="goalsHeroMessage">Complete your active-minute, workout and distance goals to finish the week strong.</p></div>
     <div class="goals-hero-ring"><svg viewBox="0 0 100 100"><circle class="goals-ring-bg" cx="50" cy="50" r="39"></circle><circle class="goals-ring-progress" id="goalsOverallRing" cx="50" cy="50" r="39"></circle></svg><strong id="goalsOverallPercent">0%</strong></div>
@@ -415,6 +417,7 @@
     <div><small>PROFILE · DATA CENTER</small><h2>Your fitness space</h2></div>
     <span id="profileStatusChip" class="profile-status-chip">Private</span>
   </div>
+<article class="screen-intro-strip profile-strip"><span>👤</span><div><strong>Your fitness identity</strong><small>Personal details improve estimates and coaching.</small></div></article>
 
   <article class="profile-hero">
     <div class="profile-avatar" id="profileAvatar">TF</div>
@@ -535,6 +538,7 @@
     <div><small>WORKOUT PLANNER · WEEKLY</small><h2>Plan your training</h2></div>
     <button id="plannerToday">Today</button>
   </div>
+<article class="screen-intro-strip plan-strip"><span>🗓️</span><div><strong>Today’s focus</strong><small>Your weekly plan is ready.</small></div></article>
 
   <article class="planner-hero">
     <div>
@@ -695,6 +699,7 @@
     <div><small>ADVANCED ANALYTICS</small><h2>Performance center</h2></div>
     <select id="performanceRange"><option value="7">7 days</option><option value="28" selected>4 weeks</option><option value="90">3 months</option><option value="365">1 year</option><option value="all">All time</option></select>
   </div>
+<article class="screen-intro-strip analyze-strip"><span>📈</span><div><strong>Your progress at a glance</strong><small>Readiness, recovery and trends in one place.</small></div></article>
   <article class="performance-hero">
     <div><small>TRAINING READINESS</small><h3 id="performanceReadinessTitle">Ready to train</h3><p id="performanceReadinessText">Your recent activity suggests a balanced training load.</p></div>
     <div class="performance-score-ring"><svg viewBox="0 0 100 100"><circle class="performance-ring-bg" cx="50" cy="50" r="39"></circle><circle class="performance-ring-progress" id="performanceReadinessRing" cx="50" cy="50" r="39"></circle></svg><strong id="performanceReadinessScore">0</strong></div>
