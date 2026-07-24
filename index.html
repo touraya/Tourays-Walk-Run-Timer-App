@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Nutrition Build</title>
+<title>Tourays Fitness V9 · Profile Step 1</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9080" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9090" rel="stylesheet"/>
 </head>
 <body>
 
@@ -921,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9080"></script>
+<script src="app-v8-5-2.js?v=9090"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -1684,6 +1684,159 @@ if ('serviceWorker' in navigator) {
       <div class="planner-modal-actions">
         <button type="button" class="planner-cancel-action" data-close-nutrition-goals>Cancel</button>
         <button type="submit" class="planner-save-action">Save goals</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+<section id="profileSettingsScreen" class="screen profile-settings-screen" hidden>
+  <div class="profile-settings-shell">
+    <header class="profile-settings-header">
+      <div>
+        <span class="eyebrow">ACCOUNT</span>
+        <h1>Profile &amp; Settings</h1>
+        <p>Manage your personal information and fitness profile.</p>
+      </div>
+      <button id="profileSettingsBackBtn" class="icon-btn" aria-label="Back">←</button>
+    </header>
+
+    <section class="profile-overview-card">
+      <div class="profile-avatar-wrap">
+        <div id="profileAvatarPreview" class="profile-avatar-preview">T</div>
+        <label class="profile-avatar-upload">
+          Change photo
+          <input id="profileAvatarInput" type="file" accept="image/*" hidden>
+        </label>
+      </div>
+      <div class="profile-overview-copy">
+        <span>Your profile</span>
+        <h2 id="profileOverviewName">Tourays Fitness User</h2>
+        <p id="profileOverviewGoal">General fitness</p>
+      </div>
+      <div class="profile-overview-stats">
+        <div>
+          <span>BMI</span>
+          <strong id="profileBmiValue">--</strong>
+        </div>
+        <div>
+          <span>BMR</span>
+          <strong id="profileBmrValue">--</strong>
+        </div>
+      </div>
+    </section>
+
+    <form id="profileSettingsForm" class="profile-settings-form">
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">PERSONAL DETAILS</span>
+            <h2>Basic information</h2>
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <label>
+            <span>Full name</span>
+            <input id="profileFullName" type="text" maxlength="60" placeholder="Your name">
+          </label>
+          <label>
+            <span>Date of birth</span>
+            <input id="profileBirthDate" type="date">
+          </label>
+          <label>
+            <span>Gender</span>
+            <select id="profileGender">
+              <option value="">Prefer not to say</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label>
+            <span>Fitness level</span>
+            <select id="profileFitnessLevel">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">BODY METRICS</span>
+            <h2>Measurements</h2>
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <label>
+            <span>Height (cm)</span>
+            <input id="profileHeight" type="number" min="100" max="250" step="0.1" placeholder="175">
+          </label>
+          <label>
+            <span>Current weight (kg)</span>
+            <input id="profileWeight" type="number" min="25" max="350" step="0.1" placeholder="75">
+          </label>
+          <label>
+            <span>Goal weight (kg)</span>
+            <input id="profileGoalWeight" type="number" min="25" max="350" step="0.1" placeholder="70">
+          </label>
+          <label>
+            <span>Activity level</span>
+            <select id="profileActivityLevel">
+              <option value="1.2">Mostly sedentary</option>
+              <option value="1.375">Lightly active</option>
+              <option value="1.55" selected>Moderately active</option>
+              <option value="1.725">Very active</option>
+              <option value="1.9">Extremely active</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="profile-health-summary">
+          <article>
+            <span>Body mass index</span>
+            <strong id="profileBmiDetail">--</strong>
+            <small id="profileBmiStatus">Add height and weight</small>
+          </article>
+          <article>
+            <span>Basal metabolic rate</span>
+            <strong id="profileBmrDetail">--</strong>
+            <small>Estimated kcal/day</small>
+          </article>
+          <article>
+            <span>Maintenance calories</span>
+            <strong id="profileTdeeDetail">--</strong>
+            <small>Estimated kcal/day</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="profile-settings-card">
+        <div class="profile-section-heading">
+          <div>
+            <span class="eyebrow">FITNESS GOAL</span>
+            <h2>Your main objective</h2>
+          </div>
+        </div>
+
+        <div class="profile-goal-options">
+          <label><input type="radio" name="profileGoal" value="general" checked><span>General fitness</span></label>
+          <label><input type="radio" name="profileGoal" value="fatloss"><span>Lose body fat</span></label>
+          <label><input type="radio" name="profileGoal" value="muscle"><span>Build muscle</span></label>
+          <label><input type="radio" name="profileGoal" value="endurance"><span>Improve endurance</span></label>
+          <label><input type="radio" name="profileGoal" value="mobility"><span>Improve mobility</span></label>
+          <label><input type="radio" name="profileGoal" value="maintain"><span>Maintain weight</span></label>
+        </div>
+      </section>
+
+      <div class="profile-save-bar">
+        <span id="profileSaveStatus">Changes are saved locally on this device.</span>
+        <button type="submit">Save profile</button>
       </div>
     </form>
   </div>

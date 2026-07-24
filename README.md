@@ -1,14 +1,15 @@
-Tourays Fitness V9 — Nutrition Build
+Tourays Fitness V9 — Profile & Settings Step 1
 
-Added:
-- Daily calorie tracking
-- Protein, carbohydrate and fat targets
-- Water tracking with quick-add buttons
-- Breakfast, lunch, dinner and snack diary
-- Add and remove food entries
-- Editable daily nutrition targets
-- Automatic targets based on saved body weight
-- Daily coach insight
-- Date navigation and local offline persistence
+This step adds the profile foundation only:
+- Profile photo
+- Full name and date of birth
+- Gender and fitness level
+- Height, current weight and goal weight
+- Activity level
+- Main fitness goal
+- BMI calculation
+- BMR calculation
+- Maintenance calorie estimate
+- Local persistence and integration with existing app settings
 
-Upload every file and overwrite the current version.
+Next step: training preferences and weekly workout settings.

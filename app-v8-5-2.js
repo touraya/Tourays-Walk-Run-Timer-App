@@ -2721,3 +2721,239 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
 
   renderAll();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — PROFILE & SETTINGS STEP 1
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('profileSettingsScreen');
+  if(!screen) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    back:$('profileSettingsBackBtn'),
+    form:$('profileSettingsForm'),
+    avatar:$('profileAvatarPreview'),
+    avatarInput:$('profileAvatarInput'),
+    overviewName:$('profileOverviewName'),
+    overviewGoal:$('profileOverviewGoal'),
+    bmiValue:$('profileBmiValue'),
+    bmrValue:$('profileBmrValue'),
+    fullName:$('profileFullName'),
+    birthDate:$('profileBirthDate'),
+    gender:$('profileGender'),
+    fitnessLevel:$('profileFitnessLevel'),
+    height:$('profileHeight'),
+    weight:$('profileWeight'),
+    goalWeight:$('profileGoalWeight'),
+    activityLevel:$('profileActivityLevel'),
+    bmiDetail:$('profileBmiDetail'),
+    bmiStatus:$('profileBmiStatus'),
+    bmrDetail:$('profileBmrDetail'),
+    tdeeDetail:$('profileTdeeDetail'),
+    saveStatus:$('profileSaveStatus')
+  };
+
+  const key='touraysProfileSettingsV1';
+
+  function load(){
+    return JSON.parse(localStorage.getItem(key)||'{}');
+  }
+
+  function ageFromBirthDate(value){
+    if(!value) return null;
+    const birth=new Date(value);
+    const today=new Date();
+    let age=today.getFullYear()-birth.getFullYear();
+    const m=today.getMonth()-birth.getMonth();
+    if(m<0 || (m===0 && today.getDate()<birth.getDate())) age--;
+    return age>0?age:null;
+  }
+
+  function goalLabel(value){
+    return {
+      general:'General fitness',
+      fatloss:'Lose body fat',
+      muscle:'Build muscle',
+      endurance:'Improve endurance',
+      mobility:'Improve mobility',
+      maintain:'Maintain weight'
+    }[value]||'General fitness';
+  }
+
+  function calculate(){
+    const height=Number(refs.height.value);
+    const weight=Number(refs.weight.value);
+    const age=ageFromBirthDate(refs.birthDate.value);
+    const gender=refs.gender.value;
+    const activity=Number(refs.activityLevel.value||1.55);
+
+    let bmi=null;
+    if(height>0 && weight>0){
+      bmi=weight/Math.pow(height/100,2);
+    }
+
+    let bmr=null;
+    if(height>0 && weight>0 && age){
+      if(gender==='male') bmr=10*weight+6.25*height-5*age+5;
+      else if(gender==='female') bmr=10*weight+6.25*height-5*age-161;
+      else bmr=10*weight+6.25*height-5*age-78;
+    }
+
+    const tdee=bmr?bmr*activity:null;
+
+    refs.bmiValue.textContent=bmi?bmi.toFixed(1):'--';
+    refs.bmiDetail.textContent=bmi?bmi.toFixed(1):'--';
+    refs.bmrValue.textContent=bmr?Math.round(bmr):'--';
+    refs.bmrDetail.textContent=bmr?Math.round(bmr):'--';
+    refs.tdeeDetail.textContent=tdee?Math.round(tdee):'--';
+
+    if(!bmi){
+      refs.bmiStatus.textContent='Add height and weight';
+    }else if(bmi<18.5){
+      refs.bmiStatus.textContent='Below general healthy range';
+    }else if(bmi<25){
+      refs.bmiStatus.textContent='Within general healthy range';
+    }else if(bmi<30){
+      refs.bmiStatus.textContent='Above general healthy range';
+    }else{
+      refs.bmiStatus.textContent='High BMI range';
+    }
+  }
+
+  function selectedGoal(){
+    return document.querySelector('input[name="profileGoal"]:checked')?.value||'general';
+  }
+
+  function updateOverview(){
+    const name=refs.fullName.value.trim()||'Tourays Fitness User';
+    const goal=selectedGoal();
+    refs.overviewName.textContent=name;
+    refs.overviewGoal.textContent=goalLabel(goal);
+    refs.avatar.textContent=(name.charAt(0)||'T').toUpperCase();
+  }
+
+  function save(){
+    const data={
+      fullName:refs.fullName.value.trim(),
+      birthDate:refs.birthDate.value,
+      gender:refs.gender.value,
+      fitnessLevel:refs.fitnessLevel.value,
+      height:Number(refs.height.value)||null,
+      weight:Number(refs.weight.value)||null,
+      goalWeight:Number(refs.goalWeight.value)||null,
+      activityLevel:Number(refs.activityLevel.value)||1.55,
+      goal:selectedGoal(),
+      avatar:load().avatar||null
+    };
+    localStorage.setItem(key,JSON.stringify(data));
+
+    const existing=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    localStorage.setItem('touraysAutosaveSettings',JSON.stringify({
+      ...existing,
+      fullName:data.fullName,
+      profileName:data.fullName,
+      birthDate:data.birthDate,
+      gender:data.gender,
+      fitnessLevel:data.fitnessLevel,
+      height:data.height,
+      profileHeight:data.height,
+      weight:data.weight,
+      profileWeight:data.weight,
+      goalWeight:data.goalWeight,
+      profileGoal:data.goal,
+      activityLevel:data.activityLevel
+    }));
+
+    refs.saveStatus.textContent='Profile saved successfully.';
+    setTimeout(()=>refs.saveStatus.textContent='Changes are saved locally on this device.',1800);
+  }
+
+  function restore(){
+    const data=load();
+    refs.fullName.value=data.fullName||'';
+    refs.birthDate.value=data.birthDate||'';
+    refs.gender.value=data.gender||'';
+    refs.fitnessLevel.value=data.fitnessLevel||'beginner';
+    refs.height.value=data.height||'';
+    refs.weight.value=data.weight||'';
+    refs.goalWeight.value=data.goalWeight||'';
+    refs.activityLevel.value=String(data.activityLevel||1.55);
+
+    const goal=document.querySelector(`input[name="profileGoal"][value="${data.goal||'general'}"]`);
+    if(goal) goal.checked=true;
+
+    if(data.avatar){
+      refs.avatar.style.backgroundImage=`url(${data.avatar})`;
+      refs.avatar.classList.add('has-image');
+      refs.avatar.textContent='';
+    }
+
+    updateOverview();
+    calculate();
+  }
+
+  refs.form.addEventListener('submit',event=>{
+    event.preventDefault();
+    updateOverview();
+    calculate();
+    save();
+  });
+
+  [refs.fullName,refs.birthDate,refs.gender,refs.height,refs.weight,refs.activityLevel]
+    .forEach(el=>el.addEventListener('input',()=>{
+      updateOverview();
+      calculate();
+    }));
+
+  document.querySelectorAll('input[name="profileGoal"]').forEach(el=>{
+    el.addEventListener('change',updateOverview);
+  });
+
+  refs.avatarInput.addEventListener('change',event=>{
+    const file=event.target.files?.[0];
+    if(!file) return;
+    if(file.size>2*1024*1024){
+      refs.saveStatus.textContent='Please choose an image smaller than 2 MB.';
+      return;
+    }
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const data=load();
+      data.avatar=reader.result;
+      localStorage.setItem(key,JSON.stringify(data));
+      refs.avatar.style.backgroundImage=`url(${reader.result})`;
+      refs.avatar.classList.add('has-image');
+      refs.avatar.textContent='';
+      refs.saveStatus.textContent='Profile photo updated.';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  refs.back.addEventListener('click',()=>{
+    screen.hidden=true;
+    const home=document.querySelector('.screen:not(#profileSettingsScreen):not(#nutritionScreen):not(#coachScreen):not(#progressScreen):not(#plannerScreen):not(#walkRunScreen)');
+    if(home) home.hidden=false;
+  });
+
+  function openProfile(){
+    document.querySelectorAll('.screen').forEach(s=>s.hidden=true);
+    screen.hidden=false;
+    window.scrollTo({top:0,behavior:'smooth'});
+    restore();
+  }
+
+  document.addEventListener('click',event=>{
+    const el=event.target.closest('button,a,[data-screen],[data-page]');
+    if(!el || el.closest('#profileSettingsScreen')) return;
+    const text=(el.textContent||'').trim().toLowerCase();
+    const target=((el.dataset&&(`${el.dataset.screen||''} ${el.dataset.page||''}`))||'').toLowerCase();
+    if(text==='profile' || text.includes('profile & settings') || target.includes('profile')){
+      event.preventDefault();
+      openProfile();
+    }
+  });
+
+  restore();
+})();
