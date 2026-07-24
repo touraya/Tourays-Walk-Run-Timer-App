@@ -1155,3 +1155,109 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   resetSession();
   renderHistory();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — PWA, INSTALL & OFFLINE SUPPORT
+   ========================================================= */
+(function(){
+  const banner = document.getElementById('installAppBanner');
+  const installButton = document.getElementById('installAppButton');
+  const dismissButton = document.getElementById('dismissInstallBanner');
+  const networkStatus = document.getElementById('networkStatus');
+  let deferredPrompt = null;
+
+  function updateNetworkState(){
+    const offline = !navigator.onLine;
+    document.documentElement.classList.toggle('is-offline', offline);
+    if(networkStatus){
+      networkStatus.hidden = !offline;
+      networkStatus.querySelector('strong').textContent = offline ? 'Offline mode' : 'Back online';
+    }
+  }
+
+  window.addEventListener('online',()=>{
+    updateNetworkState();
+    if(networkStatus){
+      networkStatus.hidden=false;
+      networkStatus.querySelector('strong').textContent='Back online';
+      setTimeout(()=>{ if(navigator.onLine) networkStatus.hidden=true; },2500);
+    }
+  });
+  window.addEventListener('offline',updateNetworkState);
+  updateNetworkState();
+
+  window.addEventListener('beforeinstallprompt',event=>{
+    event.preventDefault();
+    deferredPrompt=event;
+    const dismissedAt=Number(localStorage.getItem('touraysInstallDismissedAt')||0);
+    const sevenDays=7*24*60*60*1000;
+    if(Date.now()-dismissedAt>sevenDays && banner) banner.hidden=false;
+  });
+
+  if(installButton){
+    installButton.addEventListener('click',async()=>{
+      if(!deferredPrompt) return;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt=null;
+      banner.hidden=true;
+    });
+  }
+
+  if(dismissButton){
+    dismissButton.addEventListener('click',()=>{
+      localStorage.setItem('touraysInstallDismissedAt',String(Date.now()));
+      banner.hidden=true;
+    });
+  }
+
+  window.addEventListener('appinstalled',()=>{
+    deferredPrompt=null;
+    if(banner) banner.hidden=true;
+    localStorage.setItem('touraysAppInstalled','true');
+  });
+
+  // Persist the most important profile and settings inputs automatically.
+  const autosaveIds=[
+    'weight','height','weeklyGoal','profileName','profileAge','profileTrainingLevel',
+    'profileHeight','profileWeight','profileGoal','profileWeeklyGoal',
+    'gpsToggle','profileVoiceToggle','profileVibrationToggle','profileCountdownToggle'
+  ];
+
+  function restoreAutosave(){
+    const saved=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    autosaveIds.forEach(id=>{
+      const el=document.getElementById(id);
+      if(!el || !(id in saved)) return;
+      if(el.type==='checkbox') el.checked=Boolean(saved[id]);
+      else el.value=saved[id];
+    });
+  }
+
+  function saveAutosave(){
+    const data={};
+    autosaveIds.forEach(id=>{
+      const el=document.getElementById(id);
+      if(!el) return;
+      data[id]=el.type==='checkbox'?el.checked:el.value;
+    });
+    localStorage.setItem('touraysAutosaveSettings',JSON.stringify(data));
+    localStorage.setItem('touraysLastSavedAt',new Date().toISOString());
+  }
+
+  restoreAutosave();
+  autosaveIds.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.addEventListener('change',saveAutosave);
+      el.addEventListener('input',saveAutosave);
+    }
+  });
+
+  // Flush data before the browser closes or backgrounds the app.
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='hidden') saveAutosave();
+  });
+  window.addEventListener('pagehide',saveAutosave);
+})();

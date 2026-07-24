@@ -1,13 +1,23 @@
 {
-  "name": "Tourays Fitness V8 Build 5.2",
-  "short_name": "Tourays Fitness",
-  "description": "Cache-proof build with the premium push-up animation embedded directly in the app.",
+  "name": "Tourays Fitness",
+  "short_name": "Tourays",
+  "description": "Workout planning, indoor fitness, walking, running and progress tracking.",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#F5F7FC",
-  "theme_color": "#F5F7FC",
-  "orientation": "portrait",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
+  "background_color": "#F7F8FC",
+  "theme_color": "#6F48E8",
+  "orientation": "portrait-primary",
+  "categories": [
+    "fitness",
+    "health",
+    "lifestyle"
+  ],
   "icons": [
     {
       "src": "icon.svg",

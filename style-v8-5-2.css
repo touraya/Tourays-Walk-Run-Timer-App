@@ -1933,3 +1933,63 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
   .wr-history-item{grid-template-columns:auto 1fr}
   .wr-history-stats{grid-column:2;text-align:left}
 }
+
+
+/* =========================================================
+   V9 PWA / OFFLINE
+   ========================================================= */
+.network-status{
+  position:fixed;
+  z-index:9999;
+  top:max(12px,env(safe-area-inset-top));
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 14px;
+  border-radius:999px;
+  background:#252132;
+  color:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.22);
+  font-size:.76rem;
+}
+.network-status span{
+  width:8px;height:8px;border-radius:50%;background:#ffb84d;
+}
+.install-app-banner{
+  position:fixed;
+  z-index:9998;
+  left:14px;
+  right:14px;
+  bottom:calc(86px + env(safe-area-inset-bottom));
+  max-width:720px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:auto 1fr auto auto;
+  align-items:center;
+  gap:12px;
+  padding:13px;
+  border:1px solid rgba(111,72,232,.15);
+  border-radius:20px;
+  background:rgba(255,255,255,.97);
+  box-shadow:0 18px 55px rgba(40,29,82,.2);
+  backdrop-filter:blur(18px);
+}
+.install-app-icon{
+  width:44px;height:44px;display:grid;place-items:center;border-radius:14px;
+  background:linear-gradient(135deg,#7a50ed,#5532c9);color:#fff;font-weight:900;font-size:1.25rem;
+}
+.install-app-banner>div:nth-child(2){display:flex;flex-direction:column;gap:3px}
+.install-app-banner strong{font-size:.82rem}
+.install-app-banner span{font-size:.68rem;color:#77798b}
+.install-app-banner button{
+  border:0;border-radius:12px;padding:10px 14px;background:#6f48e8;color:#fff;font-weight:900;
+}
+.install-app-banner .install-dismiss{background:transparent;color:#7f8090;padding:8px}
+.is-offline .wr-map-badge::after{content:" · offline";color:#d68722}
+@media(max-width:560px){
+  .install-app-banner{grid-template-columns:auto 1fr auto}
+  .install-app-banner>button#installAppButton{grid-column:2;justify-self:start}
+  .install-app-banner .install-dismiss{grid-column:3;grid-row:1}
+}

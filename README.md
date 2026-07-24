@@ -1,3 +1,5 @@
-Tourays Fitness V9 — Walk & Run Build
+Tourays Fitness V9 — PWA Offline Build
 
-Added a complete Walk & Run module with GPS tracking, live duration, distance, pace, speed, calories, GPS accuracy, pause/resume, finish/save, route preview and local activity history.
+Added installable PWA support, offline app shell caching, online/offline status, install prompt, automatic settings persistence and safe background saving.
+
+Upload every file in this ZIP and overwrite the existing files.

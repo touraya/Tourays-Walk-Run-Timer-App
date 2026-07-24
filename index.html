@@ -5,13 +5,28 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · Walk & Run Build</title>
+<title>Tourays Fitness V9 · PWA Offline Build</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9030" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9040" rel="stylesheet"/>
 </head>
 <body>
+
+<div id="networkStatus" class="network-status" hidden>
+  <span></span><strong>Offline mode</strong>
+</div>
+
+<div id="installAppBanner" class="install-app-banner" hidden>
+  <div class="install-app-icon">T</div>
+  <div>
+    <strong>Install Tourays Fitness</strong>
+    <span>Open faster and keep the app available offline.</span>
+  </div>
+  <button id="installAppButton">Install</button>
+  <button id="dismissInstallBanner" class="install-dismiss" aria-label="Dismiss">✕</button>
+</div>
+
 <div class="shell">
 
 <header class="v9-app-header">
@@ -906,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9030"></script>
+<script src="app-v8-5-2.js?v=9040"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -968,6 +983,15 @@
     </section>
   </div>
 </section>
+
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
 
 </body>
 </html>
