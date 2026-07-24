@@ -5,11 +5,11 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V9 · AI Coach Build</title>
+<title>Tourays Fitness V9 · Nutrition Build</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=9070" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=9080" rel="stylesheet"/>
 </head>
 <body>
 
@@ -921,7 +921,7 @@
 <div class="toast" id="toast"></div>
 <script src="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-<script src="app-v8-5-2.js?v=9070"></script>
+<script src="app-v8-5-2.js?v=9080"></script>
 
 <section id="walkRunScreen" class="screen walk-run-screen" hidden>
   <div class="wr-shell">
@@ -1475,6 +1475,217 @@ if ('serviceWorker' in navigator) {
         <button type="submit">Send</button>
       </form>
     </section>
+  </div>
+</section>
+
+
+<section id="nutritionScreen" class="screen nutrition-screen" hidden>
+  <div class="nutrition-shell">
+    <header class="nutrition-header">
+      <div>
+        <span class="eyebrow">DAILY FUEL</span>
+        <h1>Nutrition</h1>
+        <p>Track calories, protein, carbohydrates, fat and water in one simple daily view.</p>
+      </div>
+      <button id="nutritionBackBtn" class="icon-btn" aria-label="Back">←</button>
+    </header>
+
+    <section class="nutrition-date-card">
+      <button id="nutritionPrevDay" class="nutrition-date-btn" aria-label="Previous day">‹</button>
+      <div>
+        <span id="nutritionDayLabel">Today</span>
+        <strong id="nutritionDateLabel"></strong>
+      </div>
+      <button id="nutritionNextDay" class="nutrition-date-btn" aria-label="Next day">›</button>
+    </section>
+
+    <section class="nutrition-summary-grid">
+      <article class="nutrition-calorie-card">
+        <div class="nutrition-ring" id="nutritionCalorieRing">
+          <div>
+            <strong id="nutritionCaloriesRemaining">0</strong>
+            <span>kcal left</span>
+          </div>
+        </div>
+        <div class="nutrition-calorie-copy">
+          <span>Daily calories</span>
+          <h2><span id="nutritionCaloriesUsed">0</span> / <span id="nutritionCaloriesGoal">2200</span></h2>
+          <p id="nutritionCalorieStatus">Start logging meals to see your progress.</p>
+        </div>
+      </article>
+
+      <article class="nutrition-macro-card">
+        <div class="nutrition-macro-row">
+          <div>
+            <span>Protein</span>
+            <strong><span id="nutritionProteinUsed">0</span> / <span id="nutritionProteinGoal">150</span> g</strong>
+          </div>
+          <div class="nutrition-progress-track"><span id="nutritionProteinBar"></span></div>
+        </div>
+        <div class="nutrition-macro-row">
+          <div>
+            <span>Carbohydrates</span>
+            <strong><span id="nutritionCarbsUsed">0</span> / <span id="nutritionCarbsGoal">240</span> g</strong>
+          </div>
+          <div class="nutrition-progress-track"><span id="nutritionCarbsBar"></span></div>
+        </div>
+        <div class="nutrition-macro-row">
+          <div>
+            <span>Fat</span>
+            <strong><span id="nutritionFatUsed">0</span> / <span id="nutritionFatGoal">70</span> g</strong>
+          </div>
+          <div class="nutrition-progress-track"><span id="nutritionFatBar"></span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="nutrition-water-card">
+      <div>
+        <span class="eyebrow">HYDRATION</span>
+        <h2>Water</h2>
+        <p><strong id="nutritionWaterUsed">0</strong> / <span id="nutritionWaterGoal">2500</span> ml</p>
+      </div>
+      <div class="nutrition-water-actions">
+        <button data-water-add="250">+250 ml</button>
+        <button data-water-add="500">+500 ml</button>
+        <button id="nutritionWaterReset">Reset</button>
+      </div>
+      <div class="nutrition-water-track"><span id="nutritionWaterBar"></span></div>
+    </section>
+
+    <section class="nutrition-meals-card">
+      <div class="nutrition-section-heading">
+        <div>
+          <span class="eyebrow">MEALS</span>
+          <h2>Food diary</h2>
+        </div>
+        <button id="nutritionAddMeal" class="nutrition-primary-btn">+ Add food</button>
+      </div>
+      <div id="nutritionMealGroups" class="nutrition-meal-groups"></div>
+    </section>
+
+    <section class="nutrition-bottom-grid">
+      <article class="nutrition-insight-card">
+        <div class="nutrition-section-heading">
+          <div>
+            <span class="eyebrow">TODAY’S INSIGHT</span>
+            <h2>Coach recommendation</h2>
+          </div>
+        </div>
+        <p id="nutritionCoachInsight">Log your first meal to receive a daily nutrition recommendation.</p>
+      </article>
+
+      <article class="nutrition-goals-card">
+        <div class="nutrition-section-heading">
+          <div>
+            <span class="eyebrow">TARGETS</span>
+            <h2>Daily goals</h2>
+          </div>
+          <button id="nutritionEditGoals" class="text-btn">Edit goals</button>
+        </div>
+        <div class="nutrition-goal-list">
+          <div><span>Calories</span><strong id="nutritionGoalCaloriesDisplay">2200 kcal</strong></div>
+          <div><span>Protein</span><strong id="nutritionGoalProteinDisplay">150 g</strong></div>
+          <div><span>Water</span><strong id="nutritionGoalWaterDisplay">2500 ml</strong></div>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <div id="nutritionFoodModal" class="planner-modal" hidden>
+    <div class="planner-modal-backdrop" data-close-nutrition-food></div>
+    <form id="nutritionFoodForm" class="planner-modal-card">
+      <header>
+        <div>
+          <span class="eyebrow">FOOD ENTRY</span>
+          <h2>Add food</h2>
+        </div>
+        <button type="button" class="planner-close-btn" data-close-nutrition-food>✕</button>
+      </header>
+
+      <label>
+        <span>Food name</span>
+        <input id="nutritionFoodName" required maxlength="60" placeholder="Chicken rice bowl">
+      </label>
+
+      <div class="planner-form-grid">
+        <label>
+          <span>Meal</span>
+          <select id="nutritionMealType">
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Dinner</option>
+            <option>Snack</option>
+          </select>
+        </label>
+        <label>
+          <span>Serving</span>
+          <input id="nutritionServing" required maxlength="30" placeholder="1 bowl">
+        </label>
+        <label>
+          <span>Calories</span>
+          <input id="nutritionFoodCalories" type="number" min="0" max="5000" required value="350">
+        </label>
+        <label>
+          <span>Protein (g)</span>
+          <input id="nutritionFoodProtein" type="number" min="0" max="500" value="25">
+        </label>
+        <label>
+          <span>Carbohydrates (g)</span>
+          <input id="nutritionFoodCarbs" type="number" min="0" max="800" value="40">
+        </label>
+        <label>
+          <span>Fat (g)</span>
+          <input id="nutritionFoodFat" type="number" min="0" max="300" value="10">
+        </label>
+      </div>
+
+      <div class="planner-modal-actions">
+        <button type="button" class="planner-cancel-action" data-close-nutrition-food>Cancel</button>
+        <button type="submit" class="planner-save-action">Save food</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="nutritionGoalsModal" class="planner-modal" hidden>
+    <div class="planner-modal-backdrop" data-close-nutrition-goals></div>
+    <form id="nutritionGoalsForm" class="planner-modal-card">
+      <header>
+        <div>
+          <span class="eyebrow">DAILY TARGETS</span>
+          <h2>Edit nutrition goals</h2>
+        </div>
+        <button type="button" class="planner-close-btn" data-close-nutrition-goals>✕</button>
+      </header>
+
+      <div class="planner-form-grid">
+        <label>
+          <span>Calories</span>
+          <input id="nutritionGoalCaloriesInput" type="number" min="1000" max="6000" required>
+        </label>
+        <label>
+          <span>Protein (g)</span>
+          <input id="nutritionGoalProteinInput" type="number" min="20" max="400" required>
+        </label>
+        <label>
+          <span>Carbohydrates (g)</span>
+          <input id="nutritionGoalCarbsInput" type="number" min="20" max="800" required>
+        </label>
+        <label>
+          <span>Fat (g)</span>
+          <input id="nutritionGoalFatInput" type="number" min="20" max="300" required>
+        </label>
+        <label>
+          <span>Water (ml)</span>
+          <input id="nutritionGoalWaterInput" type="number" min="500" max="10000" step="100" required>
+        </label>
+      </div>
+
+      <div class="planner-modal-actions">
+        <button type="button" class="planner-cancel-action" data-close-nutrition-goals>Cancel</button>
+        <button type="submit" class="planner-save-action">Save goals</button>
+      </div>
+    </form>
   </div>
 </section>
 

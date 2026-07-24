@@ -2351,3 +2351,373 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   restorePrefs();
   generatePlan();
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V9 — NUTRITION
+   ========================================================= */
+(function(){
+  const screen=document.getElementById('nutritionScreen');
+  if(!screen) return;
+
+  const $=id=>document.getElementById(id);
+  const refs={
+    back:$('nutritionBackBtn'),
+    prev:$('nutritionPrevDay'),
+    next:$('nutritionNextDay'),
+    dayLabel:$('nutritionDayLabel'),
+    dateLabel:$('nutritionDateLabel'),
+    calorieRing:$('nutritionCalorieRing'),
+    caloriesRemaining:$('nutritionCaloriesRemaining'),
+    caloriesUsed:$('nutritionCaloriesUsed'),
+    caloriesGoal:$('nutritionCaloriesGoal'),
+    calorieStatus:$('nutritionCalorieStatus'),
+    proteinUsed:$('nutritionProteinUsed'),
+    proteinGoal:$('nutritionProteinGoal'),
+    proteinBar:$('nutritionProteinBar'),
+    carbsUsed:$('nutritionCarbsUsed'),
+    carbsGoal:$('nutritionCarbsGoal'),
+    carbsBar:$('nutritionCarbsBar'),
+    fatUsed:$('nutritionFatUsed'),
+    fatGoal:$('nutritionFatGoal'),
+    fatBar:$('nutritionFatBar'),
+    waterUsed:$('nutritionWaterUsed'),
+    waterGoal:$('nutritionWaterGoal'),
+    waterBar:$('nutritionWaterBar'),
+    waterReset:$('nutritionWaterReset'),
+    mealGroups:$('nutritionMealGroups'),
+    addMeal:$('nutritionAddMeal'),
+    coachInsight:$('nutritionCoachInsight'),
+    editGoals:$('nutritionEditGoals'),
+    goalCaloriesDisplay:$('nutritionGoalCaloriesDisplay'),
+    goalProteinDisplay:$('nutritionGoalProteinDisplay'),
+    goalWaterDisplay:$('nutritionGoalWaterDisplay'),
+    foodModal:$('nutritionFoodModal'),
+    foodForm:$('nutritionFoodForm'),
+    foodName:$('nutritionFoodName'),
+    mealType:$('nutritionMealType'),
+    serving:$('nutritionServing'),
+    foodCalories:$('nutritionFoodCalories'),
+    foodProtein:$('nutritionFoodProtein'),
+    foodCarbs:$('nutritionFoodCarbs'),
+    foodFat:$('nutritionFoodFat'),
+    goalsModal:$('nutritionGoalsModal'),
+    goalsForm:$('nutritionGoalsForm'),
+    goalCaloriesInput:$('nutritionGoalCaloriesInput'),
+    goalProteinInput:$('nutritionGoalProteinInput'),
+    goalCarbsInput:$('nutritionGoalCarbsInput'),
+    goalFatInput:$('nutritionGoalFatInput'),
+    goalWaterInput:$('nutritionGoalWaterInput')
+  };
+
+  const diaryKey='touraysNutritionDiaryV1';
+  const goalsKey='touraysNutritionGoalsV1';
+  let dayOffset=0;
+
+  function localDateKey(date){
+    const d=new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function selectedDate(){
+    const d=new Date();
+    d.setHours(12,0,0,0);
+    d.setDate(d.getDate()+dayOffset);
+    return d;
+  }
+
+  function selectedKey(){
+    return localDateKey(selectedDate());
+  }
+
+  function uid(){
+    return `food_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,8)}`;
+  }
+
+  function loadDiary(){
+    return JSON.parse(localStorage.getItem(diaryKey)||'{}');
+  }
+
+  function saveDiary(data){
+    localStorage.setItem(diaryKey,JSON.stringify(data));
+  }
+
+  function currentDay(){
+    const diary=loadDiary();
+    if(!diary[selectedKey()]) diary[selectedKey()]={foods:[],water:0};
+    return diary[selectedKey()];
+  }
+
+  function saveCurrentDay(day){
+    const diary=loadDiary();
+    diary[selectedKey()]=day;
+    saveDiary(diary);
+  }
+
+  function defaultGoals(){
+    const profile=JSON.parse(localStorage.getItem('touraysAutosaveSettings')||'{}');
+    const weight=Number(profile.weight||profile.profileWeight||75);
+    const calories=Math.round(weight*29);
+    return {
+      calories:Math.min(3800,Math.max(1600,calories)),
+      protein:Math.round(weight*1.8),
+      carbs:Math.round(weight*3),
+      fat:Math.round(weight*.9),
+      water:Math.round(weight*35/100)*100
+    };
+  }
+
+  function loadGoals(){
+    const saved=JSON.parse(localStorage.getItem(goalsKey)||'null');
+    if(saved) return saved;
+    const goals=defaultGoals();
+    localStorage.setItem(goalsKey,JSON.stringify(goals));
+    return goals;
+  }
+
+  function saveGoals(goals){
+    localStorage.setItem(goalsKey,JSON.stringify(goals));
+  }
+
+  function totals(day){
+    return day.foods.reduce((sum,item)=>({
+      calories:sum.calories+Number(item.calories||0),
+      protein:sum.protein+Number(item.protein||0),
+      carbs:sum.carbs+Number(item.carbs||0),
+      fat:sum.fat+Number(item.fat||0)
+    }),{calories:0,protein:0,carbs:0,fat:0});
+  }
+
+  function pct(value,goal){
+    return Math.max(0,Math.min(100,Math.round((value/goal)*100)));
+  }
+
+  function escapeHtml(value){
+    return String(value??'').replace(/[&<>"']/g,ch=>({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+    })[ch]);
+  }
+
+  function updateDate(){
+    const d=selectedDate();
+    refs.dayLabel.textContent=dayOffset===0?'Today':dayOffset===-1?'Yesterday':dayOffset===1?'Tomorrow':d.toLocaleDateString(undefined,{weekday:'long'});
+    refs.dateLabel.textContent=d.toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'});
+  }
+
+  function renderSummary(){
+    const day=currentDay();
+    const goals=loadGoals();
+    const sum=totals(day);
+
+    refs.caloriesUsed.textContent=Math.round(sum.calories);
+    refs.caloriesGoal.textContent=goals.calories;
+    refs.caloriesRemaining.textContent=Math.max(0,goals.calories-Math.round(sum.calories));
+    refs.calorieRing.style.setProperty('--nutrition-progress',`${pct(sum.calories,goals.calories)*3.6}deg`);
+
+    refs.proteinUsed.textContent=Math.round(sum.protein);
+    refs.proteinGoal.textContent=goals.protein;
+    refs.proteinBar.style.width=`${pct(sum.protein,goals.protein)}%`;
+
+    refs.carbsUsed.textContent=Math.round(sum.carbs);
+    refs.carbsGoal.textContent=goals.carbs;
+    refs.carbsBar.style.width=`${pct(sum.carbs,goals.carbs)}%`;
+
+    refs.fatUsed.textContent=Math.round(sum.fat);
+    refs.fatGoal.textContent=goals.fat;
+    refs.fatBar.style.width=`${pct(sum.fat,goals.fat)}%`;
+
+    refs.waterUsed.textContent=day.water||0;
+    refs.waterGoal.textContent=goals.water;
+    refs.waterBar.style.width=`${pct(day.water||0,goals.water)}%`;
+
+    refs.goalCaloriesDisplay.textContent=`${goals.calories} kcal`;
+    refs.goalProteinDisplay.textContent=`${goals.protein} g`;
+    refs.goalWaterDisplay.textContent=`${goals.water} ml`;
+
+    if(sum.calories===0){
+      refs.calorieStatus.textContent='Start logging meals to see your progress.';
+      refs.coachInsight.textContent='Log your first meal to receive a daily nutrition recommendation.';
+    }else if(sum.protein<goals.protein*.5 && sum.calories>goals.calories*.55){
+      refs.calorieStatus.textContent='Calories are progressing, but protein is still low.';
+      refs.coachInsight.textContent='Prioritize a lean protein source in your next meal, such as chicken, fish, eggs, yogurt, beans or tofu.';
+    }else if(sum.calories>goals.calories){
+      refs.calorieStatus.textContent='You have exceeded today’s calorie target.';
+      refs.coachInsight.textContent='No need to overcorrect. Keep the next meal lighter, focus on vegetables and protein, and return to your normal plan tomorrow.';
+    }else if(day.water<goals.water*.45){
+      refs.calorieStatus.textContent='Nutrition is on track. Hydration needs attention.';
+      refs.coachInsight.textContent='Drink water regularly instead of trying to catch up late in the day.';
+    }else{
+      refs.calorieStatus.textContent='You are progressing well toward today’s targets.';
+      refs.coachInsight.textContent='Keep your next meal balanced with protein, vegetables or fruit, and a suitable carbohydrate source.';
+    }
+  }
+
+  function renderMeals(){
+    const day=currentDay();
+    const mealNames=['Breakfast','Lunch','Dinner','Snack'];
+
+    refs.mealGroups.innerHTML=mealNames.map(meal=>{
+      const items=day.foods.filter(item=>item.meal===meal);
+      const calories=items.reduce((sum,item)=>sum+Number(item.calories||0),0);
+
+      return `<section class="nutrition-meal-group">
+        <header>
+          <div>
+            <strong>${meal}</strong>
+            <span>${Math.round(calories)} kcal</span>
+          </div>
+          <button type="button" data-add-meal-type="${meal}">+</button>
+        </header>
+        <div class="nutrition-food-list">
+          ${items.length?items.map(item=>`
+            <article class="nutrition-food-item">
+              <div>
+                <strong>${escapeHtml(item.name)}</strong>
+                <span>${escapeHtml(item.serving)}</span>
+              </div>
+              <div class="nutrition-food-macros">
+                <strong>${Math.round(item.calories)} kcal</strong>
+                <span>P ${Math.round(item.protein)} · C ${Math.round(item.carbs)} · F ${Math.round(item.fat)}</span>
+              </div>
+              <button type="button" data-delete-food="${item.id}" aria-label="Delete food">✕</button>
+            </article>
+          `).join(''):'<div class="nutrition-empty-meal">No food added</div>'}
+        </div>
+      </section>`;
+    }).join('');
+
+    refs.mealGroups.querySelectorAll('[data-add-meal-type]').forEach(btn=>{
+      btn.addEventListener('click',()=>openFoodModal(btn.dataset.addMealType));
+    });
+
+    refs.mealGroups.querySelectorAll('[data-delete-food]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const day=currentDay();
+        day.foods=day.foods.filter(item=>item.id!==btn.dataset.deleteFood);
+        saveCurrentDay(day);
+        renderAll();
+      });
+    });
+  }
+
+  function renderAll(){
+    updateDate();
+    renderSummary();
+    renderMeals();
+  }
+
+  function openModal(modal){
+    modal.hidden=false;
+    document.body.classList.add('planner-modal-open');
+  }
+
+  function closeModal(modal){
+    modal.hidden=true;
+    document.body.classList.remove('planner-modal-open');
+  }
+
+  function openFoodModal(meal='Breakfast'){
+    refs.foodForm.reset();
+    refs.mealType.value=meal;
+    refs.foodCalories.value=350;
+    refs.foodProtein.value=25;
+    refs.foodCarbs.value=40;
+    refs.foodFat.value=10;
+    openModal(refs.foodModal);
+    setTimeout(()=>refs.foodName.focus(),40);
+  }
+
+  refs.addMeal.addEventListener('click',()=>openFoodModal());
+  refs.prev.addEventListener('click',()=>{dayOffset--;renderAll();});
+  refs.next.addEventListener('click',()=>{dayOffset++;renderAll();});
+
+  document.querySelectorAll('[data-water-add]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const day=currentDay();
+      day.water=Number(day.water||0)+Number(btn.dataset.waterAdd);
+      saveCurrentDay(day);
+      renderSummary();
+    });
+  });
+
+  refs.waterReset.addEventListener('click',()=>{
+    const day=currentDay();
+    day.water=0;
+    saveCurrentDay(day);
+    renderSummary();
+  });
+
+  document.querySelectorAll('[data-close-nutrition-food]').forEach(el=>{
+    el.addEventListener('click',()=>closeModal(refs.foodModal));
+  });
+  document.querySelectorAll('[data-close-nutrition-goals]').forEach(el=>{
+    el.addEventListener('click',()=>closeModal(refs.goalsModal));
+  });
+
+  refs.foodForm.addEventListener('submit',event=>{
+    event.preventDefault();
+    const day=currentDay();
+    day.foods.push({
+      id:uid(),
+      meal:refs.mealType.value,
+      name:refs.foodName.value.trim(),
+      serving:refs.serving.value.trim(),
+      calories:Number(refs.foodCalories.value)||0,
+      protein:Number(refs.foodProtein.value)||0,
+      carbs:Number(refs.foodCarbs.value)||0,
+      fat:Number(refs.foodFat.value)||0
+    });
+    saveCurrentDay(day);
+    closeModal(refs.foodModal);
+    renderAll();
+  });
+
+  refs.editGoals.addEventListener('click',()=>{
+    const goals=loadGoals();
+    refs.goalCaloriesInput.value=goals.calories;
+    refs.goalProteinInput.value=goals.protein;
+    refs.goalCarbsInput.value=goals.carbs;
+    refs.goalFatInput.value=goals.fat;
+    refs.goalWaterInput.value=goals.water;
+    openModal(refs.goalsModal);
+  });
+
+  refs.goalsForm.addEventListener('submit',event=>{
+    event.preventDefault();
+    saveGoals({
+      calories:Number(refs.goalCaloriesInput.value),
+      protein:Number(refs.goalProteinInput.value),
+      carbs:Number(refs.goalCarbsInput.value),
+      fat:Number(refs.goalFatInput.value),
+      water:Number(refs.goalWaterInput.value)
+    });
+    closeModal(refs.goalsModal);
+    renderAll();
+  });
+
+  refs.back.addEventListener('click',()=>{
+    screen.hidden=true;
+    const home=document.querySelector('.screen:not(#nutritionScreen):not(#coachScreen):not(#progressScreen):not(#plannerScreen):not(#walkRunScreen)');
+    if(home) home.hidden=false;
+  });
+
+  function openNutrition(){
+    document.querySelectorAll('.screen').forEach(s=>s.hidden=true);
+    screen.hidden=false;
+    window.scrollTo({top:0,behavior:'smooth'});
+    renderAll();
+  }
+
+  document.addEventListener('click',event=>{
+    const el=event.target.closest('button,a,[data-screen],[data-page]');
+    if(!el || el.closest('#nutritionScreen')) return;
+    const text=(el.textContent||'').trim().toLowerCase();
+    const target=((el.dataset&&(`${el.dataset.screen||''} ${el.dataset.page||''}`))||'').toLowerCase();
+    if(text.includes('nutrition') || text.includes('food diary') || target.includes('nutrition')){
+      event.preventDefault();
+      openNutrition();
+    }
+  });
+
+  renderAll();
+})();

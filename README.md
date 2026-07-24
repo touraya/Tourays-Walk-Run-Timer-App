@@ -1,12 +1,14 @@
-Tourays Fitness V9 — AI Coach Build
+Tourays Fitness V9 — Nutrition Build
 
 Added:
-- Goal-based workout recommendations
-- Time, energy and location controls
-- Adaptive workout title, intensity, calories and session blocks
-- Consistency, recovery and goal insights
-- Save AI recommendation directly to the weekly planner
-- Quick coach chat with practical local responses
-- Preference persistence and offline support
+- Daily calorie tracking
+- Protein, carbohydrate and fat targets
+- Water tracking with quick-add buttons
+- Breakfast, lunch, dinner and snack diary
+- Add and remove food entries
+- Editable daily nutrition targets
+- Automatic targets based on saved body weight
+- Daily coach insight
+- Date navigation and local offline persistence
 
 Upload every file and overwrite the current version.

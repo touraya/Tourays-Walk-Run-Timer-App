@@ -2505,3 +2505,130 @@ linear-gradient(135deg,#eaf3ee,#edf0fa);background-size:32px 32px}
   .coach-plan-overview{grid-template-columns:1fr}
   .coach-plan-actions{display:grid;grid-template-columns:1fr 1fr}
 }
+
+
+/* =========================================================
+   V9 NUTRITION
+   ========================================================= */
+.nutrition-screen{
+  min-height:100vh;background:#f7f8fc;padding:20px 14px 110px
+}
+.nutrition-shell{max-width:1080px;margin:0 auto}
+.nutrition-header{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:18px
+}
+.nutrition-header h1{
+  margin:4px 0 6px;font-size:clamp(2rem,7vw,3.4rem);line-height:1
+}
+.nutrition-header p{margin:0;color:#77798b;max-width:650px}
+.nutrition-date-card{
+  display:flex;align-items:center;justify-content:center;gap:18px;padding:12px;margin-bottom:14px;
+  border-radius:20px;background:#fff;box-shadow:0 12px 34px rgba(45,38,75,.07)
+}
+.nutrition-date-card>div{display:flex;flex-direction:column;align-items:center;gap:2px}
+.nutrition-date-card span{font-size:.68rem;color:#858190}
+.nutrition-date-card strong{font-size:.92rem}
+.nutrition-date-btn{
+  width:38px;height:38px;border:0;border-radius:12px;background:#eeeafb;color:#6841d5;font-size:1.5rem
+}
+.nutrition-summary-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px
+}
+.nutrition-calorie-card,.nutrition-macro-card,.nutrition-water-card,
+.nutrition-meals-card,.nutrition-insight-card,.nutrition-goals-card{
+  background:#fff;border-radius:24px;box-shadow:0 14px 38px rgba(45,38,75,.07)
+}
+.nutrition-calorie-card{
+  display:flex;align-items:center;gap:20px;padding:20px
+}
+.nutrition-ring{
+  --nutrition-progress:0deg;
+  position:relative;width:170px;height:170px;display:grid;place-items:center;flex:0 0 auto;
+  border-radius:50%;background:conic-gradient(#6f48e8 var(--nutrition-progress),#ece8f6 0)
+}
+.nutrition-ring::before{
+  content:"";position:absolute;width:128px;height:128px;border-radius:50%;background:#fff
+}
+.nutrition-ring>div{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
+.nutrition-ring strong{font-size:2rem}
+.nutrition-ring span{font-size:.66rem;color:#8b8797}
+.nutrition-calorie-copy>span{font-size:.68rem;color:#8c8998}
+.nutrition-calorie-copy h2{margin:5px 0;font-size:1.5rem}
+.nutrition-calorie-copy p{margin:0;color:#7e7a89;font-size:.74rem;line-height:1.45}
+.nutrition-macro-card{padding:18px;display:flex;flex-direction:column;justify-content:center;gap:17px}
+.nutrition-macro-row>div:first-child{display:flex;justify-content:space-between;gap:10px;margin-bottom:7px}
+.nutrition-macro-row span{font-size:.7rem;color:#7f7b8a}
+.nutrition-macro-row strong{font-size:.74rem}
+.nutrition-progress-track{
+  height:9px;border-radius:999px;background:#eeeaf6;overflow:hidden
+}
+.nutrition-progress-track span,.nutrition-water-track span{
+  display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#8a63ee,#633bcf)
+}
+.nutrition-water-card{
+  display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:18px;margin-bottom:12px
+}
+.nutrition-water-card h2{margin:4px 0}
+.nutrition-water-card p{margin:0;color:#777384;font-size:.8rem}
+.nutrition-water-actions{display:flex;gap:8px}
+.nutrition-water-actions button{
+  border:0;border-radius:12px;padding:10px 12px;background:#eeeafb;color:#633fd0;font-weight:900
+}
+.nutrition-water-track{
+  grid-column:1/-1;height:10px;border-radius:999px;background:#ece9f4;overflow:hidden
+}
+.nutrition-meals-card{padding:18px;margin-bottom:12px}
+.nutrition-section-heading{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:15px
+}
+.nutrition-section-heading h2{margin:4px 0 0}
+.nutrition-primary-btn{
+  border:0;border-radius:14px;padding:12px 16px;background:#6f48e8;color:#fff;font-weight:900;
+  box-shadow:0 10px 22px rgba(111,72,232,.24)
+}
+.nutrition-meal-groups{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nutrition-meal-group{
+  border:1px solid #ece7f7;border-radius:18px;overflow:hidden;background:#fbfaff
+}
+.nutrition-meal-group>header{
+  display:flex;justify-content:space-between;align-items:center;padding:13px;background:#f3f0fa
+}
+.nutrition-meal-group>header>div{display:flex;flex-direction:column;gap:2px}
+.nutrition-meal-group>header span{font-size:.62rem;color:#8a8795}
+.nutrition-meal-group>header button{
+  width:30px;height:30px;border:0;border-radius:10px;background:#6f48e8;color:#fff;font-size:1.1rem
+}
+.nutrition-food-list{padding:9px}
+.nutrition-food-item{
+  display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;
+  padding:11px;margin-bottom:8px;border-radius:14px;background:#fff
+}
+.nutrition-food-item>div:first-child,.nutrition-food-macros{display:flex;flex-direction:column;gap:3px}
+.nutrition-food-item span{font-size:.62rem;color:#8a8795}
+.nutrition-food-macros{text-align:right}
+.nutrition-food-item button{
+  width:28px;height:28px;border:0;border-radius:9px;background:#fff0f1;color:#cf4f60
+}
+.nutrition-empty-meal{padding:24px;text-align:center;color:#9a96a4;font-size:.72rem}
+.nutrition-bottom-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:12px}
+.nutrition-insight-card,.nutrition-goals-card{padding:18px}
+.nutrition-insight-card>p{margin:0;color:#656171;line-height:1.6;font-size:.8rem}
+.nutrition-goal-list{display:grid;gap:9px}
+.nutrition-goal-list>div{
+  display:flex;justify-content:space-between;gap:12px;padding:11px;border-radius:13px;background:#f7f6fb
+}
+.nutrition-goal-list span{font-size:.7rem;color:#848190}
+.nutrition-goal-list strong{font-size:.75rem}
+@media(max-width:800px){
+  .nutrition-summary-grid,.nutrition-bottom-grid{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .nutrition-calorie-card{flex-direction:column;text-align:center}
+  .nutrition-meal-groups{grid-template-columns:1fr}
+  .nutrition-water-card{grid-template-columns:1fr}
+  .nutrition-water-actions{flex-wrap:wrap}
+  .nutrition-water-track{grid-column:1}
+  .nutrition-food-item{grid-template-columns:1fr auto}
+  .nutrition-food-macros{grid-column:1;text-align:left}
+  .nutrition-food-item button{grid-column:2;grid-row:1/3}
+}
