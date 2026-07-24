@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#08111f" name="theme-color"/>
-<title>Tourays Fitness V7 · Build 10</title>
+<title>Tourays Fitness V7 · Build 11</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -682,7 +682,45 @@
   </div>
 </div>
 
-<nav><button class="tab active" data-screen="home"><b>⌂</b><small>Home</small></button><button class="tab" data-screen="run"><b>◉</b><small>Run</small></button><button class="tab" data-screen="indoor"><b>◆</b><small>Indoor</small></button><button class="tab" data-screen="mapScreen"><b>⌖</b><small>Map</small></button><button class="tab" data-screen="health"><b>♥</b><small>Health</small></button><button class="tab" data-screen="planner"><b>🗓️</b><small>Plan</small></button><button class="tab" data-screen="goals"><b>🎯</b><small>Goals</small></button><button class="tab" data-screen="profile"><b>👤</b><small>Profile</small></button><button class="tab" data-screen="coach"><b>🧠</b><small>Coach</small></button></nav>
+
+<section class="screen" id="performance">
+  <div class="section-head performance-head">
+    <div><small>ADVANCED ANALYTICS</small><h2>Performance center</h2></div>
+    <select id="performanceRange"><option value="7">7 days</option><option value="28" selected>4 weeks</option><option value="90">3 months</option><option value="365">1 year</option><option value="all">All time</option></select>
+  </div>
+  <article class="performance-hero">
+    <div><small>TRAINING READINESS</small><h3 id="performanceReadinessTitle">Ready to train</h3><p id="performanceReadinessText">Your recent activity suggests a balanced training load.</p></div>
+    <div class="performance-score-ring"><svg viewBox="0 0 100 100"><circle class="performance-ring-bg" cx="50" cy="50" r="39"></circle><circle class="performance-ring-progress" id="performanceReadinessRing" cx="50" cy="50" r="39"></circle></svg><strong id="performanceReadinessScore">0</strong></div>
+  </article>
+  <div class="performance-kpi-grid">
+    <article><span>FITNESS TREND</span><strong id="performanceFitnessTrend">Stable</strong><small id="performanceFitnessNote">No trend yet</small></article>
+    <article><span>TRAINING LOAD</span><strong id="performanceTrainingLoad">0</strong><small id="performanceLoadNote">Low</small></article>
+    <article><span>RECOVERY</span><strong id="performanceRecovery">100%</strong><small id="performanceRecoveryNote">Fully recovered</small></article>
+    <article><span>CONSISTENCY</span><strong id="performanceConsistency">0%</strong><small id="performanceConsistencyNote">Build a routine</small></article>
+    <article><span>EFFICIENCY</span><strong id="performanceEfficiency">0</strong><small id="performanceEfficiencyNote">Score</small></article>
+    <article><span>EST. VO₂ MAX</span><strong id="performanceVo2">--</strong><small>Outdoor estimate</small></article>
+  </div>
+  <div class="performance-title"><div><small>TRENDS</small><h3>Pace progression</h3></div><span id="performancePaceChange">No comparison</span></div>
+  <article class="performance-chart-card"><canvas id="performancePaceChart"></canvas></article>
+  <div class="performance-title"><div><small>TRAINING LOAD</small><h3>Weekly activity load</h3></div><span id="performanceLoadChange">No comparison</span></div>
+  <article class="performance-chart-card"><canvas id="performanceLoadChart"></canvas></article>
+  <div class="performance-title"><div><small>PERSONAL RECORDS</small><h3>Your strongest results</h3></div></div>
+  <div class="performance-records" id="performanceRecords"></div>
+  <div class="performance-title"><div><small>WORKOUT COMPARISON</small><h3>Latest versus previous</h3></div></div>
+  <article class="performance-comparison" id="performanceComparison"></article>
+  <div class="performance-title"><div><small>AI INSIGHTS</small><h3>What your data says</h3></div></div>
+  <div class="performance-insights" id="performanceInsights"></div>
+  <article class="recovery-card">
+    <div class="recovery-card-head"><div><small>RECOVERY CENTER</small><h3 id="recoveryCenterTitle">Recovery looks good</h3></div><strong id="recoveryHours">0 h</strong></div>
+    <p id="recoveryCenterText">You can train normally today.</p><div class="recovery-progress"><i id="recoveryProgressBar"></i></div><small id="recoveryProgressLabel">100% recovered</small>
+  </article>
+  <div class="performance-export-grid">
+    <button id="exportPerformanceCsv"><span>📊</span><strong>Export analytics</strong><small>Download detailed CSV</small></button>
+    <button id="exportPerformanceReport"><span>📄</span><strong>Export report</strong><small>Download printable HTML</small></button>
+  </div>
+</section>
+
+<nav><button class="tab active" data-screen="home"><b>⌂</b><small>Home</small></button><button class="tab" data-screen="run"><b>◉</b><small>Run</small></button><button class="tab" data-screen="indoor"><b>◆</b><small>Indoor</small></button><button class="tab" data-screen="mapScreen"><b>⌖</b><small>Map</small></button><button class="tab" data-screen="health"><b>♥</b><small>Health</small></button><button class="tab" data-screen="planner"><b>🗓️</b><small>Plan</small></button><button class="tab" data-screen="goals"><b>🎯</b><small>Goals</small></button><button class="tab" data-screen="performance"><b>📈</b><small>Analyze</small></button><button class="tab" data-screen="profile"><b>👤</b><small>Profile</small></button><button class="tab" data-screen="coach"><b>🧠</b><small>Coach</small></button></nav>
 <div class="modal" id="intervalModal"><div class="sheet"><div class="sheet-head"><h2>Change intervals</h2><button class="close" id="closeIntervals">✕</button></div><p>Your time, distance and completed cycles stay unchanged.</p><div class="sheet-row"><strong>Walk</strong><div class="inputs"><label><input id="lwm" type="number"/><small>min</small></label><span>:</span><label><input id="lws" type="number"/><small>sec</small></label></div></div><div class="sheet-row"><strong>Run</strong><div class="inputs"><label><input id="lrm" type="number"/><small>min</small></label><span>:</span><label><input id="lrs" type="number"/><small>sec</small></label></div></div><label class="apply"><input id="applyNow" type="checkbox"/> Apply immediately to current interval</label><button class="primary" id="applyIntervals">Apply changes</button></div></div>
 <div class="modal" id="settingsModal"><div class="settings-sheet"><div class="sheet-head"><h2>Settings</h2><button class="close" id="closeSettings">✕</button></div><label class="setting"><div><strong>GPS tracking</strong><small>Route, distance and navigation</small></div><input checked="" id="gpsToggle" type="checkbox"/></label><div class="divider"></div><label class="setting"><div><strong>Weight</strong><small>Calories and BMI</small></div><div class="weight"><input id="weight" type="number" value="75"/>kg</div></label><div class="divider"></div><label class="setting"><div><strong>Height</strong><small>Used for BMI calculation</small></div><div class="weight"><input id="height" type="number" value="175"/>cm</div></label><div class="divider"></div><label class="setting"><div><strong>Weekly active goal</strong><small>Recommended target you control</small></div><div class="weight"><input id="weeklyGoal" type="number" value="150"/>min</div></label></div></div>
 
