@@ -16,3 +16,28 @@
 .engine-form-note{display:flex;align-items:flex-start;gap:11px;margin-top:14px;padding:12px 14px;border-radius:14px;background:#ecfaf5;color:#285f50}.engine-form-note span{width:25px;height:25px;border-radius:9px;background:#d4f4e8;display:grid;place-items:center;font-weight:900}.engine-form-note strong{display:block;font-size:12px}.engine-form-note small{display:block;margin-top:3px;font-size:10px;color:#578071;line-height:1.4}
 @keyframes musclePulse{50%{transform:scale(1.12);filter:brightness(1.15)}}
 @media(max-width:640px){.premium-engine{min-height:455px}.engine-stage{height:320px}.engine-poster{object-fit:cover}.engine-controls-v1 .speed-group{margin-left:0}.engine-alignment{left:22%;right:23%;top:43%}}
+
+
+/* E1.1 visible motion fallback — works even when external Lottie is unavailable */
+.engine-poster{
+  transform-origin:31% 77%;
+  animation:pushupMotion var(--engine-speed,16s) ease-in-out infinite;
+  will-change:transform,filter;
+}
+@keyframes pushupMotion{
+  0%,10%{transform:translate3d(0,0,0) rotate(0deg) scale(1);filter:saturate(.98) contrast(1.02)}
+  22%{transform:translate3d(0,8px,0) rotate(.15deg) scale(1.003)}
+  38%,48%{transform:translate3d(0,29px,0) rotate(.45deg) scale(1.008);filter:saturate(1.03) contrast(1.04)}
+  62%{transform:translate3d(0,22px,0) rotate(.32deg) scale(1.006)}
+  82%,92%,100%{transform:translate3d(0,0,0) rotate(0deg) scale(1);filter:saturate(.98) contrast(1.02)}
+}
+.premium-engine::after{
+  content:"MOVEMENT ACTIVE";
+  position:absolute;top:16px;right:16px;z-index:10;
+  padding:8px 11px;border-radius:999px;
+  background:#e9fbf4;color:#17875f;border:1px solid #c9f1e2;
+  font-size:9px;font-weight:900;letter-spacing:.1em;
+}
+@media(prefers-reduced-motion:reduce){
+  .engine-poster{animation-duration:24s}
+}

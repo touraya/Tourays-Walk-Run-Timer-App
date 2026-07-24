@@ -31,7 +31,7 @@
   function mount(){
     const demo=$('#demo'); if(!demo||!isPush()) return;
     if($('#premiumExerciseEngine')) return;
-    demo.innerHTML=markup(); demo.classList.add('engine-host');
+    demo.innerHTML=markup(); demo.classList.add('engine-host'); $('#premiumExerciseEngine').style.setProperty('--engine-speed','16s');
     if(window.lottie){
       anim=window.lottie.loadAnimation({container:$('#pushupLottieGuide'),renderer:'svg',loop:true,autoplay:true,path:'pushup-guide.json'});
       anim.setSpeed(speed);
@@ -39,11 +39,11 @@
     bind(); start=performance.now()-elapsed*1000/speed; tick();
   }
   function bind(){
-    $('#enginePlay').onclick=()=>{playing=!playing;$('#enginePlay').textContent=playing?'Ⅱ':'▶';$('#enginePlay').setAttribute('aria-label',playing?'Pause':'Play'); if(anim) playing?anim.play():anim.pause(); if(playing) start=performance.now()-elapsed*1000/speed};
-    $('#engineReplay').onclick=()=>{elapsed=0;start=performance.now();playing=true;$('#enginePlay').textContent='Ⅱ';if(anim){anim.goToAndPlay(0,true)}};
+    $('#enginePlay').onclick=()=>{playing=!playing;$('#enginePlay').textContent=playing?'Ⅱ':'▶';$('#enginePlay').setAttribute('aria-label',playing?'Pause':'Play'); if(anim) playing?anim.play():anim.pause(); const poster=$('.engine-poster'); if(poster) poster.style.animationPlayState=playing?'running':'paused'; if(playing) start=performance.now()-elapsed*1000/speed};
+    $('#engineReplay').onclick=()=>{elapsed=0;start=performance.now();playing=true;$('#enginePlay').textContent='Ⅱ';if(anim){anim.goToAndPlay(0,true)} const poster=$('.engine-poster'); if(poster){poster.style.animation='none'; void poster.offsetWidth; poster.style.animation='pushupMotion var(--engine-speed,16s) ease-in-out infinite'; poster.style.animationPlayState='running'}};
     $('#engineMuscles').onclick=e=>{e.currentTarget.classList.toggle('active');$('#premiumExerciseEngine').classList.toggle('muscles-on')};
     $('#engineForm').onclick=e=>{e.currentTarget.classList.toggle('active');$('.engine-alignment').style.opacity=e.currentTarget.classList.contains('active')?'1':'0'};
-    document.querySelectorAll('[data-engine-speed]').forEach(b=>b.onclick=()=>{speed=Number(b.dataset.engineSpeed);document.querySelectorAll('[data-engine-speed]').forEach(x=>x.classList.toggle('active',x===b));start=performance.now()-elapsed*1000/speed;if(anim)anim.setSpeed(speed)});
+    document.querySelectorAll('[data-engine-speed]').forEach(b=>b.onclick=()=>{speed=Number(b.dataset.engineSpeed);document.querySelectorAll('[data-engine-speed]').forEach(x=>x.classList.toggle('active',x===b));start=performance.now()-elapsed*1000/speed;if(anim)anim.setSpeed(speed); const engine=$('#premiumExerciseEngine'); if(engine) engine.style.setProperty('--engine-speed',(16/speed)+'s')});
     $('#engineTimeline').onclick=e=>{const r=e.currentTarget.getBoundingClientRect();elapsed=Math.max(0,Math.min(TOTAL,(e.clientX-r.left)/r.width*TOTAL));start=performance.now()-elapsed*1000/speed;if(anim)anim.goToAndStop((elapsed/TOTAL)*anim.totalFrames,true)};
   }
   function tick(now=performance.now()){
