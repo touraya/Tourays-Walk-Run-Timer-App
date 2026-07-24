@@ -4,8 +4,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-<meta content="#08111f" name="theme-color"/>
-<title>Tourays Fitness V7 · Build 11</title>
+<meta content="#F5F7FC" name="theme-color"/>
+<title>Tourays Fitness V8 · Build 1</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="shell">
-<header><div class="brand"><small>TOURAYS FITNESS · V7</small><h1>Train your way</h1></div><div class="head-actions"><button class="icon-btn" id="settingsBtn">⚙️</button><button class="icon-btn" id="soundBtn">🔊</button></div></header>
+<header><div class="brand"><small>TOURAYS FITNESS · V8</small><h1>Train your way</h1></div><div class="head-actions"><button class="icon-btn" id="settingsBtn">⚙️</button><button class="icon-btn" id="soundBtn">🔊</button></div></header>
 <section class="screen active" id="home">
   <div class="home-intro">
     <div>
@@ -223,7 +223,15 @@
     <div class="exercise-grid" id="exerciseGrid"></div>
 
     <article class="exercise-player indoor-player">
-      <div class="demo" id="demo"><span class="demo-badge">6-second form guide</span><div class="demo-progress"><i></i></div></div>
+      <div class="demo" id="demo">
+        <span class="demo-badge">6-second form guide</span>
+        <div class="demo-progress"><i></i></div>
+      </div>
+      <div class="form-guide-grid" id="formGuideGrid">
+        <article><span>1</span><div><strong>Start position</strong><small id="formStart">Set your body correctly.</small></div></article>
+        <article><span>2</span><div><strong>Movement</strong><small id="formMove">Move with control.</small></div></article>
+        <article><span>3</span><div><strong>Key focus</strong><small id="formFocus">Maintain safe alignment.</small></div></article>
+      </div>
       <div class="exercise-title"><div><h3 id="exerciseName"></h3><small id="exerciseMuscle">Full body</small></div><span id="exerciseTarget"></span></div>
       <p class="form-tip" id="exerciseTip"></p>
       <div class="indoor-settings-row">
@@ -332,7 +340,6 @@
   </div>
   <div class="history-list" id="historyList"></div>
 </section>
-</div>
 
 <section class="screen" id="coach">
   <div class="section-head coach-head">
@@ -719,6 +726,8 @@
     <button id="exportPerformanceReport"><span>📄</span><strong>Export report</strong><small>Download printable HTML</small></button>
   </div>
 </section>
+
+</div>
 
 <nav><button class="tab active" data-screen="home"><b>⌂</b><small>Home</small></button><button class="tab" data-screen="run"><b>◉</b><small>Run</small></button><button class="tab" data-screen="indoor"><b>◆</b><small>Indoor</small></button><button class="tab" data-screen="mapScreen"><b>⌖</b><small>Map</small></button><button class="tab" data-screen="health"><b>♥</b><small>Health</small></button><button class="tab" data-screen="planner"><b>🗓️</b><small>Plan</small></button><button class="tab" data-screen="goals"><b>🎯</b><small>Goals</small></button><button class="tab" data-screen="performance"><b>📈</b><small>Analyze</small></button><button class="tab" data-screen="profile"><b>👤</b><small>Profile</small></button><button class="tab" data-screen="coach"><b>🧠</b><small>Coach</small></button></nav>
 <div class="modal" id="intervalModal"><div class="sheet"><div class="sheet-head"><h2>Change intervals</h2><button class="close" id="closeIntervals">✕</button></div><p>Your time, distance and completed cycles stay unchanged.</p><div class="sheet-row"><strong>Walk</strong><div class="inputs"><label><input id="lwm" type="number"/><small>min</small></label><span>:</span><label><input id="lws" type="number"/><small>sec</small></label></div></div><div class="sheet-row"><strong>Run</strong><div class="inputs"><label><input id="lrm" type="number"/><small>min</small></label><span>:</span><label><input id="lrs" type="number"/><small>sec</small></label></div></div><label class="apply"><input id="applyNow" type="checkbox"/> Apply immediately to current interval</label><button class="primary" id="applyIntervals">Apply changes</button></div></div>

@@ -328,3 +328,264 @@ nav{overflow-x:auto;justify-content:flex-start}nav .tab{min-width:64px;flex:1}
 .performance-insights{display:grid;gap:8px}.performance-insight{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:12px;border:1px solid rgba(141,124,255,.16);border-radius:17px;background:rgba(141,124,255,.05)}.performance-insight>span{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:rgba(141,124,255,.1)}.performance-insight strong{font-size:.68rem}.performance-insight p{margin:4px 0 0;color:var(--muted);font-size:.57rem;line-height:1.42}
 .recovery-card{margin-top:10px;padding:15px;border:1px solid rgba(66,213,161,.18);border-radius:22px;background:radial-gradient(circle at 100% 0,rgba(66,213,161,.15),transparent 45%),linear-gradient(145deg,rgba(20,33,57,.98),rgba(10,22,39,.98))}.recovery-card-head{display:flex;align-items:flex-end;justify-content:space-between}.recovery-card-head h3{margin:4px 0 0;font-size:1.02rem}.recovery-card p{margin:9px 0;color:var(--muted);font-size:.61rem}.recovery-progress{height:8px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}.recovery-progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,#51a8ff,#42d5a1)}
 .performance-export-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.performance-export-grid button{min-height:98px;padding:12px;border:1px solid rgba(81,168,255,.18);border-radius:17px;background:rgba(81,168,255,.055);color:var(--text);text-align:left}.performance-export-grid span,.performance-export-grid strong,.performance-export-grid small{display:block}.performance-export-grid span{font-size:1.2rem}.performance-export-grid strong{margin-top:8px;font-size:.65rem}.performance-export-grid small{margin-top:4px;color:var(--muted);font-size:.53rem}
+
+
+/* ==================================================================
+   TOURAYS FITNESS V8 BUILD 1
+   PREMIUM LIGHT UI + LAYOUT REPAIR
+   ================================================================== */
+
+:root{
+  --bg:#F5F7FC;
+  --panel:#FFFFFF;
+  --panel2:#F0F3FA;
+  --text:#172033;
+  --muted:#69758A;
+  --accent:#7357F6;
+  --walk:#18B982;
+  --run:#FF7058;
+  --blue:#2787F5;
+  --line:rgba(31,49,79,.11);
+  --shadow:0 14px 36px rgba(41,59,93,.10);
+}
+
+html,body{
+  background:var(--bg)!important;
+  color:var(--text)!important;
+}
+
+body{
+  background:
+    radial-gradient(circle at 100% 0,rgba(115,87,246,.10),transparent 25rem),
+    radial-gradient(circle at 0 100%,rgba(39,135,245,.07),transparent 24rem),
+    var(--bg)!important;
+}
+
+.shell{
+  width:min(100%,550px);
+  min-height:100dvh;
+  margin:auto;
+  padding:max(16px,env(safe-area-inset-top)) 15px calc(96px + env(safe-area-inset-bottom));
+}
+
+header{
+  position:relative;
+  z-index:3;
+  margin-bottom:14px;
+  padding:4px 2px 10px;
+}
+
+.brand small,.section-head small{color:var(--accent)!important}
+.brand h1{color:var(--text);font-size:1.78rem}
+.icon-btn{
+  border-color:var(--line)!important;
+  background:#FFFFFF!important;
+  color:var(--text)!important;
+  box-shadow:0 8px 22px rgba(45,60,90,.08);
+}
+
+/* Every active screen now starts directly below the header. */
+.screen.active{
+  display:block!important;
+  position:relative;
+  margin:0!important;
+  padding:0 0 12px!important;
+  min-height:0!important;
+  transform:none!important;
+}
+
+.section-head{
+  margin:0 0 12px!important;
+  padding:0 2px;
+}
+
+.section-head h2{
+  margin:2px 0 0;
+  color:var(--text);
+  font-size:1.45rem;
+  letter-spacing:-.035em;
+}
+
+/* General light surfaces */
+.hero,.builder,.timer-card,.exercise-player,.map-shell,.health-hero,.health-card,
+.settings-sheet,.history-item,.coach-hero,.coach-metric,.coach-recommendation,
+.coach-insight,.coach-option,.goals-hero,.goals-summary-grid article,
+.daily-challenge-card,.weekly-challenge,.xp-card,.goal-builder-card,
+.profile-hero,.profile-stats-grid article,.profile-card,.planner-hero,
+.planner-week-nav,.planner-item,.planner-insight-card,.planner-overview-grid article,
+.performance-hero,.performance-kpi-grid article,.performance-chart-card,
+.performance-record,.performance-comparison,.performance-insight,.recovery-card{
+  background:#FFFFFF!important;
+  border-color:var(--line)!important;
+  box-shadow:var(--shadow)!important;
+  color:var(--text)!important;
+}
+
+p,small,.form-tip{color:var(--muted)}
+input,select,textarea{
+  border-color:var(--line)!important;
+  background:#F7F9FD!important;
+  color:var(--text)!important;
+}
+button{color:var(--text)}
+.primary{
+  border:0!important;
+  background:linear-gradient(135deg,#6B50ED,#9367FF)!important;
+  color:#FFFFFF!important;
+  box-shadow:0 12px 28px rgba(115,87,246,.25);
+}
+.secondary{
+  border-color:rgba(115,87,246,.17)!important;
+  background:#F0ECFF!important;
+  color:#5D46CC!important;
+}
+
+.divider{background:var(--line)!important}
+
+/* Compact, premium top cards so useful content is immediately visible. */
+.coach-hero,.goals-hero,.profile-hero,.planner-hero,.performance-hero{
+  margin-top:0!important;
+  padding:15px!important;
+  border-radius:22px!important;
+}
+
+.goals-hero,.planner-hero,.performance-hero{
+  grid-template-columns:1fr 88px!important;
+}
+.goals-hero-ring,.goals-hero-ring svg,
+.planner-week-ring,.planner-week-ring svg,
+.performance-score-ring,.performance-score-ring svg{
+  width:82px!important;
+  height:82px!important;
+}
+
+.goals-summary-grid,.profile-stats-grid,.planner-overview-grid,.performance-kpi-grid{
+  margin-top:8px!important;
+}
+
+.goals-title,.planner-title,.performance-title{
+  margin-top:15px!important;
+}
+
+/* Clear exercise guide */
+.exercise-player{
+  padding:14px!important;
+  border-radius:24px!important;
+}
+.demo{
+  min-height:305px!important;
+  border-radius:20px!important;
+  background:linear-gradient(180deg,#EEF3FF,#E6ECFA)!important;
+  border:1px solid rgba(61,87,133,.08);
+}
+.demo-badge{
+  background:#FFFFFF!important;
+  color:#5945BE!important;
+  box-shadow:0 6px 16px rgba(38,54,89,.08);
+}
+.demo-progress{background:rgba(40,57,88,.10)!important}
+.demo-progress i{background:linear-gradient(90deg,#7357F6,#28B8E9)!important}
+
+.form-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin:10px 0 13px;
+}
+.form-guide-grid article{
+  display:grid;
+  grid-template-columns:27px 1fr;
+  gap:7px;
+  min-height:78px;
+  padding:9px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#F8FAFE;
+}
+.form-guide-grid article>span{
+  display:grid;
+  place-items:center;
+  width:27px;
+  height:27px;
+  border-radius:9px;
+  background:#EEE9FF;
+  color:#654CDC;
+  font-size:.62rem;
+  font-weight:900;
+}
+.form-guide-grid strong,.form-guide-grid small{display:block}
+.form-guide-grid strong{font-size:.58rem}
+.form-guide-grid small{margin-top:3px;font-size:.49rem;line-height:1.35}
+
+.exercise-title h3,.amount strong{color:var(--text)!important}
+.indoor-settings-row label,.amount-buttons button{
+  background:#F7F9FD!important;
+  border-color:var(--line)!important;
+}
+
+/* Improve the visibility of the animated exercise figure */
+.demo svg{filter:drop-shadow(0 10px 12px rgba(38,52,82,.10))}
+.demo .body,.demo [class*="body"]{filter:saturate(1.12)}
+.demo .arrow,.demo [class*="arrow"]{filter:saturate(1.25)}
+
+/* Navigation: one clean horizontal row instead of a crowded two-row block. */
+nav{
+  left:50%!important;
+  bottom:0!important;
+  display:flex!important;
+  gap:4px;
+  width:min(100%,550px)!important;
+  padding:7px 9px calc(8px + env(safe-area-inset-bottom))!important;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scrollbar-width:none;
+  border-top:1px solid var(--line)!important;
+  background:rgba(255,255,255,.96)!important;
+  box-shadow:0 -12px 34px rgba(45,60,90,.10);
+  backdrop-filter:blur(20px);
+  transform:translateX(-50%);
+}
+nav::-webkit-scrollbar{display:none}
+.tab{
+  flex:0 0 66px;
+  min-height:55px!important;
+  border-radius:15px;
+  color:#7D899B!important;
+}
+.tab b{font-size:1rem}
+.tab small{font-size:.52rem}
+.tab.active{
+  background:#EEE9FF!important;
+  color:#6047D2!important;
+}
+.tab.active:after{display:none!important}
+
+/* Light modal surfaces */
+.modal,.planner-modal,.activity-detail-modal{
+  background:rgba(44,55,77,.34)!important;
+}
+.sheet,.summary-sheet,.settings-sheet,.planner-modal-card,.activity-detail-card{
+  background:#FFFFFF!important;
+  color:var(--text)!important;
+}
+.close,.sheet-head button,.planner-modal-head button,.activity-detail-head button{
+  background:#F2F5FA!important;
+  color:var(--text)!important;
+  border-color:var(--line)!important;
+}
+
+/* Maps remain readable while surrounding cards are light. */
+#map,.maplibregl-map,#activityDetailMap{background:#DCE7F3!important}
+
+/* Mobile refinements */
+@media(max-width:430px){
+  .shell{padding-left:12px;padding-right:12px}
+  header{margin-bottom:11px}
+  .brand h1{font-size:1.65rem}
+  .head-actions{gap:6px}
+  .icon-btn{width:40px;height:40px}
+  .section-head h2{font-size:1.33rem}
+  .form-guide-grid{grid-template-columns:1fr}
+  .form-guide-grid article{min-height:58px}
+  .demo{min-height:270px!important}
+}

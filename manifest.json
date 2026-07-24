@@ -1,12 +1,12 @@
 {
-  "name": "Tourays Fitness V7 Build 11",
-  "short_name": "Tourays V7",
-  "description": "Premium fitness tracking with Advanced Performance Analytics, recovery insights, route replay, planner, Smart Goals and AI Coach.",
+  "name": "Tourays Fitness V8 Build 1",
+  "short_name": "Tourays Fitness",
+  "description": "Tourays Fitness V8 premium light UI with repaired screen layouts, clearer exercise guidance, analytics, planner and AI coaching.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#08111f",
-  "theme_color": "#08111f",
+  "background_color": "#F5F7FC",
+  "theme_color": "#F5F7FC",
   "orientation": "portrait",
   "icons": [
     {
