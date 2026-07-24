@@ -1,17 +1,20 @@
-# Tourays Fitness V7 — Build 7
+# Tourays Fitness V7 — Build 8
 
-## New: Smart Goals & Challenges
-- Weekly active-minute goal
-- Weekly workout-count goal
-- Weekly distance goal
-- Streak target
-- Combined weekly progress ring
-- Rotating daily challenges
-- Four weekly challenges
-- Fitness XP and level system
-- Adjustable custom targets
-- Smart-default goal reset
-- One-tap access to the AI Coach
-- All Build 1–6 features preserved
+## New: Profile & Data Center
+
+- Personal fitness profile
+- Display name and avatar initials
+- Age, height, weight and training level
+- Primary fitness goal linked to the AI Coach
+- All-time workout, active-time, distance and XP summary
+- Voice, vibration and countdown preferences
+- Unified weekly active-minute goal
+- Full JSON backup of Tourays Fitness data
+- Restore data from a previous backup
+- Workout-history CSV export
+- Secure local-data reset
+- Local storage size indicator
+- Privacy-first, account-free operation
+- All Build 1–7 features preserved
 
 Replace every repository file with the files in this ZIP. Fully close and reopen the installed app after publishing.
