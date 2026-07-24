@@ -959,7 +959,7 @@ E.plannerNextWeek.onclick=()=>{plannerWeekOffset++;plannerSelectedDate=isoDate(p
 E.addPlannedWorkout.onclick=openPlannerModal;E.closePlannerModal.onclick=closePlanner;E.savePlannedWorkout.onclick=savePlannerWorkout;E.exportPlannerCalendar.onclick=exportPlannerIcs;
 E.plannerModal.onclick=e=>{if(e.target===E.plannerModal)closePlanner()};
 E.saveProfile.onclick=commitProfile;E.editProfileButton.onclick=()=>E.profileName.focus();
-E.profileVoiceToggle.onchange=()=>{S.sound=E.profileVoiceToggle.checked;localStorage.setItem('touraysVoice',String(S.sound));if(E.soundBtn)E.soundBtn.textContent=S.sound?'🔊':'🔇';if(S.sound){unlockTouraysVoice();setTimeout(()=>say('Voice coach on'),80)}else window.speechSynthesis?.cancel()};
+E.profileVoiceToggle.onchange=()=>{S.sound=E.profileVoiceToggle.checked;localStorage.setItem('touraysVoice',String(S.sound));if(E.soundBtn)E.soundBtn.textContent=S.sound?'🔊':'🔇';if(S.sound){unlockTouraysVoice()}else window.speechSynthesis?.cancel()};
 E.profileVibrationToggle.onchange=()=>{localStorage.setItem('touraysVibration',E.profileVibrationToggle.checked);E.vibrationToggle.checked=E.profileVibrationToggle.checked};
 E.profileCountdownToggle.onchange=()=>{localStorage.setItem('touraysWarmup',E.profileCountdownToggle.checked);E.warmupToggle.checked=E.profileCountdownToggle.checked};
 E.profileWeeklyGoal.onchange=()=>{const g=loadSmartGoals();g.minutes=Number(E.profileWeeklyGoal.value);saveSmartGoals(g);E.weeklyGoal.value=g.minutes;localStorage.setItem('touraysWeeklyGoal',g.minutes);renderGoals();renderHealth();renderHome()};
@@ -981,7 +981,7 @@ E.runTarget.onchange=()=>localStorage.setItem('touraysRunTarget',E.runTarget.val
 E.warmupToggle.onchange=()=>localStorage.setItem('touraysWarmup',E.warmupToggle.checked);
 E.vibrationToggle.onchange=()=>localStorage.setItem('touraysVibration',E.vibrationToggle.checked);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&S.active&&!S.paused)holdWakeLock()});
-E.startRun.onclick=startRun;E.pauseRun.onclick=pauseRun;E.stopRun.onclick=stopRun;E.changeIntervals.onclick=openIntervals;E.closeIntervals.onclick=()=>E.intervalModal.classList.remove('open');E.applyIntervals.onclick=applyIntervals;E.settingsBtn.onclick=()=>E.settingsModal.classList.add('open');E.closeSettings.onclick=()=>E.settingsModal.classList.remove('open');S.sound=localStorage.getItem('touraysVoice')!=='false';E.soundBtn.textContent=S.sound?'🔊':'🔇';E.soundBtn.onclick=()=>{S.sound=!S.sound;localStorage.setItem('touraysVoice',String(S.sound));E.soundBtn.textContent=S.sound?'🔊':'🔇';if(S.sound){unlockTouraysVoice();setTimeout(()=>say('Voice coach on'),80)}else{window.speechSynthesis?.cancel();toast('Voice coach off')}};E.intervalModal.onclick=x=>{if(x.target===E.intervalModal)E.intervalModal.classList.remove('open')};E.settingsModal.onclick=x=>{if(x.target===E.settingsModal)E.settingsModal.classList.remove('open')};
+E.startRun.onclick=startRun;E.pauseRun.onclick=pauseRun;E.stopRun.onclick=stopRun;E.changeIntervals.onclick=openIntervals;E.closeIntervals.onclick=()=>E.intervalModal.classList.remove('open');E.applyIntervals.onclick=applyIntervals;E.settingsBtn.onclick=()=>E.settingsModal.classList.add('open');E.closeSettings.onclick=()=>E.settingsModal.classList.remove('open');S.sound=localStorage.getItem('touraysVoice')!=='false';E.soundBtn.textContent=S.sound?'🔊':'🔇';E.soundBtn.onclick=()=>{S.sound=!S.sound;localStorage.setItem('touraysVoice',String(S.sound));E.soundBtn.textContent=S.sound?'🔊':'🔇';if(S.sound){unlockTouraysVoice()}else{window.speechSynthesis?.cancel()}};E.intervalModal.onclick=x=>{if(x.target===E.intervalModal)E.intervalModal.classList.remove('open')};E.settingsModal.onclick=x=>{if(x.target===E.settingsModal)E.settingsModal.classList.remove('open')};
 E.lessExercise.onclick=()=>{exerciseAmount=Math.max(1,exerciseAmount-(exercises[currentExercise].unit==='seconds'?5:1));renderExercise()};
 E.moreExercise.onclick=()=>{exerciseAmount+=exercises[currentExercise].unit==='seconds'?5:1;renderExercise()};
 E.startExercise.onclick=startExercise;
@@ -3976,7 +3976,6 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
    ========================================================= */
 (function(){
   const photo=document.getElementById('nutritionFoodPhoto');
-  const barcodePhoto=document.getElementById('nutritionBarcodePhoto');
   const preview=document.getElementById('nutritionScanPreview');
   const image=document.getElementById('nutritionScanImage');
   const status=document.getElementById('nutritionScanStatus');
@@ -4087,23 +4086,9 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     image.src=url;
     preview.hidden=false;
     status.textContent=label;
-    if(label.includes('barcode')&&'BarcodeDetector'in window){
-      try{
-        const detector=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128']});
-        const bitmap=await createImageBitmap(file);
-        const codes=await detector.detect(bitmap);
-        if(codes[0]?.rawValue){
-          barcode.value=codes[0].rawValue;
-          status.textContent=`Barcode detected: ${codes[0].rawValue}`;
-        }else status.textContent='Label photo ready — enter the barcode if needed';
-      }catch{
-        status.textContent='Label photo ready — enter the barcode if needed';
-      }
-    }
   }
 
   photo.addEventListener('change',()=>showFile(photo.files?.[0],'Food photo ready'));
-  barcodePhoto.addEventListener('change',()=>showFile(barcodePhoto.files?.[0],'Checking barcode or label…'));
   food.addEventListener('change',estimate);
   grams.addEventListener('input',estimate);
 
@@ -4128,4 +4113,142 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   });
 
   estimate();
+})();
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 23 LIVE BARCODE SCANNER
+   Native camera + in-app EAN/UPC decoder, no photo-only flow.
+   ========================================================= */
+(function(){
+  const openBtn=document.getElementById('nutritionLiveBarcode');
+  const modal=document.getElementById('nutritionBarcodeModal');
+  const closeBtn=document.getElementById('nutritionBarcodeClose');
+  const video=document.getElementById('nutritionBarcodeVideo');
+  const canvas=document.getElementById('nutritionBarcodeCanvas');
+  const hint=document.getElementById('nutritionBarcodeHint');
+  const manual=document.getElementById('nutritionBarcodeManual');
+  const useManual=document.getElementById('nutritionBarcodeManualUse');
+  const barcodeInput=document.getElementById('nutritionBarcodeValue');
+  const status=document.getElementById('nutritionScanStatus');
+  const preview=document.getElementById('nutritionScanPreview');
+  if(!openBtn||!modal||!video||!canvas||!barcodeInput)return;
+
+  let stream=null,raf=0,lastScan=0,stableCode='',stableCount=0;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const L={
+    '0001101':'0','0011001':'1','0010011':'2','0111101':'3','0100011':'4',
+    '0110001':'5','0101111':'6','0111011':'7','0110111':'8','0001011':'9'
+  };
+  const G={
+    '0100111':'0','0110011':'1','0011011':'2','0100001':'3','0011101':'4',
+    '0111001':'5','0000101':'6','0010001':'7','0001001':'8','0010111':'9'
+  };
+  const R={
+    '1110010':'0','1100110':'1','1101100':'2','1000010':'3','1011100':'4',
+    '1001110':'5','1010000':'6','1000100':'7','1001000':'8','1110100':'9'
+  };
+  const PARITY={
+    'LLLLLL':'0','LLGLGG':'1','LLGGLG':'2','LLGGGL':'3','LGLLGG':'4',
+    'LGGLLG':'5','LGGGLL':'6','LGLGLG':'7','LGLGGL':'8','LGGLGL':'9'
+  };
+
+  function checksum(code){
+    const digits=code.split('').map(Number); const check=digits.pop();
+    let sum=0,weight=3;
+    for(let i=digits.length-1;i>=0;i--){sum+=digits[i]*weight;weight=weight===3?1:3}
+    return (10-(sum%10))%10===check;
+  }
+
+  function decode95(bits){
+    if(bits.length!==95||bits.slice(0,3)!=='101'||bits.slice(45,50)!=='01010'||bits.slice(92)!=='101')return null;
+    let left='',par='';
+    for(let i=0;i<6;i++){
+      const b=bits.slice(3+i*7,10+i*7);
+      if(L[b]!=null){left+=L[b];par+='L'}else if(G[b]!=null){left+=G[b];par+='G'}else return null;
+    }
+    let right='';
+    for(let i=0;i<6;i++){const b=bits.slice(50+i*7,57+i*7);if(R[b]==null)return null;right+=R[b]}
+    const first=PARITY[par]; if(first==null)return null;
+    const code=first+left+right;
+    return checksum(code)?code:null;
+  }
+
+  function findEAN(binary){
+    // Try many possible 95-module windows and module widths.
+    const n=binary.length;
+    for(let module=1.2;module<=Math.min(8,n/95);module+=0.08){
+      const width=module*95;
+      for(let start=0;start+width<n;start+=Math.max(1,module*.45)){
+        let bits='';
+        for(let m=0;m<95;m++){
+          const x=Math.min(n-1,Math.round(start+(m+.5)*module)); bits+=binary[x]?'1':'0';
+        }
+        const code=decode95(bits); if(code)return code;
+      }
+    }
+    return null;
+  }
+
+  function scanLine(data,w,y,threshold){
+    const line=new Uint8Array(w);
+    for(let x=0;x<w;x++){
+      const i=(y*w+x)*4; const gray=.299*data[i]+.587*data[i+1]+.114*data[i+2];
+      line[x]=gray<threshold?1:0;
+    }
+    return findEAN(line)||findEAN(Uint8Array.from(line,v=>v?0:1));
+  }
+
+  function decodeFrame(){
+    if(video.readyState<2)return null;
+    const vw=video.videoWidth,vh=video.videoHeight;if(!vw||!vh)return null;
+    const cropW=Math.floor(vw*.92),cropH=Math.floor(vh*.34),sx=Math.floor((vw-cropW)/2),sy=Math.floor((vh-cropH)/2);
+    canvas.width=Math.min(900,cropW);canvas.height=Math.max(100,Math.round(cropH*canvas.width/cropW));
+    ctx.drawImage(video,sx,sy,cropW,cropH,0,0,canvas.width,canvas.height);
+    const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+    const ys=[.35,.42,.5,.58,.65].map(v=>Math.floor(canvas.height*v));
+    for(const threshold of [90,110,130,150,170,190])for(const y of ys){const code=scanLine(img.data,canvas.width,y,threshold);if(code)return code}
+    return null;
+  }
+
+  function accepted(code){
+    if(code===stableCode)stableCount++;else{stableCode=code;stableCount=1}
+    if(stableCount<2)return;
+    barcodeInput.value=code;manual.value=code;
+    if(status)status.textContent='Barcode detected: '+code;
+    if(preview)preview.hidden=false;
+    navigator.vibrate?.(120);
+    stop();
+  }
+
+  function loop(t){
+    if(!stream)return;
+    if(t-lastScan>130){lastScan=t;const code=decodeFrame();if(code)accepted(code)}
+    raf=requestAnimationFrame(loop);
+  }
+
+  async function start(){
+    modal.hidden=false;modal.setAttribute('aria-hidden','false');hint.textContent='Starting camera…';
+    try{
+      stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
+      video.srcObject=stream;await video.play();hint.textContent='Hold the barcode steady inside the frame.';raf=requestAnimationFrame(loop);
+    }catch(err){
+      hint.textContent='Camera permission is required. You can enter the barcode manually below.';
+    }
+  }
+  function stop(){
+    cancelAnimationFrame(raf);raf=0;
+    if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
+    video.srcObject=null;modal.hidden=true;modal.setAttribute('aria-hidden','true');
+  }
+  function useCode(){
+    const code=(manual.value||'').replace(/\D/g,'');
+    if(code.length<8){hint.textContent='Enter a valid 8–14 digit barcode.';return}
+    barcodeInput.value=code;if(status)status.textContent='Barcode entered: '+code;if(preview)preview.hidden=false;stop();
+  }
+  openBtn.addEventListener('click',start);
+  closeBtn.addEventListener('click',stop);
+  useManual.addEventListener('click',useCode);
+  modal.addEventListener('click',e=>{if(e.target===modal)stop()});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&stream)stop()});
 })();
