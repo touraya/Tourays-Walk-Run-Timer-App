@@ -4297,7 +4297,7 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   const barcodeInput=document.getElementById('nutritionBarcodeValue');
   const status=document.getElementById('nutritionScanStatus');
   const preview=document.getElementById('nutritionScanPreview');
-  if(!openBtn||!modal||!video||!canvas||!barcodeInput)return;
+  if((!openBtn&&!quickOpenBtn)||!modal||!closeBtn||!video||!canvas||!hint||!manual||!useManual||!barcodeInput)return;
 
   let stream=null,raf=0,lastScan=0,stableCode='',stableCount=0,nativeDetector=null,zxingReader=null,zxingControls=null;
   const ctx=canvas.getContext('2d',{willReadFrequently:true});
@@ -4525,7 +4525,7 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     if(stream)return;
     start();
   }
-  openBtn.addEventListener('click',handleOpen);
+  openBtn?.addEventListener('click',handleOpen);
   quickOpenBtn?.addEventListener('click',handleOpen);
   closeBtn.addEventListener('click',stop);
   useManual.addEventListener('click',useCode);
