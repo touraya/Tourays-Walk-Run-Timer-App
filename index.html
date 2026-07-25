@@ -19,8 +19,8 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10450" rel="stylesheet"/>
-<meta content="V10-Stage31" name="tf-build"/>
+<link href="style-v8-5-2.css?v=10460" rel="stylesheet"/>
+<meta content="V10-Stage46" name="tf-build"/>
 </head>
 <body>
 <div class="network-status" hidden="" id="networkStatus">
@@ -304,14 +304,34 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <span class="indoor-level" id="indoorLevel">Beginner</span>
 </div>
 <div id="indoorBrowse">
-<article class="indoor-hero">
-<div>
-<small>GUIDED WORKOUTS</small>
-<h3>Choose a plan or one exercise</h3>
-<p>Follow timed sets, rest periods and form guidance directly inside the app.</p>
+<section class="workout-dashboard-v46" aria-label="Workout dashboard">
+<article class="workout-hero-v46">
+<div class="workout-hero-copy-v46">
+<span class="workout-kicker-v46">TODAY'S TRAINING</span>
+<h3 id="workoutGreetingV46">Ready to move?</h3>
+<p id="workoutRecommendationV46">Start with a guided workout and build momentum one session at a time.</p>
+<div class="workout-hero-actions-v46">
+<button class="workout-start-v46" id="workoutStartV46" type="button"><span>Start workout</span><b>▶</b></button>
+<button class="workout-progress-v46" data-go="health" type="button">View progress</button>
 </div>
-<span>💪</span>
+</div>
+<div class="workout-ring-v46" aria-label="Weekly workout progress">
+<svg viewBox="0 0 120 120"><circle class="workout-ring-bg-v46" cx="60" cy="60" r="48"></circle><circle class="workout-ring-progress-v46" cx="60" cy="60" r="48" id="workoutRingV46"></circle></svg>
+<div><strong id="workoutRingValueV46">0%</strong><small>weekly goal</small></div>
+</div>
 </article>
+<div class="workout-kpi-grid-v46">
+<article><span>🔥</span><div><small>CALORIES TODAY</small><strong id="workoutCaloriesV46">0 kcal</strong></div></article>
+<article><span>⏱</span><div><small>THIS WEEK</small><strong id="workoutMinutesV46">0 min</strong></div></article>
+<article><span>✓</span><div><small>WORKOUTS</small><strong id="workoutCountV46">0 completed</strong></div></article>
+<article><span>⚡</span><div><small>STREAK</small><strong id="workoutStreakV46">0 days</strong></div></article>
+</div>
+<article class="workout-last-v46">
+<div class="workout-last-icon-v46">↻</div>
+<div><small>LAST COMPLETED WORKOUT</small><strong id="workoutLastTitleV46">No workouts yet</strong><p id="workoutLastMetaV46">Your latest session will appear here.</p></div>
+<button id="workoutRepeatV46" type="button">Repeat</button>
+</article>
+</section>
 <div class="indoor-title-row">
 <div><small>QUICK WORKOUTS</small><h3>Ready-made plans</h3></div>
 <span>5–12 min</span>
@@ -1912,7 +1932,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10450"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10460"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2737,5 +2757,40 @@ if ('serviceWorker' in navigator) {
   else initScanner();
 })();
 </script>
-<script src="navigation-v20.js?v=10450"></script></body>
+
+<script id="tourays-stage46-workout-dashboard">
+(function(){
+  function safeHistory(){
+    try{return JSON.parse(localStorage.getItem('touraysHealthHistory')||localStorage.getItem('touraysHistory')||'[]')||[]}catch(_e){return []}
+  }
+  function value(item,keys){for(var i=0;i<keys.length;i++){var n=Number(item&&item[keys[i]]);if(Number.isFinite(n))return n}return 0}
+  function when(item){var raw=item&&(item.date||item.createdAt||item.timestamp||item.time);var d=new Date(raw||0);return Number.isNaN(d.getTime())?new Date(0):d}
+  function update(){
+    var h=safeHistory().slice().sort(function(a,b){return when(b)-when(a)}), now=new Date(), start=new Date(now);
+    start.setHours(0,0,0,0); start.setDate(start.getDate()-((start.getDay()+6)%7));
+    var todayStart=new Date(now);todayStart.setHours(0,0,0,0);
+    var week=h.filter(function(x){return when(x)>=start});
+    var today=h.filter(function(x){return when(x)>=todayStart});
+    var mins=Math.round(week.reduce(function(a,x){return a+value(x,['minutes','durationMin','durationMinutes'])+(value(x,['duration','elapsed'])>300?value(x,['duration','elapsed'])/60:0)},0));
+    var calories=Math.round(today.reduce(function(a,x){return a+value(x,['calories','kcal','caloriesBurned'])},0));
+    var goal=150; try{var g=JSON.parse(localStorage.getItem('touraysSmartGoals')||'{}');goal=Number(g.minutes)||150}catch(_e){}
+    var pct=Math.max(0,Math.min(100,Math.round(mins/goal*100)));
+    var dates={};h.forEach(function(x){var d=when(x);if(d.getTime())dates[d.toISOString().slice(0,10)]=1});
+    var streak=0,cursor=new Date(todayStart);for(var i=0;i<365;i++){var key=cursor.toISOString().slice(0,10);if(dates[key]){streak++;cursor.setDate(cursor.getDate()-1)}else if(i===0){cursor.setDate(cursor.getDate()-1)}else break}
+    var ring=document.getElementById('workoutRingV46');if(ring){ring.style.strokeDasharray='301.6';ring.style.strokeDashoffset=String(301.6*(1-pct/100))}
+    var set=function(id,text){var e=document.getElementById(id);if(e)e.textContent=text};
+    set('workoutRingValueV46',pct+'%');set('workoutMinutesV46',mins+' min');set('workoutCaloriesV46',calories+' kcal');set('workoutCountV46',week.length+' completed');set('workoutStreakV46',streak+' day'+(streak===1?'':'s'));
+    var last=h[0];if(last){var title=last.title||last.name||last.type||'Completed workout';var dur=Math.round(value(last,['minutes','durationMin','durationMinutes'])||(value(last,['duration','elapsed'])>300?value(last,['duration','elapsed'])/60:0));set('workoutLastTitleV46',title);set('workoutLastMetaV46',(dur?dur+' min · ':'')+when(last).toLocaleDateString(undefined,{month:'short',day:'numeric'}));}
+    var hour=now.getHours();set('workoutGreetingV46',hour<12?'Start your morning strong':hour<18?'Keep your momentum going':'Finish the day strong');
+    set('workoutRecommendationV46',week.length?'You have completed '+week.length+' workout'+(week.length===1?'':'s')+' this week. Choose a plan that matches your energy.':'A short guided workout is a great place to begin today.');
+  }
+  function init(){
+    var start=document.getElementById('workoutStartV46');if(start)start.onclick=function(){var b=document.getElementById('startPlan');if(b)b.click()};
+    var repeat=document.getElementById('workoutRepeatV46');if(repeat)repeat.onclick=function(){var b=document.getElementById('startPlan');if(b)b.click()};
+    update();setTimeout(update,500);document.addEventListener('visibilitychange',function(){if(!document.hidden)update()});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<script src="navigation-v20.js?v=10460"></script></body>
 </html>
