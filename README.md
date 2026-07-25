@@ -1,1 +1,1 @@
-Tourays Fitness V10 Core — Stage 31 Premium Nutrition Dashboard. Build 10310. No stage/version label is visible inside the app.
+Tourays Fitness V10 Core — Stage 32 Premium Scan Results. Build 10320. The food review screen was visually refined without changing scanner or logging logic. No stage/version label is visible inside the app.

@@ -5626,3 +5626,57 @@ body.barcode-scan-success .barcode-scan-frame{
  #nutritionScreen .nutrition-calorie-copy{width:100%}
  #nutritionScreen .nutrition-water-card{grid-template-columns:1fr!important}
 }
+
+
+/* ================================================================
+   STAGE 32 — PREMIUM SCAN RESULTS
+   Presentation-only refinement of the existing food review modal.
+   No scanner, database or nutrition calculation logic changed.
+   ================================================================ */
+#nutritionFoodModal{align-items:flex-end!important;padding:0!important;background:rgba(18,13,31,.42)!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#nutritionFoodModal .planner-modal-backdrop{background:transparent!important}
+#nutritionFoodModal .planner-modal-card{width:min(680px,100%)!important;max-width:680px!important;max-height:min(92dvh,920px)!important;margin:0 auto!important;border-radius:32px 32px 0 0!important;padding:18px 20px max(22px,env(safe-area-inset-bottom))!important;background:linear-gradient(180deg,#fff 0%,#fbfaff 100%)!important;box-shadow:0 -24px 70px rgba(15,10,28,.28)!important;overflow:auto!important}
+#nutritionFoodModal .planner-modal-card>header{position:sticky;top:-18px;z-index:8;margin:-18px -20px 12px;padding:17px 20px 13px;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(36,27,61,.07)}
+#nutritionFoodModal .planner-modal-card>header .eyebrow{color:#7148e8;font-size:.62rem;letter-spacing:.15em}
+#nutritionFoodModal .planner-modal-card>header h2{font-size:1.45rem;letter-spacing:-.035em;margin-top:2px}
+#nutritionFoodModal .planner-close-btn{width:42px;height:42px;border-radius:14px;background:#f3effd;color:#5f3dcc;border:1px solid rgba(111,72,232,.11)}
+#nutritionFoodModal .nutrition-food-premium{position:relative;overflow:hidden;gap:18px;padding:20px;margin:0 0 16px;border-radius:28px;background:radial-gradient(circle at 100% 0,rgba(145,99,255,.22),transparent 34%),linear-gradient(145deg,#211832 0%,#3d2865 55%,#6842bd 100%);border:0;box-shadow:0 22px 50px rgba(46,28,88,.24)}
+#nutritionFoodModal .nutrition-food-premium:before{content:"SCAN RESULT";position:absolute;top:14px;right:16px;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.82);font-size:.53rem;font-weight:900;letter-spacing:.13em}
+#nutritionFoodModal .nutrition-food-premium-top{grid-template-columns:92px minmax(0,1fr) 44px;gap:16px;padding-top:10px}
+#nutritionFoodModal .nutrition-food-product-visual{width:92px;height:92px;border-radius:25px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);font-size:38px;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+#nutritionFoodModal .nutrition-food-product-copy h3{color:#fff;font-size:1.32rem;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+#nutritionFoodModal .nutrition-food-product-copy p{color:rgba(255,255,255,.72);font-size:.79rem}
+#nutritionFoodModal .nutrition-food-source{color:#c9b7ff}
+#nutritionFoodModal .nutrition-favorite-btn{background:rgba(255,255,255,.13);color:#fff;border-color:rgba(255,255,255,.2);box-shadow:none}
+#nutritionFoodModal .nutrition-favorite-btn.is-favorite{background:#fff;color:#6f48e8}
+#nutritionFoodModal .nutrition-food-score-row{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.13);padding:14px}
+#nutritionFoodModal .nutrition-food-score{background:conic-gradient(#65e0b2 var(--score,0%),rgba(255,255,255,.18) 0)}
+#nutritionFoodModal .nutrition-food-score:before{background:#33204f}
+#nutritionFoodModal .nutrition-food-score strong{color:#fff}
+#nutritionFoodModal .nutrition-food-score span{color:rgba(255,255,255,.65)}
+#nutritionFoodModal .nutrition-food-score-row>div:last-child strong{color:#fff}
+#nutritionFoodModal .nutrition-food-score-row>div:last-child small{color:rgba(255,255,255,.7)}
+#nutritionFoodModal .nutrition-food-live-macros{gap:9px}
+#nutritionFoodModal .nutrition-food-live-macros>div{padding:13px 7px;border-radius:18px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.12)}
+#nutritionFoodModal .nutrition-food-live-macros span,#nutritionFoodModal .nutrition-food-live-macros small{color:rgba(255,255,255,.67)}
+#nutritionFoodModal .nutrition-food-live-macros strong{color:#fff;font-size:1.22rem}
+#nutritionFoodModal .nutrition-meal-shortcuts{gap:8px}
+#nutritionFoodModal .nutrition-meal-shortcuts button{min-height:43px;border-radius:14px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16);color:#fff}
+#nutritionFoodModal .nutrition-meal-shortcuts button.is-selected{background:#fff;color:#5f38c5;border-color:#fff;box-shadow:0 10px 22px rgba(12,6,31,.23)}
+#nutritionFoodModal label>span{font-weight:850;color:#312741}
+#nutritionFoodModal input,#nutritionFoodModal select{min-height:48px;border-radius:15px;border-color:rgba(52,39,83,.11);background:#fff}
+#nutritionFoodModal .planner-form-grid{gap:11px}
+#nutritionFoodModal .planner-save-action{position:sticky;bottom:0;z-index:7;min-height:54px;margin-top:6px;border-radius:17px;background:linear-gradient(135deg,#6842d7,#875cf0);box-shadow:0 14px 30px rgba(91,53,181,.3)}
+@media(prefers-reduced-motion:no-preference){
+  #nutritionFoodModal:not([hidden]) .planner-modal-card{animation:n32ResultUp .34s cubic-bezier(.2,.85,.3,1) both}
+  @keyframes n32ResultUp{from{transform:translateY(34px);opacity:.35}to{transform:none;opacity:1}}
+}
+@media(max-width:520px){
+  #nutritionFoodModal .planner-modal-card{max-height:94dvh!important;padding-left:14px!important;padding-right:14px!important}
+  #nutritionFoodModal .planner-modal-card>header{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}
+  #nutritionFoodModal .nutrition-food-premium{padding:16px;border-radius:24px}
+  #nutritionFoodModal .nutrition-food-premium-top{grid-template-columns:72px minmax(0,1fr) 40px;gap:11px}
+  #nutritionFoodModal .nutrition-food-product-visual{width:72px;height:72px;border-radius:21px}
+  #nutritionFoodModal .nutrition-food-live-macros{grid-template-columns:repeat(2,1fr)}
+  #nutritionFoodModal .nutrition-meal-shortcuts{grid-template-columns:repeat(2,1fr)}
+}

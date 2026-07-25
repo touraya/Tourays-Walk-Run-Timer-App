@@ -4429,7 +4429,9 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     const code=(barcode?.value||'').trim();
     const scanned=code&&name.value.includes(code);
     source.textContent=scanned?'BARCODE RESULT':(scanImage?.src?'PHOTO-ASSISTED ENTRY':'MANUAL FOOD ENTRY');
-    if(scanImage?.src){image.src=scanImage.src;image.hidden=false;fallback.hidden=true}else{image.hidden=true;fallback.hidden=false}
+    modal.classList.toggle('is-barcode-result',!!scanned);
+    modal.classList.toggle('is-photo-result',!scanned&&!!scanImage?.src);
+    if(scanImage?.src){image.src=scanImage.src;image.hidden=false;fallback.hidden=true}else{image.hidden=true;fallback.hidden=false;fallback.textContent=scanned?'▥':'🍽️'}
   }
   function renderMeal(){mealButtons.forEach(btn=>btn.classList.toggle('is-selected',btn.dataset.premiumMeal===meal.value))}
   function render(){
