@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10350" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10360" rel="stylesheet"/>
 <meta content="V10-Stage31" name="tf-build"/>
 </head>
 <body>
@@ -841,8 +841,9 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <div aria-label="Daily logging motivation" class="nutrition-stage28-streak">
 <span>🔥</span><div><strong>Today</strong><small>Keep your log moving</small></div>
 </div>
-</section><section aria-label="Nutrition quick actions" class="nutrition-quick-actions">
+</section><section aria-label="Nutrition quick actions" class="nutrition-quick-actions nutrition-quick-actions-four">
 <button id="nutritionQuickScan" type="button"><span>▥</span><div><strong>Scan</strong><small>Barcode</small></div></button>
+<button id="nutritionQuickPhoto" type="button"><span>📷</span><div><strong>Photo</strong><small>Estimate meal</small></div></button>
 <button id="nutritionQuickAdd" type="button"><span>＋</span><div><strong>Add food</strong><small>Manual entry</small></div></button>
 <button id="nutritionQuickWater" type="button"><span>💧</span><div><strong>Water</strong><small>Add 250 ml</small></div></button>
 </section><section class="nutrition-summary-grid">
@@ -897,34 +898,23 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionWaterReset">Reset</button>
 </div>
 <div class="nutrition-water-track"><span id="nutritionWaterBar"></span></div>
-</section><section class="nutrition-scan-card" id="nutritionScanCard">
-<div class="nutrition-section-heading">
+</section><div class="planner-modal nutrition-photo-modal" hidden id="nutritionScanCard">
+<div class="planner-modal-backdrop" data-close-nutrition-photo></div>
+<section class="planner-modal-card nutrition-photo-modal-card" role="dialog" aria-modal="true" aria-labelledby="nutritionPhotoTitle">
+<header class="nutrition-photo-modal-header">
 <div>
-<span class="eyebrow">SMART FOOD LOGGING</span>
-<h2>Scan &amp; log food</h2>
-<p>Scan packaged food instantly or use a photo-assisted estimate for meals.</p>
+<span class="eyebrow">PHOTO-ASSISTED ENTRY</span>
+<h2 id="nutritionPhotoTitle">Estimate a meal from a photo</h2>
+<p>Take a meal photo, choose the closest food and confirm the portion before saving.</p>
 </div>
-<span class="nutrition-beta-chip">BETA</span>
-</div>
-<div class="nutrition-scan-grid">
-<button class="nutrition-scan-action nutrition-live-scan-action nutrition-scan-hero" id="nutritionLiveBarcode" type="button">
-<span class="nutrition-scan-hero-icon">▥</span>
-<div class="nutrition-scan-hero-copy">
-<small class="nutrition-scan-kicker">FASTEST WAY TO LOG</small>
-<strong>Scan barcode</strong>
-<small>Point your camera at the product barcode. Detection starts automatically.</small>
-</div>
-<b aria-hidden="true" class="nutrition-scan-arrow">›</b>
-</button>
-<label class="nutrition-scan-action nutrition-photo-action">
+<button class="planner-close-btn" data-close-nutrition-photo type="button" aria-label="Close photo estimator">✕</button>
+</header>
+<button id="nutritionLiveBarcode" type="button" hidden aria-hidden="true" tabindex="-1"></button>
+<label class="nutrition-scan-action nutrition-photo-action nutrition-photo-modal-picker">
 <input accept="image/*" capture="environment" id="nutritionFoodPhoto" type="file"/>
 <span>📷</span>
-<div>
-<strong>Estimate from photo</strong>
-<small>Photograph a meal, then choose the food and portion before saving.</small>
-</div>
+<div><strong>Take or choose a food photo</strong><small>The photo stays on this device and helps you review the meal entry.</small></div>
 </label>
-</div>
 <div class="nutrition-scan-preview" hidden="" id="nutritionScanPreview">
 <img alt="Selected food" id="nutritionScanImage"/>
 <div>
@@ -956,8 +946,9 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button class="nutrition-primary-btn" id="nutritionUseEstimate" type="button">Review &amp; add</button>
 </div>
 <p class="nutrition-scan-note">Photo estimates are guidance only. Packaged-food values should be confirmed from the product label before saving.</p>
-</section>
 
+</section>
+</div>
 
 
 <section class="nutrition-meals-card">
@@ -1862,7 +1853,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10350"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10360"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2364,14 +2355,26 @@ if ('serviceWorker' in navigator) {
 <script>
 (function(){
   function clickExisting(id){var el=document.getElementById(id);if(el)el.click();}
+  function setPhotoModal(open){
+    var modal=document.getElementById('nutritionScanCard');
+    if(!modal)return;
+    modal.hidden=!open;
+    document.body.classList.toggle('nutrition-photo-open',open);
+    if(open){setTimeout(function(){modal.querySelector('[data-close-nutrition-photo]')?.focus();},40);}
+  }
   document.addEventListener('click',function(e){
-    var btn=e.target.closest && e.target.closest('#nutritionQuickScan,#nutritionQuickAdd,#nutritionQuickWater');
+    var close=e.target.closest && e.target.closest('[data-close-nutrition-photo]');
+    if(close){setPhotoModal(false);return;}
+    var btn=e.target.closest && e.target.closest('#nutritionQuickScan,#nutritionQuickPhoto,#nutritionQuickAdd,#nutritionQuickWater');
     if(!btn)return;
     if(btn.id==='nutritionQuickScan')clickExisting('nutritionLiveBarcode');
+    if(btn.id==='nutritionQuickPhoto')setPhotoModal(true);
     if(btn.id==='nutritionQuickAdd')clickExisting('nutritionAddMeal');
     if(btn.id==='nutritionQuickWater'){var water=document.querySelector('[data-water-add="250"]');if(water)water.click();}
   });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setPhotoModal(false);});
+  document.getElementById('nutritionUseEstimate')?.addEventListener('click',function(){setTimeout(function(){setPhotoModal(false);},60);});
 })();
 </script>
-<script src="navigation-v20.js?v=10290"></script></body>
+<script src="navigation-v20.js?v=10360"></script></body>
 </html>

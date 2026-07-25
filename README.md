@@ -1,15 +1,5 @@
-# Tourays Fitness V10 Core — Stage 35
+# Tourays Fitness V10 — Streamlined Nutrition Actions
 
-## Nutrition Premium QA & UX Review
+The Nutrition page now presents barcode scan, photo estimate, manual food entry and water as one compact quick-action row. The repeated large food-logging section has been removed from the page and the existing photo estimator opens only when requested.
 
-This release performs a final consistency and usability pass across the existing Nutrition experience.
-
-- More consistent touch targets and focus states
-- Better narrow-phone layouts
-- Improved spacing and responsive wrapping
-- Cleaner hydration, meal, analytics and frequent-food interactions
-- Reduced-motion accessibility support
-- No visible development-stage text in the app
-- Existing scanner, diary, calculations and all non-Nutrition modules preserved
-
-Build/cache version: **10350**
+Build/cache version: **10360**

@@ -5866,3 +5866,63 @@ body.barcode-scan-success .barcode-scan-frame{
 @media(prefers-reduced-motion:reduce){
   #nutritionScreen *,#nutritionFoodModal *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* Stage 36 — streamlined nutrition actions */
+#nutritionScreen .nutrition-quick-actions-four{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+#nutritionScreen .nutrition-quick-actions-four button{
+  min-width:0;
+}
+.nutrition-photo-modal[hidden]{display:none!important}
+.nutrition-photo-modal{
+  position:fixed;
+  inset:0;
+  z-index:1600;
+  display:grid;
+  place-items:end center;
+  padding:18px;
+}
+.nutrition-photo-modal .planner-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(20,16,39,.58);
+  backdrop-filter:blur(8px);
+}
+.nutrition-photo-modal-card{
+  position:relative;
+  width:min(720px,100%);
+  max-height:min(88dvh,900px);
+  overflow:auto;
+  border-radius:28px 28px 22px 22px!important;
+  padding:22px!important;
+  box-shadow:0 28px 70px rgba(28,17,65,.32)!important;
+  animation:nutritionPhotoSheetIn .24s ease-out both;
+}
+.nutrition-photo-modal-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+.nutrition-photo-modal-header h2{margin:4px 0 6px;font-size:1.35rem;letter-spacing:-.035em}
+.nutrition-photo-modal-header p{margin:0;color:var(--muted,#697081);line-height:1.5;max-width:52ch}
+.nutrition-photo-modal-picker{margin-bottom:16px!important}
+body.nutrition-photo-open{overflow:hidden}
+@keyframes nutritionPhotoSheetIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:520px){
+  #nutritionScreen .nutrition-quick-actions-four{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+  #nutritionScreen .nutrition-quick-actions-four button{padding:10px 4px!important}
+  #nutritionScreen .nutrition-quick-actions-four button div{min-width:0}
+  #nutritionScreen .nutrition-quick-actions-four button strong{font-size:.69rem;white-space:nowrap}
+  #nutritionScreen .nutrition-quick-actions-four button small{font-size:.52rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+  .nutrition-photo-modal{padding:0;place-items:end stretch}
+  .nutrition-photo-modal-card{width:100%;max-height:91dvh;border-radius:26px 26px 0 0!important;padding:20px 18px calc(22px + env(safe-area-inset-bottom))!important}
+}
+@media(max-width:380px){
+  #nutritionScreen .nutrition-quick-actions-four{grid-template-columns:1fr 1fr}
+  #nutritionScreen .nutrition-quick-actions-four button:first-child{grid-column:auto}
+}
+@media(prefers-reduced-motion:reduce){.nutrition-photo-modal-card{animation:none!important}}
