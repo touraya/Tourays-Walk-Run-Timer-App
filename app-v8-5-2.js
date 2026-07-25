@@ -4286,6 +4286,7 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
    ========================================================= */
 (function(){
   const openBtn=document.getElementById('nutritionLiveBarcode');
+  const quickOpenBtn=document.getElementById('nutritionQuickScan');
   const modal=document.getElementById('nutritionBarcodeModal');
   const closeBtn=document.getElementById('nutritionBarcodeClose');
   const video=document.getElementById('nutritionBarcodeVideo');
@@ -4518,12 +4519,14 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     if(code.length<8){hint.textContent='Enter a valid 8–14 digit barcode.';return}
     barcodeInput.value=code;if(status)status.textContent='Barcode entered: '+code;if(preview)preview.hidden=false;stop();
   }
-  openBtn.addEventListener('click',event=>{
-    event.preventDefault();
-    event.stopPropagation();
+  function handleOpen(event){
+    event?.preventDefault();
+    event?.stopPropagation();
     if(stream)return;
     start();
-  });
+  }
+  openBtn.addEventListener('click',handleOpen);
+  quickOpenBtn?.addEventListener('click',handleOpen);
   closeBtn.addEventListener('click',stop);
   useManual.addEventListener('click',useCode);
   modal.addEventListener('click',e=>{if(e.target===modal)stop()});

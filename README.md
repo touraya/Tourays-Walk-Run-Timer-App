@@ -1,3 +1,3 @@
-# Tourays Fitness V10 Core — Stage 39
+# Tourays Fitness V10 Core — Stage 40
 
-Stage 39 adds a premium multi-food plate builder to the existing Smart Photo Entry flow. A user can now estimate a complete plate, review combined calories and macros, and send the full meal into the existing food diary.
+Nutrition Scan button hotfix. The top Scan action now opens the live barcode scanner directly on mobile devices.
