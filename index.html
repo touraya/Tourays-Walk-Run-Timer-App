@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10250" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10260" rel="stylesheet"/>
 <meta content="V10-Stage2" name="tf-build"/>
 </head>
 <body>
@@ -266,8 +266,9 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button class="primary run-pro-start" id="startRun"><span>Start workout</span><small id="runStartSummary">30 min · Balanced</small><b>▶</b></button>
 </div>
 <div hidden="" id="runActive">
-<div class="run-live-bar"><i></i><strong id="liveWorkoutStatus">WORKOUT LIVE</strong><span id="targetProgressText">Open goal</span></div>
-<article class="timer-card walking" id="timerCard">
+<div class="run-live-bar" role="status" aria-live="polite"><i></i><strong id="liveWorkoutStatus">WORKOUT LIVE</strong><span id="targetProgressText">Open goal</span></div>
+<article class="timer-card walking" id="timerCard" aria-label="Current workout interval">
+<div class="timer-overline">CURRENT INTERVAL</div>
 <div class="timer-meta"><span id="round">ROUND 1</span><span id="gpsStatus">GPS ready</span></div>
 <div class="ring-box">
 <svg viewbox="0 0 260 260">
@@ -275,9 +276,9 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <circle class="target-ring" cx="130" cy="130" id="targetRing" r="124"></circle>
 <circle class="ring-progress" cx="130" cy="130" id="ringProgress" r="112"></circle>
 </svg>
-<div class="ring-content"><div class="emoji" id="phaseEmoji">🚶</div><p id="phaseName">WALK</p><strong id="countdown">02:00</strong><small id="nextLabel">Next: Run 03:00</small></div>
+<div class="ring-content"><div class="emoji" id="phaseEmoji">🚶</div><p id="phaseName">WALK</p><strong id="countdown" aria-live="off">02:00</strong><small class="next-phase-label" id="nextLabel">Next: Run 03:00</small></div>
 </div>
-<div class="phase-progress-row"><span id="phaseProgressText">0% phase complete</span><button id="skipPhase">Skip phase ›</button></div>
+<div class="phase-progress-row"><span id="phaseProgressText">0% phase complete</span><button id="skipPhase" type="button" aria-label="Skip the current interval">Skip phase <span aria-hidden="true">›</span></button></div>
 <div class="metrics"><div><span>Total</span><strong id="totalDistance">0.00 km</strong></div><div><span>Walking</span><strong id="walkDistance">0.00 km</strong></div><div><span>Running</span><strong id="runDistance">0.00 km</strong></div></div>
 </article>
 <div class="run-pro-stats">
@@ -289,9 +290,9 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <article><span>SPEED</span><strong id="liveSpeed">--</strong><small>km / h</small></article>
 </div>
 <div class="run-pro-controls">
-<button id="changeIntervals"><span>⚙️</span><small>Intervals</small></button>
-<button class="main" id="pauseRun"><span>Ⅱ</span><small>Pause</small></button>
-<button class="finish" id="stopRun"><span>■</span><small>Finish</small></button>
+<button id="changeIntervals" type="button" aria-label="Change walk and run intervals"><span aria-hidden="true">⚙️</span><small>Intervals</small></button>
+<button class="main" id="pauseRun" type="button" aria-label="Pause workout"><span aria-hidden="true">Ⅱ</span><small>Pause</small></button>
+<button class="finish" id="stopRun" type="button" aria-label="Finish workout"><span aria-hidden="true">■</span><small>Finish</small></button>
 </div>
 <article class="run-coach-tip" id="runTip"><span>💡</span><div><strong>Recover without stopping</strong><p>Use the walk phase to steady your breathing.</p></div></article>
 </div>
@@ -1748,7 +1749,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10250"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10260"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2247,5 +2248,5 @@ if ('serviceWorker' in navigator) {
 </section>
 </div>
 </section>
-<script src="navigation-v20.js?v=10250"></script></body>
+<script src="navigation-v20.js?v=10260"></script></body>
 </html>

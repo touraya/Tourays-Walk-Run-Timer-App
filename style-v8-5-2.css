@@ -5051,3 +5051,148 @@ body.barcode-scan-success .barcode-scan-frame{
 #nutritionBarcodeHint{
   min-height:48px!important;
 }
+
+
+/* ==================================================================
+   TOURAYS FITNESS V10 CORE — STAGE 26
+   ACTIVE WALK & RUN UI/UX UPGRADE
+   Scoped to #run #runActive; no workout logic changed.
+   ================================================================== */
+#run #runActive{padding-bottom:10px}
+#run #runActive .run-live-bar{
+  position:relative;
+  min-height:46px;
+  padding:11px 13px;
+  border-color:rgba(42,184,137,.22);
+  background:linear-gradient(135deg,rgba(42,184,137,.09),rgba(255,255,255,.96));
+  box-shadow:0 8px 22px rgba(42,58,89,.05);
+}
+#run #runActive .run-live-bar strong{color:#18324a;font-size:.66rem}
+#run #runActive .run-live-bar span{color:#637287;font-size:.64rem;font-weight:750}
+#run #runActive .timer-card{
+  position:relative;
+  padding:15px 15px 16px;
+  border-radius:26px;
+  overflow:hidden;
+  box-shadow:0 14px 34px rgba(42,58,89,.09)!important;
+}
+#run #runActive .timer-card:before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto;
+  height:94px;
+  pointer-events:none;
+  opacity:.72;
+}
+#run #runActive .timer-card.walking:before{background:linear-gradient(180deg,rgba(42,184,137,.09),transparent)}
+#run #runActive .timer-card.running:before{background:linear-gradient(180deg,rgba(255,109,88,.09),transparent)}
+#run #runActive .timer-overline{
+  position:relative;
+  margin-bottom:7px;
+  color:#7a8798;
+  font-size:.55rem;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-align:center;
+}
+#run #runActive .timer-meta{position:relative;align-items:center;color:#6d7b8d;font-size:.63rem;font-weight:850;letter-spacing:.06em}
+#run #runActive .ring-box{min-height:300px}
+#run #runActive .ring-box svg{width:244px;height:244px}
+#run #runActive .ring-content{width:196px}
+#run #runActive .ring-content .emoji{font-size:3.15rem;line-height:1.05}
+#run #runActive .ring-content p{margin-top:5px;font-size:.72rem;letter-spacing:.17em}
+#run #runActive .ring-content strong{margin-top:5px;color:#17283d;font-size:3.9rem;letter-spacing:-.065em;font-variant-numeric:tabular-nums}
+#run #runActive .ring-content .next-phase-label{
+  display:block;
+  margin:10px auto 0;
+  max-width:175px;
+  padding:7px 10px;
+  border:1px solid rgba(96,111,139,.13);
+  border-radius:999px;
+  background:#f5f7fb;
+  color:#526176;
+  font-size:.63rem;
+  font-weight:800;
+  line-height:1.2;
+}
+#run #runActive .phase-progress-row{min-height:38px;margin:0 1px 12px;padding:0 3px}
+#run #runActive .phase-progress-row span{color:#66758a;font-size:.62rem;font-weight:750}
+#run #runActive .phase-progress-row button{
+  min-height:38px;
+  padding:8px 10px;
+  border:1px solid rgba(116,107,255,.16);
+  border-radius:12px;
+  background:rgba(116,107,255,.07);
+  color:#6558d8;
+  font-size:.63rem;
+}
+#run #runActive .metrics{padding-top:14px}
+#run #runActive .metrics span{font-size:.59rem;font-weight:750}
+#run #runActive .metrics strong{color:#203047;font-size:.84rem;font-variant-numeric:tabular-nums}
+#run #runActive .run-pro-stats{gap:9px;margin-top:10px}
+#run #runActive .run-pro-stats article{min-height:78px;padding:13px 14px}
+#run #runActive .run-pro-stats span{font-size:.56rem}
+#run #runActive .run-pro-stats strong{color:#1e2f46;font-size:1.12rem;font-variant-numeric:tabular-nums}
+#run #runActive .run-pro-stats small{font-size:.55rem}
+#run #runActive .run-pro-controls{
+  position:sticky;
+  bottom:calc(72px + env(safe-area-inset-bottom));
+  z-index:14;
+  grid-template-columns:minmax(68px,.82fr) minmax(116px,1.45fr) minmax(68px,.82fr);
+  gap:9px;
+  margin:14px 0;
+  padding:9px;
+  border:1px solid rgba(91,107,137,.12)!important;
+  border-radius:24px;
+  background:rgba(255,255,255,.94)!important;
+  box-shadow:0 14px 34px rgba(35,49,74,.14)!important;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+#run #runActive .run-pro-controls button{
+  min-width:0;
+  min-height:64px;
+  border-radius:18px;
+  border-color:rgba(91,107,137,.13);
+  background:#f5f7fb;
+  color:#33445c;
+  box-shadow:none;
+}
+#run #runActive .run-pro-controls button span{font-size:1.05rem;line-height:1}
+#run #runActive .run-pro-controls button small{margin-top:5px;font-size:.59rem;font-weight:850}
+#run #runActive .run-pro-controls .main{
+  min-height:70px;
+  border:0;
+  border-radius:20px;
+  color:#fff;
+  box-shadow:0 12px 26px rgba(117,107,255,.25);
+}
+#run #runActive .run-pro-controls .main span{font-size:1.25rem}
+#run #runActive .run-pro-controls .main small{font-size:.68rem}
+#run #runActive .run-pro-controls .finish{
+  border:1px solid rgba(221,76,76,.15);
+  background:#fff1f1;
+  color:#d44e4e;
+}
+#run #runActive .run-coach-tip{margin-top:2px;border-color:rgba(91,107,137,.1);background:#fff;color:#24354c;box-shadow:0 8px 20px rgba(42,58,89,.05)}
+#run #runActive .run-coach-tip p{color:#68768a;font-size:.61rem;line-height:1.45}
+#run #runActive .run-coach-tip strong{font-size:.7rem}
+#run #runActive button:focus-visible{outline:3px solid rgba(116,107,255,.35);outline-offset:2px}
+@media(max-width:390px){
+  #run #runActive .ring-box{min-height:282px}
+  #run #runActive .ring-box svg{width:226px;height:226px}
+  #run #runActive .ring-content strong{font-size:3.45rem}
+  #run #runActive .run-pro-controls{grid-template-columns:64px minmax(105px,1fr) 64px;padding:8px;gap:7px}
+  #run #runActive .run-pro-controls button{min-height:60px}
+  #run #runActive .run-pro-controls .main{min-height:66px}
+}
+@media(max-width:345px){
+  #run #runActive .run-live-bar{grid-template-columns:8px 1fr}
+  #run #runActive .run-live-bar span{grid-column:2}
+  #run #runActive .run-pro-stats{grid-template-columns:1fr 1fr}
+  #run #runActive .run-pro-controls{position:relative;bottom:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  #run #runActive .run-live-bar i{animation:none}
+  #run #runActive .ring-progress,#run #runActive .target-ring{transition:none}
+}
