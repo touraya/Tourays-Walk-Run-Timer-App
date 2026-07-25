@@ -6100,3 +6100,124 @@ body.nutrition-barcode-result-open{overflow:hidden}
 .nutrition-barcode-result-note{margin-top:16px;padding:13px 14px;border-radius:14px;background:rgba(59,130,246,.08);color:#475569;font-size:.82rem;line-height:1.5}
 .nutrition-barcode-result-actions{display:grid;grid-template-columns:1fr 1.5fr;gap:12px;margin-top:18px}.nutrition-barcode-result-actions button{min-height:50px;border-radius:15px;font-weight:850}
 @media(max-width:560px){.nutrition-barcode-result-card{width:100vw;max-height:94dvh;border-radius:26px 26px 0 0;align-self:end}.nutrition-barcode-result-header{padding:20px 18px 15px}.nutrition-barcode-result-body{padding:18px}.nutrition-barcode-product-hero{grid-template-columns:88px 1fr;padding:14px}.nutrition-barcode-product-image-wrap{height:88px}.nutrition-barcode-macro-grid{grid-template-columns:1fr 1fr}.nutrition-barcode-result-actions{grid-template-columns:1fr}.nutrition-barcode-serving-row{grid-template-columns:1fr 1fr}}
+
+/* Stage 45 — safe Nutrition modal layout
+   Keeps modal headers, close controls and actions clear of the sticky app header
+   and fixed bottom navigation on phones and tablets. */
+:root{
+  --tourays-fixed-header-space:84px;
+  --tourays-fixed-nav-space:72px;
+}
+
+#nutritionBarcodeResultModal,
+#nutritionScanCard,
+#nutritionFoodModal,
+#nutritionGoalsModal{
+  z-index:200000!important;
+  top:calc(var(--tourays-fixed-header-space) + env(safe-area-inset-top))!important;
+  right:0!important;
+  bottom:calc(var(--tourays-fixed-nav-space) + env(safe-area-inset-bottom))!important;
+  left:0!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:10px 12px!important;
+  place-items:center!important;
+  overflow:hidden!important;
+}
+
+#nutritionBarcodeResultModal .planner-modal-backdrop,
+#nutritionScanCard .planner-modal-backdrop,
+#nutritionFoodModal .planner-modal-backdrop,
+#nutritionGoalsModal .planner-modal-backdrop{
+  position:absolute!important;
+  inset:0!important;
+}
+
+#nutritionBarcodeResultModal .planner-modal-card,
+#nutritionScanCard .planner-modal-card,
+#nutritionFoodModal .planner-modal-card,
+#nutritionGoalsModal .planner-modal-card{
+  position:relative!important;
+  z-index:2!important;
+  width:min(680px,100%)!important;
+  max-height:100%!important;
+  min-height:0!important;
+  margin:auto!important;
+  overflow:auto!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+
+#nutritionBarcodeResultModal .nutrition-barcode-result-header,
+#nutritionScanCard .nutrition-photo-modal-header,
+#nutritionFoodModal .planner-modal-card>header,
+#nutritionGoalsModal .planner-modal-card>header{
+  position:sticky!important;
+  top:0!important;
+  z-index:20!important;
+  background:rgba(255,255,255,.97)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+}
+
+#nutritionBarcodeResultModal .planner-close-btn,
+#nutritionScanCard [data-close-nutrition-photo],
+#nutritionFoodModal [data-close-nutrition-food],
+#nutritionGoalsModal [data-close-nutrition-goals]{
+  position:relative!important;
+  z-index:30!important;
+  flex:0 0 auto!important;
+  min-width:44px!important;
+  min-height:44px!important;
+  touch-action:manipulation!important;
+}
+
+#nutritionBarcodeResultModal .nutrition-barcode-result-actions,
+#nutritionFoodModal .planner-modal-actions,
+#nutritionGoalsModal .planner-modal-actions{
+  position:sticky!important;
+  bottom:0!important;
+  z-index:18!important;
+  margin-left:-4px!important;
+  margin-right:-4px!important;
+  padding:12px 4px max(4px,env(safe-area-inset-bottom))!important;
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.96) 28%,#fff 100%)!important;
+}
+
+#nutritionBarcodeResultModal .nutrition-barcode-result-body{
+  padding-bottom:12px!important;
+}
+
+@media(max-width:680px){
+  :root{
+    --tourays-fixed-header-space:78px;
+    --tourays-fixed-nav-space:68px;
+  }
+  #nutritionBarcodeResultModal,
+  #nutritionScanCard,
+  #nutritionFoodModal,
+  #nutritionGoalsModal{
+    padding:8px!important;
+  }
+  #nutritionBarcodeResultModal .planner-modal-card,
+  #nutritionScanCard .planner-modal-card,
+  #nutritionFoodModal .planner-modal-card,
+  #nutritionGoalsModal .planner-modal-card{
+    width:100%!important;
+    max-height:100%!important;
+    border-radius:22px!important;
+  }
+  #nutritionBarcodeResultModal .nutrition-barcode-result-header{
+    padding:14px 14px 12px!important;
+  }
+  #nutritionBarcodeResultModal .nutrition-barcode-result-body{
+    padding:14px!important;
+  }
+}
+
+@media(orientation:landscape) and (max-height:600px){
+  :root{
+    --tourays-fixed-header-space:66px;
+    --tourays-fixed-nav-space:58px;
+  }
+}

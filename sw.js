@@ -1,10 +1,10 @@
 /* Tourays Fitness V10 Core — Stage 3 update-safe service worker */
-const CACHE_NAME = 'tourays-fitness-v10-10440';
+const CACHE_NAME = 'tourays-fitness-v10-10450';
 const APP_SHELL = [
   './',
   './index.html',
-  './style-v8-5-2.css?v=10440',
-  './app-v8-5-2.js?v=10440',
+  './style-v8-5-2.css?v=10450',
+  './app-v8-5-2.js?v=10450',
   './manifest.json',
   './icon.svg',
   './pushup-premium-master.png'
