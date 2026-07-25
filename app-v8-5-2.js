@@ -4134,8 +4134,22 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   const preview=document.getElementById('nutritionScanPreview');
   if(!openBtn||!modal||!video||!canvas||!barcodeInput)return;
 
-  let stream=null,raf=0,lastScan=0,stableCode='',stableCount=0;
+  let stream=null,raf=0,lastScan=0,stableCode='',stableCount=0,nativeDetector=null;
   const ctx=canvas.getContext('2d',{willReadFrequently:true});
+
+  async function prepareNativeDetector(){
+    if(!('BarcodeDetector' in window))return null;
+    try{
+      const supported=await BarcodeDetector.getSupportedFormats?.()||[];
+      const preferred=['ean_13','ean_8','upc_a','upc_e','code_128','code_39','itf'];
+      const formats=preferred.filter(format=>supported.includes(format));
+      nativeDetector=new BarcodeDetector(formats.length?{formats}:undefined);
+      return nativeDetector;
+    }catch{
+      nativeDetector=null;
+      return null;
+    }
+  }
   const L={
     '0001101':'0','0011001':'1','0010011':'2','0111101':'3','0100011':'4',
     '0110001':'5','0101111':'6','0111011':'7','0110111':'8','0001011':'9'
@@ -4221,32 +4235,88 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     stop();
   }
 
-  function loop(t){
+  async function loop(t){
     if(!stream)return;
-    if(t-lastScan>130){lastScan=t;const code=decodeFrame();if(code)accepted(code)}
-    raf=requestAnimationFrame(loop);
+    if(t-lastScan>150){
+      lastScan=t;
+      let code=null;
+
+      if(nativeDetector&&video.readyState>=2){
+        try{
+          const results=await nativeDetector.detect(video);
+          const raw=results?.[0]?.rawValue||'';
+          if(/^\d{8,14}$/.test(raw))code=raw;
+        }catch{}
+      }
+
+      if(!code)code=decodeFrame();
+      if(code)accepted(code);
+    }
+    if(stream)raf=requestAnimationFrame(loop);
   }
 
   async function start(){
-    modal.hidden=false;modal.setAttribute('aria-hidden','false');hint.textContent='Starting camera…';
+    if(!navigator.mediaDevices?.getUserMedia){
+      modal.hidden=false;
+      modal.setAttribute('aria-hidden','false');
+      hint.textContent='Live camera scanning is not supported in this browser.';
+      return;
+    }
+
+    modal.hidden=false;
+    modal.setAttribute('aria-hidden','false');
+    document.body.classList.add('barcode-scanner-open');
+    hint.textContent='Starting rear camera…';
+
     try{
-      stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
-      video.srcObject=stream;await video.play();hint.textContent='Hold the barcode steady inside the frame.';raf=requestAnimationFrame(loop);
+      await prepareNativeDetector();
+
+      stream=await navigator.mediaDevices.getUserMedia({
+        video:{
+          facingMode:{ideal:'environment'},
+          width:{ideal:1920,min:640},
+          height:{ideal:1080,min:480},
+          focusMode:{ideal:'continuous'}
+        },
+        audio:false
+      });
+
+      video.srcObject=stream;
+      video.setAttribute('playsinline','');
+      video.muted=true;
+      await video.play();
+
+      hint.textContent=nativeDetector
+        ? 'Live scanner ready. Hold the barcode inside the frame.'
+        : 'Live scanner ready. Hold the barcode steady inside the frame.';
+
+      raf=requestAnimationFrame(loop);
     }catch(err){
-      hint.textContent='Camera permission is required. You can enter the barcode manually below.';
+      hint.textContent=
+        err?.name==='NotAllowedError'
+          ? 'Camera access was denied. Allow Camera access for this website and try again.'
+          : 'The rear camera could not be opened. You can enter the barcode manually below.';
     }
   }
   function stop(){
     cancelAnimationFrame(raf);raf=0;
     if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}
-    video.srcObject=null;modal.hidden=true;modal.setAttribute('aria-hidden','true');
+    video.srcObject=null;
+    modal.hidden=true;
+    modal.setAttribute('aria-hidden','true');
+    document.body.classList.remove('barcode-scanner-open');
   }
   function useCode(){
     const code=(manual.value||'').replace(/\D/g,'');
     if(code.length<8){hint.textContent='Enter a valid 8–14 digit barcode.';return}
     barcodeInput.value=code;if(status)status.textContent='Barcode entered: '+code;if(preview)preview.hidden=false;stop();
   }
-  openBtn.addEventListener('click',start);
+  openBtn.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopPropagation();
+    if(stream)return;
+    start();
+  });
   closeBtn.addEventListener('click',stop);
   useManual.addEventListener('click',useCode);
   modal.addEventListener('click',e=>{if(e.target===modal)stop()});

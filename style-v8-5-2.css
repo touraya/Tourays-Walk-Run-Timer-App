@@ -4915,3 +4915,117 @@ html{
 .barcode-manual-row input{min-height:50px;border:1px solid #ddd5e8;border-radius:14px;padding:0 14px;font-size:16px}
 .barcode-manual-row button{border:0;border-radius:14px;padding:0 18px;background:linear-gradient(135deg,#6540e4,#875ff3);color:#fff;font-weight:850}
 /* Speaker toggle now changes icon silently; no large black toast is produced. */
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 24
+   REAL CAMERA BARCODE SCANNER + NUTRITION ARROW REMOVAL
+   ========================================================= */
+
+/* Nutrition already has a permanent bottom navigation route.
+   The unused back arrow is removed. */
+#nutritionBackBtn{
+  display:none!important;
+}
+
+#nutritionScreen .nutrition-header{
+  grid-template-columns:1fr!important;
+}
+
+/* Live scanner behaves as a true full-screen camera scanner on mobile. */
+body.barcode-scanner-open{
+  overflow:hidden!important;
+}
+
+.barcode-scanner-modal{
+  align-items:center!important;
+  padding:max(14px,env(safe-area-inset-top))
+          14px
+          max(14px,env(safe-area-inset-bottom))!important;
+}
+
+.barcode-scanner-sheet{
+  width:min(100%,620px)!important;
+  max-height:calc(100dvh - 28px)!important;
+  overflow:auto!important;
+}
+
+.barcode-camera-wrap{
+  position:relative!important;
+  width:100%!important;
+  aspect-ratio:3/4!important;
+  max-height:68dvh!important;
+  overflow:hidden!important;
+  border-radius:22px!important;
+  background:#08080d!important;
+}
+
+#nutritionBarcodeVideo{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  background:#08080d!important;
+}
+
+.barcode-scan-frame{
+  position:absolute!important;
+  left:7%!important;
+  right:7%!important;
+  top:37%!important;
+  height:25%!important;
+  border:3px solid rgba(255,255,255,.96)!important;
+  border-radius:18px!important;
+  box-shadow:
+    0 0 0 9999px rgba(0,0,0,.34),
+    0 0 26px rgba(107,67,232,.55)!important;
+}
+
+.barcode-scan-frame::after{
+  content:""!important;
+  position:absolute!important;
+  left:7%!important;
+  right:7%!important;
+  top:50%!important;
+  height:3px!important;
+  border-radius:999px!important;
+  background:linear-gradient(90deg,transparent,#8e67ff,transparent)!important;
+  box-shadow:0 0 13px rgba(142,103,255,.9)!important;
+  animation:touraysBarcodeLine 1.7s ease-in-out infinite!important;
+}
+
+@keyframes touraysBarcodeLine{
+  0%,100%{transform:translateY(-42px);opacity:.55}
+  50%{transform:translateY(42px);opacity:1}
+}
+
+#nutritionBarcodeHint{
+  color:#565e70!important;
+  font-weight:700!important;
+  line-height:1.45!important;
+}
+
+@media(max-width:680px){
+  .barcode-scanner-modal{
+    padding:0!important;
+    align-items:stretch!important;
+  }
+
+  .barcode-scanner-sheet{
+    width:100%!important;
+    max-width:none!important;
+    max-height:100dvh!important;
+    min-height:100dvh!important;
+    border-radius:0!important;
+    padding:
+      max(18px,env(safe-area-inset-top))
+      16px
+      max(18px,env(safe-area-inset-bottom))!important;
+  }
+
+  .barcode-camera-wrap{
+    aspect-ratio:auto!important;
+    height:58dvh!important;
+    max-height:none!important;
+  }
+}
