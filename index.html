@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10430" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10440" rel="stylesheet"/>
 <meta content="V10-Stage31" name="tf-build"/>
 </head>
 <body>
@@ -1058,6 +1058,50 @@ html.tourays-v18-loading body{visibility:hidden!important}
 </article>
 </section>
 </div>
+
+<div class="planner-modal nutrition-barcode-result-modal" hidden id="nutritionBarcodeResultModal" aria-hidden="true">
+  <div class="planner-modal-backdrop" data-close-barcode-result></div>
+  <section class="planner-modal-card nutrition-barcode-result-card" role="dialog" aria-modal="true" aria-labelledby="nutritionBarcodeResultTitle">
+    <header class="nutrition-barcode-result-header">
+      <div>
+        <span class="eyebrow">SCANNED PRODUCT</span>
+        <h2 id="nutritionBarcodeResultTitle">Product found</h2>
+        <p id="nutritionBarcodeResultSubtitle">Checking the barcode and loading nutrition details…</p>
+      </div>
+      <button class="planner-close-btn" data-close-barcode-result type="button" aria-label="Close scan result">✕</button>
+    </header>
+    <div class="nutrition-barcode-result-body">
+      <div class="nutrition-barcode-product-hero">
+        <div class="nutrition-barcode-product-image-wrap">
+          <img id="nutritionBarcodeProductImage" alt="Scanned product" hidden>
+          <span id="nutritionBarcodeProductFallback">▥</span>
+        </div>
+        <div class="nutrition-barcode-product-copy">
+          <span class="nutrition-barcode-code" id="nutritionBarcodeResultCode">—</span>
+          <h3 id="nutritionBarcodeProductName">Looking up product…</h3>
+          <p id="nutritionBarcodeProductBrand"></p>
+          <span class="nutrition-barcode-status" id="nutritionBarcodeLookupStatus">Searching product database</span>
+        </div>
+      </div>
+      <div class="nutrition-barcode-serving-row">
+        <label><span>Serving</span><input id="nutritionBarcodeServing" value="100 g" maxlength="40"></label>
+        <label><span>Meal</span><select id="nutritionBarcodeMeal"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></label>
+      </div>
+      <div class="nutrition-barcode-macro-grid">
+        <label><span>Calories</span><div><input id="nutritionBarcodeCalories" type="number" min="0" step="1"><b>kcal</b></div></label>
+        <label><span>Protein</span><div><input id="nutritionBarcodeProtein" type="number" min="0" step="0.1"><b>g</b></div></label>
+        <label><span>Carbs</span><div><input id="nutritionBarcodeCarbs" type="number" min="0" step="0.1"><b>g</b></div></label>
+        <label><span>Fat</span><div><input id="nutritionBarcodeFat" type="number" min="0" step="0.1"><b>g</b></div></label>
+      </div>
+      <div class="nutrition-barcode-result-note" id="nutritionBarcodeResultNote">Nutrition values are shown per 100 g unless the product provides a serving size. Review the values before saving.</div>
+      <div class="nutrition-barcode-result-actions">
+        <button type="button" class="nutrition-secondary-btn" id="nutritionBarcodeEditDetails">Edit details</button>
+        <button type="button" class="nutrition-primary-btn" id="nutritionBarcodeAddDiary">Add to diary</button>
+      </div>
+    </div>
+  </section>
+</div>
+
 <div class="planner-modal" hidden="" id="nutritionFoodModal">
 <div class="planner-modal-backdrop" data-close-nutrition-food=""></div>
 <form class="planner-modal-card" id="nutritionFoodForm">
@@ -1868,7 +1912,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10430"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10440"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2392,6 +2436,110 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 
+
+<script id="stage44-visible-barcode-results">
+(function(){
+  var modal=document.getElementById('nutritionBarcodeResultModal');
+  if(!modal)return;
+  var closeButtons=modal.querySelectorAll('[data-close-barcode-result]');
+  var codeEl=document.getElementById('nutritionBarcodeResultCode');
+  var title=document.getElementById('nutritionBarcodeProductName');
+  var brand=document.getElementById('nutritionBarcodeProductBrand');
+  var status=document.getElementById('nutritionBarcodeLookupStatus');
+  var subtitle=document.getElementById('nutritionBarcodeResultSubtitle');
+  var image=document.getElementById('nutritionBarcodeProductImage');
+  var fallback=document.getElementById('nutritionBarcodeProductFallback');
+  var serving=document.getElementById('nutritionBarcodeServing');
+  var meal=document.getElementById('nutritionBarcodeMeal');
+  var calories=document.getElementById('nutritionBarcodeCalories');
+  var protein=document.getElementById('nutritionBarcodeProtein');
+  var carbs=document.getElementById('nutritionBarcodeCarbs');
+  var fat=document.getElementById('nutritionBarcodeFat');
+  var note=document.getElementById('nutritionBarcodeResultNote');
+  var addBtn=document.getElementById('nutritionBarcodeAddDiary');
+  var editBtn=document.getElementById('nutritionBarcodeEditDetails');
+  var activeCode='';
+  var lookupToken=0;
+
+  function number(value){var n=Number(value);return Number.isFinite(n)&&n>=0?n:0;}
+  function first(){for(var i=0;i<arguments.length;i++){var v=arguments[i];if(v!==undefined&&v!==null&&String(v).trim()!=='')return v;}return '';}
+  function open(){modal.hidden=false;modal.setAttribute('aria-hidden','false');document.body.classList.add('nutrition-barcode-result-open');setTimeout(function(){addBtn.focus();},80);}
+  function close(){modal.hidden=true;modal.setAttribute('aria-hidden','true');document.body.classList.remove('nutrition-barcode-result-open');}
+  function reset(code){
+    activeCode=code;codeEl.textContent=code;title.textContent='Looking up product…';brand.textContent='';status.textContent='Searching product database';status.className='nutrition-barcode-status is-loading';subtitle.textContent='Barcode captured successfully. Loading the product details now…';
+    image.hidden=true;image.removeAttribute('src');fallback.hidden=false;fallback.textContent='▥';
+    serving.value='100 g';calories.value='';protein.value='';carbs.value='';fat.value='';
+    note.textContent='Nutrition values are shown per 100 g unless the product provides a serving size. Review the values before saving.';
+    addBtn.disabled=true;
+  }
+  function applyProduct(product){
+    var nutr=product.nutriments||{};
+    var productName=first(product.product_name_en,product.product_name,product.generic_name_en,product.generic_name,'Scanned product');
+    var brandName=first(product.brands,product.manufacturing_places,'');
+    var servingText=first(product.serving_size,'100 g');
+    var kcal=first(nutr['energy-kcal_serving'],nutr['energy-kcal_100g'],nutr['energy-kcal']);
+    var p=first(nutr.proteins_serving,nutr.proteins_100g,nutr.proteins);
+    var c=first(nutr.carbohydrates_serving,nutr.carbohydrates_100g,nutr.carbohydrates);
+    var f=first(nutr.fat_serving,nutr.fat_100g,nutr.fat);
+    title.textContent=productName;brand.textContent=brandName;
+    serving.value=servingText;calories.value=kcal!==''?Math.round(number(kcal)):'';protein.value=p!==''?number(p).toFixed(1):'';carbs.value=c!==''?number(c).toFixed(1):'';fat.value=f!==''?number(f).toFixed(1):'';
+    var img=first(product.image_front_small_url,product.image_front_url,product.image_url,'');
+    if(img){image.src=img;image.hidden=false;fallback.hidden=true;}else{image.hidden=true;fallback.hidden=false;fallback.textContent='🥫';}
+    status.textContent='Product details loaded';status.className='nutrition-barcode-status is-success';subtitle.textContent='Review the product, serving and nutrition values, then add it to your diary.';
+    note.textContent=(product.serving_size?'Values use the product serving where available.':'Values are based on 100 g because no serving was supplied.')+' Product databases can contain mistakes, so review before saving.';
+    addBtn.disabled=false;
+  }
+  function applyNotFound(){
+    title.textContent='Unknown product';brand.textContent='Barcode '+activeCode;status.textContent='No matching product details found';status.className='nutrition-barcode-status is-warning';subtitle.textContent='The barcode was scanned correctly. Enter the nutrition values manually or edit the product details.';fallback.textContent='?';
+    note.textContent='This barcode was not found in the public food database. You can still name the product and enter the values manually.';addBtn.disabled=false;
+  }
+  async function lookup(code,token){
+    try{
+      var response=await fetch('https://world.openfoodfacts.org/api/v2/product/'+encodeURIComponent(code)+'.json?fields=code,product_name,product_name_en,generic_name,generic_name_en,brands,serving_size,image_front_small_url,image_front_url,image_url,nutriments',{headers:{Accept:'application/json'}});
+      if(!response.ok)throw new Error('lookup failed');
+      var data=await response.json();
+      if(token!==lookupToken)return;
+      if(data&&data.status===1&&data.product)applyProduct(data.product);else applyNotFound();
+    }catch(_e){
+      if(token!==lookupToken)return;
+      title.textContent='Scanned product';brand.textContent='Barcode '+activeCode;status.textContent='Product lookup unavailable';status.className='nutrition-barcode-status is-warning';subtitle.textContent='The barcode was captured, but online product details could not be loaded.';note.textContent='Check your connection or enter the nutrition values manually. The barcode itself has been saved.';addBtn.disabled=false;
+    }
+  }
+  window.touraysShowBarcodeResult=function(code){
+    code=String(code||'').trim();if(!code)return;
+    var token=++lookupToken;reset(code);open();lookup(code,token);
+  };
+  function transferToFoodModal(){
+    var trigger=document.getElementById('nutritionAddMeal');if(trigger)trigger.click();
+    setTimeout(function(){
+      var name=document.getElementById('nutritionFoodName');
+      var servingTarget=document.getElementById('nutritionServing');
+      var mealTarget=document.getElementById('nutritionMealType');
+      var kcalTarget=document.getElementById('nutritionFoodCalories');
+      var proteinTarget=document.getElementById('nutritionFoodProtein');
+      var carbsTarget=document.getElementById('nutritionFoodCarbs');
+      var fatTarget=document.getElementById('nutritionFoodFat');
+      var barcodeTarget=document.getElementById('nutritionBarcodeValue');
+      if(name)name.value=(title.textContent&&title.textContent!=='Unknown product'&&title.textContent!=='Scanned product'?title.textContent:'Product')+' · '+activeCode;
+      if(servingTarget)servingTarget.value=serving.value||'100 g';
+      if(mealTarget)mealTarget.value=meal.value||'Breakfast';
+      if(kcalTarget)kcalTarget.value=number(calories.value);
+      if(proteinTarget)proteinTarget.value=number(protein.value);
+      if(carbsTarget)carbsTarget.value=number(carbs.value);
+      if(fatTarget)fatTarget.value=number(fat.value);
+      if(barcodeTarget)barcodeTarget.value=activeCode;
+      [name,servingTarget,mealTarget,kcalTarget,proteinTarget,carbsTarget,fatTarget].forEach(function(el){if(el)el.dispatchEvent(new Event('input',{bubbles:true}));});
+    },100);
+    close();
+  }
+  addBtn.addEventListener('click',transferToFoodModal);
+  editBtn.addEventListener('click',function(){transferToFoodModal();});
+  closeButtons.forEach(function(btn){btn.addEventListener('click',close);});
+  modal.addEventListener('click',function(e){if(e.target===modal)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!modal.hidden)close();});
+})();
+</script>
+
 <script id="stage43-fast-accurate-scanner">
 (function(){
   function initScanner(){
@@ -2460,7 +2608,10 @@ if ('serviceWorker' in navigator) {
       if(preview)preview.hidden=false;
       hint.textContent='Barcode detected.';
       if(navigator.vibrate)navigator.vibrate([70,40,110]);
-      setTimeout(closeScanner,180);
+      setTimeout(function(){
+        closeScanner();
+        if(window.touraysShowBarcodeResult)window.touraysShowBarcodeResult(code);
+      },180);
       return true;
     }
 
@@ -2586,5 +2737,5 @@ if ('serviceWorker' in navigator) {
   else initScanner();
 })();
 </script>
-<script src="navigation-v20.js?v=10430"></script></body>
+<script src="navigation-v20.js?v=10440"></script></body>
 </html>
