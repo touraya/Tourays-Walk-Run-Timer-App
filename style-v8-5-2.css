@@ -5436,3 +5436,46 @@ body.barcode-scan-success .barcode-scan-frame{
   #nutritionScreen .nutrition-quick-actions button:active{transform:scale(.97)}
   @keyframes nutritionStage28In{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 29 PREMIUM FOOD DETAILS
+   ========================================================= */
+#nutritionFoodModal .planner-modal-card{max-width:620px}
+.nutrition-food-premium{display:grid;gap:16px;padding:16px;margin:-2px 0 4px;border:1px solid rgba(111,72,232,.14);border-radius:24px;background:linear-gradient(145deg,rgba(111,72,232,.08),rgba(255,255,255,.96) 48%,rgba(40,201,154,.08));box-shadow:0 18px 44px rgba(38,31,64,.08)}
+.nutrition-food-premium-top{display:grid;grid-template-columns:70px minmax(0,1fr) 42px;gap:13px;align-items:center}
+.nutrition-food-product-visual{width:70px;height:70px;border-radius:20px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(145deg,#f2edff,#fff);border:1px solid rgba(111,72,232,.16);font-size:30px}
+.nutrition-food-product-visual img{width:100%;height:100%;object-fit:cover}
+.nutrition-food-product-copy{min-width:0}
+.nutrition-food-source{display:block;font-size:10px;font-weight:900;letter-spacing:.12em;color:#6f48e8;margin-bottom:4px}
+.nutrition-food-product-copy h3{margin:0;color:#211a35;font-size:20px;line-height:1.12;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nutrition-food-product-copy p{margin:5px 0 0;color:#746d82;font-size:13px;line-height:1.35}
+.nutrition-favorite-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(111,72,232,.18);background:#fff;color:#6f48e8;font-size:25px;line-height:1;box-shadow:0 8px 20px rgba(55,38,100,.08)}
+.nutrition-favorite-btn.is-favorite{background:#6f48e8;color:#fff}
+.nutrition-food-score-row{display:grid;grid-template-columns:68px minmax(0,1fr);align-items:center;gap:13px;padding:12px;border-radius:18px;background:rgba(255,255,255,.78);border:1px solid rgba(32,25,50,.07)}
+.nutrition-food-score{width:58px;height:58px;border-radius:50%;display:grid;place-content:center;text-align:center;background:conic-gradient(#6f48e8 var(--score,0%),#ebe7f5 0);position:relative}
+.nutrition-food-score:before{content:"";position:absolute;inset:6px;background:#fff;border-radius:50%}
+.nutrition-food-score strong,.nutrition-food-score span{position:relative;z-index:1}
+.nutrition-food-score strong{font-size:18px;color:#211a35;line-height:1}
+.nutrition-food-score span{font-size:7px;font-weight:900;letter-spacing:.08em;color:#81798f;margin-top:3px}
+.nutrition-food-score-row>div:last-child strong{display:block;color:#28203b;font-size:14px}
+.nutrition-food-score-row>div:last-child small{display:block;color:#7c748a;line-height:1.35;margin-top:3px}
+.nutrition-food-live-macros{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.nutrition-food-live-macros>div{min-width:0;padding:11px 7px;border-radius:16px;text-align:center;background:#fff;border:1px solid rgba(32,25,50,.07)}
+.nutrition-food-live-macros span,.nutrition-food-live-macros small{display:block;color:#81798f;font-size:10px}
+.nutrition-food-live-macros strong{display:inline-block;color:#261f38;font-size:18px;margin:3px 2px 0}
+.nutrition-meal-shortcuts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.nutrition-meal-shortcuts button{min-height:38px;padding:8px 6px;border-radius:12px;border:1px solid rgba(111,72,232,.16);background:#fff;color:#625b70;font-weight:800;font-size:11px}
+.nutrition-meal-shortcuts button.is-selected{background:#6f48e8;color:#fff;border-color:#6f48e8;box-shadow:0 8px 18px rgba(111,72,232,.22)}
+#nutritionFoodModal .planner-save-action{min-height:50px;border-radius:16px;font-weight:900;box-shadow:0 12px 24px rgba(111,72,232,.22)}
+@media(max-width:520px){
+  #nutritionFoodModal .planner-modal-card{border-radius:26px 26px 0 0;padding-bottom:max(18px,env(safe-area-inset-bottom))}
+  .nutrition-food-premium{padding:13px;border-radius:21px;gap:13px}
+  .nutrition-food-premium-top{grid-template-columns:58px minmax(0,1fr) 38px;gap:10px}
+  .nutrition-food-product-visual{width:58px;height:58px;border-radius:17px}
+  .nutrition-food-product-copy h3{font-size:17px}
+  .nutrition-food-live-macros{gap:5px}
+  .nutrition-food-live-macros>div{padding:9px 3px}
+  .nutrition-food-live-macros strong{font-size:16px}
+  .nutrition-meal-shortcuts{grid-template-columns:repeat(2,1fr)}
+}

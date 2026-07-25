@@ -4365,3 +4365,92 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   modal.addEventListener('click',e=>{if(e.target===modal)stop()});
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&stream)stop()});
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 29 PREMIUM FOOD DETAILS
+   UI enhancement only; existing scanner and save logic remain intact.
+   ========================================================= */
+(function(){
+  const modal=document.getElementById('nutritionFoodModal');
+  const form=document.getElementById('nutritionFoodForm');
+  const name=document.getElementById('nutritionFoodName');
+  const serving=document.getElementById('nutritionServing');
+  const meal=document.getElementById('nutritionMealType');
+  const calories=document.getElementById('nutritionFoodCalories');
+  const protein=document.getElementById('nutritionFoodProtein');
+  const carbs=document.getElementById('nutritionFoodCarbs');
+  const fat=document.getElementById('nutritionFoodFat');
+  if(!modal||!form||!name||!serving||!meal||!calories||!protein||!carbs||!fat)return;
+
+  const previewName=document.getElementById('nutritionFoodPreviewName');
+  const previewServing=document.getElementById('nutritionFoodPreviewServing');
+  const source=document.getElementById('nutritionFoodSource');
+  const image=document.getElementById('nutritionFoodProductImage');
+  const fallback=document.getElementById('nutritionFoodProductFallback');
+  const scanImage=document.getElementById('nutritionScanImage');
+  const barcode=document.getElementById('nutritionBarcodeValue');
+  const favorite=document.getElementById('nutritionFoodFavorite');
+  const score=document.getElementById('nutritionFoodScore');
+  const scoreValue=document.getElementById('nutritionFoodScoreValue');
+  const scoreLabel=document.getElementById('nutritionFoodScoreLabel');
+  const scoreNote=document.getElementById('nutritionFoodScoreNote');
+  const live={calories:document.getElementById('nutritionFoodLiveCalories'),protein:document.getElementById('nutritionFoodLiveProtein'),carbs:document.getElementById('nutritionFoodLiveCarbs'),fat:document.getElementById('nutritionFoodLiveFat')};
+  const mealButtons=[...document.querySelectorAll('[data-premium-meal]')];
+  const FAV_KEY='touraysNutritionFavoritesV29';
+
+  function num(el){return Math.max(0,Number(el.value)||0)}
+  function favoriteList(){try{return JSON.parse(localStorage.getItem(FAV_KEY)||'[]')}catch(_){return []}}
+  function normalizedName(){return name.value.trim().toLowerCase()}
+  function isFavorite(){const key=normalizedName();return !!key&&favoriteList().some(x=>x.name===key)}
+  function renderFavorite(){const on=isFavorite();favorite.classList.toggle('is-favorite',on);favorite.textContent=on?'♥':'♡';favorite.setAttribute('aria-label',on?'Remove from favorites':'Add to favorites')}
+  function balanceScore(){
+    const kcal=num(calories),p=num(protein),c=num(carbs),f=num(fat);
+    if(!kcal&&!p&&!c&&!f)return null;
+    const macroKcal=p*4+c*4+f*9;
+    const proteinShare=macroKcal?p*4/macroKcal:0;
+    const fatShare=macroKcal?f*9/macroKcal:0;
+    let value=58;
+    value+=Math.min(20,proteinShare*70);
+    if(fatShare>.45)value-=14; else if(fatShare>=.18&&fatShare<=.36)value+=8;
+    if(kcal>900)value-=12; else if(kcal>0&&kcal<=650)value+=6;
+    if(macroKcal&&Math.abs(macroKcal-kcal)/Math.max(kcal,1)>.45)value-=6;
+    return Math.max(20,Math.min(96,Math.round(value)));
+  }
+  function renderScore(){
+    const value=balanceScore();
+    if(value===null){score.style.setProperty('--score','0%');scoreValue.textContent='—';scoreLabel.textContent='Add nutrition values';scoreNote.textContent='A simple app-generated balance indicator based on the available macros.';return}
+    score.style.setProperty('--score',value+'%');scoreValue.textContent=value;
+    if(value>=80){scoreLabel.textContent='Well-balanced entry';scoreNote.textContent='Strong macro balance based on the values entered.'}
+    else if(value>=60){scoreLabel.textContent='Balanced choice';scoreNote.textContent='A reasonable macro profile for your diary.'}
+    else{scoreLabel.textContent='Review the serving';scoreNote.textContent='This entry may be calorie-dense or less balanced. Check the serving size.'}
+  }
+  function detectSource(){
+    const code=(barcode?.value||'').trim();
+    const scanned=code&&name.value.includes(code);
+    source.textContent=scanned?'BARCODE RESULT':(scanImage?.src?'PHOTO-ASSISTED ENTRY':'MANUAL FOOD ENTRY');
+    if(scanImage?.src){image.src=scanImage.src;image.hidden=false;fallback.hidden=true}else{image.hidden=true;fallback.hidden=false}
+  }
+  function renderMeal(){mealButtons.forEach(btn=>btn.classList.toggle('is-selected',btn.dataset.premiumMeal===meal.value))}
+  function render(){
+    previewName.textContent=name.value.trim()||'New food';
+    previewServing.textContent=serving.value.trim()||'Enter the serving and nutrition values below.';
+    live.calories.textContent=Math.round(num(calories));
+    live.protein.textContent=Math.round(num(protein)*10)/10;
+    live.carbs.textContent=Math.round(num(carbs)*10)/10;
+    live.fat.textContent=Math.round(num(fat)*10)/10;
+    detectSource();renderScore();renderFavorite();renderMeal();
+  }
+  [name,serving,meal,calories,protein,carbs,fat].forEach(el=>{el.addEventListener('input',render);el.addEventListener('change',render)});
+  mealButtons.forEach(btn=>btn.addEventListener('click',()=>{meal.value=btn.dataset.premiumMeal;meal.dispatchEvent(new Event('change',{bubbles:true}))}));
+  favorite.addEventListener('click',()=>{
+    const key=normalizedName();if(!key)return;
+    let list=favoriteList().filter(x=>x.name!==key);
+    if(!isFavorite())list.unshift({name:key,label:name.value.trim(),serving:serving.value.trim(),calories:num(calories),protein:num(protein),carbs:num(carbs),fat:num(fat),savedAt:Date.now()});
+    localStorage.setItem(FAV_KEY,JSON.stringify(list.slice(0,30)));renderFavorite();
+  });
+  const observer=new MutationObserver(()=>{if(!modal.hidden)setTimeout(render,100)});
+  observer.observe(modal,{attributes:true,attributeFilter:['hidden']});
+  form.addEventListener('reset',()=>setTimeout(render,0));
+  render();
+})();

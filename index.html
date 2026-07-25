@@ -15,12 +15,12 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta content="#F7F8FC" name="theme-color"/>
-<title>Tourays Fitness V10 · Stage 25</title>
+<title>Tourays Fitness V10 · Stage 29</title>
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10280" rel="stylesheet"/>
-<meta content="V10-Stage2" name="tf-build"/>
+<link href="style-v8-5-2.css?v=10290" rel="stylesheet"/>
+<meta content="V10-Stage29" name="tf-build"/>
 </head>
 <body>
 <div class="network-status" hidden="" id="networkStatus">
@@ -1004,6 +1004,42 @@ html.tourays-v18-loading body{visibility:hidden!important}
 </div>
 <button class="planner-close-btn" data-close-nutrition-food="" type="button">✕</button>
 </header>
+<section class="nutrition-food-premium" id="nutritionFoodPremium">
+  <div class="nutrition-food-premium-top">
+    <div class="nutrition-food-product-visual" id="nutritionFoodProductVisual">
+      <img alt="Scanned food preview" id="nutritionFoodProductImage" hidden/>
+      <span id="nutritionFoodProductFallback">🍽️</span>
+    </div>
+    <div class="nutrition-food-product-copy">
+      <span class="nutrition-food-source" id="nutritionFoodSource">MANUAL FOOD ENTRY</span>
+      <h3 id="nutritionFoodPreviewName">New food</h3>
+      <p id="nutritionFoodPreviewServing">Enter the serving and nutrition values below.</p>
+    </div>
+    <button aria-label="Add to favorites" class="nutrition-favorite-btn" id="nutritionFoodFavorite" type="button">♡</button>
+  </div>
+  <div class="nutrition-food-score-row">
+    <div class="nutrition-food-score" id="nutritionFoodScore">
+      <strong id="nutritionFoodScoreValue">—</strong>
+      <span>APP SCORE</span>
+    </div>
+    <div>
+      <strong id="nutritionFoodScoreLabel">Add nutrition values</strong>
+      <small id="nutritionFoodScoreNote">A simple app-generated balance indicator based on the available macros.</small>
+    </div>
+  </div>
+  <div class="nutrition-food-live-macros">
+    <div><span>Calories</span><strong id="nutritionFoodLiveCalories">0</strong><small>kcal</small></div>
+    <div><span>Protein</span><strong id="nutritionFoodLiveProtein">0</strong><small>g</small></div>
+    <div><span>Carbs</span><strong id="nutritionFoodLiveCarbs">0</strong><small>g</small></div>
+    <div><span>Fat</span><strong id="nutritionFoodLiveFat">0</strong><small>g</small></div>
+  </div>
+  <div class="nutrition-meal-shortcuts" aria-label="Choose meal">
+    <button type="button" data-premium-meal="Breakfast">Breakfast</button>
+    <button type="button" data-premium-meal="Lunch">Lunch</button>
+    <button type="button" data-premium-meal="Dinner">Dinner</button>
+    <button type="button" data-premium-meal="Snack">Snack</button>
+  </div>
+</section>
 <label>
 <span>Food name</span>
 <input id="nutritionFoodName" maxlength="60" placeholder="Chicken rice bowl" required=""/>
@@ -1768,7 +1804,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10280"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10290"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2279,5 +2315,5 @@ if ('serviceWorker' in navigator) {
   });
 })();
 </script>
-<script src="navigation-v20.js?v=10280"></script></body>
+<script src="navigation-v20.js?v=10290"></script></body>
 </html>
