@@ -5718,3 +5718,19 @@ body.barcode-scan-success .barcode-scan-frame{
  #nutritionScreen .nutrition-week-stats{gap:7px}
  #nutritionScreen .nutrition-week-stats>div{padding:11px 7px}
 }
+
+/* Stage 34 — nutrition analytics and personalization (no development label in UI) */
+.nutrition-analytics-card{margin-top:18px;padding:20px;border-radius:26px;background:linear-gradient(145deg,#fff 0%,#f8f5ff 100%);border:1px solid rgba(91,55,180,.12);box-shadow:0 18px 40px rgba(44,25,90,.09)}
+.nutrition-analytics-chip{padding:7px 11px;border-radius:999px;background:#ede7ff;color:#5937b7;font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase}
+.nutrition-analytics-chip[data-state="ready"]{background:#e7f7ef;color:#147a4d}.nutrition-analytics-chip[data-state="steady"]{background:#fff4dc;color:#9a6400}
+.nutrition-analytics-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(220px,.85fr);gap:14px;margin-top:16px}
+.nutrition-trend-panel,.nutrition-personal-panel,.nutrition-frequency-panel{border:1px solid rgba(75,48,140,.1);border-radius:20px;background:rgba(255,255,255,.86)}
+.nutrition-trend-panel{padding:16px}.nutrition-trend-panel header{display:flex;justify-content:space-between;gap:12px;align-items:end}.nutrition-trend-panel header strong{font-size:15px}.nutrition-trend-panel header small{color:#766f84;text-align:right}
+.nutrition-trend-bars{height:120px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end;margin-top:14px;padding:8px 8px 0;border-bottom:1px solid rgba(70,50,110,.12);background:linear-gradient(to top,rgba(100,72,190,.035),transparent)}
+.nutrition-trend-bars i{display:block;min-height:5px;border-radius:9px 9px 3px 3px;background:linear-gradient(180deg,#8060df,#5a36bb);box-shadow:0 8px 18px rgba(88,52,185,.16);transition:height .45s ease}
+.nutrition-trend-bars i.is-empty{background:#e7e2ef;box-shadow:none}
+.nutrition-trend-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px;color:#827b8c;font-size:10px;text-align:center}
+.nutrition-personal-panel{padding:18px;display:flex;gap:13px;align-items:flex-start;background:linear-gradient(145deg,#291c4c,#4c2f88);color:#fff}.nutrition-personal-icon{display:grid;place-items:center;min-width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.14);font-size:19px}.nutrition-personal-panel small{display:block;color:#d8cdf6;font-size:10px;font-weight:900;letter-spacing:.08em}.nutrition-personal-panel strong{display:block;margin-top:5px;font-size:17px}.nutrition-personal-panel p{margin:7px 0 0;color:#e9e1fb;line-height:1.45;font-size:13px}
+.nutrition-frequency-panel{margin-top:14px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:16px}.nutrition-frequency-panel>div:first-child strong{display:block}.nutrition-frequency-panel>div:first-child small{display:block;margin-top:3px;color:#7d7588}.nutrition-frequency-list{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}.nutrition-frequency-list button,.nutrition-frequency-list span{border:0;border-radius:999px;padding:8px 11px;background:#f0ebfb;color:#51328f;font-weight:800;font-size:11px}.nutrition-frequency-list button{cursor:pointer}.nutrition-frequency-list small{opacity:.72;margin-left:4px}.nutrition-frequency-empty{color:#80788a!important;background:#f4f2f6!important}
+@media(max-width:720px){.nutrition-analytics-card{padding:16px;border-radius:22px}.nutrition-analytics-grid{grid-template-columns:1fr}.nutrition-frequency-panel{align-items:flex-start;flex-direction:column}.nutrition-frequency-list{justify-content:flex-start}.nutrition-trend-bars{height:105px}}
+@media(prefers-reduced-motion:reduce){.nutrition-trend-bars i{transition:none}}

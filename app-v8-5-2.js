@@ -2691,6 +2691,54 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     if(refs.goalsReached) refs.goalsReached.textContent=goalsReached;
   }
 
+  function renderAnalytics(){
+    const bars=document.getElementById('nutritionTrendBars');
+    if(!bars) return;
+    const diary=loadDiary();
+    const goals=loadGoals();
+    const chip=document.getElementById('nutritionAnalyticsChip');
+    const caption=document.getElementById('nutritionTrendCaption');
+    const headline=document.getElementById('nutritionPersonalHeadline');
+    const tip=document.getElementById('nutritionPersonalTip');
+    const frequency=document.getElementById('nutritionFrequencyList');
+    const weeks=[];
+    let totalLoggedDays=0,totalCalories=0,totalProteinPct=0,totalWaterPct=0;
+    const foodCounts=new Map();
+    for(let block=3;block>=0;block--){
+      let weekCalories=0,weekDays=0;
+      for(let offset=block*7+6;offset>=block*7;offset--){
+        const d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()-offset);
+        const day=diary[localDateKey(d)]||{foods:[],water:0};
+        const sum=totals(day);
+        const hasLog=(day.foods||[]).length>0||Number(day.water||0)>0;
+        if(hasLog){
+          weekDays++; totalLoggedDays++; weekCalories+=sum.calories; totalCalories+=sum.calories;
+          totalProteinPct+=pct(sum.protein,goals.protein); totalWaterPct+=pct(day.water||0,goals.water);
+        }
+        (day.foods||[]).forEach(item=>{
+          const label=String(item.name||'').trim(); if(!label) return;
+          const key=label.toLowerCase(); const current=foodCounts.get(key)||{name:label,count:0}; current.count++; foodCounts.set(key,current);
+        });
+      }
+      weeks.push({avg:weekDays?weekCalories/weekDays:0,days:weekDays});
+    }
+    const max=Math.max(goals.calories,...weeks.map(w=>w.avg));
+    bars.innerHTML=weeks.map(w=>`<i class="${w.days?'':'is-empty'}" style="height:${w.days?Math.max(8,Math.round(w.avg/max*100)):5}%" title="${w.days?Math.round(w.avg)+' average kcal':'No entries'}"></i>`).join('');
+    if(caption) caption.textContent=totalLoggedDays?`${totalLoggedDays} logged day${totalLoggedDays===1?'':'s'} in 28 days`:'No recent entries';
+    if(chip){chip.textContent=totalLoggedDays>=10?'Personalized':totalLoggedDays>=3?'Learning':'Building';chip.dataset.state=totalLoggedDays>=10?'ready':totalLoggedDays>=3?'steady':'';}
+    const avgProtein=totalLoggedDays?totalProteinPct/totalLoggedDays:0;
+    const avgWater=totalLoggedDays?totalWaterPct/totalLoggedDays:0;
+    const avgCalories=totalLoggedDays?totalCalories/totalLoggedDays:0;
+    if(totalLoggedDays<3){headline.textContent='Log a few meals';tip.textContent='Your recommendation will become more useful as your diary grows.';}
+    else if(avgWater<55){headline.textContent='Make hydration automatic';tip.textContent='Your recent water consistency is the clearest opportunity. Use the quick-add buttons throughout the day.';}
+    else if(avgProtein<60){headline.textContent='Anchor meals with protein';tip.textContent='Your recent entries suggest protein is the easiest target to improve. Add one reliable protein source to each main meal.';}
+    else if(avgCalories>goals.calories*1.12){headline.textContent='Create a little more margin';tip.textContent='Recent logged days trend above your calorie goal. Smaller portions or lighter snacks can help without drastic restriction.';}
+    else{headline.textContent='Keep the rhythm';tip.textContent='Your recent pattern is balanced. Focus on consistency rather than making large changes.';}
+    const common=[...foodCounts.values()].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name)).slice(0,5);
+    frequency.innerHTML=common.length?common.map(item=>`<button type="button" title="Logged ${item.count} times">${escapeHtml(item.name)} <small>${item.count}×</small></button>`).join(''):'<span class="nutrition-frequency-empty">No repeated foods yet</span>';
+    frequency.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>openFoodModal()));
+  }
+
   function renderMeals(){
     const day=currentDay();
     const mealNames=['Breakfast','Lunch','Dinner','Snack'];
@@ -2743,6 +2791,7 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     updateDate();
     renderSummary();
     renderMeals();
+    renderAnalytics();
   }
 
   function openModal(modal){

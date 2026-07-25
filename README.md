@@ -1,4 +1,7 @@
-Tourays Fitness V10 Core — Stage 32 Premium Scan Results. Build 10320. The food review screen was visually refined without changing scanner or logging logic. No stage/version label is visible inside the app.
+# Tourays Fitness V10 Core — Stage 34
 
-## Stage 33 — Smart Nutrition Insights
-Adds dynamic daily nutrition signals and a compact seven-day consistency overview without changing scanner or diary logic.
+## Nutrition Analytics & Personalization
+
+This build adds a private, on-device 30-day nutrition pattern section with four-week calorie trends, frequently logged foods and a practical personalized next step based on recent calorie, protein and hydration consistency.
+
+All existing scanner, food logging, diary, goals, workout and navigation functionality is preserved. No development-stage label is visible inside the app.
