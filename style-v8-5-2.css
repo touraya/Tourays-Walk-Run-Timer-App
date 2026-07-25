@@ -5926,3 +5926,61 @@ body.nutrition-photo-open{overflow:hidden}
   #nutritionScreen .nutrition-quick-actions-four button:first-child{grid-column:auto}
 }
 @media(prefers-reduced-motion:reduce){.nutrition-photo-modal-card{animation:none!important}}
+
+/* Stage 37 — premium quick actions refinement */
+#nutritionScreen .nutrition-quick-actions-four{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:10px!important;
+  margin:14px 0 18px!important;
+}
+#nutritionScreen .nutrition-quick-actions-four button{
+  position:relative;
+  isolation:isolate;
+  min-height:88px!important;
+  padding:12px 8px!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  text-align:center!important;
+  gap:7px!important;
+  border-radius:22px!important;
+  overflow:hidden;
+  box-shadow:0 12px 28px rgba(43,31,82,.09)!important;
+}
+#nutritionScreen .nutrition-quick-actions-four button::after{
+  content:"";
+  position:absolute;
+  inset:auto -22px -28px auto;
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background:currentColor;
+  opacity:.045;
+  z-index:-1;
+}
+#nutritionScreen .nutrition-quick-actions-four button>span{
+  width:42px!important;
+  height:42px!important;
+  flex:0 0 42px!important;
+  border-radius:15px!important;
+  font-size:1.18rem!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);
+}
+#nutritionScreen .nutrition-quick-actions-four button div{align-items:center!important;min-width:0}
+#nutritionScreen .nutrition-quick-actions-four button strong{font-size:.78rem!important;line-height:1.15}
+#nutritionScreen .nutrition-quick-actions-four button small{font-size:.58rem!important;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#nutritionScreen .nutrition-quick-actions-four button:nth-child(2)>span{background:#fff0f5!important;color:#d84f83!important}
+#nutritionScreen .nutrition-quick-actions-four button:nth-child(3)>span{background:#edf8ff!important;color:#168db8!important}
+#nutritionScreen .nutrition-quick-actions-four button:nth-child(4)>span{background:#eaf9ff!important;color:#1598c6!important}
+#nutritionScreen .nutrition-quick-actions-four button:focus-visible{outline:3px solid rgba(111,72,232,.3)!important;outline-offset:3px}
+@media(max-width:520px){
+  #nutritionScreen .nutrition-quick-actions-four{gap:7px!important}
+  #nutritionScreen .nutrition-quick-actions-four button{min-height:82px!important;padding:10px 4px!important;border-radius:18px!important}
+  #nutritionScreen .nutrition-quick-actions-four button>span{width:38px!important;height:38px!important;flex-basis:38px!important;border-radius:13px!important}
+  #nutritionScreen .nutrition-quick-actions-four button strong{font-size:.69rem!important}
+  #nutritionScreen .nutrition-quick-actions-four button small{display:none!important}
+}
+@media(max-width:340px){
+  #nutritionScreen .nutrition-quick-actions-four{grid-template-columns:1fr 1fr!important}
+  #nutritionScreen .nutrition-quick-actions-four button{min-height:76px!important}
+}
