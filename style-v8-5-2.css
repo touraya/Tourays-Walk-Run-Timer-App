@@ -6010,3 +6010,16 @@ body.nutrition-photo-open{overflow:hidden}
  .nutrition-portion-presets{gap:5px}.nutrition-portion-presets button{padding:8px 3px;font-size:.68rem}
  .nutrition-photo-submit-row{display:grid!important;grid-template-columns:1fr}.nutrition-photo-submit-row .nutrition-primary-btn{width:100%}
 }
+
+
+/* Stage 39 — multi-food plate builder */
+.nutrition-plate-builder{margin-top:14px;padding-top:14px;border-top:1px solid rgba(95,78,145,.12)}
+.nutrition-plate-builder-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nutrition-plate-builder-head>div{display:grid;gap:3px}.nutrition-plate-builder-head strong{font-size:.86rem}.nutrition-plate-builder-head small{color:var(--muted,#697081);font-size:.68rem;line-height:1.35}
+#nutritionAddPlateItem{border:0;border-radius:12px;background:#eee9ff;color:#6542d9;padding:9px 11px;font-weight:850;white-space:nowrap}
+.nutrition-plate-items{display:grid;gap:8px;margin-top:10px}
+.nutrition-plate-item{display:grid;grid-template-columns:minmax(0,1fr) 110px 38px;gap:8px;align-items:center;padding:8px;border-radius:15px;background:#f8f7fc;border:1px solid rgba(95,78,145,.1)}
+.nutrition-plate-item select{min-width:0;width:100%;height:42px;border-radius:11px;border:1px solid rgba(95,78,145,.16);background:#fff;padding:0 9px;font-weight:700;color:#343143}
+.nutrition-plate-item .nutrition-grams-input{height:42px}.nutrition-plate-item .nutrition-grams-input input{min-width:0}
+.nutrition-plate-remove{width:38px;height:38px;border:0;border-radius:11px;background:#fff0f2;color:#c8495b;font-weight:900}
+@media(max-width:520px){.nutrition-plate-builder-head{align-items:flex-start}.nutrition-plate-builder-head small{max-width:28ch}.nutrition-plate-item{grid-template-columns:minmax(0,1fr) 92px 36px;gap:5px}.nutrition-plate-item select{font-size:.7rem;padding:0 6px}.nutrition-plate-remove{width:36px;height:36px}}

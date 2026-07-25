@@ -1,5 +1,3 @@
-# Tourays Fitness V10 — Streamlined Nutrition Actions
+# Tourays Fitness V10 Core — Stage 39
 
-The Nutrition page now presents barcode scan, photo estimate, manual food entry and water as one compact quick-action row. The repeated large food-logging section has been removed from the page and the existing photo estimator opens only when requested.
-
-Build/cache version: **10360**
+Stage 39 adds a premium multi-food plate builder to the existing Smart Photo Entry flow. A user can now estimate a complete plate, review combined calories and macros, and send the full meal into the existing food diary.

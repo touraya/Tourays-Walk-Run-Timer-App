@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10380" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10390" rel="stylesheet"/>
 <meta content="V10-Stage31" name="tf-build"/>
 </head>
 <body>
@@ -943,6 +943,10 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <div class="nutrition-portion-presets" aria-label="Quick portion choices">
 <button type="button" data-photo-grams="50">50 g</button><button type="button" data-photo-grams="100" class="is-active">100 g</button><button type="button" data-photo-grams="150">150 g</button><button type="button" data-photo-grams="200">200 g</button>
 </div>
+<div class="nutrition-plate-builder" id="nutritionPlateBuilder">
+<div class="nutrition-plate-builder-head"><div><span class="eyebrow">FULL PLATE</span><strong>Add more foods from the same photo</strong><small>Combine rice, protein, vegetables or sides into one meal estimate.</small></div><button type="button" id="nutritionAddPlateItem">+ Add item</button></div>
+<div class="nutrition-plate-items" id="nutritionPlateItems"></div>
+</div>
 </div>
 <div class="nutrition-estimate-result nutrition-photo-result-grid">
 <div><span>Calories</span><strong id="nutritionEstimateCalories">130 kcal</strong></div>
@@ -1864,7 +1868,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10380"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10390"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2387,5 +2391,5 @@ if ('serviceWorker' in navigator) {
   document.getElementById('nutritionUseEstimate')?.addEventListener('click',function(){setTimeout(function(){setPhotoModal(false);},60);});
 })();
 </script>
-<script src="navigation-v20.js?v=10380"></script></body>
+<script src="navigation-v20.js?v=10390"></script></body>
 </html>

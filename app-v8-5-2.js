@@ -4091,6 +4091,8 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   const recommendation=document.getElementById('nutritionPhotoRecommendation');
   const steps=[...document.querySelectorAll('.nutrition-photo-steps span')];
   const portionButtons=[...document.querySelectorAll('[data-photo-grams]')];
+  const plateItems=document.getElementById('nutritionPlateItems');
+  const addPlateItem=document.getElementById('nutritionAddPlateItem');
   if(!photo||!food||!grams||!add)return;
 
   const database={
@@ -4169,26 +4171,40 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     fat:document.getElementById('nutritionEstimateFat')
   };
 
+  function getPlateComponents(){
+    const primaryItem=database[food.value]||database.rice;
+    const primaryGrams=Math.max(1,Number(grams.value)||100);
+    const components=[{key:food.value,name:primaryItem.name,grams:primaryGrams,item:primaryItem}];
+    plateItems?.querySelectorAll('.nutrition-plate-item').forEach(row=>{
+      const select=row.querySelector('select');
+      const input=row.querySelector('input');
+      const item=database[select?.value];
+      const amount=Math.max(1,Number(input?.value)||100);
+      if(item)components.push({key:select.value,name:item.name,grams:amount,item});
+    });
+    return components;
+  }
+
   function estimate(){
-    const item=database[food.value]||database.rice;
-    const amount=Math.max(1,Number(grams.value)||100);
-    const factor=amount/100;
-    const values={
-      name:item.name,
-      grams:amount,
-      calories:item.calories*factor,
-      protein:item.protein*factor,
-      carbs:item.carbs*factor,
-      fat:item.fat*factor
-    };
+    const components=getPlateComponents();
+    const values=components.reduce((total,component)=>{
+      const factor=component.grams/100;
+      total.grams+=component.grams;
+      total.calories+=component.item.calories*factor;
+      total.protein+=component.item.protein*factor;
+      total.carbs+=component.item.carbs*factor;
+      total.fat+=component.item.fat*factor;
+      return total;
+    },{name:components[0].name,grams:0,calories:0,protein:0,carbs:0,fat:0,components});
     result.calories.textContent=`${Math.round(values.calories)} kcal`;
     result.protein.textContent=`${values.protein.toFixed(1)} g`;
     result.carbs.textContent=`${values.carbs.toFixed(1)} g`;
     result.fat.textContent=`${values.fat.toFixed(1)} g`;
-    if(matchName)matchName.textContent=values.name;
+    if(matchName)matchName.textContent=components.length>1?`${components.length}-item meal`:values.name;
     if(recommendation){
-      let message='Use the photo as a guide and confirm the portion before adding it.';
-      if(values.protein>=20) message=`${values.name} is protein-rich. Pair it with vegetables and a sensible carbohydrate portion for a balanced meal.`;
+      let message=components.length>1?'This plate estimate combines all selected foods. Check each portion, oil and sauce before saving.':'Use the photo as a guide and confirm the portion before adding it.';
+      if(components.length>1 && values.protein>=20 && values.carbs>=20) message=`This plate includes protein and carbohydrates. Add or confirm vegetables, and check oils or sauces for a more complete estimate.`;
+      else if(values.protein>=20) message=`${values.name} is protein-rich. Pair it with vegetables and a sensible carbohydrate portion for a balanced meal.`;
       else if(values.carbs>=25 && values.protein<10) message=`${values.name} is mainly a carbohydrate source. Add chicken, fish, beans or vegetables for a more balanced meal.`;
       else if(values.fat>=15) message=`${values.name} is energy-dense. Keep the portion measured and balance it with vegetables or a lighter side.`;
       else if(values.calories<=80 && values.carbs<20) message=`${values.name} is relatively light. Add a protein source if this is intended to be a complete meal.`;
@@ -4214,6 +4230,29 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   grams.addEventListener('input',estimate);
   portionButtons.forEach(btn=>btn.addEventListener('click',()=>{grams.value=btn.dataset.photoGrams;estimate();steps.forEach((step,index)=>step.classList.toggle('is-active',index<=2));}));
 
+  function addComponentRow(){
+    if(!plateItems || plateItems.children.length>=3)return;
+    const row=document.createElement('div');
+    row.className='nutrition-plate-item';
+    const select=document.createElement('select');
+    select.innerHTML=food.innerHTML;
+    select.value=plateItems.children.length===0?'chicken':'mixed_vegetables';
+    select.setAttribute('aria-label','Additional food');
+    const wrap=document.createElement('div');
+    wrap.className='nutrition-grams-input';
+    const input=document.createElement('input');
+    input.type='number';input.min='1';input.max='2000';input.value='100';input.setAttribute('aria-label','Additional food grams');
+    const unit=document.createElement('b');unit.textContent='g';
+    wrap.append(input,unit);
+    const remove=document.createElement('button');
+    remove.type='button';remove.className='nutrition-plate-remove';remove.textContent='✕';remove.setAttribute('aria-label','Remove food');
+    row.append(select,wrap,remove);
+    plateItems.append(row);
+    select.addEventListener('change',estimate);input.addEventListener('input',estimate);remove.addEventListener('click',()=>{row.remove();estimate();});
+    estimate();
+  }
+  addPlateItem?.addEventListener('click',addComponentRow);
+
   add.addEventListener('click',()=>{
     steps.forEach(step=>step.classList.add('is-active'));
     const values=estimate();
@@ -4226,8 +4265,10 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
       const protein=document.getElementById('nutritionFoodProtein');
       const carbs=document.getElementById('nutritionFoodCarbs');
       const fat=document.getElementById('nutritionFoodFat');
-      if(name)name.value=barcode.value?`${values.name} · ${barcode.value}`:values.name;
-      if(serving)serving.value=`${values.grams} g`;
+      const mealName=values.components.map(component=>component.name).join(' + ');
+      const servingText=values.components.map(component=>`${component.grams} g ${component.name}`).join(', ');
+      if(name)name.value=barcode.value?`${mealName} · ${barcode.value}`:mealName;
+      if(serving)serving.value=servingText;
       if(calories)calories.value=Math.round(values.calories);
       if(protein)protein.value=values.protein.toFixed(1);
       if(carbs)carbs.value=values.carbs.toFixed(1);
