@@ -2472,6 +2472,13 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     mealGroups:$('nutritionMealGroups'),
     addMeal:$('nutritionAddMeal'),
     coachInsight:$('nutritionCoachInsight'),
+    smartBadge:$('nutritionSmartBadge'),
+    signalGrid:$('nutritionSignalGrid'),
+    weekBars:$('nutritionWeekBars'),
+    weekScore:$('nutritionWeekScore'),
+    daysLogged:$('nutritionDaysLogged'),
+    avgCalories:$('nutritionAvgCalories'),
+    goalsReached:$('nutritionGoalsReached'),
     editGoals:$('nutritionEditGoals'),
     goalCaloriesDisplay:$('nutritionGoalCaloriesDisplay'),
     goalProteinDisplay:$('nutritionGoalProteinDisplay'),
@@ -2634,6 +2641,54 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
       refs.calorieStatus.textContent='You are progressing well toward today’s targets.';
       refs.coachInsight.textContent='Keep your next meal balanced with protein, vegetables or fruit, and a suitable carbohydrate source.';
     }
+    renderSmartInsights(day,goals,sum);
+    renderWeek();
+  }
+
+  function renderSmartInsights(day,goals,sum){
+    if(!refs.signalGrid) return;
+    const calPct=pct(sum.calories,goals.calories);
+    const proteinPct=pct(sum.protein,goals.protein);
+    const waterPct=pct(day.water||0,goals.water);
+    const calorieMessage=sum.calories===0?'Log food to begin':sum.calories>goals.calories?'Above today’s target':`${Math.max(0,goals.calories-Math.round(sum.calories))} kcal remaining`;
+    const proteinMessage=sum.protein===0?'Waiting for today’s meals':proteinPct>=90?'Target nearly reached':proteinPct>=55?'Good progress today':'Add a protein source';
+    const waterMessage=`${waterPct}% of hydration goal`;
+    refs.signalGrid.innerHTML=`
+      <article class="${sum.calories>goals.calories?'is-warning':calPct>=70?'is-good':''}"><span>🔥</span><div><strong>Calories</strong><small>${calorieMessage}</small></div></article>
+      <article class="${proteinPct>=85?'is-good':sum.calories>goals.calories*.55&&proteinPct<50?'is-warning':''}"><span>🥩</span><div><strong>Protein</strong><small>${proteinMessage}</small></div></article>
+      <article class="${waterPct>=80?'is-good':waterPct<45?'is-warning':''}"><span>💧</span><div><strong>Hydration</strong><small>${waterMessage}</small></div></article>`;
+    const balanced=(calPct>=70&&calPct<=110)+(proteinPct>=75)+(waterPct>=70);
+    if(refs.smartBadge){
+      refs.smartBadge.textContent=sum.calories===0?'Ready':balanced>=3?'Strong day':balanced>=2?'On track':'Needs attention';
+      refs.smartBadge.dataset.state=balanced>=3?'good':balanced>=2?'steady':'attention';
+    }
+  }
+
+  function renderWeek(){
+    if(!refs.weekBars) return;
+    const diary=loadDiary();
+    const goals=loadGoals();
+    const days=[];
+    let logged=0,totalCalories=0,goalsReached=0;
+    for(let i=6;i>=0;i--){
+      const d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()-i);
+      const key=localDateKey(d);
+      const day=diary[key]||{foods:[],water:0};
+      const sum=totals(day);
+      const hasLog=(day.foods||[]).length>0 || Number(day.water||0)>0;
+      if(hasLog){logged++; totalCalories+=sum.calories;}
+      const calOk=sum.calories>=goals.calories*.8&&sum.calories<=goals.calories*1.1;
+      const proteinOk=sum.protein>=goals.protein*.8;
+      const waterOk=Number(day.water||0)>=goals.water*.8;
+      if(hasLog && calOk && proteinOk && waterOk) goalsReached++;
+      days.push({label:d.toLocaleDateString(undefined,{weekday:'narrow'}),cal:pct(sum.calories,goals.calories),protein:pct(sum.protein,goals.protein),water:pct(day.water||0,goals.water),hasLog});
+    }
+    refs.weekBars.innerHTML=days.map(item=>`<div class="nutrition-week-day ${item.hasLog?'has-log':''}" title="Calories ${item.cal}%, protein ${item.protein}%, water ${item.water}%">
+      <div class="nutrition-week-columns"><i style="height:${Math.max(item.hasLog?8:3,item.cal)}%"></i><i style="height:${Math.max(item.hasLog?8:3,item.protein)}%"></i><i style="height:${Math.max(item.hasLog?8:3,item.water)}%"></i></div><span>${item.label}</span></div>`).join('');
+    if(refs.weekScore) refs.weekScore.textContent=`${logged}/7`;
+    if(refs.daysLogged) refs.daysLogged.textContent=logged;
+    if(refs.avgCalories) refs.avgCalories.textContent=logged?Math.round(totalCalories/logged):0;
+    if(refs.goalsReached) refs.goalsReached.textContent=goalsReached;
   }
 
   function renderMeals(){
