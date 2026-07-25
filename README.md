@@ -1,1 +1,2 @@
-# Tourays Fitness V10 Core — Stage 42 Direct Scanner Controller
+# Tourays Fitness V10 — Stage 43
+Fast and accurate barcode scanner improvements.

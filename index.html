@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10420" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10430" rel="stylesheet"/>
 <meta content="V10-Stage31" name="tf-build"/>
 </head>
 <body>
@@ -1868,7 +1868,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10420"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10430"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2392,9 +2392,9 @@ if ('serviceWorker' in navigator) {
 })();
 </script>
 
-<script id="stage42-direct-scanner-controller">
+<script id="stage43-fast-accurate-scanner">
 (function(){
-  function initDirectScanner(){
+  function initScanner(){
     var original=document.getElementById('nutritionQuickScan');
     var modal=document.getElementById('nutritionBarcodeModal');
     var closeBtn=document.getElementById('nutritionBarcodeClose');
@@ -2405,18 +2405,23 @@ if ('serviceWorker' in navigator) {
     var barcodeInput=document.getElementById('nutritionBarcodeValue');
     var status=document.getElementById('nutritionScanStatus');
     var preview=document.getElementById('nutritionScanPreview');
-    if(!original||!modal||!closeBtn||!video||!hint||!manual||!useManual||!barcodeInput)return;
+    var cameraWrap=modal&&modal.querySelector('.barcode-camera-wrap');
+    if(!original||!modal||!closeBtn||!video||!hint||!manual||!useManual||!barcodeInput||!cameraWrap)return;
 
-    // Replace the button so no older or broken direct listeners remain attached.
     var scanBtn=original.cloneNode(true);
     original.replaceWith(scanBtn);
 
-    var stream=null;
-    var reader=null;
-    var controls=null;
-    var detector=null;
-    var frameHandle=0;
-    var busy=false;
+    var controlsBar=document.createElement('div');
+    controlsBar.className='barcode-camera-controls';
+    controlsBar.innerHTML='<button type="button" id="barcodeZoomOut" aria-label="Zoom out">−</button><span id="barcodeZoomLabel">1.0×</span><button type="button" id="barcodeZoomIn" aria-label="Zoom in">＋</button><button type="button" id="barcodeTorch" hidden>Flash</button>';
+    cameraWrap.appendChild(controlsBar);
+    var zoomOut=controlsBar.querySelector('#barcodeZoomOut');
+    var zoomIn=controlsBar.querySelector('#barcodeZoomIn');
+    var zoomLabel=controlsBar.querySelector('#barcodeZoomLabel');
+    var torchBtn=controlsBar.querySelector('#barcodeTorch');
+
+    var stream=null, track=null, reader=null, controls=null, detector=null, frameHandle=0;
+    var opening=false, accepted=false, torchOn=false, zoom=1, zoomMin=1, zoomMax=1, zoomStep=.1;
 
     function showModal(){
       modal.hidden=false;
@@ -2429,11 +2434,12 @@ if ('serviceWorker' in navigator) {
       try{controls&&controls.stop&&controls.stop();}catch(_e){}
       controls=null;
       try{reader&&reader.reset&&reader.reset();}catch(_e){}
-      reader=null;
-      if(stream){stream.getTracks().forEach(function(track){track.stop();});stream=null;}
+      reader=null; detector=null;
+      if(stream){stream.getTracks().forEach(function(t){t.stop();});}
+      stream=null; track=null;
       try{video.pause();}catch(_e){}
       video.srcObject=null;
-      busy=false;
+      opening=false; accepted=false; torchOn=false;
     }
 
     function closeScanner(){
@@ -2444,82 +2450,115 @@ if ('serviceWorker' in navigator) {
     }
 
     function acceptCode(raw){
+      if(accepted)return true;
       var code=String(raw||'').trim().replace(/\s+/g,'');
       if(!/^[0-9A-Za-z-]{6,32}$/.test(code))return false;
+      accepted=true;
       barcodeInput.value=code;
       manual.value=code;
       if(status)status.textContent='Barcode detected: '+code;
       if(preview)preview.hidden=false;
-      if(navigator.vibrate)navigator.vibrate(120);
-      closeScanner();
+      hint.textContent='Barcode detected.';
+      if(navigator.vibrate)navigator.vibrate([70,40,110]);
+      setTimeout(closeScanner,180);
       return true;
     }
 
+    function getCapabilities(){
+      try{return track&&track.getCapabilities?track.getCapabilities():{};}catch(_e){return {};}
+    }
+
+    async function setZoom(next){
+      if(!track||zoomMax<=zoomMin)return;
+      zoom=Math.max(zoomMin,Math.min(zoomMax,next));
+      try{await track.applyConstraints({advanced:[{zoom:zoom}]});}catch(_e){}
+      zoomLabel.textContent=zoom.toFixed(1)+'×';
+    }
+
+    async function optimizeCamera(){
+      if(!track)return;
+      var caps=getCapabilities();
+      var advanced=[];
+      if(caps.focusMode&&caps.focusMode.indexOf('continuous')>=0)advanced.push({focusMode:'continuous'});
+      if(caps.exposureMode&&caps.exposureMode.indexOf('continuous')>=0)advanced.push({exposureMode:'continuous'});
+      if(caps.whiteBalanceMode&&caps.whiteBalanceMode.indexOf('continuous')>=0)advanced.push({whiteBalanceMode:'continuous'});
+      if(advanced.length){try{await track.applyConstraints({advanced:advanced});}catch(_e){}}
+      if(caps.zoom){
+        zoomMin=Number(caps.zoom.min||1); zoomMax=Number(caps.zoom.max||zoomMin); zoomStep=Number(caps.zoom.step||.1);
+        zoom=Math.min(zoomMax,Math.max(zoomMin,zoomMin<1.4?1.4:zoomMin));
+        await setZoom(zoom);
+        zoomOut.disabled=false; zoomIn.disabled=false;
+      }else{
+        zoomOut.disabled=true; zoomIn.disabled=true; zoomLabel.textContent='Auto';
+      }
+      if(caps.torch){torchBtn.hidden=false;}else{torchBtn.hidden=true;}
+    }
+
     async function nativeLoop(){
-      if(!stream||!detector)return;
+      if(!stream||!detector||accepted)return;
       try{
         if(video.readyState>=2){
           var results=await detector.detect(video);
           if(results&&results[0]&&acceptCode(results[0].rawValue))return;
         }
       }catch(_e){}
-      if(stream)frameHandle=requestAnimationFrame(nativeLoop);
+      if(stream&&!accepted)frameHandle=requestAnimationFrame(nativeLoop);
     }
 
     async function beginCamera(){
-      if(busy)return;
-      busy=true;
+      if(opening)return;
+      opening=true; accepted=false;
       showModal();
-      hint.textContent='Requesting rear camera access…';
-
-      if(!window.isSecureContext){
-        hint.textContent='Camera scanning requires the secure HTTPS version of the app. You can enter the barcode below.';
-        busy=false;
-        return;
-      }
-      if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-        hint.textContent='Live camera scanning is not supported here. Enter the barcode manually below.';
-        busy=false;
-        return;
-      }
+      hint.textContent='Opening the rear camera and focusing…';
+      if(!window.isSecureContext){hint.textContent='Open the secure HTTPS version of the app, or enter the barcode below.';opening=false;return;}
+      if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){hint.textContent='Live scanning is unavailable here. Enter the barcode below.';opening=false;return;}
 
       try{
         stream=await navigator.mediaDevices.getUserMedia({
-          video:{facingMode:{ideal:'environment'},width:{ideal:1920},height:{ideal:1080}},
+          video:{
+            facingMode:{ideal:'environment'},
+            width:{ideal:1280},
+            height:{ideal:720},
+            aspectRatio:{ideal:1.7777778}
+          },
           audio:false
         });
+        track=stream.getVideoTracks()[0]||null;
         video.srcObject=stream;
         video.muted=true;
         video.setAttribute('playsinline','');
         await video.play();
+        await optimizeCamera();
 
+        // Native detector is very fast when the browser supplies it.
+        if('BarcodeDetector' in window){
+          try{detector=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e','code_128','code_39','itf']});}
+          catch(_e){detector=new BarcodeDetector();}
+          hint.textContent='Ready — keep the whole barcode horizontal, 15–25 cm from the camera.';
+          frameHandle=requestAnimationFrame(nativeLoop);
+          opening=false;
+          return;
+        }
+
+        // ZXing fallback for Safari/iPhone and browsers without BarcodeDetector.
         if(window.ZXingBrowser&&window.ZXingBrowser.BrowserMultiFormatReader){
-          reader=new window.ZXingBrowser.BrowserMultiFormatReader();
+          reader=new window.ZXingBrowser.BrowserMultiFormatReader(undefined,120);
           controls=await reader.decodeFromStream(stream,video,function(result){
             var value=result&&(result.getText?result.getText():result.text);
             if(value)acceptCode(value);
           });
-          hint.textContent='Scanner ready. Hold the barcode steadily inside the frame.';
+          hint.textContent='Ready — keep the whole barcode horizontal, 15–25 cm from the camera.';
+          opening=false;
           return;
         }
 
-        if('BarcodeDetector' in window){
-          try{
-            var formats=['ean_13','ean_8','upc_a','upc_e','code_128'];
-            detector=new BarcodeDetector({formats:formats});
-          }catch(_e){detector=new BarcodeDetector();}
-          hint.textContent='Scanner ready. Hold the barcode steadily inside the frame.';
-          frameHandle=requestAnimationFrame(nativeLoop);
-          return;
-        }
-
-        hint.textContent='Camera opened. Automatic barcode recognition is unavailable in this browser; enter the number below.';
+        hint.textContent='Camera is open, but automatic recognition is unavailable. Enter the number below.';
+        opening=false;
       }catch(err){
-        stopCamera();
-        showModal();
+        stopCamera(); showModal();
         hint.textContent=err&&err.name==='NotAllowedError'
-          ? 'Camera permission was denied. Allow Camera access for this website in Safari settings, then tap Scan again.'
-          : 'The rear camera could not be opened. Enter the barcode manually below.';
+          ? 'Camera permission is blocked. Allow Camera access for this website in Safari settings and tap Scan again.'
+          : 'The rear camera could not be opened. Enter the barcode below.';
       }
     }
 
@@ -2529,20 +2568,23 @@ if ('serviceWorker' in navigator) {
       acceptCode(code);
     }
 
-    scanBtn.addEventListener('click',function(event){
-      event.preventDefault();
-      event.stopPropagation();
-      beginCamera();
-    },true);
-    closeBtn.onclick=function(event){event.preventDefault();closeScanner();};
-    useManual.onclick=function(event){event.preventDefault();useManualCode();};
-    modal.addEventListener('click',function(event){if(event.target===modal)closeScanner();});
+    scanBtn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();beginCamera();},true);
+    closeBtn.onclick=function(e){e.preventDefault();closeScanner();};
+    useManual.onclick=function(e){e.preventDefault();useManualCode();};
+    zoomOut.onclick=function(){setZoom(zoom-Math.max(zoomStep,.2));};
+    zoomIn.onclick=function(){setZoom(zoom+Math.max(zoomStep,.2));};
+    torchBtn.onclick=async function(){
+      if(!track)return;
+      torchOn=!torchOn;
+      try{await track.applyConstraints({advanced:[{torch:torchOn}]});torchBtn.textContent=torchOn?'Flash off':'Flash';}
+      catch(_e){torchOn=false;torchBtn.textContent='Flash';}
+    };
+    modal.addEventListener('click',function(e){if(e.target===modal)closeScanner();});
     document.addEventListener('visibilitychange',function(){if(document.hidden&&stream)closeScanner();});
   }
-
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initDirectScanner,{once:true});
-  else initDirectScanner();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initScanner,{once:true});
+  else initScanner();
 })();
 </script>
-<script src="navigation-v20.js?v=10420"></script></body>
+<script src="navigation-v20.js?v=10430"></script></body>
 </html>
