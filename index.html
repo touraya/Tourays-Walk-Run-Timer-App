@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10460" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10470" rel="stylesheet"/>
 <meta content="V10-Stage46" name="tf-build"/>
 </head>
 <body>
@@ -357,6 +357,25 @@ html.tourays-v18-loading body{visibility:hidden!important}
 </button>
 </div>
 <button class="primary indoor-plan-start" id="startPlan">Start selected plan</button>
+
+<section class="workout-builder-v47" id="workoutBuilderV47" aria-label="Build your own workout">
+  <div class="workout-builder-head-v47">
+    <div><small>BUILD YOUR WORKOUT</small><h3>Create a personal indoor session</h3><p>Choose movements, arrange your session and start when you are ready.</p></div>
+    <span id="builderDurationV47">0 min</span>
+  </div>
+  <div class="builder-step-v47"><b>1</b><span>Select exercises</span></div>
+  <div class="builder-exercise-picks-v47" id="builderExercisePicksV47"></div>
+  <div class="builder-step-v47"><b>2</b><span>Your workout</span></div>
+  <div class="builder-empty-v47" id="builderEmptyV47"><span>＋</span><strong>No exercises selected</strong><small>Tap an exercise above to add it.</small></div>
+  <div class="builder-selected-v47" id="builderSelectedV47"></div>
+  <div class="builder-controls-v47">
+    <label><span>Rounds</span><select id="builderRoundsV47"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
+    <label><span>Rest</span><select id="builderRestV47"><option value="15">15 sec</option><option value="30" selected>30 sec</option><option value="45">45 sec</option><option value="60">60 sec</option></select></label>
+  </div>
+  <div class="builder-summary-v47"><div><small>EXERCISES</small><strong id="builderCountV47">0</strong></div><div><small>ROUNDS</small><strong id="builderRoundsSummaryV47">2</strong></div><div><small>EST. TIME</small><strong id="builderTimeV47">0 min</strong></div></div>
+  <div class="builder-actions-v47"><button class="builder-clear-v47" id="builderClearV47" type="button">Clear</button><button class="builder-start-v47" id="builderStartV47" type="button" disabled>Start custom workout <span>▶</span></button></div>
+</section>
+
 <div class="indoor-title-row">
 <div><small>EXERCISE LIBRARY</small><h3>Train one movement</h3></div>
 <span id="exerciseCount">8 exercises</span>
@@ -1932,7 +1951,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10460"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10470"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2792,5 +2811,5 @@ if ('serviceWorker' in navigator) {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<script src="navigation-v20.js?v=10460"></script></body>
+<script src="navigation-v20.js?v=10470"></script></body>
 </html>

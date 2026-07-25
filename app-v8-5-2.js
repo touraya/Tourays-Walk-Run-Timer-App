@@ -4623,3 +4623,45 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   form.addEventListener('reset',()=>setTimeout(render,0));
   render();
 })();
+
+
+// Stage 47 — Premium custom workout builder
+(function initWorkoutBuilderV47(){
+  const pickWrap=document.getElementById('builderExercisePicksV47');
+  if(!pickWrap || typeof exercises==='undefined' || typeof indoorPlans==='undefined') return;
+  const selectedWrap=document.getElementById('builderSelectedV47');
+  const empty=document.getElementById('builderEmptyV47');
+  const rounds=document.getElementById('builderRoundsV47');
+  const rest=document.getElementById('builderRestV47');
+  const start=document.getElementById('builderStartV47');
+  const clear=document.getElementById('builderClearV47');
+  let custom=[];
+  try{const saved=JSON.parse(localStorage.getItem('touraysCustomWorkoutV47')||'[]');if(Array.isArray(saved))custom=saved.filter(i=>Number.isInteger(i)&&exercises[i]);}catch{}
+  const estimateSeconds=()=>custom.reduce((sum,i)=>sum+indoorExerciseDuration(exercises[i],exercises[i].amount),0)*(Number(rounds.value)||1)+Math.max(0,(custom.length*(Number(rounds.value)||1)-1))*(Number(rest.value)||0);
+  function save(){try{localStorage.setItem('touraysCustomWorkoutV47',JSON.stringify(custom));}catch{}}
+  function render(){
+    pickWrap.innerHTML=exercises.map((x,i)=>`<button type="button" class="builder-pick-v47 ${custom.includes(i)?'added':''}" data-builder-add="${i}"><span>${x.icon}</span><strong>${x.name}</strong><small>${x.amount} ${x.unit}</small></button>`).join('');
+    document.querySelectorAll('[data-builder-add]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.builderAdd);if(custom.includes(i))custom=custom.filter(x=>x!==i);else custom.push(i);save();render();});
+    empty.hidden=custom.length>0;selectedWrap.innerHTML=custom.map((i,pos)=>{const x=exercises[i];return `<div class="builder-selected-row-v47"><span>${x.icon}</span><div><strong>${x.name}</strong><small>${x.amount} ${x.unit} · ${x.muscle}</small></div><div class="builder-order-v47"><button type="button" data-builder-up="${pos}" aria-label="Move up">↑</button><button type="button" data-builder-down="${pos}" aria-label="Move down">↓</button></div><button type="button" class="builder-remove-v47" data-builder-remove="${pos}" aria-label="Remove">×</button></div>`}).join('');
+    document.querySelectorAll('[data-builder-remove]').forEach(b=>b.onclick=()=>{custom.splice(Number(b.dataset.builderRemove),1);save();render();});
+    document.querySelectorAll('[data-builder-up]').forEach(b=>b.onclick=()=>{const p=Number(b.dataset.builderUp);if(p>0){[custom[p-1],custom[p]]=[custom[p],custom[p-1]];save();render();}});
+    document.querySelectorAll('[data-builder-down]').forEach(b=>b.onclick=()=>{const p=Number(b.dataset.builderDown);if(p<custom.length-1){[custom[p+1],custom[p]]=[custom[p],custom[p+1]];save();render();}});
+    const seconds=estimateSeconds();const mins=Math.max(custom.length?1:0,Math.ceil(seconds/60));
+    document.getElementById('builderCountV47').textContent=custom.length;
+    document.getElementById('builderRoundsSummaryV47').textContent=rounds.value;
+    document.getElementById('builderTimeV47').textContent=`${mins} min`;
+    document.getElementById('builderDurationV47').textContent=`${mins} min`;
+    start.disabled=!custom.length;
+  }
+  rounds.onchange=render;rest.onchange=render;
+  clear.onclick=()=>{custom=[];save();render();};
+  start.onclick=()=>{
+    if(!custom.length)return;
+    indoorPlans.custom={name:'My Custom Workout',level:'Personal',sets:Number(rounds.value)||1,rest:Number(rest.value)||30,queue:[...custom]};
+    selectedPlan='custom';
+    document.querySelectorAll('.plan-card').forEach(x=>x.classList.remove('selected'));
+    if(E.indoorLevel)E.indoorLevel.textContent='Personal';
+    startIndoorPlan();
+  };
+  render();
+})();
