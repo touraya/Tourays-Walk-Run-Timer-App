@@ -838,23 +838,29 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <div class="nutrition-section-heading">
 <div>
 <span class="eyebrow">SMART FOOD LOGGING</span>
-<h2>Photo &amp; barcode scan</h2>
-<p>Take a food photo or scan a package label, then review the estimate before saving it.</p>
+<h2>Scan &amp; log food</h2>
+<p>Scan packaged food instantly or use a photo-assisted estimate for meals.</p>
 </div>
 <span class="nutrition-beta-chip">BETA</span>
 </div>
 <div class="nutrition-scan-grid">
-<label class="nutrition-scan-action">
+<button class="nutrition-scan-action nutrition-live-scan-action nutrition-scan-hero" id="nutritionLiveBarcode" type="button">
+<span class="nutrition-scan-hero-icon">▥</span>
+<div class="nutrition-scan-hero-copy">
+<small class="nutrition-scan-kicker">FASTEST WAY TO LOG</small>
+<strong>Scan barcode</strong>
+<small>Point your camera at the product barcode. Detection starts automatically.</small>
+</div>
+<b class="nutrition-scan-arrow" aria-hidden="true">›</b>
+</button>
+<label class="nutrition-scan-action nutrition-photo-action">
 <input accept="image/*" capture="environment" id="nutritionFoodPhoto" type="file"/>
 <span>📷</span>
-<strong>Take food photo</strong>
-<small>Preview the meal and estimate nutrition by food type and weight.</small>
+<div>
+<strong>Estimate from photo</strong>
+<small>Photograph a meal, then choose the food and portion before saving.</small>
+</div>
 </label>
-<button class="nutrition-scan-action nutrition-live-scan-action" id="nutritionLiveBarcode" type="button">
-<span>▥</span>
-<strong>Scan barcode live</strong>
-<small>Open the camera and hold the product barcode inside the scan frame.</small>
-</button>
 </div>
 <div class="nutrition-scan-preview" hidden="" id="nutritionScanPreview">
 <img alt="Selected food" id="nutritionScanImage"/>
