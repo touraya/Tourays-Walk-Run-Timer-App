@@ -1,7 +1,15 @@
-# Tourays Fitness V10 Core — Stage 34
+# Tourays Fitness V10 Core — Stage 35
 
-## Nutrition Analytics & Personalization
+## Nutrition Premium QA & UX Review
 
-This build adds a private, on-device 30-day nutrition pattern section with four-week calorie trends, frequently logged foods and a practical personalized next step based on recent calorie, protein and hydration consistency.
+This release performs a final consistency and usability pass across the existing Nutrition experience.
 
-All existing scanner, food logging, diary, goals, workout and navigation functionality is preserved. No development-stage label is visible inside the app.
+- More consistent touch targets and focus states
+- Better narrow-phone layouts
+- Improved spacing and responsive wrapping
+- Cleaner hydration, meal, analytics and frequent-food interactions
+- Reduced-motion accessibility support
+- No visible development-stage text in the app
+- Existing scanner, diary, calculations and all non-Nutrition modules preserved
+
+Build/cache version: **10350**

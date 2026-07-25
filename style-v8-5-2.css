@@ -5734,3 +5734,135 @@ body.barcode-scan-success .barcode-scan-frame{
 .nutrition-frequency-panel{margin-top:14px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:16px}.nutrition-frequency-panel>div:first-child strong{display:block}.nutrition-frequency-panel>div:first-child small{display:block;margin-top:3px;color:#7d7588}.nutrition-frequency-list{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}.nutrition-frequency-list button,.nutrition-frequency-list span{border:0;border-radius:999px;padding:8px 11px;background:#f0ebfb;color:#51328f;font-weight:800;font-size:11px}.nutrition-frequency-list button{cursor:pointer}.nutrition-frequency-list small{opacity:.72;margin-left:4px}.nutrition-frequency-empty{color:#80788a!important;background:#f4f2f6!important}
 @media(max-width:720px){.nutrition-analytics-card{padding:16px;border-radius:22px}.nutrition-analytics-grid{grid-template-columns:1fr}.nutrition-frequency-panel{align-items:flex-start;flex-direction:column}.nutrition-frequency-list{justify-content:flex-start}.nutrition-trend-bars{height:105px}}
 @media(prefers-reduced-motion:reduce){.nutrition-trend-bars i{transition:none}}
+
+/* Stage 35 — Nutrition premium QA and UX consistency pass. No development label in UI. */
+#nutritionScreen{
+  --n35-radius-lg:28px;
+  --n35-radius-md:20px;
+  --n35-focus:#7650e9;
+}
+#nutritionScreen button,
+#nutritionFoodModal button{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+#nutritionScreen button:focus-visible,
+#nutritionScreen input:focus-visible,
+#nutritionScreen select:focus-visible,
+#nutritionFoodModal button:focus-visible,
+#nutritionFoodModal input:focus-visible,
+#nutritionFoodModal select:focus-visible{
+  outline:3px solid rgba(118,80,233,.28)!important;
+  outline-offset:3px;
+}
+#nutritionScreen .nutrition-quick-actions button,
+#nutritionScreen .nutrition-water-actions button,
+#nutritionScreen .nutrition-meal-group>header button,
+#nutritionScreen .nutrition-primary-btn,
+#nutritionScreen .nutrition-scan-action{
+  min-height:44px;
+}
+#nutritionScreen .nutrition-section-heading h2,
+#nutritionScreen .nutrition-section-heading strong{
+  letter-spacing:-.025em;
+}
+#nutritionScreen .nutrition-section-heading p{
+  max-width:58ch;
+}
+#nutritionScreen .nutrition-smart-overview,
+#nutritionScreen .nutrition-week-card,
+#nutritionScreen .nutrition-analytics-card,
+#nutritionScreen .nutrition-scan-card,
+#nutritionScreen .nutrition-meals-card,
+#nutritionScreen .nutrition-insight-card,
+#nutritionScreen .nutrition-goals-card{
+  scroll-margin-top:88px;
+}
+#nutritionScreen .nutrition-signal-grid article,
+#nutritionScreen .nutrition-week-stats>div,
+#nutritionScreen .nutrition-frequency-list button,
+#nutritionScreen .nutrition-frequency-list span{
+  transition:transform .16s ease,box-shadow .16s ease,background-color .16s ease;
+}
+#nutritionScreen .nutrition-frequency-list button:active,
+#nutritionScreen .nutrition-quick-actions button:active,
+#nutritionScreen .nutrition-water-actions button:active,
+#nutritionScreen .nutrition-scan-action:active{
+  transform:scale(.98);
+}
+#nutritionScreen .nutrition-frequency-list button:hover{
+  box-shadow:0 8px 18px rgba(88,52,185,.12);
+}
+#nutritionScreen .nutrition-meal-group>header{
+  min-height:70px;
+}
+#nutritionScreen .nutrition-empty-meal{
+  padding:12px 16px;
+  text-align:center;
+  line-height:1.45;
+}
+#nutritionScreen .nutrition-goals-list li,
+#nutritionScreen .nutrition-food-item{
+  min-height:48px;
+}
+#nutritionScreen .nutrition-trend-panel header,
+#nutritionScreen .nutrition-frequency-panel{
+  flex-wrap:wrap;
+}
+#nutritionScreen .nutrition-frequency-list{
+  max-width:100%;
+}
+#nutritionScreen .nutrition-frequency-list button,
+#nutritionScreen .nutrition-frequency-list span{
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+#nutritionScreen .nutrition-week-bars,
+#nutritionScreen .nutrition-trend-bars{
+  overflow:hidden;
+}
+#nutritionFoodModal .nutrition-food-live-macros article{
+  min-height:78px;
+}
+#nutritionFoodModal .nutrition-meal-shortcuts button{
+  min-height:50px;
+}
+#nutritionFoodModal .nutrition-primary-btn{
+  min-height:52px;
+}
+@media(max-width:520px){
+  #nutritionScreen .nutrition-shell{padding-bottom:104px}
+  #nutritionScreen .nutrition-stage28-hero{min-height:auto}
+  #nutritionScreen .nutrition-stage28-copy p{font-size:.82rem}
+  #nutritionScreen .nutrition-quick-actions{gap:8px}
+  #nutritionScreen .nutrition-quick-actions button{padding:11px 8px!important}
+  #nutritionScreen .nutrition-quick-actions button span{font-size:1.05rem}
+  #nutritionScreen .nutrition-quick-actions button strong{font-size:.76rem}
+  #nutritionScreen .nutrition-quick-actions button small{font-size:.58rem}
+  #nutritionScreen .nutrition-water-card{grid-template-columns:1fr!important}
+  #nutritionScreen .nutrition-water-actions{width:100%;display:grid;grid-template-columns:1fr 1fr auto;gap:8px}
+  #nutritionScreen .nutrition-water-actions button{width:100%;padding-left:8px!important;padding-right:8px!important}
+  #nutritionScreen .nutrition-section-heading{gap:10px}
+  #nutritionScreen .nutrition-section-heading h2{font-size:1.1rem}
+  #nutritionScreen .nutrition-smart-badge,
+  #nutritionScreen .nutrition-analytics-chip{font-size:.58rem}
+  #nutritionScreen .nutrition-week-bars{padding-left:0;padding-right:0}
+  #nutritionScreen .nutrition-week-day span{font-size:.6rem}
+  #nutritionScreen .nutrition-week-stats{grid-template-columns:1fr 1fr 1fr}
+  #nutritionScreen .nutrition-week-stats strong{font-size:.9rem}
+  #nutritionScreen .nutrition-frequency-list{width:100%}
+  #nutritionScreen .nutrition-frequency-list button,
+  #nutritionScreen .nutrition-frequency-list span{max-width:100%}
+}
+@media(max-width:380px){
+  #nutritionScreen .nutrition-quick-actions{grid-template-columns:1fr 1fr}
+  #nutritionScreen .nutrition-quick-actions button:first-child{grid-column:1/-1}
+  #nutritionScreen .nutrition-water-actions{grid-template-columns:1fr 1fr}
+  #nutritionScreen .nutrition-water-actions #nutritionWaterReset{grid-column:1/-1}
+  #nutritionScreen .nutrition-week-stats{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  #nutritionScreen *,#nutritionFoodModal *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
