@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10480" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10490" rel="stylesheet"/>
 <meta content="V10-Stage46" name="tf-build"/>
 </head>
 <body>
@@ -424,7 +424,17 @@ html.tourays-v18-loading body{visibility:hidden!important}
   <span id="indoorMotionStatusV48">● MOTION GUIDE</span>
   <span id="indoorCueStatusV48">🔊 VOICE + VIBRATION</span>
 </div>
+<div class="indoor-coach-metrics-v49" aria-label="Live workout metrics">
+  <div><small>ELAPSED</small><strong id="indoorCoachElapsedV49">00:00</strong></div>
+  <div><small>CALORIES</small><strong id="indoorCoachCaloriesV49">0 kcal</strong></div>
+  <div><small>PROGRESS</small><strong id="indoorCoachPercentV49">0%</strong></div>
+</div>
 <div class="indoor-active-demo" id="activeDemo"></div>
+<div class="indoor-ready-overlay-v49" id="indoorReadyOverlayV49" hidden>
+  <small>GET READY</small>
+  <strong id="indoorReadyCountV49">3</strong>
+  <span id="indoorReadyExerciseV49">Push-ups</span>
+</div>
 <div class="indoor-active-copy">
 <small id="indoorPhaseLabel">GET READY</small>
 <h2 id="activeExerciseName">Push-ups</h2>
@@ -443,6 +453,11 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <span id="indoorNextLabel">Next: Rest 30 sec</span>
 </div>
 <div class="indoor-next-preview-v48" id="indoorNextPreviewV48"><span>UP NEXT</span><strong id="indoorNextExerciseV48">Rest</strong><small id="indoorNextDetailV48">Prepare for the next movement</small></div>
+<div class="indoor-rest-actions-v49" id="indoorRestActionsV49" hidden>
+  <button type="button" id="indoorSkipRestV49">Skip rest</button>
+  <button type="button" id="indoorAddRestV49">+10 sec</button>
+</div>
+<div class="indoor-motivation-v49" id="indoorMotivationV49" aria-live="polite">Stay controlled. Every quality repetition counts.</div>
 <div class="indoor-controls">
 <button id="previousIndoor"><span>‹</span><small>Previous</small></button>
 <button class="main" id="indoorPause"><span>Ⅱ</span><small>Pause</small></button>
@@ -1957,7 +1972,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10480"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10490"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
