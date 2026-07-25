@@ -5029,3 +5029,25 @@ body.barcode-scanner-open{
     max-height:none!important;
   }
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V10 — STAGE 25
+   AUTOMATIC BARCODE CAPTURE
+   ========================================================= */
+
+.barcode-scan-frame{
+  border-color:#ffffff!important;
+}
+
+.barcode-scan-frame.scanner-success,
+body.barcode-scan-success .barcode-scan-frame{
+  border-color:#28c887!important;
+  box-shadow:
+    0 0 0 9999px rgba(0,0,0,.28),
+    0 0 30px rgba(40,200,135,.72)!important;
+}
+
+#nutritionBarcodeHint{
+  min-height:48px!important;
+}

@@ -4134,7 +4134,7 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   const preview=document.getElementById('nutritionScanPreview');
   if(!openBtn||!modal||!video||!canvas||!barcodeInput)return;
 
-  let stream=null,raf=0,lastScan=0,stableCode='',stableCount=0,nativeDetector=null;
+  let stream=null,raf=0,lastScan=0,stableCode='',stableCount=0,nativeDetector=null,zxingReader=null,zxingControls=null;
   const ctx=canvas.getContext('2d',{willReadFrequently:true});
 
   async function prepareNativeDetector(){
@@ -4148,6 +4148,38 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     }catch{
       nativeDetector=null;
       return null;
+    }
+  }
+
+  async function startZXingScanner(){
+    if(!window.ZXingBrowser?.BrowserMultiFormatReader||!stream)return false;
+    try{
+      zxingReader=new ZXingBrowser.BrowserMultiFormatReader(undefined,{
+        delayBetweenScanAttempts:80,
+        delayBetweenScanSuccess:250
+      });
+
+      zxingControls=await zxingReader.decodeFromStream(
+        stream,
+        video,
+        (result,error,controls)=>{
+          if(!stream)return;
+          const raw=result?.getText?.()||result?.text||'';
+          if(raw){
+            const clean=String(raw).trim();
+            if(/^[0-9A-Za-z-]{6,32}$/.test(clean)){
+              hint.textContent='Barcode captured: '+clean;
+              accepted(clean);
+              controls?.stop?.();
+            }
+          }
+        }
+      );
+      return true;
+    }catch{
+      zxingReader=null;
+      zxingControls=null;
+      return false;
     }
   }
   const L={
@@ -4226,8 +4258,14 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   }
 
   function accepted(code){
-    if(code===stableCode)stableCount++;else{stableCode=code;stableCount=1}
-    if(stableCount<2)return;
+    const isZXingResult=Boolean(zxingReader);
+    if(isZXingResult){
+      stableCode=code;
+      stableCount=2;
+    }else{
+      if(code===stableCode)stableCount++;else{stableCode=code;stableCount=1}
+      if(stableCount<2)return;
+    }
     barcodeInput.value=code;manual.value=code;
     if(status)status.textContent='Barcode detected: '+code;
     if(preview)preview.hidden=false;
@@ -4286,10 +4324,15 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
       video.muted=true;
       await video.play();
 
-      hint.textContent=nativeDetector
-        ? 'Live scanner ready. Hold the barcode inside the frame.'
-        : 'Live scanner ready. Hold the barcode steady inside the frame.';
+      const zxingStarted=await startZXingScanner();
 
+      hint.textContent=zxingStarted
+        ? 'Automatic scanner ready. Hold the barcode inside the frame.'
+        : nativeDetector
+          ? 'Automatic scanner ready. Hold the barcode inside the frame.'
+          : 'Scanner ready. Hold the barcode steady inside the frame.';
+
+      // Keep the built-in detector running as a fallback.
       raf=requestAnimationFrame(loop);
     }catch(err){
       hint.textContent=
