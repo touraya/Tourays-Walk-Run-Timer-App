@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10470" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10480" rel="stylesheet"/>
 <meta content="V10-Stage46" name="tf-build"/>
 </head>
 <body>
@@ -420,6 +420,10 @@ html.tourays-v18-loading body{visibility:hidden!important}
 </div>
 <article class="indoor-active-card">
 <div class="indoor-progress-track"><i id="indoorProgressBar"></i></div>
+<div class="indoor-live-status-v48" aria-label="Workout status">
+  <span id="indoorMotionStatusV48">● MOTION GUIDE</span>
+  <span id="indoorCueStatusV48">🔊 VOICE + VIBRATION</span>
+</div>
 <div class="indoor-active-demo" id="activeDemo"></div>
 <div class="indoor-active-copy">
 <small id="indoorPhaseLabel">GET READY</small>
@@ -433,10 +437,12 @@ html.tourays-v18-loading body{visibility:hidden!important}
 </svg>
 <div><strong id="indoorCountdown">10</strong><span id="indoorCountdownUnit">reps</span></div>
 </div>
+<button class="indoor-rep-button-v48" id="indoorRepButtonV48" type="button" hidden><span>＋</span><strong>Count repetition</strong><small id="indoorRepProgressV48">0 of 10 completed</small></button>
 <div class="indoor-set-info">
 <span>Set <strong id="indoorSetCurrent">1</strong> of <strong id="indoorSetTotal">2</strong></span>
 <span id="indoorNextLabel">Next: Rest 30 sec</span>
 </div>
+<div class="indoor-next-preview-v48" id="indoorNextPreviewV48"><span>UP NEXT</span><strong id="indoorNextExerciseV48">Rest</strong><small id="indoorNextDetailV48">Prepare for the next movement</small></div>
 <div class="indoor-controls">
 <button id="previousIndoor"><span>‹</span><small>Previous</small></button>
 <button class="main" id="indoorPause"><span>Ⅱ</span><small>Pause</small></button>
@@ -1951,7 +1957,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10470"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10480"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">

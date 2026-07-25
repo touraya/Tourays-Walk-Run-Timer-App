@@ -446,10 +446,11 @@ function beginIndoorWork(){
   clearInterval(S.indoorTimer);const x=currentIndoorExercise();currentExercise=S.indoorQueue[S.indoorIndex];
   const amount=S.indoorMode==='single'?exerciseAmount:x.amount;
   S.indoorPhase='work';S.indoorDuration=indoorExerciseDuration(x,amount);S.indoorLeft=S.indoorDuration;
+  S.indoorRepTarget=x.unit==='seconds'?0:amount;S.indoorRepDone=0;
   E.indoorBrowse.hidden=true;E.indoorActive.hidden=false;E.indoorModeLabel.textContent=S.indoorMode==='plan'?S.indoorPlan.name.toUpperCase():'SINGLE EXERCISE';
-  E.activeExerciseName.textContent=x.name;E.activeExerciseTip.textContent=x.tip;E.activeDemo.innerHTML=x.type==='push'
-    ? `<div class="stable-active-image"><img src="pushup-premium-master.png" alt="Push-up form demonstration"></div>`
-    : `<div class="stable-active-vector">${demoSvg(x.type)}</div>`;
+  E.activeExerciseName.textContent=x.name;E.activeExerciseTip.textContent=x.tip;E.activeDemo.dataset.motion=x.type;E.activeDemo.innerHTML=x.type==='push'
+    ? `<div class="stable-active-image motion-guide-v48"><img src="pushup-premium-master.png" alt="Push-up form demonstration"></div>`
+    : `<div class="stable-active-vector motion-guide-v48">${demoSvg(x.type)}</div>`;
   E.indoorPhaseLabel.textContent='WORK';E.indoorCountdownUnit.textContent=x.unit==='seconds'?'seconds':'reps';
   E.indoorSetTotal.textContent=S.indoorSets;E.indoorSetCurrent.textContent=S.indoorSet;
   E.indoorProgressLabel.textContent=`Exercise ${S.indoorIndex+1} of ${S.indoorQueue.length}`;
@@ -466,7 +467,10 @@ function beginIndoorRest(){
 }
 function indoorTick(){
   if(!S.indoorActive||S.indoorPaused)return;
-  S.indoorLeft=Math.max(0,S.indoorLeft-1);S.indoorElapsed++;renderIndoorActive();
+  S.indoorElapsed++;
+  const x=currentIndoorExercise();
+  if(S.indoorPhase==='work'&&x.unit!=='seconds'){renderIndoorActive();return}
+  S.indoorLeft=Math.max(0,S.indoorLeft-1);renderIndoorActive();
   if(S.indoorLeft<=0){navigator.vibrate?.([100,60,150]);if(S.indoorPhase==='work')finishIndoorWork();else beginIndoorWork()}
 }
 function finishIndoorWork(){
@@ -477,12 +481,23 @@ function finishIndoorWork(){
 }
 function renderIndoorActive(){
   const x=currentIndoorExercise(),amount=S.indoorMode==='single'?exerciseAmount:x.amount;
-  const display=S.indoorPhase==='work'&&x.unit!=='seconds'?Math.max(1,Math.ceil(amount*(S.indoorLeft/S.indoorDuration))):Math.ceil(S.indoorLeft);
+  const isRep=S.indoorPhase==='work'&&x.unit!=='seconds';
+  const repRemaining=Math.max(0,(S.indoorRepTarget||amount)-(S.indoorRepDone||0));
+  const display=isRep?repRemaining:Math.ceil(S.indoorLeft);
   E.indoorCountdown.textContent=display;E.indoorTotalTime.textContent=fmt(S.indoorElapsed);
-  const ring=2*Math.PI*72,ratio=S.indoorDuration?S.indoorLeft/S.indoorDuration:0;
+  const ring=2*Math.PI*72,ratio=isRep?(repRemaining/Math.max(1,S.indoorRepTarget||amount)):(S.indoorDuration?S.indoorLeft/S.indoorDuration:0);
   E.indoorRingProgress.style.strokeDasharray=ring;E.indoorRingProgress.style.strokeDashoffset=ring*(1-ratio);
   const totalSteps=S.indoorQueue.length*S.indoorSets,done=S.indoorIndex*S.indoorSets+(S.indoorSet-1)+(S.indoorPhase==='rest'?1:1-ratio);
-  E.indoorProgressBar.style.width=`${Math.min(100,done/totalSteps*100)}%`
+  E.indoorProgressBar.style.width=`${Math.min(100,done/totalSteps*100)}%`;
+  const repBtn=document.getElementById('indoorRepButtonV48'),repText=document.getElementById('indoorRepProgressV48');
+  if(repBtn){repBtn.hidden=!isRep;repBtn.disabled=!isRep||S.indoorPaused;if(repText)repText.textContent=`${S.indoorRepDone||0} of ${S.indoorRepTarget||amount} completed`;}
+  const nextName=document.getElementById('indoorNextExerciseV48'),nextDetail=document.getElementById('indoorNextDetailV48');
+  if(nextName&&nextDetail){
+    if(S.indoorPhase==='rest'){nextName.textContent=currentIndoorExercise().name;nextDetail.textContent='Next set starts after recovery';}
+    else if(S.indoorSet<S.indoorSets){nextName.textContent=`Rest ${S.indoorRest} sec`;nextDetail.textContent=`Then set ${S.indoorSet+1} of ${S.indoorSets}`;}
+    else if(S.indoorIndex<S.indoorQueue.length-1){const nx=exercises[S.indoorQueue[S.indoorIndex+1]];nextName.textContent=nx.name;nextDetail.textContent=`${nx.amount} ${nx.unit} · ${nx.muscle}`;}
+    else{nextName.textContent='Workout complete';nextDetail.textContent='Your session summary is next';}
+  }
 }
 function pauseIndoor(){
   if(!S.indoorActive)return;S.indoorPaused=!S.indoorPaused;
@@ -4664,4 +4679,20 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     startIndoorPlan();
   };
   render();
+})();
+
+
+// Stage 48 — Guided active indoor training controls
+(function initActiveIndoorTrainingV48(){
+  const repButton=document.getElementById('indoorRepButtonV48');
+  if(!repButton)return;
+  repButton.addEventListener('click',()=>{
+    if(!S.indoorActive||S.indoorPaused||S.indoorPhase!=='work')return;
+    const x=currentIndoorExercise();if(!x||x.unit==='seconds')return;
+    S.indoorRepDone=Math.min(S.indoorRepTarget||x.amount,(S.indoorRepDone||0)+1);
+    navigator.vibrate?.(35);
+    repButton.classList.remove('pulse-v48');void repButton.offsetWidth;repButton.classList.add('pulse-v48');
+    renderIndoorActive();
+    if(S.indoorRepDone>=S.indoorRepTarget){say('Set complete');setTimeout(()=>{if(S.indoorActive&&S.indoorPhase==='work')finishIndoorWork()},280)}
+  });
 })();

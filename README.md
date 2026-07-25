@@ -11,3 +11,6 @@ Premium Workout Builder
 - Custom selections are saved locally.
 - Existing ready-made plans, single exercises, workout history, Nutrition and saved data remain unchanged.
 - Cache/build version: 10470.
+
+
+Stage 48: Guided active indoor training with motion cues, manual rep counting and next-exercise preview.
