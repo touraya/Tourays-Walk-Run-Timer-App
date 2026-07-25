@@ -20,7 +20,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
 <link href="style-v8-5-2.css?v=10301" rel="stylesheet"/>
-<meta content="V10-Stage30" name="tf-build"/>
+<meta content="V10-Stage31" name="tf-build"/>
 </head>
 <body>
 <div class="network-status" hidden="" id="networkStatus">
@@ -855,28 +855,31 @@ html.tourays-v18-loading body{visibility:hidden!important}
 </div>
 <div class="nutrition-calorie-copy">
 <span>Daily calories</span>
-<h2><span id="nutritionCaloriesUsed">0</span> / <span id="nutritionCaloriesGoal">2200</span></h2>
+<div class="nutrition-energy-stats" aria-label="Daily calorie totals">
+  <div><small>Consumed</small><strong><span id="nutritionCaloriesUsed">0</span> kcal</strong></div>
+  <div><small>Daily goal</small><strong><span id="nutritionCaloriesGoal">2200</span> kcal</strong></div>
+</div>
 <p id="nutritionCalorieStatus">Start logging meals to see your progress.</p>
 </div>
 </article>
 <article class="nutrition-macro-card">
 <div class="nutrition-macro-row">
 <div>
-<span>Protein</span>
+<span class="nutrition-macro-label"><i aria-hidden="true">P</i>Protein</span>
 <strong><span id="nutritionProteinUsed">0</span> / <span id="nutritionProteinGoal">150</span> g</strong>
 </div>
 <div class="nutrition-progress-track"><span id="nutritionProteinBar"></span></div>
 </div>
 <div class="nutrition-macro-row">
 <div>
-<span>Carbohydrates</span>
+<span class="nutrition-macro-label"><i aria-hidden="true">C</i>Carbohydrates</span>
 <strong><span id="nutritionCarbsUsed">0</span> / <span id="nutritionCarbsGoal">240</span> g</strong>
 </div>
 <div class="nutrition-progress-track"><span id="nutritionCarbsBar"></span></div>
 </div>
 <div class="nutrition-macro-row">
 <div>
-<span>Fat</span>
+<span class="nutrition-macro-label"><i aria-hidden="true">F</i>Fat</span>
 <strong><span id="nutritionFatUsed">0</span> / <span id="nutritionFatGoal">70</span> g</strong>
 </div>
 <div class="nutrition-progress-track"><span id="nutritionFatBar"></span></div>

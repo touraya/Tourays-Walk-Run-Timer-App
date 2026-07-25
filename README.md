@@ -1,3 +1,1 @@
-Tourays Fitness V10 — Stage 30 production cleanup
-
-Removed the visible development-stage label from the Nutrition screen. No functionality or other UI elements were changed. Cache version: 10301.
+Tourays Fitness V10 Core — Stage 31 Premium Nutrition Dashboard. Build 10310. No stage/version label is visible inside the app.
