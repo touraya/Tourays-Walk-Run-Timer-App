@@ -5479,3 +5479,95 @@ body.barcode-scan-success .barcode-scan-frame{
   .nutrition-food-live-macros strong{font-size:16px}
   .nutrition-meal-shortcuts{grid-template-columns:repeat(2,1fr)}
 }
+
+
+/* ================================================================
+   STAGE 30 — PREMIUM NUTRITION POLISH
+   Visual refinement only. Existing nutrition IDs and logic preserved.
+   ================================================================ */
+#nutritionScreen{--n30-ink:#211a35;--n30-muted:#766f84;--n30-purple:#7048e8;--n30-soft:#f4f0ff;--n30-line:rgba(35,27,58,.08)}
+#nutritionScreen .nutrition-shell{max-width:980px;padding-bottom:max(112px,calc(86px + env(safe-area-inset-bottom)))}
+#nutritionScreen .nutrition-header p{max-width:580px;color:var(--n30-muted)}
+#nutritionScreen .nutrition-date-card{position:sticky;top:8px;z-index:8;border-radius:18px!important}
+#nutritionScreen .nutrition-stage28-hero{padding:24px 26px;border-radius:30px;background:radial-gradient(circle at 88% 4%,rgba(255,255,255,.22),transparent 28%),linear-gradient(135deg,#21182f 0%,#4c327f 52%,#8250ed 100%)}
+#nutritionScreen .nutrition-stage28-badge{background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.12)}
+#nutritionScreen .nutrition-stage28-copy h2{font-size:clamp(1.75rem,6vw,2.35rem)}
+
+#nutritionScreen .nutrition-quick-actions{gap:12px;margin:14px 0}
+#nutritionScreen .nutrition-quick-actions button{border-radius:22px;min-height:78px}
+#nutritionScreen .nutrition-quick-actions button:first-child{background:linear-gradient(145deg,#6840d8,#8e62f2)}
+
+#nutritionScreen .nutrition-summary-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:14px}
+#nutritionScreen .nutrition-calorie-card{position:relative;overflow:hidden;min-height:270px;padding:24px!important;display:grid!important;grid-template-columns:190px minmax(0,1fr);align-items:center;gap:24px;background:radial-gradient(circle at 0 0,rgba(126,79,235,.12),transparent 38%),linear-gradient(145deg,#fff,#faf8ff)!important}
+#nutritionScreen .nutrition-calorie-card:after{content:"DAILY ENERGY";position:absolute;right:20px;top:18px;font-size:.58rem;font-weight:900;letter-spacing:.16em;color:#aaa3b7}
+#nutritionScreen .nutrition-ring{width:184px!important;height:184px!important;background:conic-gradient(#744be7 var(--progress,0%),#ece8f5 0)!important;box-shadow:inset 0 0 0 1px rgba(112,72,232,.05),0 18px 34px rgba(84,55,150,.15)}
+#nutritionScreen .nutrition-ring::before{width:140px!important;height:140px!important;background:linear-gradient(145deg,#fff,#faf8ff)!important;box-shadow:inset 0 0 20px rgba(112,72,232,.04)}
+#nutritionScreen .nutrition-ring strong{font-size:2rem!important;letter-spacing:-.06em;color:var(--n30-ink)}
+#nutritionScreen .nutrition-ring span{font-size:.65rem!important;letter-spacing:.06em;text-transform:uppercase;color:#8a8298}
+#nutritionScreen .nutrition-calorie-copy>span{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--n30-soft);color:var(--n30-purple);font-weight:900;font-size:.64rem;text-transform:uppercase;letter-spacing:.1em}
+#nutritionScreen .nutrition-calorie-copy h2{margin:12px 0 7px!important;font-size:2.3rem!important}
+#nutritionScreen .nutrition-calorie-copy p{line-height:1.5;color:var(--n30-muted)}
+
+#nutritionScreen .nutrition-macro-card{padding:14px!important;display:grid!important;grid-template-columns:1fr;gap:9px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+#nutritionScreen .nutrition-macro-row{position:relative;padding:16px!important;border:1px solid var(--n30-line)!important;border-radius:20px;background:#fff;box-shadow:0 10px 26px rgba(37,27,67,.065)}
+#nutritionScreen .nutrition-macro-row+ .nutrition-macro-row{border-top:1px solid var(--n30-line)!important}
+#nutritionScreen .nutrition-macro-row>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#nutritionScreen .nutrition-macro-row span{font-weight:800;color:var(--n30-ink)}
+#nutritionScreen .nutrition-macro-row strong{font-size:.78rem;color:var(--n30-muted)}
+#nutritionScreen .nutrition-progress-track{height:10px!important;margin-top:12px;border-radius:999px;overflow:hidden}
+#nutritionScreen .nutrition-macro-row:nth-child(1) .nutrition-progress-track span{background:linear-gradient(90deg,#744be7,#a987ff)!important}
+#nutritionScreen .nutrition-macro-row:nth-child(2) .nutrition-progress-track span{background:linear-gradient(90deg,#ef9f37,#ffc56e)!important}
+#nutritionScreen .nutrition-macro-row:nth-child(3) .nutrition-progress-track span{background:linear-gradient(90deg,#36b98b,#77d8b7)!important}
+
+#nutritionScreen .nutrition-water-card{position:relative;padding:20px!important;border-radius:28px!important;background:radial-gradient(circle at 100% 0,rgba(75,190,238,.18),transparent 38%),linear-gradient(145deg,#edfaff,#fff)!important}
+#nutritionScreen .nutrition-water-card h2{margin-bottom:3px;font-size:1.45rem}
+#nutritionScreen .nutrition-water-actions button{min-height:42px;border-radius:14px!important;font-weight:900}
+#nutritionScreen .nutrition-water-track{height:12px!important;border-radius:999px;overflow:hidden;background:#dff3fb!important}
+#nutritionScreen .nutrition-water-track span{background:linear-gradient(90deg,#3db9e9,#73d5f3)!important;box-shadow:0 0 16px rgba(61,185,233,.3)}
+
+#nutritionScreen .nutrition-scan-card{padding:20px!important}
+#nutritionScreen .nutrition-scan-grid{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr)!important;gap:12px!important}
+#nutritionScreen .nutrition-scan-hero{min-height:118px!important;border-radius:22px!important;background:linear-gradient(135deg,#6d43dc,#8b5df0)!important;box-shadow:0 16px 30px rgba(109,67,220,.22)!important}
+#nutritionScreen .nutrition-photo-action{min-height:118px;border-radius:22px!important;background:#faf8ff!important}
+#nutritionScreen .nutrition-scan-action strong{font-size:1rem!important}
+
+#nutritionScreen .nutrition-meals-card{padding:20px!important}
+#nutritionScreen .nutrition-meal-groups{gap:12px!important}
+#nutritionScreen .nutrition-meal-group{overflow:hidden;box-shadow:0 10px 28px rgba(37,27,67,.06)}
+#nutritionScreen .nutrition-meal-group>header{padding:15px 16px!important;background:linear-gradient(145deg,#fff,#fbf9ff)}
+#nutritionScreen .nutrition-meal-group>header strong{font-size:1rem;color:var(--n30-ink)}
+#nutritionScreen .nutrition-meal-group>header span{font-size:.7rem!important;font-weight:800;color:#8d8499!important}
+#nutritionScreen .nutrition-meal-group>header button{background:var(--n30-soft)!important;color:var(--n30-purple)!important;font-size:1.25rem!important}
+#nutritionScreen .nutrition-empty-meal{min-height:64px;display:grid;place-items:center;color:#a099ac;font-size:.78rem;background:rgba(249,247,252,.7)}
+#nutritionScreen .nutrition-food-item{padding:13px 14px!important}
+
+#nutritionScreen .nutrition-insight-card,#nutritionScreen .nutrition-goals-card{border:1px solid var(--n30-line)!important;background:linear-gradient(145deg,#fff,#fbfaff)!important}
+#nutritionScreen .nutrition-primary-btn{border-radius:14px!important;box-shadow:0 8px 20px rgba(112,72,232,.18)}
+
+@media(max-width:760px){
+  #nutritionScreen .nutrition-summary-grid{grid-template-columns:1fr}
+  #nutritionScreen .nutrition-calorie-card{grid-template-columns:164px minmax(0,1fr);min-height:230px}
+  #nutritionScreen .nutrition-ring{width:158px!important;height:158px!important}
+  #nutritionScreen .nutrition-ring::before{width:120px!important;height:120px!important}
+  #nutritionScreen .nutrition-scan-grid{grid-template-columns:1fr!important}
+  #nutritionScreen .nutrition-photo-action{min-height:88px}
+}
+@media(max-width:520px){
+  #nutritionScreen .nutrition-shell{padding-left:12px;padding-right:12px}
+  #nutritionScreen .nutrition-stage28-hero{padding:20px;border-radius:25px}
+  #nutritionScreen .nutrition-calorie-card{grid-template-columns:1fr;justify-items:center;text-align:center;padding:22px 16px!important}
+  #nutritionScreen .nutrition-calorie-card:after{position:static;grid-row:1;font-size:.56rem}
+  #nutritionScreen .nutrition-ring{grid-row:2;width:176px!important;height:176px!important}
+  #nutritionScreen .nutrition-ring::before{width:134px!important;height:134px!important}
+  #nutritionScreen .nutrition-calorie-copy{grid-row:3}
+  #nutritionScreen .nutrition-calorie-copy h2{font-size:2rem!important}
+  #nutritionScreen .nutrition-quick-actions{grid-template-columns:1.15fr .925fr .925fr}
+  #nutritionScreen .nutrition-quick-actions button{min-height:76px!important}
+  #nutritionScreen .nutrition-meal-groups{grid-template-columns:1fr!important}
+}
+@media(prefers-reduced-motion:no-preference){
+  #nutritionScreen .nutrition-calorie-card,#nutritionScreen .nutrition-macro-row,#nutritionScreen .nutrition-water-card,#nutritionScreen .nutrition-meal-group{animation:n30Rise .42s ease both}
+  #nutritionScreen .nutrition-macro-row:nth-child(2){animation-delay:.05s}
+  #nutritionScreen .nutrition-macro-row:nth-child(3){animation-delay:.1s}
+  @keyframes n30Rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
