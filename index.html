@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10370" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10380" rel="stylesheet"/>
 <meta content="V10-Stage31" name="tf-build"/>
 </head>
 <body>
@@ -903,50 +903,61 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <section class="planner-modal-card nutrition-photo-modal-card" role="dialog" aria-modal="true" aria-labelledby="nutritionPhotoTitle">
 <header class="nutrition-photo-modal-header">
 <div>
-<span class="eyebrow">PHOTO-ASSISTED ENTRY</span>
-<h2 id="nutritionPhotoTitle">Estimate a meal from a photo</h2>
-<p>Take a meal photo, choose the closest food and confirm the portion before saving.</p>
+<span class="eyebrow">SMART PHOTO ENTRY</span>
+<h2 id="nutritionPhotoTitle">Review your meal photo</h2>
+<p>Capture the meal, confirm the closest food and portion, then review the nutrition estimate before adding it.</p>
 </div>
 <button class="planner-close-btn" data-close-nutrition-photo type="button" aria-label="Close photo estimator">✕</button>
 </header>
+<div class="nutrition-photo-steps" aria-label="Photo entry steps">
+<span class="is-active"><b>1</b> Photo</span><i></i><span><b>2</b> Confirm</span><i></i><span><b>3</b> Review</span>
+</div>
 <button id="nutritionLiveBarcode" type="button" hidden aria-hidden="true" tabindex="-1"></button>
 <label class="nutrition-scan-action nutrition-photo-action nutrition-photo-modal-picker">
 <input accept="image/*" capture="environment" id="nutritionFoodPhoto" type="file"/>
 <span>📷</span>
-<div><strong>Take or choose a food photo</strong><small>The photo stays on this device and helps you review the meal entry.</small></div>
+<div><strong>Take or choose a food photo</strong><small>The image stays on this device. No photo is uploaded.</small></div>
 </label>
-<div class="nutrition-scan-preview" hidden="" id="nutritionScanPreview">
+<div class="nutrition-scan-preview" hidden id="nutritionScanPreview">
 <img alt="Selected food" id="nutritionScanImage"/>
 <div>
 <strong id="nutritionScanStatus">Photo ready</strong>
-<small>Review the food and portion below before adding it.</small>
+<small>Confirm the closest match below. Automatic image recognition requires a protected AI connection.</small>
 </div>
+</div>
+<div class="nutrition-photo-match-card">
+<div class="nutrition-photo-match-head">
+<div><span class="eyebrow">CONFIRMED MATCH</span><strong id="nutritionMatchName">Cooked white rice</strong></div>
+<span class="nutrition-match-badge" id="nutritionMatchBadge">User selected</span>
 </div>
 <div class="nutrition-estimator-grid">
 <label>
-<span>Food</span>
+<span>Closest food</span>
 <select id="nutritionEstimateFood"><optgroup label="Rice, grains &amp; starches"><option value="rice">Cooked white rice</option><option value="brown_rice">Cooked brown rice</option><option value="jollof_rice">Jollof rice</option><option value="fried_rice">Fried rice</option><option value="couscous">Cooked couscous</option><option value="quinoa">Cooked quinoa</option><option value="oats">Cooked oats</option><option value="pasta">Cooked pasta</option><option value="noodles">Cooked noodles</option><option value="bread">Bread</option><option value="wholegrain_bread">Wholegrain bread</option><option value="potato">Boiled potato</option><option value="sweet_potato">Sweet potato</option><option value="cassava">Boiled cassava</option><option value="yam">Boiled yam</option></optgroup><optgroup label="Protein foods"><option value="chicken">Chicken breast</option><option value="chicken_thigh">Chicken thigh</option><option value="beef">Lean beef</option><option value="minced_beef">Minced beef</option><option value="lamb">Lamb</option><option value="turkey">Turkey breast</option><option value="salmon">Salmon</option><option value="tuna">Tuna</option><option value="tilapia">Tilapia</option><option value="sardines">Sardines</option><option value="egg">Egg</option><option value="beans">Cooked beans</option><option value="lentils">Cooked lentils</option><option value="chickpeas">Cooked chickpeas</option><option value="tofu">Tofu</option></optgroup><optgroup label="Fruit"><option value="banana">Banana</option><option value="apple">Apple</option><option value="orange">Orange</option><option value="mango">Mango</option><option value="pineapple">Pineapple</option><option value="watermelon">Watermelon</option><option value="grapes">Grapes</option><option value="strawberry">Strawberries</option><option value="avocado">Avocado</option><option value="dates">Dates</option></optgroup><optgroup label="Vegetables"><option value="broccoli">Broccoli</option><option value="carrot">Carrot</option><option value="spinach">Spinach</option><option value="cabbage">Cabbage</option><option value="lettuce">Lettuce</option><option value="tomato">Tomato</option><option value="cucumber">Cucumber</option><option value="onion">Onion</option><option value="mixed_vegetables">Mixed vegetables</option></optgroup><optgroup label="Dairy &amp; breakfast"><option value="milk">Whole milk</option><option value="lowfat_milk">Low-fat milk</option><option value="yogurt">Plain yogurt</option><option value="greek_yogurt">Greek yogurt</option><option value="cheese">Cheese</option><option value="cornflakes">Cornflakes</option><option value="granola">Granola</option><option value="peanut">Peanut butter</option></optgroup><optgroup label="Meals &amp; snacks"><option value="pizza">Pizza</option><option value="burger">Burger</option><option value="fried_chicken">Fried chicken</option><option value="french_fries">French fries</option><option value="meat_pie">Meat pie</option><option value="sandwich">Sandwich</option><option value="chocolate">Chocolate</option><option value="biscuits">Biscuits</option><option value="crisps">Potato crisps</option></optgroup></select>
 </label>
 <label>
-<span>Portion</span>
-<div class="nutrition-grams-input">
-<input id="nutritionEstimateGrams" max="2000" min="1" type="number" value="100"/>
-<b>g</b>
-</div>
+<span>Estimated portion</span>
+<div class="nutrition-grams-input"><input id="nutritionEstimateGrams" max="2000" min="1" type="number" value="100"/><b>g</b></div>
 </label>
 </div>
-<div class="nutrition-estimate-result">
+<div class="nutrition-portion-presets" aria-label="Quick portion choices">
+<button type="button" data-photo-grams="50">50 g</button><button type="button" data-photo-grams="100" class="is-active">100 g</button><button type="button" data-photo-grams="150">150 g</button><button type="button" data-photo-grams="200">200 g</button>
+</div>
+</div>
+<div class="nutrition-estimate-result nutrition-photo-result-grid">
 <div><span>Calories</span><strong id="nutritionEstimateCalories">130 kcal</strong></div>
 <div><span>Protein</span><strong id="nutritionEstimateProtein">2.7 g</strong></div>
 <div><span>Carbs</span><strong id="nutritionEstimateCarbs">28.0 g</strong></div>
 <div><span>Fat</span><strong id="nutritionEstimateFat">0.3 g</strong></div>
 </div>
-<div class="nutrition-barcode-row">
+<div class="nutrition-photo-recommendation">
+<span>✨</span><div><strong>Smart recommendation</strong><p id="nutritionPhotoRecommendation">Rice is mainly a carbohydrate source. Add a protein and vegetables for a more balanced meal.</p></div>
+</div>
+<div class="nutrition-barcode-row nutrition-photo-submit-row">
 <input id="nutritionBarcodeValue" inputmode="numeric" placeholder="Barcode number (optional)" type="text"/>
 <button class="nutrition-primary-btn" id="nutritionUseEstimate" type="button">Review &amp; add</button>
 </div>
-<p class="nutrition-scan-note">Photo estimates are guidance only. Packaged-food values should be confirmed from the product label before saving.</p>
-
+<p class="nutrition-scan-note"><strong>Estimate only:</strong> Photos cannot reliably show exact weight, oil, sauces or hidden ingredients. Confirm the food and portion before saving.</p>
 </section>
 </div>
 
@@ -1853,7 +1864,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10370"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10380"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2376,5 +2387,5 @@ if ('serviceWorker' in navigator) {
   document.getElementById('nutritionUseEstimate')?.addEventListener('click',function(){setTimeout(function(){setPhotoModal(false);},60);});
 })();
 </script>
-<script src="navigation-v20.js?v=10370"></script></body>
+<script src="navigation-v20.js?v=10380"></script></body>
 </html>

@@ -5984,3 +5984,29 @@ body.nutrition-photo-open{overflow:hidden}
   #nutritionScreen .nutrition-quick-actions-four{grid-template-columns:1fr 1fr!important}
   #nutritionScreen .nutrition-quick-actions-four button{min-height:76px!important}
 }
+
+/* Stage 38 — premium smart photo analysis experience */
+.nutrition-photo-steps{display:flex;align-items:center;gap:8px;margin:-2px 0 18px;padding:11px 12px;border-radius:16px;background:rgba(112,72,232,.06)}
+.nutrition-photo-steps span{display:flex;align-items:center;gap:6px;font-size:.72rem;font-weight:800;color:var(--muted,#74798a);white-space:nowrap}
+.nutrition-photo-steps span b{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#e8e7ee;color:#74798a;font-size:.65rem}
+.nutrition-photo-steps span.is-active{color:#6542d9}.nutrition-photo-steps span.is-active b{background:#6f48e8;color:#fff}
+.nutrition-photo-steps i{height:2px;flex:1;min-width:10px;background:#dedbe9;border-radius:999px}
+.nutrition-photo-match-card{padding:16px;border:1px solid rgba(92,71,151,.13);border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(249,247,255,.98));margin:14px 0}
+.nutrition-photo-match-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.nutrition-photo-match-head>div{display:grid;gap:3px}.nutrition-photo-match-head strong{font-size:1.05rem;letter-spacing:-.02em}
+.nutrition-match-badge{padding:6px 9px;border-radius:999px;background:#eaf8ef;color:#258050;font-size:.65rem;font-weight:850;white-space:nowrap}
+.nutrition-portion-presets{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}
+.nutrition-portion-presets button{border:1px solid rgba(95,78,145,.16);background:#fff;border-radius:12px;padding:9px 5px;font-weight:800;color:#5f6070}
+.nutrition-portion-presets button.is-active{background:#6f48e8;color:#fff;border-color:#6f48e8;box-shadow:0 6px 14px rgba(111,72,232,.2)}
+.nutrition-photo-result-grid{margin-top:12px!important}
+.nutrition-photo-recommendation{display:flex;gap:11px;align-items:flex-start;padding:14px 15px;margin:13px 0;border-radius:18px;background:linear-gradient(135deg,#f4f0ff,#f8fbff);border:1px solid rgba(111,72,232,.12)}
+.nutrition-photo-recommendation>span{display:grid;place-items:center;width:34px;height:34px;flex:0 0 34px;border-radius:12px;background:#fff;box-shadow:0 5px 14px rgba(70,47,126,.1)}
+.nutrition-photo-recommendation strong{font-size:.82rem}.nutrition-photo-recommendation p{margin:4px 0 0;color:var(--muted,#697081);font-size:.75rem;line-height:1.45}
+.nutrition-photo-submit-row{align-items:stretch}.nutrition-photo-submit-row .nutrition-primary-btn{min-height:46px}
+.nutrition-scan-note strong{color:#4e3b81}
+@media(max-width:520px){
+ .nutrition-photo-steps{gap:5px;padding:10px 9px}.nutrition-photo-steps span{font-size:.62rem}.nutrition-photo-steps span b{width:21px;height:21px}.nutrition-photo-steps i{min-width:4px}
+ .nutrition-photo-match-head{align-items:flex-start}.nutrition-match-badge{font-size:.58rem}
+ .nutrition-portion-presets{gap:5px}.nutrition-portion-presets button{padding:8px 3px;font-size:.68rem}
+ .nutrition-photo-submit-row{display:grid!important;grid-template-columns:1fr}.nutrition-photo-submit-row .nutrition-primary-btn{width:100%}
+}

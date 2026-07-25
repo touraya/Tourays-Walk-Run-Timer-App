@@ -4087,6 +4087,10 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
   const grams=document.getElementById('nutritionEstimateGrams');
   const barcode=document.getElementById('nutritionBarcodeValue');
   const add=document.getElementById('nutritionUseEstimate');
+  const matchName=document.getElementById('nutritionMatchName');
+  const recommendation=document.getElementById('nutritionPhotoRecommendation');
+  const steps=[...document.querySelectorAll('.nutrition-photo-steps span')];
+  const portionButtons=[...document.querySelectorAll('[data-photo-grams]')];
   if(!photo||!food||!grams||!add)return;
 
   const database={
@@ -4181,6 +4185,17 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     result.protein.textContent=`${values.protein.toFixed(1)} g`;
     result.carbs.textContent=`${values.carbs.toFixed(1)} g`;
     result.fat.textContent=`${values.fat.toFixed(1)} g`;
+    if(matchName)matchName.textContent=values.name;
+    if(recommendation){
+      let message='Use the photo as a guide and confirm the portion before adding it.';
+      if(values.protein>=20) message=`${values.name} is protein-rich. Pair it with vegetables and a sensible carbohydrate portion for a balanced meal.`;
+      else if(values.carbs>=25 && values.protein<10) message=`${values.name} is mainly a carbohydrate source. Add chicken, fish, beans or vegetables for a more balanced meal.`;
+      else if(values.fat>=15) message=`${values.name} is energy-dense. Keep the portion measured and balance it with vegetables or a lighter side.`;
+      else if(values.calories<=80 && values.carbs<20) message=`${values.name} is relatively light. Add a protein source if this is intended to be a complete meal.`;
+      else if(['banana','apple','orange','mango','pineapple','watermelon','grapes','strawberry','dates'].includes(food.value)) message=`${values.name} can work well as a snack. Pair it with yogurt, nuts or another protein source for better fullness.`;
+      recommendation.textContent=message;
+    }
+    portionButtons.forEach(btn=>btn.classList.toggle('is-active',Number(btn.dataset.photoGrams)===Math.round(amount)));
     return values
   }
 
@@ -4190,13 +4205,17 @@ ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise()
     image.src=url;
     preview.hidden=false;
     status.textContent=label;
+    steps.forEach((step,index)=>step.classList.toggle('is-active',index<=1));
+    estimate();
   }
 
-  photo.addEventListener('change',()=>showFile(photo.files?.[0],'Food photo ready'));
+  photo.addEventListener('change',()=>showFile(photo.files?.[0],'Photo captured — confirm the closest food'));
   food.addEventListener('change',estimate);
   grams.addEventListener('input',estimate);
+  portionButtons.forEach(btn=>btn.addEventListener('click',()=>{grams.value=btn.dataset.photoGrams;estimate();steps.forEach((step,index)=>step.classList.toggle('is-active',index<=2));}));
 
   add.addEventListener('click',()=>{
+    steps.forEach(step=>step.classList.add('is-active'));
     const values=estimate();
     const addMeal=document.getElementById('nutritionAddMeal');
     addMeal?.click();
