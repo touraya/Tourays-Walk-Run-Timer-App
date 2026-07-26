@@ -1,14 +1,14 @@
 /* Tourays Fitness V10 Core — Stage 50D functional exercise filters */
-const CACHE_NAME = 'tourays-fitness-v10-11000';
+const CACHE_NAME = 'tourays-fitness-v11-11101';
 const APP_SHELL = [
   './', './index.html',
-  './style-v8-5-2.css?v=11000',
-  './app-v8-5-2.js?v=11000',
+  './style-v8-5-2.css?v=11101',
+  './app-v8-5-2.js?v=11101',
   './manifest.json', './icon.svg', './pushup-premium-master.png',
-  './push-ups.mp4?v=11000', './squats.mp4?v=11000',
-  './high-knees.mp4?v=11000', './lunges.mp4?v=11000',
-  './plank.mp4?v=11000', './mountain-climbers.mp4?v=11000',
-  './burpees.mp4?v=11000', './jumping-jacks.mp4?v=11000'
+  './push-ups.mp4?v=11101', './squats.mp4?v=11101',
+  './high-knees.mp4?v=11101', './lunges.mp4?v=11101',
+  './plank.mp4?v=11101', './mountain-climbers.mp4?v=11101',
+  './burpees.mp4?v=11101', './jumping-jacks.mp4?v=11101'
 ];
 
 self.addEventListener('install', event => {

@@ -6767,3 +6767,188 @@ svg .value,svg [class*="progress"],svg [class*="active"]{stroke:var(--tf-purple-
   #indoor .workout-hero-actions-v46{gap:10px!important}
   #indoor .workout-start-v46,#indoor .workout-progress-v46{min-height:50px!important}
 }
+
+/* ==========================================================
+   TOURAYS FITNESS V11.1A — INDOOR COLOR ALIGNMENT HOTFIX
+   Keeps dark surfaces only for video/live workout focus.
+   Everything else follows the official purple/lilac system.
+   ========================================================== */
+#indoor{
+  --indoor-accent:var(--tf-purple-600,#7655f6);
+  --indoor-accent-2:var(--tf-purple-400,#a783ff);
+  --indoor-light:#ffffff;
+  --indoor-lilac:#f4f0ff;
+  --indoor-lilac-2:#ebe4ff;
+  --indoor-ink:var(--tf-ink,#17132f);
+  --indoor-muted:var(--tf-muted,#6e6785);
+  --indoor-border:rgba(92,55,184,.12);
+}
+
+/* Browse screen: eliminate leftover dark panels */
+#indoor #indoorBrowse,
+#indoor .workout-dashboard-v46,
+#indoor .plan-grid,
+#indoor .indoor-title-row{
+  color:var(--indoor-ink)!important;
+}
+#indoor .workout-last-v46,
+#indoor .workout-builder-v47,
+#indoor .indoor-library-panel,
+#indoor .exercise-player,
+#indoor .builder-empty-v47,
+#indoor .builder-selected-v47,
+#indoor .builder-controls-v47 label,
+#indoor .builder-summary-v47,
+#indoor .indoor-settings-row label,
+#indoor .amount,
+#indoor .animation-info-strip,
+#indoor .form-guide-grid article,
+#indoor .smart-form-card-v51,
+#indoor .exercise-mistakes-card{
+  background:linear-gradient(155deg,#fff 0%,#fbf9ff 100%)!important;
+  color:var(--indoor-ink)!important;
+  border-color:var(--indoor-border)!important;
+  box-shadow:0 8px 24px rgba(42,26,91,.07)!important;
+}
+#indoor .builder-empty-v47,
+#indoor .builder-selected-v47,
+#indoor .builder-controls-v47 label,
+#indoor .builder-summary-v47,
+#indoor .indoor-settings-row label,
+#indoor .amount,
+#indoor .animation-info-strip,
+#indoor .form-guide-grid article{
+  border-radius:17px!important;
+}
+#indoor .workout-builder-v47,
+#indoor .indoor-library-panel,
+#indoor .exercise-player{
+  border:1px solid rgba(92,55,184,.11)!important;
+  box-shadow:0 16px 42px rgba(47,29,101,.10)!important;
+}
+
+/* Typography alignment */
+#indoor #indoorBrowse h2,
+#indoor #indoorBrowse h3,
+#indoor #indoorBrowse strong,
+#indoor #indoorBrowse label,
+#indoor #indoorBrowse .amount{
+  color:var(--indoor-ink)!important;
+}
+#indoor #indoorBrowse p,
+#indoor #indoorBrowse small,
+#indoor #indoorBrowse .builder-step-v47 span,
+#indoor #indoorBrowse .indoor-title-row span{
+  color:var(--indoor-muted)!important;
+}
+#indoor .workout-kicker-v46,
+#indoor .workout-builder-head-v47>span,
+#indoor .indoor-library-head>span,
+#indoor .indoor-title-row>span,
+#indoor .builder-step-v47 b{
+  color:var(--tf-purple-700,#6540e8)!important;
+  background:var(--indoor-lilac)!important;
+  border-color:rgba(104,65,220,.14)!important;
+}
+
+/* Quick plans and exercise cards */
+#indoor .plan-card,
+#indoor .exercise-card{
+  background:linear-gradient(155deg,#fff,#f8f5ff)!important;
+  color:var(--indoor-ink)!important;
+  border:1px solid rgba(92,55,184,.10)!important;
+  box-shadow:0 7px 20px rgba(43,27,91,.07)!important;
+}
+#indoor .plan-card small,
+#indoor .plan-card i,
+#indoor .exercise-card small{color:var(--indoor-muted)!important}
+#indoor .plan-card.selected,
+#indoor .exercise-card.selected{
+  background:linear-gradient(145deg,#e9e1ff,#fbf9ff)!important;
+  border-color:rgba(112,73,235,.48)!important;
+  box-shadow:0 13px 30px rgba(104,65,220,.17)!important;
+}
+#indoor .plan-card.selected i{
+  color:var(--tf-purple-700,#6540e8)!important;
+  background:rgba(112,73,235,.09)!important;
+}
+
+/* Purple controls instead of teal/dark */
+#indoor .exercise-filter-row button,
+#indoor .amount-buttons button,
+#indoor .builder-clear-v47,
+#indoor select{
+  background:#fff!important;
+  color:var(--indoor-ink)!important;
+  border:1px solid rgba(92,55,184,.14)!important;
+  box-shadow:none!important;
+}
+#indoor .exercise-filter-row button.active,
+#indoor .workout-start-v46,
+#indoor .indoor-plan-start,
+#indoor #startExercise,
+#indoor .builder-start-v47:not(:disabled){
+  background:linear-gradient(135deg,#6540e8 0%,#8054f3 55%,#a276ff 100%)!important;
+  color:#fff!important;
+  border-color:transparent!important;
+  box-shadow:0 13px 30px rgba(101,64,232,.27)!important;
+}
+#indoor .builder-start-v47:disabled{
+  background:#ece8f5!important;color:#9a93ad!important;border-color:transparent!important;box-shadow:none!important;
+}
+#indoor .amount-buttons button:active,
+#indoor .builder-clear-v47:active{background:var(--indoor-lilac)!important}
+
+/* Form Studio information stays light; only the video viewport remains dark */
+#indoor .exercise-player .premium-demo,
+#indoor .exercise-player .demo{
+  background:linear-gradient(150deg,#171b37,#0a0d1c)!important;
+  border:1px solid rgba(166,128,255,.24)!important;
+  box-shadow:0 18px 44px rgba(25,16,53,.20)!important;
+}
+#indoor .animation-info-strip>span,
+#indoor .form-guide-grid article>span,
+#indoor .smart-form-icon-v51{
+  color:#fff!important;
+  background:linear-gradient(135deg,#6540e8,#9a70ff)!important;
+  border-color:transparent!important;
+  box-shadow:0 8px 18px rgba(101,64,232,.20)!important;
+}
+#indoor .exercise-detail-pills span{
+  background:var(--indoor-lilac)!important;
+  color:var(--tf-purple-800,#4c2ab2)!important;
+  border:1px solid rgba(101,64,232,.10)!important;
+}
+#indoor .smart-form-card-v51 strong{color:var(--indoor-ink)!important}
+#indoor .exercise-mistakes-card{
+  background:linear-gradient(145deg,#fff7f3,#fff)!important;
+  border-color:rgba(239,112,73,.16)!important;
+}
+
+/* Dark mode is intentionally limited to live training/video focus */
+#indoor #indoorActive .indoor-active-card,
+#indoor #indoorActive .indoor-active-demo,
+#indoor .exercise-player .premium-demo{
+  color:#fff!important;
+}
+#indoor #indoorActive .indoor-active-card{
+  background:linear-gradient(155deg,#171a35,#090c1b)!important;
+  border-color:rgba(166,128,255,.23)!important;
+}
+#indoor #indoorActive .indoor-progress-track i,
+#indoor #indoorActive .indoor-ring-progress{
+  background:linear-gradient(90deg,#6540e8,#9a70ff,#c1a4ff)!important;
+  stroke:#a783ff!important;
+}
+#indoor #indoorActive .indoor-live-status-v48 span:first-child,
+#indoor #indoorActive .motion-studio-status i{
+  color:#d9ccff!important;
+}
+
+/* Mobile spacing remains consistent with other pages */
+@media(max-width:640px){
+  #indoor .workout-builder-v47,
+  #indoor .indoor-library-panel,
+  #indoor .exercise-player{padding:16px!important}
+  #indoor .workout-kpi-grid-v46 article{background:linear-gradient(155deg,#fff,#f8f5ff)!important}
+}
