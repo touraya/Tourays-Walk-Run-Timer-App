@@ -139,8 +139,7 @@ function unlockTouraysVoice(){
   }catch{}
 }
 function say(t){
-  const intervalCue=/^Start (walking|running)$/i.test(String(t).trim());
-  if(!intervalCue)toast(t);
+  // Voice coaching is spoken only. Do not show the large black toast banner.
   if(!S.sound)return;
   const lower=String(t).toLowerCase();
   beep(lower.includes('running')?'run':lower.includes('walking')?'walk':'normal');
@@ -684,7 +683,7 @@ function previousIndoor(){
 }
 function exitIndoorWorkout(){
   if(!S.indoorActive)return;clearInterval(S.indoorTimer);clearInterval(S.indoorReadyTimer);S.indoorReady=false;S.indoorActive=false;S.indoorPaused=false;releaseWakeLock();
-  E.indoorActive.hidden=true;E.indoorBrowse.hidden=false;E.indoorPause.innerHTML='<span>Ⅱ</span><small>Pause</small>';E.indoorPause.classList.remove('resume');toast('Indoor workout ended')
+  E.indoorActive.hidden=true;E.indoorBrowse.hidden=false;E.indoorPause.innerHTML='<span>Ⅱ</span><small>Pause</small>';E.indoorPause.classList.remove('resume')
 }
 function finishIndoorSession(){
   clearInterval(S.indoorTimer);clearInterval(S.indoorReadyTimer);S.indoorReady=false;S.indoorActive=false;releaseWakeLock();
@@ -1170,7 +1169,7 @@ E.lessExercise.onclick=()=>{exerciseAmount=Math.max(1,exerciseAmount-(exercises[
 E.moreExercise.onclick=()=>{exerciseAmount+=exercises[currentExercise].unit==='seconds'?5:1;renderExercise()};
 E.startExercise.onclick=startExercise;
 document.querySelectorAll('.plan-card').forEach(b=>b.onclick=()=>{selectedPlan=b.dataset.plan;document.querySelectorAll('.plan-card').forEach(x=>x.classList.toggle('selected',x===b));E.indoorLevel.textContent=indoorPlans[selectedPlan].level});
-E.startPlan.onclick=startIndoorPlan;E.indoorPause.onclick=pauseIndoor;E.nextIndoor.onclick=nextIndoor;E.previousIndoor.onclick=previousIndoor;E.exitIndoor.onclick=exitIndoorWorkout;E.recenterMap.onclick=()=>{if(S.map&&S.pos)S.map.flyTo({center:[S.pos.longitude,S.pos.latitude],zoom:17,pitch:45});else toast('Waiting for GPS')};E.routeHome.onclick=routeToStart;[E.weight,E.height,E.weeklyGoal].forEach(x=>x.onchange=()=>{renderHealth();renderHome()});E.gpsToggle.onchange=()=>{S.gps=E.gpsToggle.checked;S.gps?startGps():stopGps();renderRunSetupPreview()};
+E.startPlan.onclick=startIndoorPlan;E.indoorPause.onclick=pauseIndoor;const indoorStopButton=document.getElementById('indoorStop');if(indoorStopButton)indoorStopButton.onclick=exitIndoorWorkout;E.nextIndoor.onclick=nextIndoor;E.previousIndoor.onclick=previousIndoor;E.exitIndoor.onclick=exitIndoorWorkout;E.recenterMap.onclick=()=>{if(S.map&&S.pos)S.map.flyTo({center:[S.pos.longitude,S.pos.latitude],zoom:17,pitch:45});else toast('Waiting for GPS')};E.routeHome.onclick=routeToStart;[E.weight,E.height,E.weeklyGoal].forEach(x=>x.onchange=()=>{renderHealth();renderHome()});E.gpsToggle.onchange=()=>{S.gps=E.gpsToggle.checked;S.gps?startGps():stopGps();renderRunSetupPreview()};
 ensureWorkoutIds();renderRunSetupPreview();bindExerciseLibraryFilters();renderExerciseGrid();renderExercise();startGps();renderHealth();renderPerformance();renderHome();renderPlanner();renderGoals();renderProfile();renderCoach();updateAchievements();
 
 

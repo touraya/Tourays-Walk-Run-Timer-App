@@ -19,7 +19,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link href="manifest.json" rel="manifest"/>
 <link href="icon.svg" rel="icon"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=10510?v=10503" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=10520" rel="stylesheet"/>
 <meta content="V10-Stage46" name="tf-build"/>
 </head>
 <body>
@@ -421,7 +421,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 </div>
 <div hidden="" id="indoorActive">
 <div class="indoor-live-top">
-<button aria-label="Exit workout" id="exitIndoor">✕</button>
+<button aria-label="Stop and exit workout" id="exitIndoor" title="Stop workout">✕</button>
 <div><small id="indoorModeLabel">QUICK START</small><strong id="indoorProgressLabel">Exercise 1 of 4</strong></div>
 <span id="indoorTotalTime">00:00</span>
 </div>
@@ -468,6 +468,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <div class="indoor-controls">
 <button id="previousIndoor"><span>‹</span><small>Previous</small></button>
 <button class="main" id="indoorPause"><span>Ⅱ</span><small>Pause</small></button>
+<button class="stop" id="indoorStop" type="button" aria-label="Stop workout"><span>■</span><small>Stop</small></button>
 <button id="nextIndoor"><span>›</span><small>Next</small></button>
 </div>
 </article>
@@ -1979,7 +1980,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10510?v=10503"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=10520"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2839,5 +2840,5 @@ if ('serviceWorker' in navigator) {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<script src="navigation-v20.js?v=10470"></script></body>
+<script src="navigation-v20.js?v=10520"></script></body>
 </html>
