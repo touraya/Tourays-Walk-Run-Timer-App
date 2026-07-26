@@ -459,8 +459,22 @@ function demoSvg(type){
   </svg>`;
 }
 function renderExerciseGrid(){
-  const visible=exercises.map((x,i)=>({x,i})).filter(({x})=>activeExerciseFilter==='all'||exerciseMeta[x.type]?.group===activeExerciseFilter);E.exerciseGrid.innerHTML=visible.map(({x,i})=>`<button class="exercise-card ${i===currentExercise?'selected':''}" data-i="${i}"><span>${x.icon}</span><strong>${x.name}</strong><small>${exerciseMeta[x.type]?.difficulty||'Beginner'} · ${x.muscle}</small></button>`).join('');E.exerciseLibraryCount.textContent=`${visible.length} exercise${visible.length===1?'':'s'}`;
-  document.querySelectorAll('.exercise-card').forEach(b=>b.onclick=()=>{currentExercise=+b.dataset.i;exerciseAmount=exercises[currentExercise].amount;renderExerciseGrid();renderExercise()})
+  // Deliberate two-column visual order: related exercises sit side by side.
+  // The original exercise indexes remain unchanged so workout plans continue to work.
+  const libraryOrder=[0,4,1,3,2,5,7,6];
+  const visible=libraryOrder.map(i=>({x:exercises[i],i})).filter(({x})=>activeExerciseFilter==='all'||exerciseMeta[x.type]?.group===activeExerciseFilter);
+  E.exerciseGrid.innerHTML=visible.map(({x,i})=>`<button class="exercise-card ${i===currentExercise?'selected':''}" data-i="${i}" aria-label="Open ${x.name} demonstration"><span>${x.icon}</span><strong>${x.name}</strong><small>${exerciseMeta[x.type]?.difficulty||'Beginner'} · ${x.muscle}</small></button>`).join('');
+  E.exerciseLibraryCount.textContent=`${visible.length} exercise${visible.length===1?'':'s'}`;
+  document.querySelectorAll('.exercise-card').forEach(b=>b.onclick=()=>{
+    currentExercise=+b.dataset.i;
+    exerciseAmount=exercises[currentExercise].amount;
+    renderExerciseGrid();
+    renderExercise();
+    const player=document.querySelector('#indoor .exercise-player');
+    if(player){
+      window.setTimeout(()=>player.scrollIntoView({behavior:'smooth',block:'start'}),80);
+    }
+  });
 }
 let demoPaused=false,demoSpeed=1,demoMusclesVisible=false;
 function bindDemoControls(){

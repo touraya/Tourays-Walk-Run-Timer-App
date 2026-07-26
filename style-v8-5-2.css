@@ -6316,3 +6316,31 @@ body.nutrition-barcode-result-open{overflow:hidden}
   .motion-controls{padding:9px 10px 10px;gap:6px}
   .motion-control{min-height:44px;border-radius:12px}
 }
+
+
+/* Stage 50C — compact two-column exercise menu and direct video navigation */
+#indoor .exercise-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:9px!important;
+}
+#indoor .exercise-card{
+  min-height:112px!important;
+  padding:11px!important;
+  scroll-margin-top:110px;
+}
+#indoor .exercise-card span{
+  width:40px!important;
+  height:40px!important;
+  margin-bottom:8px!important;
+}
+#indoor .exercise-card strong{font-size:.68rem!important;line-height:1.15}
+#indoor .exercise-card small{font-size:.48rem!important;line-height:1.25}
+#indoor .exercise-player{scroll-margin-top:118px}
+@media(max-width:380px){
+  #indoor .exercise-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #indoor .exercise-card{min-height:104px!important;padding:9px!important}
+  #indoor .exercise-card span{width:36px!important;height:36px!important;font-size:1.15rem!important}
+  #indoor .exercise-card strong{font-size:.62rem!important}
+  #indoor .exercise-card small{font-size:.44rem!important}
+}
