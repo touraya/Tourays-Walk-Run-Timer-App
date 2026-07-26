@@ -6418,3 +6418,176 @@ body.nutrition-barcode-result-open{overflow:hidden}
  #indoor .indoor-live-top{position:sticky;top:0;z-index:15;padding:9px 0 12px;background:linear-gradient(180deg,var(--bg,#090b16) 72%,transparent)}
 }
 @media(prefers-reduced-motion:reduce){#indoor *,#indoor *:before,#indoor *:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* =========================================================
+   TOURAYS FITNESS V11.0 — PREMIUM DESIGN SYSTEM FOUNDATION
+   One visual language across every module.
+   ========================================================= */
+:root{
+  --tf-purple-950:#24124f;
+  --tf-purple-900:#32186f;
+  --tf-purple-800:#4d27b9;
+  --tf-purple-700:#6540e8;
+  --tf-purple-600:#7655f6;
+  --tf-purple-500:#8d6cff;
+  --tf-purple-300:#c8b9ff;
+  --tf-lilac-100:#f0ecff;
+  --tf-lilac-50:#f8f6ff;
+  --tf-navy-950:#080b18;
+  --tf-navy-900:#10162a;
+  --tf-navy-800:#18213a;
+  --tf-ink:#171426;
+  --tf-muted:#6d7285;
+  --tf-card:#ffffff;
+  --tf-surface:#f7f7fc;
+  --tf-mint:#48d7b0;
+  --tf-sky:#5cb8f5;
+  --tf-amber:#ffb547;
+  --tf-coral:#ff776b;
+  --tf-gradient:linear-gradient(135deg,#6844ee 0%,#885fff 55%,#a275ff 100%);
+  --tf-gradient-dark:linear-gradient(145deg,#161a35 0%,#0a0d1d 100%);
+  --tf-shadow-sm:0 5px 16px rgba(38,25,83,.08);
+  --tf-shadow-md:0 12px 34px rgba(38,25,83,.12);
+  --tf-shadow-lg:0 24px 60px rgba(35,22,78,.18);
+  --tf-radius-sm:14px;
+  --tf-radius-md:20px;
+  --tf-radius-lg:28px;
+  --tf-ease:cubic-bezier(.2,.8,.2,1);
+}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(circle at 50% -15%,rgba(126,86,255,.12),transparent 35%),
+    var(--tf-surface)!important;
+  color:var(--tf-ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body,button,input,select,textarea{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+button,a,[role="button"]{-webkit-tap-highlight-color:transparent}
+button{transition:transform .16s var(--tf-ease),box-shadow .2s var(--tf-ease),filter .2s var(--tf-ease),background .2s var(--tf-ease)}
+button:active{transform:scale(.975)}
+
+/* App chrome */
+.v9-app-header{
+  background:rgba(250,249,255,.90)!important;
+  border-bottom:1px solid rgba(85,55,170,.08)!important;
+  box-shadow:0 8px 26px rgba(38,25,83,.06)!important;
+  backdrop-filter:blur(18px) saturate(145%);
+  -webkit-backdrop-filter:blur(18px) saturate(145%);
+}
+.v9-logo-mark,.install-app-icon{
+  background:var(--tf-gradient)!important;
+  box-shadow:0 12px 28px rgba(107,68,238,.28),inset 0 1px rgba(255,255,255,.28)!important;
+}
+.v9-brand small{color:var(--tf-purple-700)!important;letter-spacing:.18em!important}
+.v9-brand strong{color:var(--tf-muted)!important}
+.icon-btn{
+  background:linear-gradient(145deg,#fff,#f7f4ff)!important;
+  color:var(--tf-purple-800)!important;
+  border:1px solid rgba(99,65,210,.10)!important;
+  box-shadow:var(--tf-shadow-sm)!important;
+}
+.icon-btn:hover{box-shadow:var(--tf-shadow-md)!important;transform:translateY(-1px)}
+
+/* Typography hierarchy */
+.screen h1,.screen h2,.screen h3,.screen h4{color:var(--tf-ink);letter-spacing:-.035em}
+.screen h1{font-weight:900}.screen h2{font-weight:900}.screen h3{font-weight:850}
+.screen p,.screen small,.screen label{line-height:1.45}
+.v9-overline,.section-kicker,[class*="eyebrow"],[class*="overline"]{color:var(--tf-purple-700)!important;letter-spacing:.15em!important;font-weight:900!important}
+
+/* Shared cards and surfaces */
+.screen article,.screen .card,.screen [class*="-card"]{
+  border-color:rgba(72,43,150,.10);
+}
+.v9-readiness-card,.v9-plan-card,.v9-goal-card,.v9-stat-card,
+.workout-builder-v47,.indoor-library-panel,.exercise-player,
+.nutrition-card,.health-card,.planner-card,.goal-card,.analytics-card,
+.profile-card,.coach-card{
+  box-shadow:var(--tf-shadow-sm);
+}
+.screen .card,.screen article{transition:transform .2s var(--tf-ease),box-shadow .2s var(--tf-ease),border-color .2s var(--tf-ease)}
+@media(hover:hover){.screen .card:hover,.screen article:hover{box-shadow:var(--tf-shadow-md)}}
+
+/* Primary actions */
+.v9-primary-action,.primary-action,.primary-btn,.btn-primary,
+button[class*="primary"],button[class*="start"],
+#startExercise,.builder-start-v47,.workout-start-v46,.indoor-plan-start{
+  background:var(--tf-gradient)!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.20)!important;
+  box-shadow:0 12px 28px rgba(108,70,239,.28),inset 0 1px rgba(255,255,255,.22)!important;
+}
+.v9-primary-action:hover,.primary-action:hover,.primary-btn:hover,.btn-primary:hover,
+button[class*="primary"]:hover,button[class*="start"]:hover{
+  filter:brightness(1.04);box-shadow:0 16px 34px rgba(108,70,239,.34),inset 0 1px rgba(255,255,255,.25)!important;
+}
+.v9-link-button,a{color:var(--tf-purple-700)}
+
+/* Chips, toggles and selected states */
+[class*="chip"],[class*="pill"],[class*="badge"]{border-radius:999px}
+.active,.selected,[aria-selected="true"]{--tf-selected:1}
+.exercise-filter-row button.active,.session-intensity-option.active,.preset-card.active,
+.coach-priority-option.active,.profile-tab.active,.nutrition-tab.active{
+  background:var(--tf-gradient)!important;color:#fff!important;border-color:transparent!important;
+  box-shadow:0 8px 20px rgba(106,67,232,.22)!important;
+}
+input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{
+  outline:3px solid rgba(118,85,246,.22)!important;outline-offset:2px!important;
+}
+
+/* Progress and data visualization */
+progress::-webkit-progress-value{background:var(--tf-gradient)}
+[class*="progress"] i,[class*="progress"] span[class*="fill"],[class*="progress"] div[class*="fill"]{
+  background:var(--tf-gradient);
+}
+svg .value,svg [class*="progress"],svg [class*="active"]{stroke:var(--tf-purple-600)}
+
+/* Navigation */
+.bottom-nav,.v9-bottom-nav,[class*="bottom-nav"]{
+  background:rgba(255,255,255,.94)!important;
+  border:1px solid rgba(75,45,157,.08)!important;
+  box-shadow:0 -8px 30px rgba(38,25,83,.10)!important;
+  backdrop-filter:blur(18px) saturate(145%);
+  -webkit-backdrop-filter:blur(18px) saturate(145%);
+}
+.bottom-nav button.active,.v9-bottom-nav button.active,[class*="bottom-nav"] button.active{
+  color:var(--tf-purple-700)!important;
+  background:var(--tf-lilac-100)!important;
+}
+.bottom-nav button.active::before,.v9-bottom-nav button.active::before{background:var(--tf-gradient)!important}
+
+/* Keep module identity while enforcing one palette */
+#home,#walkRun,#indoor,#nutrition,#health,#planner,#goals,#performance,#profileSettingsScreen,#coach{
+  --accent:var(--tf-purple-600);
+  --accent-soft:var(--tf-lilac-100);
+  --text:var(--tf-ink);
+  --muted:var(--tf-muted);
+}
+#indoor .indoor-active-card,#indoor .premium-motion-studio{
+  background:var(--tf-gradient-dark)!important;
+}
+#indoor .indoor-rep-button-v48{
+  background:linear-gradient(135deg,var(--tf-purple-700),var(--tf-purple-500))!important;
+  box-shadow:0 12px 28px rgba(108,70,239,.28)!important;
+}
+#indoor .indoor-live-status-v48 span,#indoor .motion-studio-status i{
+  color:var(--tf-mint)!important;
+}
+#indoor .motion-studio-status i{background:var(--tf-mint)!important}
+#indoor .indoor-next-preview-v48{background:rgba(118,85,246,.10)!important;border-color:rgba(118,85,246,.18)!important}
+#indoor .indoor-next-preview-v48>span{background:var(--tf-gradient)!important}
+
+/* Motion inspired by polished creative tools: subtle and fast */
+.screen.active{animation:tfV11ScreenIn .32s var(--tf-ease)}
+@keyframes tfV11ScreenIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.screen.active{animation:none!important}*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* Mobile rhythm */
+@media(max-width:640px){
+  .screen{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  .v9-app-header{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  .screen h2{line-height:1.04}
+  button{min-height:44px}
+  .icon-btn{min-width:46px;min-height:46px}
+}
