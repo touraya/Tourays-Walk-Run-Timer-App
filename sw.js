@@ -1,9 +1,9 @@
 /* Tourays Fitness V10 Core — Stage 49B iPhone video playback hotfix */
-const CACHE_NAME = 'tourays-fitness-v10-10492';
+const CACHE_NAME = 'tourays-fitness-v10-10493';
 const APP_SHELL = [
   './', './index.html',
-  './style-v8-5-2.css?v=10492',
-  './app-v8-5-2.js?v=10492',
+  './style-v8-5-2.css?v=10493',
+  './app-v8-5-2.js?v=10493',
   './manifest.json', './icon.svg', './pushup-premium-master.png'
 ];
 
