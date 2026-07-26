@@ -6344,3 +6344,7 @@ body.nutrition-barcode-result-open{overflow:hidden}
   #indoor .exercise-card strong{font-size:.62rem!important}
   #indoor .exercise-card small{font-size:.44rem!important}
 }
+
+
+/* Stage 51 — Smart Form Studio */
+.smart-form-studio-v51{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}.smart-form-card-v51{display:flex;align-items:flex-start;gap:10px;padding:13px;border:1px solid rgba(142,99,255,.18);border-radius:16px;background:linear-gradient(145deg,rgba(123,78,255,.09),rgba(255,255,255,.025));min-height:92px}.smart-form-icon-v51{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:12px;background:rgba(133,89,255,.15);font-size:18px}.smart-form-card-v51 small{display:block;font-size:10px;letter-spacing:.08em;opacity:.62;margin-bottom:5px}.smart-form-card-v51 strong{display:block;font-size:13px;line-height:1.38}.breathing-v51{border-color:rgba(78,186,255,.2)}.muscles-v51{border-color:rgba(179,100,255,.25)}.coach-v51{border-color:rgba(255,190,67,.2)}@media(max-width:720px){.smart-form-studio-v51{grid-template-columns:1fr}.smart-form-card-v51{min-height:0}}

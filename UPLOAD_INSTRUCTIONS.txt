@@ -1,12 +1,3 @@
-STAGE 50D – MOBILE FLAT UPLOAD
-
-All required website files are in this one folder.
-There is NO assets folder and NO nested exercises folder.
-
-On GitHub:
-1. Open the repository root.
-2. Choose Add file > Upload files.
-3. Select every file in this folder at the same time.
-4. Upload and commit them together.
-
-The eight MP4 videos must remain beside index.html.
+UPLOAD ALL FILES IN THIS FOLDER DIRECTLY TO THE ROOT OF YOUR GITHUB PAGES REPOSITORY.
+There is no assets folder in this package.
+Replace files with the same names when prompted.
