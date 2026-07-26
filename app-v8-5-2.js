@@ -355,19 +355,20 @@ function premiumCharacter(type,pose){
 }
 
 const EXERCISE_VIDEO_FILES={
-  push:'assets/exercises/push-ups.mp4',
-  squat:'assets/exercises/squats.mp4',
-  sit:'assets/exercises/sit-ups.mp4',
-  lunge:'assets/exercises/lunges.mp4',
-  plank:'assets/exercises/plank.mp4',
-  climber:'assets/exercises/mountain-climbers.mp4',
-  burpee:'assets/exercises/burpees.mp4',
-  jack:'assets/exercises/jumping-jacks.mp4'
+  push:'assets/exercises/push-ups.mp4?v=10492',
+  squat:'assets/exercises/squats.mp4?v=10492',
+  sit:'assets/exercises/sit-ups.mp4?v=10492',
+  lunge:'assets/exercises/lunges.mp4?v=10492',
+  plank:'assets/exercises/plank.mp4?v=10492',
+  climber:'assets/exercises/mountain-climbers.mp4?v=10492',
+  burpee:'assets/exercises/burpees.mp4?v=10492',
+  jack:'assets/exercises/jumping-jacks.mp4?v=10492'
 };
 function exerciseVideoMarkup(type,name,active=false){
-  const src=EXERCISE_VIDEO_FILES[type]||EXERCISE_VIDEO_FILES.push;
+  const relativeSrc=EXERCISE_VIDEO_FILES[type]||EXERCISE_VIDEO_FILES.push;
+  const src=new URL(relativeSrc,document.baseURI).href;
   return `<div class="local-exercise-video-wrap ${active?'active-local-video':''}">
-    <video class="local-exercise-video" data-exercise-video="${type}" src="${src}" muted loop playsinline webkit-playsinline preload="auto" autoplay ${active?'':'controls'} aria-label="${name} movement demonstration"></video>
+    <video class="local-exercise-video" data-exercise-video="${type}" muted loop playsinline webkit-playsinline preload="metadata" autoplay ${active?'':'controls'} aria-label="${name} movement demonstration"><source src="${src}" type="video/mp4"></video>
     <div class="exercise-video-fallback" aria-live="polite"><strong>${name}</strong><small>Video could not play. Tap replay or reload the page.</small></div>
     <span class="local-video-badge">LOCAL MOTION GUIDE</span>
   </div>`;
@@ -377,8 +378,12 @@ function prepareExerciseVideos(scope=document){
     video.muted=true;video.defaultMuted=true;video.playsInline=true;
     const wrap=video.closest('.local-exercise-video-wrap');
     const fail=()=>wrap&&wrap.classList.add('video-failed');
+    const ready=()=>wrap&&wrap.classList.remove('video-failed');
+    video.addEventListener('loadeddata',ready);
+    video.addEventListener('canplay',ready);
     video.addEventListener('error',fail,{once:true});
-    video.play().catch(()=>{});
+    video.load();
+    video.play().catch(()=>{/* iOS may require the visible play control; this is not a media failure. */});
   });
 }
 function movementArrow(type){

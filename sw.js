@@ -1,45 +1,22 @@
-/* Tourays Fitness V10 Core — Stage 3 update-safe service worker */
-const CACHE_NAME = 'tourays-fitness-v10-10491';
+/* Tourays Fitness V10 Core — Stage 49B iPhone video playback hotfix */
+const CACHE_NAME = 'tourays-fitness-v10-10492';
 const APP_SHELL = [
-  './',
-  './index.html',
-  './style-v8-5-2.css?v=10491',
-  './app-v8-5-2.js?v=10491',
-  './manifest.json',
-  './icon.svg',
-  './pushup-premium-master.png',
-  './assets/exercises/push-ups.mp4',
-  './assets/exercises/squats.mp4',
-  './assets/exercises/sit-ups.mp4',
-  './assets/exercises/lunges.mp4',
-  './assets/exercises/plank.mp4',
-  './assets/exercises/mountain-climbers.mp4',
-  './assets/exercises/burpees.mp4',
-  './assets/exercises/jumping-jacks.mp4'
+  './', './index.html',
+  './style-v8-5-2.css?v=10492',
+  './app-v8-5-2.js?v=10492',
+  './manifest.json', './icon.svg', './pushup-premium-master.png'
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_SHELL))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
 });
-
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(
-        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-      ))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
-
 async function networkFirst(request, fallbackKey) {
   try {
-    const response = await fetch(request, { cache: 'no-store' });
-    if (response && response.ok) {
+    const response = await fetch(request, {cache:'no-store'});
+    if (response && response.ok && !request.headers.has('range')) {
       const cache = await caches.open(CACHE_NAME);
       await cache.put(request, response.clone());
     }
@@ -48,37 +25,27 @@ async function networkFirst(request, fallbackKey) {
     return (await caches.match(request)) || (fallbackKey ? await caches.match(fallbackKey) : undefined);
   }
 }
-
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  // HTML always checks the network first so new GitHub uploads appear immediately.
+  // Safari/iPhone requests MP4 data in byte ranges. Always let the server return a real 206 response.
+  if (url.pathname.endsWith('.mp4') || event.request.headers.has('range')) {
+    event.respondWith(fetch(event.request, {cache:'no-store'}));
+    return;
+  }
   if (event.request.mode === 'navigate') {
     event.respondWith(networkFirst(event.request, './index.html'));
     return;
   }
-
-  // Versioned JS/CSS and the worker-controlled app shell also check network first.
   const isCoreAsset = /(?:app-v8-5-2\.js|style-v8-5-2\.css|manifest\.json|icon\.svg|pushup-premium-master\.png)$/.test(url.pathname);
   if (isCoreAsset) {
     event.respondWith(networkFirst(event.request));
     return;
   }
-
-  // Other same-origin files remain cache-first for fast offline use.
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-      return fetch(event.request).then(response => {
-        if (response && response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-        }
-        return response;
-      });
-    })
-  );
+  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
+    if (response && response.ok) caches.open(CACHE_NAME).then(cache => cache.put(event.request, response.clone()));
+    return response;
+  })));
 });
