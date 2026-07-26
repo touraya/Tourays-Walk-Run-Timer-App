@@ -6952,3 +6952,71 @@ svg .value,svg [class*="progress"],svg [class*="active"]{stroke:var(--tf-purple-
   #indoor .exercise-player{padding:16px!important}
   #indoor .workout-kpi-grid-v46 article{background:linear-gradient(155deg,#fff,#f8f5ff)!important}
 }
+
+/* ==========================================================
+   TOURAYS FITNESS V11.1B — INDOOR TYPOGRAPHY CONTRAST HOTFIX
+   Restores clear, accessible text contrast on the purple hero.
+   ========================================================== */
+#indoor .workout-hero-v46,
+#indoor .workout-hero-v46 *{
+  text-shadow:none!important;
+}
+#indoor .workout-hero-v46 h3,
+#indoor .workout-hero-v46 .workout-hero-copy-v46 h3{
+  color:#ffffff!important;
+}
+#indoor .workout-hero-v46 p,
+#indoor .workout-hero-v46 .workout-hero-copy-v46 p{
+  color:rgba(255,255,255,.92)!important;
+}
+#indoor .workout-hero-v46 .workout-kicker-v46{
+  color:#f3edff!important;
+  background:transparent!important;
+  border:0!important;
+  padding:0!important;
+}
+#indoor .workout-hero-v46 .workout-ring-v46 strong{
+  color:#ffffff!important;
+}
+#indoor .workout-hero-v46 .workout-ring-v46 small{
+  color:rgba(255,255,255,.82)!important;
+}
+#indoor .workout-hero-v46 .workout-ring-bg-v46{
+  stroke:rgba(255,255,255,.25)!important;
+}
+#indoor .workout-hero-v46 .workout-ring-progress-v46{
+  stroke:#d7c5ff!important;
+}
+#indoor .workout-hero-v46 .workout-start-v46{
+  background:#ffffff!important;
+  color:#3f218f!important;
+  border:1px solid rgba(255,255,255,.72)!important;
+  box-shadow:0 12px 26px rgba(42,21,96,.22)!important;
+}
+#indoor .workout-hero-v46 .workout-start-v46 b,
+#indoor .workout-hero-v46 .workout-start-v46 span,
+#indoor .workout-hero-v46 .workout-start-v46 strong{
+  color:#5b35cf!important;
+}
+#indoor .workout-hero-v46 .workout-progress-v46{
+  background:rgba(52,28,119,.20)!important;
+  color:#ffffff!important;
+  border:1px solid rgba(255,255,255,.58)!important;
+}
+#indoor .workout-hero-v46 .workout-progress-v46 *{
+  color:#ffffff!important;
+}
+
+/* TOURAYS FITNESS V11.1B — INDOOR TYPOGRAPHY CONTRAST HOTFIX */
+#indoor .workout-hero-v46,#indoor .workout-hero-v46 *{text-shadow:none!important}
+#indoor .workout-hero-v46 h3,#indoor .workout-hero-v46 .workout-hero-copy-v46 h3{color:#fff!important}
+#indoor .workout-hero-v46 p,#indoor .workout-hero-v46 .workout-hero-copy-v46 p{color:rgba(255,255,255,.92)!important}
+#indoor .workout-hero-v46 .workout-kicker-v46{color:#f3edff!important;background:transparent!important;border:0!important;padding:0!important}
+#indoor .workout-hero-v46 .workout-ring-v46 strong{color:#fff!important}
+#indoor .workout-hero-v46 .workout-ring-v46 small{color:rgba(255,255,255,.82)!important}
+#indoor .workout-hero-v46 .workout-ring-bg-v46{stroke:rgba(255,255,255,.25)!important}
+#indoor .workout-hero-v46 .workout-ring-progress-v46{stroke:#d7c5ff!important}
+#indoor .workout-hero-v46 .workout-start-v46{background:#fff!important;color:#3f218f!important;border:1px solid rgba(255,255,255,.72)!important;box-shadow:0 12px 26px rgba(42,21,96,.22)!important}
+#indoor .workout-hero-v46 .workout-start-v46 b,#indoor .workout-hero-v46 .workout-start-v46 span,#indoor .workout-hero-v46 .workout-start-v46 strong{color:#5b35cf!important}
+#indoor .workout-hero-v46 .workout-progress-v46{background:rgba(52,28,119,.20)!important;color:#fff!important;border:1px solid rgba(255,255,255,.58)!important}
+#indoor .workout-hero-v46 .workout-progress-v46 *{color:#fff!important}
