@@ -1,7 +1,7 @@
 {
   "name": "Tourays Fitness",
   "short_name": "Tourays",
-  "description": "Workout planning, indoor fitness, walking, running and progress tracking.",
+  "description": "Tourays Fitness V12.0 \u2014 premium workout planning, indoor fitness, walking, running, nutrition and progress tracking.",
   "id": "./",
   "start_url": "./",
   "scope": "./",
@@ -25,5 +25,6 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "version": "12.0.0"
 }

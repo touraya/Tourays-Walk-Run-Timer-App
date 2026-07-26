@@ -1,10 +1,10 @@
-/* Tourays Fitness V11.7 — faster, resilient offline shell */
-const CACHE_NAME = 'tourays-fitness-v11-7';
+/* Tourays Fitness V12.0 — release candidate offline shell */
+const CACHE_NAME = 'tourays-fitness-v12-0';
 const CORE = [
   './', './index.html',
-  './style-v8-5-2.css?v=11700',
-  './app-v8-5-2.js?v=11700',
-  './navigation-v20.js?v=11700',
+  './style-v8-5-2.css?v=12000',
+  './app-v8-5-2.js?v=12000',
+  './navigation-v20.js?v=12000',
   './manifest.json', './icon.svg', './pushup-premium-master.png'
 ];
 
