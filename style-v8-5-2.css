@@ -7762,3 +7762,27 @@ body.tf-dialog-open{overflow:hidden;touch-action:none}
 @media(prefers-reduced-motion:reduce){
   .tf-skeleton::after,button.tf-is-busy::after{animation-duration:.01ms!important}
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V11.7 — PERFORMANCE & STABILITY
+   Rendering containment, media placeholders and offline state.
+   ========================================================= */
+.screen:not(.active),[hidden]{content-visibility:hidden}
+.exercise-card,.tf-card,.component-card,.plan-card,.nutrition-card{
+  contain:layout paint style;
+  content-visibility:auto;
+  contain-intrinsic-size:1px 220px;
+}
+img{max-width:100%;height:auto}
+img[data-tf-lazy="true"]{background:#f1eef8}
+video{background:#15121f}
+video[data-tf-offscreen="true"]{visibility:hidden}
+html.tf-save-data *,html.tf-save-data *::before,html.tf-save-data *::after{
+  animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;
+}
+.tf-performance-status{position:fixed;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media(prefers-reduced-data:reduce){
+  .tf-skeleton::after{display:none}
+  video{background-image:none!important}
+}

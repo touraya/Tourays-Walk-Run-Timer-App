@@ -4941,3 +4941,79 @@ ensureWorkoutIds();renderRunSetupPreview();bindExerciseLibraryFilters();renderEx
 
   document.documentElement.dataset.tfUxVersion=VERSION;
 })();
+
+
+/* =========================================================
+   TOURAYS FITNESS V11.7 — PERFORMANCE & BUG-FIX CONTROLLER
+   Safe, additive optimizations for mobile browsers and GitHub Pages.
+   ========================================================= */
+(function initTouraysV117Performance(){
+  const VERSION='11.7';
+  const connection=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  const saveData=Boolean(connection&&connection.saveData);
+  if(saveData)document.documentElement.classList.add('tf-save-data');
+
+  // Add native lazy decoding/loading without changing images already requested.
+  document.querySelectorAll('img').forEach(img=>{
+    if(!img.hasAttribute('loading'))img.loading='lazy';
+    if(!img.hasAttribute('decoding'))img.decoding='async';
+    img.dataset.tfLazy='true';
+  });
+
+  // Keep videos lightweight until the user reaches them. Do not override active playback.
+  document.querySelectorAll('video').forEach(video=>{
+    if(!video.hasAttribute('preload'))video.preload=saveData?'none':'metadata';
+    video.setAttribute('playsinline','');
+  });
+
+  // Pause media when it leaves the viewport or when the app goes into the background.
+  const media=[...document.querySelectorAll('video,audio')];
+  if('IntersectionObserver' in window){
+    const mediaObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        const el=entry.target;
+        if(!entry.isIntersecting&& !el.paused){
+          el.dataset.tfPausedOffscreen='true';
+          try{el.pause()}catch(_){ }
+        }
+        if(el.tagName==='VIDEO')el.dataset.tfOffscreen=entry.isIntersecting?'false':'true';
+      });
+    },{rootMargin:'180px 0px',threshold:0.01});
+    media.forEach(el=>mediaObserver.observe(el));
+  }
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden)return;
+    media.forEach(el=>{if(!el.paused){el.dataset.tfPausedBackground='true';try{el.pause()}catch(_){ }}});
+  });
+
+  // Prevent repeated taps from firing the same action twice inside a very short window.
+  let lastAction=null,lastActionAt=0;
+  document.addEventListener('click',event=>{
+    const target=event.target.closest('button,a,[data-go]');
+    if(!target)return;
+    const now=performance.now();
+    if(target===lastAction&&now-lastActionAt<280){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+    lastAction=target;lastActionAt=now;
+  },true);
+
+  // Report script/runtime failures without breaking the application.
+  window.addEventListener('unhandledrejection',event=>{
+    console.warn('[Tourays Fitness] Recovered asynchronous error:',event.reason);
+  });
+  window.addEventListener('error',event=>{
+    if(event.target!==window)console.warn('[Tourays Fitness] Asset failed to load:',event.target&&event.target.src||event.target&&event.target.href||'unknown asset');
+  },true);
+
+  // Remove stale busy states after history restores or back/forward cache navigation.
+  window.addEventListener('pageshow',()=>{
+    document.querySelectorAll('.tf-is-busy,[aria-busy="true"]').forEach(el=>{
+      el.classList.remove('tf-is-busy');el.removeAttribute('aria-busy');
+    });
+  });
+
+  document.documentElement.dataset.tfPerformanceVersion=VERSION;
+})();
