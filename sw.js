@@ -1,14 +1,14 @@
-/* Tourays Fitness V10 Core — Stage 49B iPhone video playback hotfix */
-const CACHE_NAME = 'tourays-fitness-v10-10500';
+/* Tourays Fitness V10 Core — Stage 50B real Canva video path fix */
+const CACHE_NAME = 'tourays-fitness-v10-10501';
 const APP_SHELL = [
   './', './index.html',
-  './style-v8-5-2.css?v=10500',
-  './app-v8-5-2.js?v=10500',
+  './style-v8-5-2.css?v=10501',
+  './app-v8-5-2.js?v=10501',
   './manifest.json', './icon.svg', './pushup-premium-master.png',
-  './assets/exercises/push-ups.mp4', './assets/exercises/squats.mp4',
-  './assets/exercises/high-knees.mp4', './assets/exercises/lunges.mp4',
-  './assets/exercises/plank.mp4', './assets/exercises/mountain-climbers.mp4',
-  './assets/exercises/burpees.mp4', './assets/exercises/jumping-jacks.mp4'
+  './push-ups.mp4?v=10501', './squats.mp4?v=10501',
+  './high-knees.mp4?v=10501', './lunges.mp4?v=10501',
+  './plank.mp4?v=10501', './mountain-climbers.mp4?v=10501',
+  './burpees.mp4?v=10501', './jumping-jacks.mp4?v=10501'
 ];
 
 self.addEventListener('install', event => {

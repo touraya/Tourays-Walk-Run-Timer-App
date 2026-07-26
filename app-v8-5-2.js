@@ -355,14 +355,14 @@ function premiumCharacter(type,pose){
 }
 
 const EXERCISE_VIDEO_FILES={
-  push:'assets/exercises/push-ups.mp4',
-  squat:'assets/exercises/squats.mp4',
-  knee:'assets/exercises/high-knees.mp4',
-  lunge:'assets/exercises/lunges.mp4',
-  plank:'assets/exercises/plank.mp4',
-  climber:'assets/exercises/mountain-climbers.mp4',
-  burpee:'assets/exercises/burpees.mp4',
-  jack:'assets/exercises/jumping-jacks.mp4'
+  push:'./push-ups.mp4?v=10501',
+  squat:'./squats.mp4?v=10501',
+  knee:'./high-knees.mp4?v=10501',
+  lunge:'./lunges.mp4?v=10501',
+  plank:'./plank.mp4?v=10501',
+  climber:'./mountain-climbers.mp4?v=10501',
+  burpee:'./burpees.mp4?v=10501',
+  jack:'./jumping-jacks.mp4?v=10501'
 };
 function embeddedExerciseVideoUrl(type){
   return EXERCISE_VIDEO_FILES[type] || EXERCISE_VIDEO_FILES.push;
@@ -413,7 +413,7 @@ function prepareExerciseVideos(scope=document){
     video.addEventListener('canplay',ready);
     video.addEventListener('error',fail,{once:true});
     video.load();
-    window.setTimeout(()=>{if(!Number.isFinite(video.duration)||video.duration<=0)fail()},3500);
+    window.setTimeout(()=>{if(!Number.isFinite(video.duration)||video.duration<=0)fail()},15000);
     video.play().catch(()=>{});
 
     const toggle=wrap.querySelector('.motion-toggle');
