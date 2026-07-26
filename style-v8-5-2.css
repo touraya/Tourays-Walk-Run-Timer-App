@@ -7319,3 +7319,208 @@ button,
 [data-tf-surface] small{
   color:var(--surface-muted)!important;
 }
+
+/* ==========================================================
+   TOURAYS FITNESS V11.4 — NUTRITION, HEALTH & PLANNER UNITY
+   One visual language: lilac canvas, white cards, purple actions,
+   semantic text contrast, mint/blue reserved for status and data.
+   ========================================================== */
+:root{
+  --tf-v114-purple:#6f42f5;
+  --tf-v114-purple-2:#925cff;
+  --tf-v114-lilac:#f4f1ff;
+  --tf-v114-card:#ffffff;
+  --tf-v114-border:rgba(91,64,145,.13);
+  --tf-v114-shadow:0 14px 34px rgba(65,45,110,.10);
+  --tf-v114-shadow-soft:0 8px 22px rgba(65,45,110,.075);
+}
+
+/* Shared canvas and section rhythm */
+#nutritionScreen,
+#health,
+#planner{
+  background:
+    radial-gradient(circle at 88% 2%,rgba(146,92,255,.10),transparent 25%),
+    linear-gradient(180deg,#faf9ff 0%,#f5f2ff 100%)!important;
+  color:var(--tf-text-light-heading)!important;
+}
+#nutritionScreen .nutrition-shell,
+#health,
+#planner{padding-bottom:132px!important}
+
+/* Shared card language */
+#nutritionScreen article,
+#nutritionScreen section:not(.nutrition-shell):not(.nutrition-quick-actions),
+#health article,
+#planner article,
+#planner .planner-week-nav,
+#planner .planner-days > *,
+#planner .planner-list > *{
+  border-color:var(--tf-v114-border)!important;
+}
+#nutritionScreen .nutrition-date-card,
+#nutritionScreen .nutrition-calorie-card,
+#nutritionScreen .nutrition-macro-card,
+#nutritionScreen .nutrition-water-card,
+#nutritionScreen .nutrition-meal-card,
+#health .health-pro-hero,
+#health .health-kpi,
+#health .health-chart-card,
+#health .personal-best-card,
+#health .achievement-card,
+#health .history-card,
+#planner .planner-week-nav,
+#planner .planner-day,
+#planner .planner-insight-card,
+#planner .planner-overview-grid article,
+#planner .planner-list > *{
+  background:rgba(255,255,255,.96)!important;
+  box-shadow:var(--tf-v114-shadow-soft)!important;
+  border:1px solid var(--tf-v114-border)!important;
+}
+
+/* Unified section labels */
+#nutritionScreen .eyebrow,
+#health .section-head small,
+#health .health-pro-title small,
+#planner .section-head small,
+#planner .planner-title small,
+#planner .planner-hero small{
+  color:var(--tf-v114-purple)!important;
+}
+
+/* Nutrition */
+#nutritionScreen .nutrition-header h1,
+#nutritionScreen .nutrition-header h2,
+#nutritionScreen .nutrition-header h3{
+  color:var(--tf-text-light-heading)!important;
+}
+#nutritionScreen .nutrition-header p{color:var(--tf-text-light-body)!important}
+#nutritionScreen .nutrition-date-card strong{color:var(--tf-text-light-heading)!important}
+#nutritionScreen .nutrition-date-card span{color:var(--tf-text-light-muted)!important}
+#nutritionScreen .nutrition-date-btn{
+  background:var(--tf-v114-lilac)!important;
+  color:var(--tf-v114-purple)!important;
+  border:1px solid rgba(111,66,245,.10)!important;
+}
+#nutritionScreen .nutrition-quick-actions button{
+  background:rgba(255,255,255,.96)!important;
+  color:var(--tf-text-light-heading)!important;
+  border:1px solid var(--tf-v114-border)!important;
+  box-shadow:var(--tf-v114-shadow-soft)!important;
+}
+#nutritionScreen .nutrition-quick-actions button:first-child{
+  background:linear-gradient(145deg,var(--tf-v114-purple),var(--tf-v114-purple-2))!important;
+  color:#fff!important;
+}
+#nutritionScreen .nutrition-quick-actions button:first-child strong,
+#nutritionScreen .nutrition-quick-actions button:first-child small{color:#fff!important}
+#nutritionScreen .nutrition-quick-actions button strong{color:inherit!important}
+#nutritionScreen .nutrition-quick-actions button small{color:var(--tf-text-light-muted)!important}
+#nutritionScreen .nutrition-calorie-card strong,
+#nutritionScreen .nutrition-macro-card strong,
+#nutritionScreen .nutrition-water-card strong{color:var(--tf-text-light-heading)!important}
+#nutritionScreen .nutrition-calorie-card p,
+#nutritionScreen .nutrition-macro-card p,
+#nutritionScreen .nutrition-water-card p{color:var(--tf-text-light-body)!important}
+#nutritionScreen .nutrition-progress-track,
+#nutritionScreen .nutrition-water-track{background:#ece8f6!important}
+#nutritionScreen .nutrition-progress-track span,
+#nutritionScreen .nutrition-water-track span{
+  background:linear-gradient(90deg,var(--tf-v114-purple),var(--tf-v114-purple-2))!important;
+}
+#nutritionScreen .nutrition-water-actions button,
+#nutritionScreen .nutrition-meal-card button{
+  color:var(--tf-v114-purple)!important;
+  border-color:rgba(111,66,245,.18)!important;
+}
+
+/* Health */
+#health .health-pro-head h2{color:var(--tf-text-light-heading)!important}
+#health .health-pro-head select{
+  background:#fff!important;
+  color:var(--tf-text-light-heading)!important;
+  border:1px solid var(--tf-v114-border)!important;
+}
+#health .health-pro-hero{
+  background:linear-gradient(145deg,var(--tf-v114-purple),var(--tf-v114-purple-2))!important;
+  color:#fff!important;
+  box-shadow:0 18px 38px rgba(111,66,245,.22)!important;
+}
+#health .health-pro-hero h1,
+#health .health-pro-hero h2,
+#health .health-pro-hero h3,
+#health .health-pro-hero strong{color:#fff!important}
+#health .health-pro-hero p,
+#health .health-pro-hero small,
+#health .health-pro-hero span{color:#f5f0ff!important}
+#health .health-kpi span,
+#health .health-kpi small{color:var(--tf-text-light-muted)!important}
+#health .health-kpi strong{color:var(--tf-text-light-heading)!important}
+#health .health-pro-title h3{color:var(--tf-text-light-heading)!important}
+#health .health-pro-title > span{color:var(--tf-text-light-muted)!important}
+#health .health-chart-card canvas{filter:saturate(.88)}
+#health button:not(.nav-item){
+  border-color:rgba(111,66,245,.16)!important;
+}
+#health #exportHistory{
+  color:var(--tf-v114-purple)!important;
+  background:var(--tf-v114-lilac)!important;
+}
+
+/* Planner */
+#planner .planner-head h2{color:var(--tf-text-light-heading)!important}
+#planner #plannerToday,
+#planner .planner-export-button{
+  background:linear-gradient(135deg,var(--tf-v114-purple),var(--tf-v114-purple-2))!important;
+  color:#fff!important;
+  border:none!important;
+  box-shadow:0 12px 24px rgba(111,66,245,.20)!important;
+}
+#planner .planner-hero{
+  background:linear-gradient(145deg,#ffffff 0%,#f7f3ff 100%)!important;
+  color:var(--tf-text-light-heading)!important;
+  box-shadow:var(--tf-v114-shadow)!important;
+  border:1px solid var(--tf-v114-border)!important;
+}
+#planner .planner-hero h3,
+#planner .planner-hero strong{color:var(--tf-text-light-heading)!important}
+#planner .planner-hero p{color:var(--tf-text-light-body)!important}
+#planner .planner-ring-progress{stroke:var(--tf-v114-purple)!important}
+#planner .planner-week-nav button{
+  background:var(--tf-v114-lilac)!important;
+  color:var(--tf-v114-purple)!important;
+}
+#planner .planner-day.active,
+#planner .planner-days > *.active{
+  background:linear-gradient(145deg,var(--tf-v114-purple),var(--tf-v114-purple-2))!important;
+  color:#fff!important;
+  border-color:transparent!important;
+}
+#planner .planner-day.active *,
+#planner .planner-days > *.active *{color:#fff!important}
+#planner .planner-title h3,
+#planner .planner-overview-grid strong,
+#planner .planner-insight-card strong{color:var(--tf-text-light-heading)!important}
+#planner .planner-title span,
+#planner .planner-overview-grid span,
+#planner .planner-overview-grid small,
+#planner .planner-insight-card p{color:var(--tf-text-light-muted)!important}
+#planner .planner-modal-card{
+  background:#fff!important;
+  color:var(--tf-text-light-heading)!important;
+}
+
+/* Premium tap feedback without excessive motion */
+#nutritionScreen button,
+#health button,
+#planner button{transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}
+#nutritionScreen button:active,
+#health button:active,
+#planner button:active{transform:scale(.975)}
+
+@media(max-width:390px){
+  #nutritionScreen .nutrition-quick-actions{gap:9px!important}
+  #health .health-pro-grid,
+  #planner .planner-overview-grid{gap:10px!important}
+}

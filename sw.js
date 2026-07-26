@@ -1,5 +1,5 @@
 /* Tourays Fitness V10 Core — Stage 50D functional exercise filters */
-const CACHE_NAME = 'tourays-fitness-v11-11300';
+const CACHE_NAME = 'tourays-fitness-v11-4';
 const APP_SHELL = [
   './', './index.html',
   './style-v8-5-2.css?v=11300',
