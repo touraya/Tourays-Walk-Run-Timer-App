@@ -1,10 +1,14 @@
 /* Tourays Fitness V10 Core — Stage 49B iPhone video playback hotfix */
-const CACHE_NAME = 'tourays-fitness-v10-10494';
+const CACHE_NAME = 'tourays-fitness-v10-10500';
 const APP_SHELL = [
   './', './index.html',
-  './style-v8-5-2.css?v=10494',
-  './app-v8-5-2.js?v=10494',
-  './manifest.json', './icon.svg', './pushup-premium-master.png'
+  './style-v8-5-2.css?v=10500',
+  './app-v8-5-2.js?v=10500',
+  './manifest.json', './icon.svg', './pushup-premium-master.png',
+  './assets/exercises/push-ups.mp4', './assets/exercises/squats.mp4',
+  './assets/exercises/high-knees.mp4', './assets/exercises/lunges.mp4',
+  './assets/exercises/plank.mp4', './assets/exercises/mountain-climbers.mp4',
+  './assets/exercises/burpees.mp4', './assets/exercises/jumping-jacks.mp4'
 ];
 
 self.addEventListener('install', event => {
