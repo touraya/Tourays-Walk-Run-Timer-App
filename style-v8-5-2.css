@@ -7221,3 +7221,101 @@ button,
 @media(prefers-reduced-motion:reduce){
   .screen.active{animation:none!important}
 }
+
+/* ==========================================================
+   TOURAYS FITNESS V11.3 — SEMANTIC TEXT CONTRAST SYSTEM
+   Readability follows the surface: light, purple, or dark.
+   ========================================================== */
+:root{
+  --tf-text-light-heading:#171229;
+  --tf-text-light-body:#514b61;
+  --tf-text-light-muted:#746d82;
+  --tf-text-purple-heading:#ffffff;
+  --tf-text-purple-body:#f7f3ff;
+  --tf-text-purple-muted:#e7dcff;
+  --tf-text-dark-heading:#ffffff;
+  --tf-text-dark-body:#ddd8e8;
+  --tf-text-dark-muted:#aca5b9;
+}
+
+/* Indoor purple hero — explicit high contrast */
+#indoor .workout-hero-v46,
+#indoor .workout-hero-v46 .workout-hero-copy-v46{
+  color:var(--tf-text-purple-heading)!important;
+}
+#indoor .workout-hero-v46 .workout-kicker-v46{
+  color:var(--tf-text-purple-heading)!important;
+  opacity:1!important;
+}
+#indoor .workout-hero-v46 #workoutGreetingV46,
+#indoor .workout-hero-v46 .workout-hero-copy-v46 h3{
+  color:var(--tf-text-purple-heading)!important;
+  opacity:1!important;
+}
+#indoor .workout-hero-v46 #workoutRecommendationV46,
+#indoor .workout-hero-v46 .workout-hero-copy-v46 p{
+  color:var(--tf-text-purple-body)!important;
+  opacity:1!important;
+}
+#indoor .workout-hero-v46 .workout-ring-v46 strong{
+  color:var(--tf-text-purple-heading)!important;
+}
+#indoor .workout-hero-v46 .workout-ring-v46 small{
+  color:var(--tf-text-purple-muted)!important;
+  opacity:1!important;
+}
+
+/* Nutrition purple hero — never allow dark text on the gradient */
+#nutritionScreen .nutrition-stage28-hero,
+#nutritionScreen .nutrition-stage28-hero .nutrition-stage28-copy{
+  color:var(--tf-text-purple-heading)!important;
+}
+#nutritionScreen .nutrition-stage28-hero h1,
+#nutritionScreen .nutrition-stage28-hero h2,
+#nutritionScreen .nutrition-stage28-hero h3,
+#nutritionScreen .nutrition-stage28-hero strong{
+  color:var(--tf-text-purple-heading)!important;
+  opacity:1!important;
+}
+#nutritionScreen .nutrition-stage28-hero p{
+  color:var(--tf-text-purple-body)!important;
+  opacity:1!important;
+}
+#nutritionScreen .nutrition-stage28-hero small,
+#nutritionScreen .nutrition-stage28-hero span{
+  color:var(--tf-text-purple-muted)!important;
+}
+
+/* Reusable semantic surface helpers for current and future modules */
+.tf-surface-light,
+[data-tf-surface="light"]{
+  --surface-heading:var(--tf-text-light-heading);
+  --surface-body:var(--tf-text-light-body);
+  --surface-muted:var(--tf-text-light-muted);
+}
+.tf-surface-purple,
+[data-tf-surface="purple"]{
+  --surface-heading:var(--tf-text-purple-heading);
+  --surface-body:var(--tf-text-purple-body);
+  --surface-muted:var(--tf-text-purple-muted);
+}
+.tf-surface-dark,
+[data-tf-surface="dark"]{
+  --surface-heading:var(--tf-text-dark-heading);
+  --surface-body:var(--tf-text-dark-body);
+  --surface-muted:var(--tf-text-dark-muted);
+}
+.tf-surface-light h1,.tf-surface-light h2,.tf-surface-light h3,.tf-surface-light strong,
+.tf-surface-purple h1,.tf-surface-purple h2,.tf-surface-purple h3,.tf-surface-purple strong,
+.tf-surface-dark h1,.tf-surface-dark h2,.tf-surface-dark h3,.tf-surface-dark strong,
+[data-tf-surface] h1,[data-tf-surface] h2,[data-tf-surface] h3,[data-tf-surface] strong{
+  color:var(--surface-heading)!important;
+}
+.tf-surface-light p,.tf-surface-purple p,.tf-surface-dark p,
+[data-tf-surface] p{
+  color:var(--surface-body)!important;
+}
+.tf-surface-light small,.tf-surface-purple small,.tf-surface-dark small,
+[data-tf-surface] small{
+  color:var(--surface-muted)!important;
+}
