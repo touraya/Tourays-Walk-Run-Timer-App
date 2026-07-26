@@ -7020,3 +7020,204 @@ svg .value,svg [class*="progress"],svg [class*="active"]{stroke:var(--tf-purple-
 #indoor .workout-hero-v46 .workout-start-v46 b,#indoor .workout-hero-v46 .workout-start-v46 span,#indoor .workout-hero-v46 .workout-start-v46 strong{color:#5b35cf!important}
 #indoor .workout-hero-v46 .workout-progress-v46{background:rgba(52,28,119,.20)!important;color:#fff!important;border:1px solid rgba(255,255,255,.58)!important}
 #indoor .workout-hero-v46 .workout-progress-v46 *{color:#fff!important}
+
+/* ==========================================================
+   TOURAYS FITNESS V11.2 — GLOBAL TYPOGRAPHY SYSTEM
+   One hierarchy, readable contrast, consistent rhythm.
+   ========================================================== */
+:root{
+  --tf-font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Inter,Roboto,Arial,sans-serif;
+  --tf-font-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Inter,Roboto,Arial,sans-serif;
+  --tf-type-hero:clamp(2.05rem,8.2vw,3rem);
+  --tf-type-h1:clamp(1.72rem,6.8vw,2.35rem);
+  --tf-type-h2:clamp(1.28rem,5vw,1.68rem);
+  --tf-type-h3:clamp(1.02rem,4vw,1.24rem);
+  --tf-type-body:.91rem;
+  --tf-type-small:.78rem;
+  --tf-type-label:.68rem;
+  --tf-leading-tight:1.08;
+  --tf-leading-heading:1.16;
+  --tf-leading-body:1.52;
+  --tf-tracking-display:-.042em;
+  --tf-tracking-heading:-.022em;
+  --tf-ink:#171229;
+  --tf-body:#514b61;
+  --tf-muted-text:#746d82;
+  --tf-on-purple:#ffffff;
+  --tf-on-purple-body:rgba(255,255,255,.91);
+  --tf-on-dark:#ffffff;
+  --tf-on-dark-body:#d8d4e3;
+}
+html,body,button,input,select,textarea{font-family:var(--tf-font-body)!important}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+
+/* Display and page titles */
+.brand h1,
+.screen>header h1,
+.screen>header h2,
+.home-intro h2,
+.health-hero h2,
+.workout-header-v46 h2,
+#indoor .workout-header-v46 h2,
+#walkRun h2,
+#nutrition h2,
+#health h2,
+#planner h2,
+#goals h2,
+#analytics h2,
+#profile h2,
+#coach h2{
+  font-family:var(--tf-font-display)!important;
+  font-weight:800!important;
+  letter-spacing:var(--tf-tracking-display)!important;
+  line-height:var(--tf-leading-tight)!important;
+}
+#indoor .workout-header-v46 h2{font-size:var(--tf-type-hero)!important}
+
+/* Section hierarchy */
+.screen h2,
+.section-head h2,
+.home-section-title h3,
+.workout-builder-head-v47 h3,
+.indoor-library-head h3,
+.exercise-title h3,
+.health-card h3,
+.nutrition-card h3,
+.planner-card h3{
+  font-family:var(--tf-font-display)!important;
+  font-size:var(--tf-type-h2);
+  font-weight:780!important;
+  letter-spacing:var(--tf-tracking-heading)!important;
+  line-height:var(--tf-leading-heading)!important;
+}
+.screen h3,
+.card h3,
+article h3{
+  font-family:var(--tf-font-display)!important;
+  font-size:var(--tf-type-h3);
+  font-weight:740!important;
+  letter-spacing:-.014em!important;
+  line-height:1.22!important;
+}
+
+/* Body copy: clearer and less washed out */
+.screen p,
+.screen li,
+.screen dd,
+.screen .description,
+.screen .subtitle,
+.screen .helper-text{
+  font-size:var(--tf-type-body);
+  line-height:var(--tf-leading-body)!important;
+}
+.screen small,
+.screen .caption,
+.screen .meta,
+.screen .hint{
+  font-size:var(--tf-type-small);
+  line-height:1.38!important;
+}
+
+/* Eyebrows and labels use one recognizable Canva-inspired rhythm */
+.eyebrow,
+.section-head small,
+.home-section-title small,
+.workout-kicker-v46,
+.workout-builder-head-v47>span,
+.indoor-library-head>span,
+.indoor-title-row>span,
+[class*="section-label"],
+[class*="eyebrow"],
+[class*="kicker"]{
+  font-family:var(--tf-font-body)!important;
+  font-size:var(--tf-type-label)!important;
+  font-weight:800!important;
+  letter-spacing:.145em!important;
+  line-height:1.2!important;
+  text-transform:uppercase;
+}
+
+/* Buttons: consistent, readable typography */
+button,
+.primary,.secondary,.danger,
+[class*="start"],
+[class*="action"]{
+  font-weight:750;
+  letter-spacing:-.008em;
+}
+.primary,.secondary,.danger,
+#indoor .workout-start-v46,
+#indoor .workout-progress-v46,
+#indoor .builder-start-v47{
+  font-size:.96rem!important;
+  line-height:1.15!important;
+}
+
+/* Theme-aware text contrast */
+.screen,
+.screen .light-card,
+.screen [class*="white-card"],
+#indoor #indoorBrowse{
+  --surface-heading:var(--tf-ink);
+  --surface-body:var(--tf-body);
+  --surface-muted:var(--tf-muted-text);
+}
+.screen .card,
+.screen article,
+.screen .panel,
+#indoor #indoorBrowse .plan-card,
+#indoor #indoorBrowse .exercise-card,
+#indoor #indoorBrowse .workout-builder-v47,
+#indoor #indoorBrowse .indoor-library-panel{
+  color:var(--surface-heading);
+}
+.screen .card p,
+.screen article p,
+.screen .panel p,
+#indoor #indoorBrowse .plan-card small,
+#indoor #indoorBrowse .exercise-card small{
+  color:var(--surface-body);
+}
+
+/* Purple surfaces */
+.workout-hero-v46,
+[class*="purple-hero"],
+[class*="gradient-hero"]{
+  --surface-heading:var(--tf-on-purple);
+  --surface-body:var(--tf-on-purple-body);
+  --surface-muted:rgba(255,255,255,.78);
+}
+.workout-hero-v46 h1,.workout-hero-v46 h2,.workout-hero-v46 h3,.workout-hero-v46 strong{color:var(--surface-heading)!important}
+.workout-hero-v46 p,.workout-hero-v46 small,.workout-hero-v46 span{color:var(--surface-body)!important}
+
+/* Dark video/live-training surfaces */
+.exercise-player .premium-demo,
+.exercise-player .demo,
+#indoor #indoorActive .indoor-active-card,
+.timer-card,
+.map-shell{
+  --surface-heading:var(--tf-on-dark);
+  --surface-body:var(--tf-on-dark-body);
+  --surface-muted:#aaa4b8;
+}
+#indoor #indoorActive h1,#indoor #indoorActive h2,#indoor #indoorActive h3,#indoor #indoorActive strong,
+.timer-card h1,.timer-card h2,.timer-card h3,.timer-card strong{color:var(--surface-heading)!important}
+#indoor #indoorActive p,#indoor #indoorActive small,#indoor #indoorActive span,
+.timer-card p,.timer-card small,.timer-card span{color:var(--surface-body)}
+
+/* Reading comfort and spacing rhythm */
+.screen h1,.screen h2,.screen h3{margin-bottom:.38em}
+.screen h1+p,.screen h2+p,.screen h3+p{margin-top:0}
+.screen p:last-child{margin-bottom:0}
+.section-head,.home-section-title,.indoor-title-row{margin-bottom:14px!important}
+
+/* Compact phone refinement */
+@media(max-width:390px){
+  :root{--tf-type-body:.88rem;--tf-type-small:.75rem}
+  #indoor .workout-header-v46 h2{font-size:2.25rem!important}
+}
+
+/* Respect users who request larger text without breaking layout */
+@media(prefers-reduced-motion:reduce){
+  .screen.active{animation:none!important}
+}
