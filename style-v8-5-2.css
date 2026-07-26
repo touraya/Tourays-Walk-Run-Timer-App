@@ -7659,3 +7659,106 @@ button,
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* ======================================================================
+   TOURAYS FITNESS V11.6 — PREMIUM UX POLISH
+   Mobile spacing, loading feedback, empty states, notifications, dialogs,
+   focus visibility and safe reduced-motion handling.
+   ====================================================================== */
+:root{
+  --tf-v116-success:#168463;
+  --tf-v116-warning:#a66a12;
+  --tf-v116-danger:#c53b57;
+  --tf-v116-info:#5f43d8;
+  --tf-v116-focus:0 0 0 4px rgba(111,66,245,.22);
+}
+
+/* Clear keyboard focus without adding rings on ordinary taps */
+:where(button,a,input,select,textarea,[tabindex]):focus{outline:none}
+:where(button,a,input,select,textarea,[tabindex]):focus-visible{
+  outline:2px solid var(--tf-primary)!important;
+  outline-offset:3px!important;
+  box-shadow:var(--tf-v116-focus)!important;
+}
+
+/* Consistent mobile tap targets */
+:where(button,.icon-btn,.nav-item,.bottom-nav button){min-width:44px;min-height:44px}
+button{-webkit-user-select:none;user-select:none;touch-action:manipulation}
+
+/* Lightweight busy state used by the V11.6 interaction controller */
+button.tf-is-busy{position:relative;pointer-events:none;opacity:.82}
+button.tf-is-busy>*{opacity:.35}
+button.tf-is-busy::after{
+  content:"";position:absolute;inset:50% auto auto 50%;width:18px;height:18px;
+  margin:-9px 0 0 -9px;border:2px solid currentColor;border-right-color:transparent;
+  border-radius:50%;animation:tfV116Spin .65s linear infinite;
+}
+@keyframes tfV116Spin{to{transform:rotate(360deg)}}
+
+/* Reusable skeleton placeholders */
+.tf-skeleton{position:relative;overflow:hidden;background:#eceaf2!important;color:transparent!important;border-color:transparent!important}
+.tf-skeleton::after{
+  content:"";position:absolute;inset:0;transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.72),transparent);
+  animation:tfV116Shimmer 1.25s ease-in-out infinite;
+}
+.tf-skeleton-line{height:12px;border-radius:999px;margin:8px 0}
+.tf-skeleton-line.short{width:58%}
+@keyframes tfV116Shimmer{100%{transform:translateX(100%)}}
+
+/* Premium reusable empty state */
+.tf-empty-state{
+  display:grid;place-items:center;text-align:center;gap:9px;padding:28px 20px;
+  min-height:180px;border:1px dashed rgba(111,66,245,.22);border-radius:20px;
+  background:linear-gradient(145deg,#fff 0%,#f8f5ff 100%);color:var(--tf-component-text-secondary)
+}
+.tf-empty-state-icon{width:56px;height:56px;display:grid;place-items:center;border-radius:18px;background:#f0ebff;color:var(--tf-primary);font-size:1.45rem}
+.tf-empty-state strong{font-size:1rem;color:var(--tf-component-text)}
+.tf-empty-state p{max-width:32ch;margin:0;color:var(--tf-component-text-muted)}
+
+/* Toast notifications */
+.tf-toast-region{
+  position:fixed;z-index:100000;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));
+  width:min(92vw,430px);transform:translateX(-50%);display:grid;gap:10px;pointer-events:none
+}
+.tf-toast{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;
+  padding:13px 14px;border-radius:17px;background:rgba(24,24,27,.96);color:#fff;
+  box-shadow:0 18px 42px rgba(18,13,38,.26);backdrop-filter:blur(14px);
+  animation:tfV116ToastIn .28s var(--tf-ease) both;pointer-events:auto
+}
+.tf-toast[data-type="success"]{background:rgba(18,112,83,.97)}
+.tf-toast[data-type="warning"]{background:rgba(145,88,8,.97)}
+.tf-toast[data-type="error"]{background:rgba(164,42,67,.97)}
+.tf-toast-icon{font-size:1rem}.tf-toast-message{font-size:.88rem;font-weight:750;line-height:1.35}
+.tf-toast-close{min-width:34px!important;min-height:34px!important;border:0;background:rgba(255,255,255,.13);color:#fff;border-radius:11px;font-size:1rem}
+.tf-toast.tf-toast-out{animation:tfV116ToastOut .2s ease forwards}
+@keyframes tfV116ToastIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes tfV116ToastOut{to{opacity:0;transform:translateY(8px) scale(.98)}}
+
+/* Modal/dialog and bottom-sheet polish without changing existing layout logic */
+:where(.modal,.nutrition-modal,.planner-modal,[role="dialog"]){overscroll-behavior:contain}
+:where(.modal-card,.nutrition-modal-card,.planner-modal-card,[role="dialog"]>div){
+  box-shadow:0 24px 64px rgba(20,13,49,.24)!important;
+}
+body.tf-dialog-open{overflow:hidden;touch-action:none}
+
+/* Network banner transition */
+.network-status{transition:opacity .2s ease,transform .2s ease}
+.network-status:not([hidden]){animation:tfV116BannerIn .24s var(--tf-ease) both}
+@keyframes tfV116BannerIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* Small-screen rhythm and safe-area spacing */
+@media(max-width:600px){
+  .screen{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
+  .tf-card,.component-card{padding:17px}
+  .tf-btn,.component-button{min-height:50px;padding-inline:18px}
+  .tf-toast-region{bottom:calc(82px + env(safe-area-inset-bottom))}
+}
+@media(max-width:380px){
+  .tf-card,.component-card{padding:15px}
+  .tf-toast{padding:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  .tf-skeleton::after,button.tf-is-busy::after{animation-duration:.01ms!important}
+}

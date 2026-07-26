@@ -4873,3 +4873,71 @@ ensureWorkoutIds();renderRunSetupPreview();bindExerciseLibraryFilters();renderEx
   if(skip)skip.addEventListener('click',()=>{if(S.indoorActive&&S.indoorPhase==='rest'){S.indoorLeft=0;renderIndoorActive();beginIndoorWork();}});
   if(add)add.addEventListener('click',()=>{if(S.indoorActive&&S.indoorPhase==='rest'){S.indoorLeft+=10;S.indoorDuration+=10;renderIndoorActive();say('Ten seconds added');}});
 })();
+
+/* =========================================================
+   TOURAYS FITNESS V11.6 — PREMIUM UX POLISH CONTROLLER
+   Additive only: toast API, online/offline feedback, dialog body state,
+   and short busy feedback for navigation/action buttons.
+   ========================================================= */
+(function initTouraysV116UX(){
+  const VERSION='11.6';
+
+  // Accessible toast region and tiny public helper for existing/future modules.
+  const region=document.createElement('div');
+  region.className='tf-toast-region';
+  region.setAttribute('aria-live','polite');
+  region.setAttribute('aria-atomic','false');
+  document.body.appendChild(region);
+
+  const icons={success:'✓',warning:'!',error:'×',info:'i'};
+  window.tfNotify=function(message,type='info',duration=3200){
+    if(!message)return;
+    const toast=document.createElement('div');
+    toast.className='tf-toast';
+    toast.dataset.type=icons[type]?type:'info';
+    toast.setAttribute('role',type==='error'?'alert':'status');
+    toast.innerHTML='<span class="tf-toast-icon" aria-hidden="true">'+icons[toast.dataset.type]+'</span><span class="tf-toast-message"></span><button class="tf-toast-close" type="button" aria-label="Dismiss">×</button>';
+    toast.querySelector('.tf-toast-message').textContent=String(message);
+    const remove=()=>{if(!toast.isConnected)return;toast.classList.add('tf-toast-out');setTimeout(()=>toast.remove(),220)};
+    toast.querySelector('button').addEventListener('click',remove);
+    region.appendChild(toast);
+    while(region.children.length>3)region.firstElementChild.remove();
+    setTimeout(remove,Math.max(1600,Number(duration)||3200));
+    return toast;
+  };
+
+  // Keep the existing network banner, while adding clear restored feedback.
+  let wasOffline=!navigator.onLine;
+  window.addEventListener('offline',()=>{
+    wasOffline=true;
+    window.tfNotify('You are offline. Saved features remain available.','warning',4200);
+  });
+  window.addEventListener('online',()=>{
+    if(wasOffline)window.tfNotify('Connection restored.','success',2600);
+    wasOffline=false;
+  });
+
+  // Add a body state while any visible dialog/modal is open.
+  const dialogSelectors='.modal,.nutrition-modal,.planner-modal,[role="dialog"]';
+  function syncDialogState(){
+    const open=[...document.querySelectorAll(dialogSelectors)].some(el=>!el.hidden&&getComputedStyle(el).display!=='none'&&el.getAttribute('aria-hidden')!=='true');
+    document.body.classList.toggle('tf-dialog-open',open);
+  }
+  const observer=new MutationObserver(syncDialogState);
+  observer.observe(document.body,{subtree:true,attributes:true,attributeFilter:['hidden','class','style','aria-hidden']});
+  syncDialogState();
+
+  // Brief visual acknowledgement for route buttons; does not delay navigation.
+  document.addEventListener('click',event=>{
+    const button=event.target.closest('button');
+    if(!button||button.disabled||button.classList.contains('tf-toast-close'))return;
+    navigator.vibrate?.(12);
+    if(button.matches('[data-go],.primary,.component-button,.tf-btn')){
+      button.classList.add('tf-is-busy');
+      button.setAttribute('aria-busy','true');
+      setTimeout(()=>{button.classList.remove('tf-is-busy');button.removeAttribute('aria-busy')},360);
+    }
+  },{passive:true});
+
+  document.documentElement.dataset.tfUxVersion=VERSION;
+})();
