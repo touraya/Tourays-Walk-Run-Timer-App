@@ -382,22 +382,43 @@ function embeddedExerciseVideoUrl(type){
 }
 function exerciseVideoMarkup(type,name,active=false){
   const src=embeddedExerciseVideoUrl(type);
-  return `<div class="local-exercise-video-wrap ${active?'active-local-video':''}">
-    <video class="local-exercise-video" data-exercise-video="${type}" src="${src}" muted loop playsinline webkit-playsinline preload="auto" autoplay ${active?'':'controls'} aria-label="${name} movement demonstration"></video>
-    <div class="exercise-video-fallback" aria-live="polite">${demoSvg(type)}<strong>${name} motion guide</strong><small>Animated form guide shown because video playback is unavailable.</small></div>
-    <span class="local-video-badge">EMBEDDED MOTION GUIDE</span>
+  const meta=exerciseMeta[type]||exerciseMeta.push;
+  const breathing={push:'Inhale down · Exhale up',squat:'Inhale down · Drive up',sit:'Exhale up · Inhale down',lunge:'Inhale down · Exhale up',plank:'Slow, steady breathing',climber:'Breathe rhythmically',burpee:'Exhale on the jump',jack:'Steady rhythmic breathing'}[type]||'Controlled breathing';
+  return `<div class="local-exercise-video-wrap premium-motion-studio ${active?'active-local-video':''}" data-motion-type="${type}">
+    <div class="motion-studio-topbar">
+      <span class="motion-studio-kicker">FORM STUDIO</span>
+      <span class="motion-studio-status"><i></i> LOOPING GUIDE</span>
+    </div>
+    <div class="motion-stage">
+      <video class="local-exercise-video" data-exercise-video="${type}" src="${src}" muted loop playsinline webkit-playsinline preload="auto" autoplay aria-label="${name} movement demonstration"></video>
+      <div class="exercise-video-fallback" aria-live="polite">${demoSvg(type)}</div>
+      <div class="motion-stage-vignette"></div>
+      <div class="motion-exercise-caption">
+        <strong>${name}</strong>
+        <span>${meta.difficulty} · ${meta.group||'Full body'}</span>
+      </div>
+    </div>
+    <div class="motion-coach-strip">
+      <div><small>BREATHING</small><strong>${breathing}</strong></div>
+      <div><small>FOCUS</small><strong>${meta.impact}</strong></div>
+    </div>
+    <div class="motion-controls" role="group" aria-label="Exercise video controls">
+      <button type="button" class="motion-control motion-replay" aria-label="Replay movement">↺<span>Replay</span></button>
+      <button type="button" class="motion-control motion-toggle" aria-label="Pause movement">Ⅱ<span>Pause</span></button>
+      <button type="button" class="motion-control motion-speed" aria-label="Change playback speed">1×<span>Speed</span></button>
+    </div>
   </div>`;
 }
 function prepareExerciseVideos(scope=document){
-  scope.querySelectorAll('video.local-exercise-video').forEach(video=>{
+  scope.querySelectorAll('.local-exercise-video-wrap').forEach(wrap=>{
+    const video=wrap.querySelector('video.local-exercise-video');
+    if(!video)return;
     video.muted=true;video.defaultMuted=true;video.playsInline=true;
-    const wrap=video.closest('.local-exercise-video-wrap');
     let settled=false;
-    const fail=()=>{if(!settled&&wrap)wrap.classList.add('video-failed')};
+    const fail=()=>{if(!settled)wrap.classList.add('video-failed')};
     const ready=()=>{
       if(Number.isFinite(video.duration)&&video.duration>0){
-        settled=true;
-        if(wrap)wrap.classList.remove('video-failed');
+        settled=true;wrap.classList.remove('video-failed');
       }
     };
     video.addEventListener('loadedmetadata',ready);
@@ -405,10 +426,27 @@ function prepareExerciseVideos(scope=document){
     video.addEventListener('canplay',ready);
     video.addEventListener('error',fail,{once:true});
     video.load();
-    window.setTimeout(()=>{
-      if(!Number.isFinite(video.duration)||video.duration<=0) fail();
-    },3500);
-    video.play().catch(()=>{/* A visible play control remains available on iOS. */});
+    window.setTimeout(()=>{if(!Number.isFinite(video.duration)||video.duration<=0)fail()},3500);
+    video.play().catch(()=>{});
+
+    const toggle=wrap.querySelector('.motion-toggle');
+    const replay=wrap.querySelector('.motion-replay');
+    const speed=wrap.querySelector('.motion-speed');
+    let rate=1;
+    const updateToggle=()=>{
+      if(!toggle)return;
+      toggle.firstChild.nodeValue=video.paused?'▶':'Ⅱ';
+      const label=toggle.querySelector('span');if(label)label.textContent=video.paused?'Play':'Pause';
+      toggle.setAttribute('aria-label',video.paused?'Play movement':'Pause movement');
+    };
+    toggle?.addEventListener('click',()=>{video.paused?video.play().catch(()=>{}):video.pause();updateToggle()});
+    replay?.addEventListener('click',()=>{video.currentTime=0;video.play().catch(()=>{});updateToggle()});
+    speed?.addEventListener('click',()=>{
+      rate=rate===1?0.5:rate===0.5?1.25:1;
+      video.playbackRate=rate;
+      speed.firstChild.nodeValue=`${rate}×`;
+    });
+    video.addEventListener('play',updateToggle);video.addEventListener('pause',updateToggle);
   });
 }
 function movementArrow(type){
