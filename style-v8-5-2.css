@@ -6370,3 +6370,51 @@ body.nutrition-barcode-result-open{overflow:hidden}
   #indoor .indoor-controls{grid-template-columns:56px minmax(82px,1fr) 56px 56px!important;gap:7px!important;}
   #indoor .indoor-controls button{min-height:60px!important;}
 }
+
+/* Stage 53 — Premium Indoor Final polish */
+#indoor{--indoor-accent:#8b66ff;--indoor-accent-2:#b18cff;--indoor-panel:rgba(15,19,35,.82);--indoor-line:rgba(255,255,255,.10)}
+#indoor .section-head.indoor-head{padding:4px 2px 14px;align-items:center}
+#indoor .indoor-head h2{font-size:clamp(1.8rem,7vw,2.45rem);letter-spacing:-.045em;line-height:1}
+#indoor .indoor-level{background:linear-gradient(135deg,rgba(139,102,255,.20),rgba(177,140,255,.10));border:1px solid rgba(177,140,255,.30);box-shadow:inset 0 1px rgba(255,255,255,.12),0 8px 24px rgba(84,54,180,.12)}
+#indoor .workout-hero-v46,#indoor .workout-last-v46,#indoor .workout-builder-v47,#indoor .indoor-library-panel,#indoor .exercise-player{border:1px solid var(--indoor-line)!important;background:linear-gradient(145deg,rgba(24,27,48,.94),rgba(12,15,29,.92))!important;box-shadow:0 18px 48px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.045)!important}
+#indoor .workout-hero-v46{position:relative;overflow:hidden}
+#indoor .workout-hero-v46:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-70px;top:-95px;background:radial-gradient(circle,rgba(151,102,255,.32),transparent 68%);pointer-events:none}
+#indoor .workout-start-v46,#indoor .indoor-plan-start,#indoor #startExercise,#indoor .builder-start-v47{background:linear-gradient(135deg,#7550ff,#a276ff)!important;border:1px solid rgba(255,255,255,.20)!important;box-shadow:0 12px 28px rgba(117,80,255,.30),inset 0 1px rgba(255,255,255,.20)!important;transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+#indoor .workout-start-v46:active,#indoor .indoor-plan-start:active,#indoor #startExercise:active,#indoor .builder-start-v47:active{transform:translateY(1px) scale(.985);filter:brightness(1.08);box-shadow:0 6px 16px rgba(117,80,255,.24)!important}
+#indoor .plan-card,#indoor .exercise-card,#indoor .smart-form-card-v51{transition:transform .20s ease,border-color .20s ease,background .20s ease,box-shadow .20s ease}
+#indoor .plan-card:active,#indoor .exercise-card:active{transform:scale(.975)}
+#indoor .plan-card.selected,#indoor .exercise-card.selected{border-color:rgba(168,128,255,.72)!important;background:linear-gradient(145deg,rgba(126,83,255,.22),rgba(54,36,112,.14))!important;box-shadow:0 12px 30px rgba(105,68,219,.16),inset 0 1px rgba(255,255,255,.08)!important}
+#indoor .plan-icon,#indoor .exercise-card>span{background:linear-gradient(145deg,rgba(155,113,255,.24),rgba(96,63,206,.12))!important;border:1px solid rgba(184,151,255,.22)!important;box-shadow:inset 0 1px rgba(255,255,255,.09),0 8px 18px rgba(0,0,0,.12)}
+#indoor .exercise-filter-row{scrollbar-width:none;padding-bottom:2px}
+#indoor .exercise-filter-row::-webkit-scrollbar{display:none}
+#indoor .exercise-filter-row button{min-height:40px;border-radius:999px;transition:all .18s ease}
+#indoor .exercise-filter-row button.active{background:linear-gradient(135deg,#7654ef,#9c73ff)!important;color:#fff!important;border-color:rgba(255,255,255,.18)!important;box-shadow:0 8px 20px rgba(112,76,225,.24)}
+#indoor .premium-motion-studio{border:1px solid rgba(176,141,255,.22)!important;box-shadow:0 18px 44px rgba(0,0,0,.26)!important}
+#indoor .motion-stage:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 62%,rgba(5,7,16,.44));z-index:1}
+#indoor .smart-form-card-v51{background:linear-gradient(145deg,rgba(133,91,255,.11),rgba(255,255,255,.025))!important}
+#indoor .smart-form-card-v51:hover{transform:translateY(-2px);border-color:rgba(169,130,255,.38)}
+#indoor .exercise-mistakes-card{border-color:rgba(255,151,98,.22)!important;background:linear-gradient(145deg,rgba(255,117,74,.08),rgba(255,255,255,.02))!important}
+#indoor #indoorActive{animation:indoorStage53Enter .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes indoorStage53Enter{from{opacity:0;transform:translateY(12px) scale(.992)}to{opacity:1;transform:none}}
+#indoor .indoor-active-card{border:1px solid rgba(170,132,255,.20)!important;background:linear-gradient(155deg,rgba(22,25,45,.97),rgba(9,12,24,.98))!important;box-shadow:0 24px 60px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.05)!important}
+#indoor .indoor-progress-track{height:7px!important;background:rgba(255,255,255,.07)!important;overflow:hidden}
+#indoor .indoor-progress-track i{background:linear-gradient(90deg,#7451ff,#b685ff,#74d9ff)!important;box-shadow:0 0 16px rgba(154,112,255,.65);transition:width .5s ease}
+#indoor .indoor-count-ring{filter:drop-shadow(0 12px 26px rgba(87,58,190,.16))}
+#indoor .indoor-ring-progress{stroke:#a77cff!important;filter:drop-shadow(0 0 6px rgba(167,124,255,.55));transition:stroke-dashoffset .45s linear}
+#indoor .indoor-controls button{border-radius:18px!important;border:1px solid rgba(255,255,255,.10)!important;background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.035))!important;box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 18px rgba(0,0,0,.13);transition:transform .15s ease,filter .15s ease}
+#indoor .indoor-controls button:active{transform:scale(.95);filter:brightness(1.12)}
+#indoor .indoor-controls .main{background:linear-gradient(135deg,#704cff,#9a70ff)!important;box-shadow:0 12px 26px rgba(112,76,255,.28)!important}
+#indoor .indoor-controls .stop{background:linear-gradient(145deg,rgba(255,82,98,.20),rgba(255,82,98,.09))!important;border-color:rgba(255,120,130,.40)!important}
+#indoor .indoor-coach-metrics-v49>div{background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.07)!important;border-radius:15px!important}
+#indoor .indoor-motivation-v49{border:1px solid rgba(169,130,255,.18)!important;background:linear-gradient(135deg,rgba(121,78,241,.10),rgba(255,255,255,.025))!important}
+@media(max-width:560px){
+ #indoor .workout-hero-v46,#indoor .workout-last-v46,#indoor .workout-builder-v47,#indoor .indoor-library-panel,#indoor .exercise-player{border-radius:22px!important}
+ #indoor .workout-kpi-grid-v46{gap:8px!important}
+ #indoor .workout-kpi-grid-v46 article{border-radius:17px!important;min-height:78px}
+ #indoor .indoor-title-row{margin-top:24px!important}
+ #indoor .exercise-filter-row{display:flex!important;overflow-x:auto!important;flex-wrap:nowrap!important;padding-right:14px}
+ #indoor .exercise-filter-row button{flex:0 0 auto;padding-inline:15px!important}
+ #indoor .smart-form-card-v51{border-radius:18px!important;padding:14px!important}
+ #indoor .indoor-live-top{position:sticky;top:0;z-index:15;padding:9px 0 12px;background:linear-gradient(180deg,var(--bg,#090b16) 72%,transparent)}
+}
+@media(prefers-reduced-motion:reduce){#indoor *,#indoor *:before,#indoor *:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
