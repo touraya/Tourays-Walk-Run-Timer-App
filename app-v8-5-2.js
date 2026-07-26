@@ -13,7 +13,7 @@ summaryAchievementName:$('summaryAchievementName'),planGrid:$('planGrid'),startP
 const H={greeting:$('homeGreeting'),date:$('homeDate'),streak:$('homeStreak'),goalRing:$('homeGoalRing'),goalPercent:$('homeGoalPercent'),activeMinutes:$('homeActiveMinutes'),goalMessage:$('homeGoalMessage'),workouts:$('homeWorkouts'),calories:$('homeCalories'),distance:$('homeDistance'),gpsLabel:$('homeGpsLabel'),lastWorkout:$('homeLastWorkout'),challengeTitle:$('challengeTitle'),challengeText:$('challengeText'),challengeCheck:$('challengeCheck'),readinessRing:$('homeReadinessRing'),readinessScore:$('homeReadinessScore'),readinessLabel:$('homeReadinessLabel'),readinessText:$('homeReadinessText'),planTitle:$('homePlanTitle'),planText:$('homePlanText'),recentCard:$('homeRecentCard'),recentTitle:$('homeRecentTitle'),recentText:$('homeRecentText'),repeatWorkout:$('homeRepeatWorkout'),runSubtitle:$('homeRunSubtitle'),indoorSubtitle:$('homeIndoorSubtitle')};
 let S={walk:120,run:180,phase:'walk',duration:120,left:120,elapsed:0,walkTime:0,runTime:0,cycles:0,active:false,paused:false,sound:true,timer:null,end:0,last:0,audio:null,gps:true,watch:null,pos:null,start:null,total:0,walkM:0,runM:0,speed:null,map:null,userMarker:null,startMarker:null,trace:[],routeGeo:null,indoorTimer:null,target:1800,vibrate:true,wakeLock:null,goalAnnounced:false,indoorActive:false,indoorPaused:false,indoorPlan:null,indoorQueue:[],indoorIndex:0,indoorSet:1,indoorSets:2,indoorRest:30,indoorPhase:'work',indoorLeft:0,indoorDuration:0,indoorElapsed:0,indoorStarted:0,indoorMode:'single',indoorReady:false,indoorReadyTimer:null,indoorCoachLastMotivation:-1};
 
-const exerciseMeta={push:{group:'upper',difficulty:'Intermediate',equipment:'No equipment',impact:'Upper body',mistake:'Do not let your hips drop or elbows flare too wide.'},squat:{group:'lower',difficulty:'Beginner',equipment:'No equipment',impact:'Lower body',mistake:'Avoid letting your knees collapse inward.'},knee:{group:'cardio',difficulty:'Intermediate',equipment:'No equipment',impact:'Cardio endurance',mistake:'Avoid leaning back or landing heavily.'},lunge:{group:'lower',difficulty:'Intermediate',equipment:'No equipment',impact:'Balance',mistake:'Do not let the front knee move far past the toes.'},plank:{group:'core',difficulty:'Beginner',equipment:'Mat optional',impact:'Core stability',mistake:'Avoid lifting or dropping your hips.'},climber:{group:'cardio',difficulty:'Intermediate',equipment:'No equipment',impact:'High energy',mistake:'Do not bounce your hips or shorten your range.'},burpee:{group:'cardio',difficulty:'Advanced',equipment:'No equipment',impact:'Full body',mistake:'Avoid rushing transitions and landing heavily.'},jack:{group:'cardio',difficulty:'Beginner',equipment:'No equipment',impact:'Cardio',mistake:'Land softly and keep the movement controlled.'}};let activeExerciseFilter='all';
+const exerciseMeta={push:{group:'upper',difficulty:'Intermediate',equipment:'No equipment',impact:'Upper body',mistake:'Do not let your hips drop or elbows flare too wide.'},squat:{group:'lower',difficulty:'Beginner',equipment:'No equipment',impact:'Lower body',mistake:'Avoid letting your knees collapse inward.'},knee:{group:'cardio',difficulty:'Intermediate',equipment:'No equipment',impact:'Cardio endurance',mistake:'Avoid leaning back or landing heavily.'},lunge:{group:'lower',difficulty:'Intermediate',equipment:'No equipment',impact:'Balance',mistake:'Do not let the front knee move far past the toes.'},plank:{group:'core',difficulty:'Beginner',equipment:'Mat optional',impact:'Core stability',mistake:'Avoid lifting or dropping your hips.'},climber:{group:'core',difficulty:'Intermediate',equipment:'No equipment',impact:'High energy',mistake:'Do not bounce your hips or shorten your range.'},burpee:{group:'cardio',difficulty:'Advanced',equipment:'No equipment',impact:'Full body',mistake:'Avoid rushing transitions and landing heavily.'},jack:{group:'cardio',difficulty:'Beginner',equipment:'No equipment',impact:'Cardio',mistake:'Land softly and keep the movement controlled.'}};let activeExerciseFilter='all';
 const exerciseGuides={
   push:{start:'Hands slightly wider than shoulders; body in one straight line.',move:'Bend elbows and lower your chest, then press the floor away.',focus:'Keep hips level and elbows angled slightly back.'},
   squat:{start:'Stand tall with feet about shoulder-width apart.',move:'Push hips back and bend knees, then drive through your feet to stand.',focus:'Keep chest lifted and knees tracking over toes.'},
@@ -457,6 +457,27 @@ function demoSvg(type){
     ${movementArrow(type)}
     <g class="alignment-legend"><circle cx="18" cy="159" r="3"/><text x="25" y="162">Keep a controlled, aligned position</text></g>
   </svg>`;
+}
+function bindExerciseLibraryFilters(){
+  const row=document.getElementById('exerciseFilterRow');
+  if(!row||row.dataset.filtersBound==='true')return;
+  row.dataset.filtersBound='true';
+  row.addEventListener('click',event=>{
+    const button=event.target.closest('[data-exercise-filter]');
+    if(!button||!row.contains(button))return;
+    activeExerciseFilter=button.dataset.exerciseFilter||'all';
+    row.querySelectorAll('[data-exercise-filter]').forEach(item=>{
+      const selected=item===button;
+      item.classList.toggle('active',selected);
+      item.setAttribute('aria-pressed',String(selected));
+    });
+    renderExerciseGrid();
+  });
+  row.querySelectorAll('[data-exercise-filter]').forEach(item=>{
+    const selected=item.dataset.exerciseFilter===activeExerciseFilter;
+    item.classList.toggle('active',selected);
+    item.setAttribute('aria-pressed',String(selected));
+  });
 }
 function renderExerciseGrid(){
   // Deliberate two-column visual order: related exercises sit side by side.
@@ -1138,7 +1159,7 @@ E.moreExercise.onclick=()=>{exerciseAmount+=exercises[currentExercise].unit==='s
 E.startExercise.onclick=startExercise;
 document.querySelectorAll('.plan-card').forEach(b=>b.onclick=()=>{selectedPlan=b.dataset.plan;document.querySelectorAll('.plan-card').forEach(x=>x.classList.toggle('selected',x===b));E.indoorLevel.textContent=indoorPlans[selectedPlan].level});
 E.startPlan.onclick=startIndoorPlan;E.indoorPause.onclick=pauseIndoor;E.nextIndoor.onclick=nextIndoor;E.previousIndoor.onclick=previousIndoor;E.exitIndoor.onclick=exitIndoorWorkout;E.recenterMap.onclick=()=>{if(S.map&&S.pos)S.map.flyTo({center:[S.pos.longitude,S.pos.latitude],zoom:17,pitch:45});else toast('Waiting for GPS')};E.routeHome.onclick=routeToStart;[E.weight,E.height,E.weeklyGoal].forEach(x=>x.onchange=()=>{renderHealth();renderHome()});E.gpsToggle.onchange=()=>{S.gps=E.gpsToggle.checked;S.gps?startGps():stopGps();renderRunSetupPreview()};
-ensureWorkoutIds();renderRunSetupPreview();renderExerciseGrid();renderExercise();startGps();renderHealth();renderPerformance();renderHome();renderPlanner();renderGoals();renderProfile();renderCoach();updateAchievements();
+ensureWorkoutIds();renderRunSetupPreview();bindExerciseLibraryFilters();renderExerciseGrid();renderExercise();startGps();renderHealth();renderPerformance();renderHome();renderPlanner();renderGoals();renderProfile();renderCoach();updateAchievements();
 
 
 /* =========================================================
