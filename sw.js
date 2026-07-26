@@ -1,13 +1,21 @@
 /* Tourays Fitness V10 Core — Stage 3 update-safe service worker */
-const CACHE_NAME = 'tourays-fitness-v10-10490';
+const CACHE_NAME = 'tourays-fitness-v10-10491';
 const APP_SHELL = [
   './',
   './index.html',
-  './style-v8-5-2.css?v=10490',
-  './app-v8-5-2.js?v=10490',
+  './style-v8-5-2.css?v=10491',
+  './app-v8-5-2.js?v=10491',
   './manifest.json',
   './icon.svg',
-  './pushup-premium-master.png'
+  './pushup-premium-master.png',
+  './assets/exercises/push-ups.mp4',
+  './assets/exercises/squats.mp4',
+  './assets/exercises/sit-ups.mp4',
+  './assets/exercises/lunges.mp4',
+  './assets/exercises/plank.mp4',
+  './assets/exercises/mountain-climbers.mp4',
+  './assets/exercises/burpees.mp4',
+  './assets/exercises/jumping-jacks.mp4'
 ];
 
 self.addEventListener('install', event => {

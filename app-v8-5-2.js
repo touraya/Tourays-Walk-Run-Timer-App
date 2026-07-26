@@ -353,6 +353,34 @@ function premiumCharacter(type,pose){
     <circle class="joint-marker hip-marker" cx="${px}" cy="${py}" r="3.5"/>
   </g>`;
 }
+
+const EXERCISE_VIDEO_FILES={
+  push:'assets/exercises/push-ups.mp4',
+  squat:'assets/exercises/squats.mp4',
+  sit:'assets/exercises/sit-ups.mp4',
+  lunge:'assets/exercises/lunges.mp4',
+  plank:'assets/exercises/plank.mp4',
+  climber:'assets/exercises/mountain-climbers.mp4',
+  burpee:'assets/exercises/burpees.mp4',
+  jack:'assets/exercises/jumping-jacks.mp4'
+};
+function exerciseVideoMarkup(type,name,active=false){
+  const src=EXERCISE_VIDEO_FILES[type]||EXERCISE_VIDEO_FILES.push;
+  return `<div class="local-exercise-video-wrap ${active?'active-local-video':''}">
+    <video class="local-exercise-video" data-exercise-video="${type}" src="${src}" muted loop playsinline webkit-playsinline preload="auto" autoplay ${active?'':'controls'} aria-label="${name} movement demonstration"></video>
+    <div class="exercise-video-fallback" aria-live="polite"><strong>${name}</strong><small>Video could not play. Tap replay or reload the page.</small></div>
+    <span class="local-video-badge">LOCAL MOTION GUIDE</span>
+  </div>`;
+}
+function prepareExerciseVideos(scope=document){
+  scope.querySelectorAll('video.local-exercise-video').forEach(video=>{
+    video.muted=true;video.defaultMuted=true;video.playsInline=true;
+    const wrap=video.closest('.local-exercise-video-wrap');
+    const fail=()=>wrap&&wrap.classList.add('video-failed');
+    video.addEventListener('error',fail,{once:true});
+    video.play().catch(()=>{});
+  });
+}
 function movementArrow(type){
   const vertical=['squat','lunge','sit','burpee','jack'].includes(type);
   return vertical
@@ -382,16 +410,28 @@ function renderExerciseGrid(){
 let demoPaused=false,demoSpeed=1,demoMusclesVisible=false;
 function bindDemoControls(){
   E.demoPlayPause=$('demoPlayPause');E.demoReplay=$('demoReplay');E.demoSpeed=$('demoSpeed');E.demoMuscles=$('demoMuscles');
-  E.demoPlayPause.onclick=()=>{demoPaused=!demoPaused;E.demo.classList.toggle('demo-paused',demoPaused);E.demoPlayPause.textContent=demoPaused?'▶':'Ⅱ';E.demoPlayPause.setAttribute('aria-label',demoPaused?'Play animation':'Pause animation');const gif=$('pushupProfessionalGif');if(gif&&demoPaused){gif.dataset.pausedSrc=gif.src;gif.src=gif.src;}if(gif&&!demoPaused){gif.src=PUSHUP_PREMIUM_GIF;}};
-  E.demoReplay.onclick=()=>{const gif=$('pushupProfessionalGif');if(gif){gif.src=PUSHUP_PREMIUM_GIF;}E.demo.classList.remove('demo-replay');void E.demo.offsetWidth;E.demo.classList.add('demo-replay');setTimeout(()=>E.demo.classList.remove('demo-replay'),50)};
-  E.demoSpeed.onclick=()=>{demoSpeed=demoSpeed===1?0.5:demoSpeed===0.5?1.5:1;E.demo.style.setProperty('--demo-speed',demoSpeed);E.demoSpeed.textContent=`${demoSpeed}×`};
+  E.demoPlayPause.onclick=()=>{
+    const video=E.demo.querySelector('video.local-exercise-video');
+    if(video){
+      if(video.paused){video.play().catch(()=>{});demoPaused=false}else{video.pause();demoPaused=true}
+    }else{demoPaused=!demoPaused;E.demo.classList.toggle('demo-paused',demoPaused)}
+    E.demoPlayPause.textContent=demoPaused?'▶':'Ⅱ';
+    E.demoPlayPause.setAttribute('aria-label',demoPaused?'Play video':'Pause video');
+  };
+  E.demoReplay.onclick=()=>{
+    const video=E.demo.querySelector('video.local-exercise-video');
+    if(video){video.currentTime=0;video.play().catch(()=>{});demoPaused=false;E.demoPlayPause.textContent='Ⅱ'}
+  };
+  E.demoSpeed.onclick=()=>{
+    demoSpeed=demoSpeed===1?0.5:demoSpeed===0.5?1.5:1;
+    const video=E.demo.querySelector('video.local-exercise-video');if(video)video.playbackRate=demoSpeed;
+    E.demoSpeed.textContent=`${demoSpeed}×`;
+  };
   E.demoMuscles.onclick=()=>{demoMusclesVisible=!demoMusclesVisible;E.demo.classList.toggle('show-muscles',demoMusclesVisible);E.demoMuscles.classList.toggle('active',demoMusclesVisible)};
 }
 function renderExercise(){
   const x=exercises[currentExercise];
-  const visual=x.type==='push'
-    ? `<div class="stable-exercise-stage"><img src="pushup-premium-master.png" alt="Push-up form demonstration"></div>`
-    : `<div class="stable-vector-stage">${demoSvg(x.type)}</div>`;
+  const visual=exerciseVideoMarkup(x.type,x.name,false);
 
   E.demo.innerHTML=`
     <span class="demo-badge">FORM DEMONSTRATION</span>
@@ -403,6 +443,7 @@ function renderExercise(){
         <small>Follow the setup, movement and key-focus guidance below.</small>
       </div>
     </div>`;
+  prepareExerciseVideos(E.demo);
 
   E.exerciseName.textContent=x.name;
   E.exerciseMuscle.textContent=x.muscle;
@@ -448,9 +489,7 @@ function beginIndoorWorkNow(){
   S.indoorPhase='work';S.indoorDuration=indoorExerciseDuration(x,amount);S.indoorLeft=S.indoorDuration;
   S.indoorRepTarget=x.unit==='seconds'?0:amount;S.indoorRepDone=0;
   E.indoorBrowse.hidden=true;E.indoorActive.hidden=false;E.indoorModeLabel.textContent=S.indoorMode==='plan'?S.indoorPlan.name.toUpperCase():'SINGLE EXERCISE';
-  E.activeExerciseName.textContent=x.name;E.activeExerciseTip.textContent=x.tip;E.activeDemo.dataset.motion=x.type;E.activeDemo.innerHTML=x.type==='push'
-    ? `<div class="stable-active-image motion-guide-v48"><img src="pushup-premium-master.png" alt="Push-up form demonstration"></div>`
-    : `<div class="stable-active-vector motion-guide-v48">${demoSvg(x.type)}</div>`;
+  E.activeExerciseName.textContent=x.name;E.activeExerciseTip.textContent=x.tip;E.activeDemo.dataset.motion=x.type;E.activeDemo.innerHTML=exerciseVideoMarkup(x.type,x.name,true);prepareExerciseVideos(E.activeDemo);
   E.indoorPhaseLabel.textContent='WORK';E.indoorCountdownUnit.textContent=x.unit==='seconds'?'seconds':'reps';
   E.indoorSetTotal.textContent=S.indoorSets;E.indoorSetCurrent.textContent=S.indoorSet;
   E.indoorProgressLabel.textContent=`Exercise ${S.indoorIndex+1} of ${S.indoorQueue.length}`;
