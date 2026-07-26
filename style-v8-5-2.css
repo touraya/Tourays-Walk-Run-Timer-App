@@ -6591,3 +6591,179 @@ svg .value,svg [class*="progress"],svg [class*="active"]{stroke:var(--tf-purple-
   button{min-height:44px}
   .icon-btn{min-width:46px;min-height:46px}
 }
+
+/* =========================================================
+   TOURAYS FITNESS V11.1 — CORE PREMIUM UI INTEGRATION
+   Home · Walk & Run · Indoor Trainer
+   ========================================================= */
+#home,#run,#indoor{
+  --core-purple:var(--tf-purple-600);
+  --core-purple-strong:var(--tf-purple-800);
+  --core-soft:var(--tf-lilac-100);
+  --core-card:rgba(255,255,255,.96);
+  --core-border:rgba(78,45,161,.10);
+}
+
+/* Shared core page rhythm */
+#home,#run,#indoor{padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+#home>*,#run>*,#indoor>*{max-width:760px;margin-left:auto;margin-right:auto}
+#home .section-head,#run .section-head,#indoor .section-head{margin-bottom:16px}
+#home .section-head h2,#run .section-head h2,#indoor .section-head h2{
+  font-size:clamp(1.95rem,7vw,2.7rem);line-height:.98;letter-spacing:-.055em;
+}
+#home button,#run button,#indoor button{font-weight:800;letter-spacing:-.01em}
+
+/* HOME — stronger hierarchy, consistent card language */
+#home .v9-hero-grid{gap:14px}
+#home .v9-readiness-card,#home .v9-plan-card,#home .v9-workout-hero,#home .v9-weekly-card,
+#home .v9-stat-card,#home .v9-recent-card{
+  border:1px solid var(--core-border)!important;
+  border-radius:var(--tf-radius-lg)!important;
+  box-shadow:var(--tf-shadow-sm)!important;
+  overflow:hidden;
+}
+#home .v9-readiness-card,#home .v9-plan-card,#home .v9-weekly-card,#home .v9-stat-card,#home .v9-recent-card{
+  background:linear-gradient(155deg,rgba(255,255,255,.99),rgba(248,246,255,.96))!important;
+}
+#home .v9-readiness-card{position:relative}
+#home .v9-readiness-card:after{
+  content:"";position:absolute;width:150px;height:150px;right:-62px;top:-72px;border-radius:50%;
+  background:radial-gradient(circle,rgba(137,95,255,.16),transparent 70%);pointer-events:none;
+}
+#home .v9-readiness-card .value{stroke:var(--tf-purple-600)!important;filter:drop-shadow(0 0 5px rgba(118,85,246,.28))}
+#home .v9-plan-card{background:linear-gradient(145deg,#f0ecff,#fbfaff)!important}
+#home .v9-plan-card .v9-plan-icon,#home [class*="quick"] span:first-child{
+  background:var(--tf-gradient)!important;color:#fff!important;border-radius:16px!important;
+  box-shadow:0 10px 22px rgba(108,70,239,.24)!important;
+}
+#home .v9-workout-hero{
+  background:linear-gradient(135deg,#633be2 0%,#8054f3 52%,#a276ff 100%)!important;
+  box-shadow:0 20px 46px rgba(91,54,194,.27)!important;
+}
+#home .v9-workout-hero:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 86% 14%,rgba(255,255,255,.24),transparent 28%);
+}
+#home .v9-workout-hero h3,#home .v9-workout-hero p,#home .v9-workout-hero span{color:#fff!important}
+#home .v9-workout-hero button{background:#fff!important;color:var(--tf-purple-800)!important;box-shadow:0 10px 24px rgba(39,17,92,.18)!important}
+#home .v9-stat-card strong{color:var(--tf-purple-800)!important}
+#home .v9-goal-value{stroke:var(--tf-purple-600)!important;filter:drop-shadow(0 0 5px rgba(118,85,246,.22))}
+#home .v9-recent-card button{background:var(--tf-lilac-100)!important;color:var(--tf-purple-800)!important;border:1px solid rgba(101,64,232,.12)!important}
+
+/* WALK & RUN — polished creative-tool style controls */
+#run .run-pro-hero,#run .run-pro-card,#run .run-preview-card,#run .run-settings-card,#run article,#run .card{
+  border:1px solid var(--core-border)!important;border-radius:var(--tf-radius-lg)!important;
+  box-shadow:var(--tf-shadow-sm)!important;
+}
+#run .run-pro-hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#6540e8 0%,#8158f4 56%,#a276ff 100%)!important;
+  box-shadow:0 20px 48px rgba(91,54,194,.25)!important;
+}
+#run .run-pro-hero:after{
+  content:"";position:absolute;right:-80px;top:-100px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.25),transparent 68%);pointer-events:none;
+}
+#run .run-pro-hero h2,#run .run-pro-hero h3,#run .run-pro-hero p,#run .run-pro-hero span,#run .run-pro-hero small{color:#fff!important}
+#run .presets{gap:10px}
+#run .preset{
+  min-height:82px;border-radius:18px!important;background:linear-gradient(155deg,#fff,#f7f4ff)!important;
+  color:var(--tf-ink)!important;border:1px solid rgba(83,49,170,.10)!important;box-shadow:0 6px 16px rgba(38,25,83,.06)!important;
+}
+#run .preset strong{font-size:1.12rem;color:var(--tf-purple-800)!important}
+#run .preset.selected{
+  background:var(--tf-gradient)!important;color:#fff!important;border-color:transparent!important;
+  box-shadow:0 13px 28px rgba(105,65,225,.27)!important;transform:translateY(-2px);
+}
+#run .preset.selected strong,#run .preset.selected small{color:#fff!important}
+#run .interval{
+  background:linear-gradient(155deg,#fff,#faf8ff)!important;border:1px solid rgba(82,48,169,.09)!important;
+  border-radius:20px!important;box-shadow:var(--tf-shadow-sm)!important;
+}
+#run input[type="number"],#run input[type="text"],#run select{
+  background:#fff!important;border:1px solid rgba(91,55,184,.13)!important;border-radius:14px!important;
+  box-shadow:inset 0 1px 2px rgba(38,25,83,.04)!important;
+}
+#run .run-intensity button,#run [class*="intensity"] button{
+  border-radius:17px!important;background:#fff!important;border:1px solid rgba(83,49,170,.10)!important;
+}
+#run .run-intensity button.active,#run [class*="intensity"] button.active{
+  background:var(--tf-gradient)!important;color:#fff!important;box-shadow:0 10px 24px rgba(105,65,225,.23)!important;
+}
+#run #startRun,#run button[type="submit"],#run .run-start-button{
+  min-height:58px;border-radius:19px!important;font-size:1rem;box-shadow:0 16px 34px rgba(105,65,225,.30)!important;
+}
+
+/* INDOOR — align existing dark training identity with Tourays purple */
+#indoor .workout-dashboard-v46{gap:14px}
+#indoor .workout-hero-v46{
+  background:linear-gradient(135deg,#633be2 0%,#8154ef 56%,#a276ff 100%)!important;
+  border-color:rgba(255,255,255,.14)!important;box-shadow:0 20px 48px rgba(91,54,194,.27)!important;
+}
+#indoor .workout-hero-v46 h3,#indoor .workout-hero-v46 p,#indoor .workout-hero-v46 span,#indoor .workout-hero-v46 small{color:#fff!important}
+#indoor .workout-progress-v46{background:rgba(255,255,255,.14)!important;color:#fff!important;border:1px solid rgba(255,255,255,.20)!important;backdrop-filter:blur(8px)}
+#indoor .workout-kpi-grid-v46 article,#indoor .workout-last-v46,#indoor .workout-builder-v47,#indoor .indoor-library-panel,#indoor .exercise-player{
+  border-radius:var(--tf-radius-lg)!important;
+}
+#indoor .workout-kpi-grid-v46 article,#indoor .workout-last-v46{
+  background:linear-gradient(155deg,rgba(255,255,255,.99),rgba(248,246,255,.96))!important;
+  color:var(--tf-ink)!important;border:1px solid var(--core-border)!important;box-shadow:var(--tf-shadow-sm)!important;
+}
+#indoor .workout-kpi-grid-v46 strong,#indoor .workout-last-v46 strong{color:var(--tf-purple-800)!important}
+#indoor .workout-builder-v47,#indoor .indoor-library-panel,#indoor .exercise-player{
+  background:linear-gradient(155deg,#ffffff,#faf8ff)!important;color:var(--tf-ink)!important;
+  border:1px solid var(--core-border)!important;box-shadow:var(--tf-shadow-md)!important;
+}
+#indoor .workout-builder-v47 h3,#indoor .indoor-library-panel h3,#indoor .exercise-player h3,
+#indoor .workout-builder-v47 strong,#indoor .indoor-library-panel strong,#indoor .exercise-player strong{color:var(--tf-ink)!important}
+#indoor .workout-builder-v47 p,#indoor .indoor-library-panel p,#indoor .exercise-player p,
+#indoor .workout-builder-v47 small,#indoor .indoor-library-panel small,#indoor .exercise-player small{color:var(--tf-muted)!important}
+#indoor .plan-card,#indoor .exercise-card{
+  background:linear-gradient(155deg,#fff,#f8f5ff)!important;color:var(--tf-ink)!important;
+  border:1px solid rgba(83,49,170,.10)!important;border-radius:20px!important;box-shadow:0 6px 18px rgba(38,25,83,.07)!important;
+}
+#indoor .plan-card.selected,#indoor .exercise-card.selected{
+  background:linear-gradient(145deg,#ede7ff,#faf8ff)!important;border-color:rgba(118,85,246,.45)!important;
+  box-shadow:0 12px 28px rgba(103,65,219,.16)!important;
+}
+#indoor .plan-card.selected strong,#indoor .exercise-card.selected strong{color:var(--tf-purple-800)!important}
+#indoor .plan-icon,#indoor .exercise-card>span{color:#fff!important;background:var(--tf-gradient)!important;border-color:transparent!important}
+#indoor .exercise-filter-row button{background:#fff!important;color:var(--tf-muted)!important;border:1px solid rgba(83,49,170,.10)!important}
+#indoor .exercise-filter-row button.active{color:#fff!important}
+#indoor .premium-motion-studio,#indoor .indoor-active-card{
+  background:linear-gradient(150deg,#151a35,#090c1b)!important;border:1px solid rgba(173,140,255,.20)!important;
+}
+#indoor .smart-form-card-v51{
+  background:linear-gradient(150deg,#f3efff,#ffffff)!important;border:1px solid rgba(102,65,220,.12)!important;
+}
+#indoor .smart-form-card-v51 strong{color:var(--tf-purple-800)!important}
+#indoor .exercise-mistakes-card{background:linear-gradient(145deg,#fff5f1,#fff)!important;color:var(--tf-ink)!important}
+
+/* Consistent icon treatment across the three core screens */
+#home [class*="icon"],#run [class*="icon"],#indoor [class*="icon"]{
+  line-height:1;display:inline-grid;place-items:center;
+}
+#home svg,#run svg,#indoor svg{shape-rendering:geometricPrecision}
+
+/* Perceived smoothness without heavy animation */
+#home .v9-readiness-card,#home .v9-plan-card,#home .v9-workout-hero,#home .v9-stat-card,
+#run .preset,#run .interval,#run article,
+#indoor .plan-card,#indoor .exercise-card,#indoor .smart-form-card-v51{
+  will-change:transform;transition:transform .20s var(--tf-ease),box-shadow .24s var(--tf-ease),border-color .20s var(--tf-ease),filter .20s var(--tf-ease);
+}
+@media(hover:hover){
+  #home .v9-plan-card:hover,#home .v9-stat-card:hover,#run .preset:hover,#indoor .plan-card:hover,#indoor .exercise-card:hover{
+    transform:translateY(-3px);box-shadow:var(--tf-shadow-md)!important;
+  }
+}
+
+@media(max-width:640px){
+  #home .v9-hero-grid{grid-template-columns:1fr!important}
+  #home .v9-workout-hero,#run .run-pro-hero,#indoor .workout-hero-v46{border-radius:24px!important}
+  #home .v9-readiness-card,#home .v9-plan-card,#home .v9-weekly-card,#home .v9-recent-card,
+  #run article,#run .interval,#indoor .workout-builder-v47,#indoor .indoor-library-panel,#indoor .exercise-player{border-radius:22px!important}
+  #run .presets{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #run .preset{min-height:76px}
+  #indoor .workout-hero-actions-v46{gap:10px!important}
+  #indoor .workout-start-v46,#indoor .workout-progress-v46{min-height:50px!important}
+}
