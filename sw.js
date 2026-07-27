@@ -1,5 +1,5 @@
 /* Tourays Fitness V12.0 — release candidate offline shell */
-const CACHE_NAME = 'tourays-fitness-v12-3';
+const CACHE_NAME = 'tourays-fitness-v12-4';
 const CORE = [
   './', './index.html',
   './style-v8-5-2.css?v=12300',

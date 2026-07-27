@@ -7937,3 +7937,38 @@ html.tf-save-data *,html.tf-save-data *::before,html.tf-save-data *::after{
   .tf-demo-status-chip{right:10px;top:max(8px,env(safe-area-inset-top))}
 }
 @media(prefers-reduced-motion:reduce){.tf-onboard-step,.tf-profile-dialog{animation:none!important}.tf-demo-welcome,.tf-profile-dialog{transition:none!important}}
+
+/* V12.4 — Indoor category navigation and mobile lock-screen support */
+#exerciseFilterRow{
+  position:sticky;
+  top:calc(env(safe-area-inset-top, 0px) + 8px);
+  z-index:8;
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  overscroll-behavior-inline:contain;
+  scroll-snap-type:x proximity;
+  padding:8px 2px 10px;
+  margin-inline:-2px;
+  background:linear-gradient(180deg,rgba(250,249,255,.98) 75%,rgba(250,249,255,0));
+  scrollbar-width:none;
+}
+#exerciseFilterRow::-webkit-scrollbar{display:none}
+#exerciseFilterRow button{
+  flex:0 0 auto;
+  min-height:44px;
+  padding:10px 15px;
+  scroll-snap-align:start;
+  touch-action:manipulation;
+}
+#exerciseFilterRow button.active{box-shadow:0 8px 20px rgba(113,65,235,.18)}
+#exerciseGrid:empty::after{
+  content:'No exercises are available in this category.';
+  grid-column:1/-1;
+  display:block;
+  padding:24px;
+  text-align:center;
+  color:var(--muted,#6f6b7c);
+  border:1px dashed rgba(113,65,235,.25);
+  border-radius:18px;
+}

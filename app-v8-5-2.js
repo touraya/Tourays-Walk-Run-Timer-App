@@ -364,28 +364,72 @@ function initMap(){if(S.map||typeof maplibregl==='undefined')return;S.map=new ma
 function updateMap(p,accuracy){initMap();if(!S.map)return;const lngLat=[p.longitude,p.latitude];if(!S.userMarker){const node=document.createElement('div');node.style.cssText='width:19px;height:19px;border-radius:50%;background:#8d7cff;border:4px solid white;box-shadow:0 3px 12px #0008';S.userMarker=new maplibregl.Marker({element:node}).setLngLat(lngLat).addTo(S.map)}else S.userMarker.setLngLat(lngLat);if(!S.start){S.start=p;const node=document.createElement('div');node.textContent='🏁';node.style.fontSize='24px';S.startMarker=new maplibregl.Marker({element:node}).setLngLat(lngLat).addTo(S.map);S.map.flyTo({center:lngLat,zoom:16,pitch:45})}S.trace.push(lngLat);const src=S.map.getSource('trace');if(src)src.setData({type:'Feature',geometry:{type:'LineString',coordinates:S.trace}});E.mapDistance.textContent=`From start: ${S.start?km(hav(S.start,p)):'--'}`;E.mapAccuracy.textContent=`GPS: ±${Math.round(accuracy)} m`}
 function stopGps(){if(S.watch!==null)navigator.geolocation?.clearWatch(S.watch);S.watch=null;S.pos=null}
 function startGps(){stopGps();if(!S.gps||!navigator.geolocation){E.gpsStatus.textContent='GPS off';return}E.gpsStatus.textContent='Finding GPS…';S.watch=navigator.geolocation.watchPosition(x=>{const c=x.coords,p={latitude:c.latitude,longitude:c.longitude,accuracy:c.accuracy,timestamp:x.timestamp};E.gpsStatus.textContent=c.accuracy<=20?`GPS ±${Math.round(c.accuracy)}m`:'GPS weak';if(S.active&&!S.paused&&S.pos&&c.accuracy<=50&&S.pos.accuracy<=50){const d=hav(S.pos,p),dt=Math.max(1,(p.timestamp-S.pos.timestamp)/1000);if(d>=1.2&&d<=Math.max(70,dt*12)){S.total+=d;S.phase==='walk'?S.walkM+=d:S.runM+=d}}S.speed=Number.isFinite(c.speed)&&c.speed>=0?c.speed:S.pos?hav(S.pos,p)/Math.max(1,(p.timestamp-S.pos.timestamp)/1000):null;S.pos=p;updateMap(p,c.accuracy);renderRun()},()=>E.gpsStatus.textContent='GPS unavailable',{enableHighAccuracy:true,maximumAge:1000,timeout:15000})}
-function phaseUI(){const w=S.phase==='walk';E.timerCard.className=`timer-card ${w?'walking':'running'}`;E.phaseEmoji.textContent=w?'🚶':'🏃';E.phaseName.textContent=w?'WALK':'RUN';E.round.textContent=`ROUND ${S.cycles+1}`;E.nextLabel.textContent=w?`Next: Run ${fmt(S.run)}`:`Next: Walk ${fmt(S.walk)}`;updateRunTip()}
-function renderRun(){E.countdown.textContent=fmt(S.left);E.elapsed.textContent=fmt(S.elapsed);E.cycles.textContent=S.cycles;E.totalDistance.textContent=km(S.total);E.walkDistance.textContent=km(S.walkM);E.runDistance.textContent=km(S.runM);E.pace.textContent=pace(S.speed);E.averagePace.textContent=averagePaceText();E.liveCalories.textContent=estimateCalories();E.liveSpeed.textContent=speedText();const p=S.duration?Math.max(0,Math.min(1,S.left/S.duration)):0;E.phaseProgressText.textContent=`${Math.round((1-p)*100)}% phase complete`;E.ringProgress.style.strokeDasharray=C;E.ringProgress.style.strokeDashoffset=C*(1-p);const t=S.target?Math.min(1,S.elapsed/S.target):0,c=2*Math.PI*124;E.targetRing.style.strokeDasharray=c;E.targetRing.style.strokeDashoffset=c*(1-t);E.targetProgressText.textContent=S.target?`${Math.round(t*100)}% of ${Math.round(S.target/60)} min goal`:'Open goal';E.targetRemaining.textContent=S.target?`${fmt(Math.max(0,S.target-S.elapsed))} remaining`:'No target';if(S.target&&S.elapsed>=S.target&&!S.goalAnnounced){S.goalAnnounced=true;E.targetProgressText.textContent='Goal reached';say('Workout goal complete');vibratePhase([100,60,100,60,180])}}
+function phaseUI(){const w=S.phase==='walk';E.timerCard.className=`timer-card ${w?'walking':'running'}`;E.phaseEmoji.textContent=w?'🚶':'🏃';E.phaseName.textContent=w?'WALK':'RUN';E.round.textContent=`ROUND ${S.cycles+1}`;E.nextLabel.textContent=w?`Next: Run ${fmt(S.run)}`:`Next: Walk ${fmt(S.walk)}`;updateRunTip();updateLockScreen()}
+function renderRun(){E.countdown.textContent=fmt(S.left);E.elapsed.textContent=fmt(S.elapsed);E.cycles.textContent=S.cycles;E.totalDistance.textContent=km(S.total);E.walkDistance.textContent=km(S.walkM);E.runDistance.textContent=km(S.runM);E.pace.textContent=pace(S.speed);E.averagePace.textContent=averagePaceText();E.liveCalories.textContent=estimateCalories();E.liveSpeed.textContent=speedText();const p=S.duration?Math.max(0,Math.min(1,S.left/S.duration)):0;E.phaseProgressText.textContent=`${Math.round((1-p)*100)}% phase complete`;E.ringProgress.style.strokeDasharray=C;E.ringProgress.style.strokeDashoffset=C*(1-p);const t=S.target?Math.min(1,S.elapsed/S.target):0,c=2*Math.PI*124;E.targetRing.style.strokeDasharray=c;E.targetRing.style.strokeDashoffset=c*(1-t);E.targetProgressText.textContent=S.target?`${Math.round(t*100)}% of ${Math.round(S.target/60)} min goal`:'Open goal';E.targetRemaining.textContent=S.target?`${fmt(Math.max(0,S.target-S.elapsed))} remaining`:'No target';if(S.target&&S.elapsed>=S.target&&!S.goalAnnounced){S.goalAnnounced=true;E.targetProgressText.textContent='Goal reached';say('Workout goal complete');vibratePhase([100,60,100,60,180])}updateLockScreen()}
 function switchPhase(){vibratePhase();if(S.phase==='walk'){S.phase='run';S.duration=S.run;S.left=S.run;say('Start running')}else{S.phase='walk';S.duration=S.walk;S.left=S.walk;S.cycles++;say('Start walking')}S.end=Date.now()+S.left*1000;S.last=Date.now();phaseUI();renderRun()}
 function tick(){if(!S.active||S.paused)return;const n=Date.now(),d=Math.max(0,(n-S.last)/1000);S.elapsed+=d;S.phase==='walk'?S.walkTime+=d:S.runTime+=d;S.last=n;S.left=Math.max(0,(S.end-n)/1000);S.left<=.02?switchPhase():renderRun()}
 
 async function holdWakeLock(){
   try{
-    if(!S.active||document.visibilityState!=='visible'||!('wakeLock'in navigator))return;
+    if(!(S.active||S.indoorActive)||document.visibilityState!=='visible'||!('wakeLock'in navigator))return;
     if(S.wakeLock&&!S.wakeLock.released)return;
     S.wakeLock=await navigator.wakeLock.request('screen');
     S.wakeLock.addEventListener?.('release',()=>{S.wakeLock=null},{once:true})
   }catch{}
 }
 function releaseWakeLock(){try{S.wakeLock?.release()}catch{}S.wakeLock=null}
+function workoutIsActive(){return Boolean((S.active&&!S.paused)||(S.indoorActive&&!S.indoorPaused))}
+function lockScreenTitle(){
+  if(S.active)return S.phase==='run'?'Run interval':'Walk interval';
+  if(S.indoorActive){const x=currentIndoorExercise?.();return x?.name||'Indoor workout'}
+  return'Tourays Fitness'
+}
+function lockScreenSubtitle(){
+  if(S.active)return`${fmt(Math.max(0,Math.ceil(S.left||0)))} remaining · ${fmt(Math.floor(S.elapsed||0))} elapsed`;
+  if(S.indoorActive){const phase=S.indoorPhase==='rest'?'Rest':'Exercise';return`${phase} · ${fmt(Math.max(0,Math.ceil(S.indoorLeft||0)))} remaining`}
+  return'Workout ready'
+}
+function updateLockScreen(){
+  if(!('mediaSession'in navigator))return;
+  try{
+    navigator.mediaSession.metadata=new MediaMetadata({title:lockScreenTitle(),artist:lockScreenSubtitle(),album:'Tourays Fitness'});
+    navigator.mediaSession.playbackState=workoutIsActive()?'playing':'paused';
+    if(S.active&&Number.isFinite(S.duration)&&S.duration>0&&Number.isFinite(S.left)){
+      const pos=Math.max(0,Math.min(S.duration,S.duration-S.left));
+      navigator.mediaSession.setPositionState?.({duration:Math.max(1,S.duration),playbackRate:1,position:Math.min(Math.max(0,pos),Math.max(1,S.duration)-0.01)})
+    }else if(S.indoorActive&&Number.isFinite(S.indoorDuration)&&S.indoorDuration>0&&Number.isFinite(S.indoorLeft)){
+      const pos=Math.max(0,Math.min(S.indoorDuration,S.indoorDuration-S.indoorLeft));
+      navigator.mediaSession.setPositionState?.({duration:Math.max(1,S.indoorDuration),playbackRate:1,position:Math.min(Math.max(0,pos),Math.max(1,S.indoorDuration)-0.01)})
+    }else navigator.mediaSession.setPositionState?.()
+  }catch{}
+}
+function installLockScreenControls(){
+  if(!('mediaSession'in navigator))return;
+  const set=(name,fn)=>{try{navigator.mediaSession.setActionHandler(name,fn)}catch{}};
+  set('play',()=>{if(S.active&&S.paused)pauseRun();else if(S.indoorActive&&S.indoorPaused)pauseIndoor()});
+  set('pause',()=>{if(S.active&&!S.paused)pauseRun();else if(S.indoorActive&&!S.indoorPaused)pauseIndoor()});
+  set('nexttrack',()=>{if(S.active)switchPhase();else if(S.indoorActive)nextIndoor()});
+  set('previoustrack',()=>{if(S.indoorActive)previousIndoor()});
+  set('stop',()=>{if(S.active)stopRun();else if(S.indoorActive)exitIndoorWorkout()})
+}
+installLockScreenControls();
 document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible'&&S.active&&!S.paused){
-    holdWakeLock();
-    if(S.end){
-      S.left=Math.max(0,Math.ceil((S.end-Date.now())/1000));
-      renderRun()
+  if(document.visibilityState==='visible'){
+    if(S.active&&!S.paused){
+      const now=Date.now(),delta=Math.max(0,(now-(S.last||now))/1000);S.elapsed+=delta;S.phase==='walk'?(S.walkTime+=delta):(S.runTime+=delta);S.last=now;
+      if(S.end)S.left=Math.max(0,(S.end-now)/1000);
+      while(S.left<=.02&&S.active&&!S.paused)switchPhase();
+      holdWakeLock();renderRun()
+    }
+    if(S.indoorActive&&!S.indoorPaused){
+      holdWakeLock();
+      if(S.indoorDeadline&&S.indoorPhase==='rest'||S.indoorDeadline&&currentIndoorExercise?.()?.unit==='seconds'){
+        S.indoorLeft=Math.max(0,(S.indoorDeadline-Date.now())/1000);
+        if(S.indoorLeft<=.02){if(S.indoorPhase==='work')finishIndoorWork();else beginIndoorWork()}else renderIndoorActive()
+      }
     }
   }
+  updateLockScreen()
 });
 function averagePaceText(){if(S.total<10||S.elapsed<1)return'--';const v=S.elapsed/(S.total/1000),m=Math.floor(v/60),s=Math.round(v%60);return`${m}:${String(s).padStart(2,'0')}`}
 function speedText(){return Number.isFinite(S.speed)&&S.speed>=0?(S.speed*3.6).toFixed(1):'--'}
@@ -393,8 +437,8 @@ function vibratePhase(pattern=[100,60,140]){if(S.vibrate)navigator.vibrate?.(pat
 function updateRunTip(){E.runTip.innerHTML=S.phase==='run'?'<span>⚡</span><div><strong>Run tall and relaxed</strong><p>Keep your shoulders loose and use short, controlled steps.</p></div>':'<span>💡</span><div><strong>Recover without stopping</strong><p>Use the walk phase to steady your breathing.</p></div>'}
 async function warmupCountdown(){if(!E.warmupToggle.checked)return;E.startCountdown.classList.add('open');for(let n=3;n>=1;n--){E.startCountdownNumber.textContent=n;vibratePhase([40]);await new Promise(r=>setTimeout(r,750))}E.startCountdownNumber.textContent='GO';vibratePhase([80,50,150]);await new Promise(r=>setTimeout(r,500));E.startCountdown.classList.remove('open')}
 
-async function startRun(){S.walk=read(E.wm,E.ws);S.run=read(E.rm,E.rs);if(S.walk<1||S.run<1)return toast('Each interval must be at least 1 second');S.sound=localStorage.getItem('touraysVoice')!=='false';unlockTouraysVoice();S.gps=E.gpsToggle.checked;S.target=Number(E.runTarget.value)||0;S.vibrate=E.vibrationToggle.checked;E.startRun.disabled=true;await warmupCountdown();Object.assign(S,{phase:'walk',duration:S.walk,left:S.walk,elapsed:0,walkTime:0,runTime:0,cycles:0,active:true,paused:false,total:0,walkM:0,runM:0,speed:null,pos:null,start:null,trace:[],goalAnnounced:false});E.runSetup.hidden=true;E.runActive.hidden=false;E.runReadyChip.textContent='Live';phaseUI();renderRun();S.end=Date.now()+S.left*1000;S.last=Date.now();clearInterval(S.timer);S.timer=setInterval(tick,200);startGps();holdWakeLock();say('Start walking');E.startRun.disabled=false}
-function pauseRun(){if(!S.active)return;S.paused=!S.paused;E.pauseRun.innerHTML=S.paused?'<span>▶</span><small>Resume</small>':'<span>Ⅱ</span><small>Pause</small>';E.pauseRun.classList.toggle('resume',S.paused);E.liveWorkoutStatus.textContent=S.paused?'WORKOUT PAUSED':'WORKOUT LIVE';if(S.paused){S.left=Math.max(0,(S.end-Date.now())/1000);releaseWakeLock();say('Workout paused')}else{S.end=Date.now()+S.left*1000;S.last=Date.now();holdWakeLock();say(S.phase==='walk'?'Continue walking':'Continue running')}renderRun()}
+async function startRun(){S.walk=read(E.wm,E.ws);S.run=read(E.rm,E.rs);if(S.walk<1||S.run<1)return toast('Each interval must be at least 1 second');S.sound=localStorage.getItem('touraysVoice')!=='false';unlockTouraysVoice();S.gps=E.gpsToggle.checked;S.target=Number(E.runTarget.value)||0;S.vibrate=E.vibrationToggle.checked;E.startRun.disabled=true;await warmupCountdown();Object.assign(S,{phase:'walk',duration:S.walk,left:S.walk,elapsed:0,walkTime:0,runTime:0,cycles:0,active:true,paused:false,total:0,walkM:0,runM:0,speed:null,pos:null,start:null,trace:[],goalAnnounced:false});E.runSetup.hidden=true;E.runActive.hidden=false;E.runReadyChip.textContent='Live';phaseUI();renderRun();S.end=Date.now()+S.left*1000;S.last=Date.now();clearInterval(S.timer);S.timer=setInterval(tick,200);startGps();holdWakeLock();say('Start walking');updateLockScreen();E.startRun.disabled=false}
+function pauseRun(){if(!S.active)return;S.paused=!S.paused;E.pauseRun.innerHTML=S.paused?'<span>▶</span><small>Resume</small>':'<span>Ⅱ</span><small>Pause</small>';E.pauseRun.classList.toggle('resume',S.paused);E.liveWorkoutStatus.textContent=S.paused?'WORKOUT PAUSED':'WORKOUT LIVE';if(S.paused){S.left=Math.max(0,(S.end-Date.now())/1000);releaseWakeLock();say('Workout paused')}else{S.end=Date.now()+S.left*1000;S.last=Date.now();holdWakeLock();say(S.phase==='walk'?'Continue walking':'Continue running')}renderRun();updateLockScreen()}
 function estimateCalories(){const w=clamp(E.weight.value,30,250)||75;return Math.round((3.5*w*S.walkTime/3600)+(8.3*w*S.runTime/3600))}
 
 const achievements=[
@@ -764,7 +808,7 @@ function currentIndoorExercise(){return exercises[S.indoorQueue[S.indoorIndex]]}
 function beginIndoorWorkNow(){
   clearInterval(S.indoorTimer);const x=currentIndoorExercise();currentExercise=S.indoorQueue[S.indoorIndex];
   const amount=S.indoorMode==='single'?exerciseAmount:x.amount;
-  S.indoorPhase='work';S.indoorDuration=indoorExerciseDuration(x,amount);S.indoorLeft=S.indoorDuration;
+  S.indoorPhase='work';S.indoorDuration=indoorExerciseDuration(x,amount);S.indoorLeft=S.indoorDuration;S.indoorDeadline=x.unit==='seconds'?Date.now()+S.indoorDuration*1000:null;
   S.indoorRepTarget=x.unit==='seconds'?0:amount;S.indoorRepDone=0;
   E.indoorBrowse.hidden=true;E.indoorActive.hidden=false;E.indoorModeLabel.textContent=S.indoorMode==='plan'?S.indoorPlan.name.toUpperCase():'SINGLE EXERCISE';
   E.activeExerciseName.textContent=x.name;E.activeExerciseTip.textContent=x.tip;E.activeDemo.dataset.motion=x.type;E.activeDemo.innerHTML=exerciseVideoMarkup(x.type,x.name,true);prepareExerciseVideos(E.activeDemo);
@@ -795,7 +839,7 @@ function beginIndoorWork(){
   },800);
 }
 function beginIndoorRest(){
-  clearInterval(S.indoorTimer);S.indoorPhase='rest';S.indoorDuration=S.indoorRest;S.indoorLeft=S.indoorRest;
+  clearInterval(S.indoorTimer);S.indoorPhase='rest';S.indoorDuration=S.indoorRest;S.indoorLeft=S.indoorRest;S.indoorDeadline=Date.now()+S.indoorRest*1000;
   E.indoorPhaseLabel.textContent='REST';E.activeExerciseName.textContent='Recover';
   E.activeExerciseTip.textContent='Breathe slowly, shake out tension and prepare for the next set.';
   E.indoorCountdownUnit.textContent='seconds';E.indoorNextLabel.textContent=`Next: ${currentIndoorExercise().name}`;
@@ -806,7 +850,7 @@ function indoorTick(){
   S.indoorElapsed++;
   const x=currentIndoorExercise();
   if(S.indoorPhase==='work'&&x.unit!=='seconds'){renderIndoorActive();return}
-  S.indoorLeft=Math.max(0,S.indoorLeft-1);renderIndoorActive();
+  S.indoorLeft=S.indoorDeadline?Math.max(0,(S.indoorDeadline-Date.now())/1000):Math.max(0,S.indoorLeft-1);renderIndoorActive();
   if(S.indoorLeft<=0){navigator.vibrate?.([100,60,150]);if(S.indoorPhase==='work')finishIndoorWork();else beginIndoorWork()}
 }
 function finishIndoorWork(){
@@ -843,12 +887,13 @@ function renderIndoorActive(){
     else if(S.indoorIndex<S.indoorQueue.length-1){const nx=exercises[S.indoorQueue[S.indoorIndex+1]];nextName.textContent=nx.name;nextDetail.textContent=`${nx.amount} ${nx.unit} · ${nx.muscle}`;}
     else{nextName.textContent='Workout complete';nextDetail.textContent='Your session summary is next';}
   }
+  updateLockScreen()
 }
 function pauseIndoor(){
   if(!S.indoorActive)return;S.indoorPaused=!S.indoorPaused;
   E.indoorPause.innerHTML=S.indoorPaused?'<span>▶</span><small>Resume</small>':'<span>Ⅱ</span><small>Pause</small>';
   E.indoorPause.classList.toggle('resume',S.indoorPaused);S.indoorPaused?releaseWakeLock():holdWakeLock();
-  say(S.indoorPaused?'Workout paused':'Workout resumed')
+  say(S.indoorPaused?'Workout paused':'Workout resumed');updateLockScreen()
 }
 function nextIndoor(){
   if(!S.indoorActive)return;
@@ -860,7 +905,7 @@ function previousIndoor(){
 }
 function exitIndoorWorkout(){
   if(!S.indoorActive)return;clearInterval(S.indoorTimer);clearInterval(S.indoorReadyTimer);S.indoorReady=false;S.indoorActive=false;S.indoorPaused=false;releaseWakeLock();
-  E.indoorActive.hidden=true;E.indoorBrowse.hidden=false;E.indoorPause.innerHTML='<span>Ⅱ</span><small>Pause</small>';E.indoorPause.classList.remove('resume')
+  E.indoorActive.hidden=true;E.indoorBrowse.hidden=false;E.indoorPause.innerHTML='<span>Ⅱ</span><small>Pause</small>';E.indoorPause.classList.remove('resume');updateLockScreen()
 }
 function finishIndoorSession(){
   clearInterval(S.indoorTimer);clearInterval(S.indoorReadyTimer);S.indoorReady=false;S.indoorActive=false;releaseWakeLock();
@@ -869,7 +914,7 @@ function finishIndoorSession(){
   const workout={type:label,date:new Date().toISOString(),duration:Math.max(1,S.indoorElapsed),distance:0,cycles:totalMoves,sets:S.indoorSets,calories:Math.round((clamp(E.weight.value,30,250)||75)*Math.max(1,S.indoorElapsed)/3600*6)};
   const after=[workout,...before];saveHistory(after);const unlocked=newlyUnlocked(before,after);updateAchievements(after);
   E.indoorActive.hidden=true;E.indoorBrowse.hidden=false;E.indoorPause.innerHTML='<span>Ⅱ</span><small>Pause</small>';E.indoorPause.classList.remove('resume');
-  say('Indoor workout complete');openSummary(workout,unlocked)
+  say('Indoor workout complete');updateLockScreen();openSummary(workout,unlocked)
 }
 async function routeToStart(){if(!S.pos||!S.start)return toast('Start GPS tracking before routing');E.routeHome.textContent='Calculating…';try{const u=`https://routing.openstreetmap.de/routed-foot/route/v1/driving/${S.pos.longitude},${S.pos.latitude};${S.start.longitude},${S.start.latitude}?overview=full&steps=true&geometries=geojson`;const r=await fetch(u);const d=await r.json();if(!d.routes?.length)throw Error();const route=d.routes[0],coords=route.geometry.coordinates;const src=S.map?.getSource('route-home');if(src)src.setData({type:'Feature',geometry:{type:'LineString',coordinates:coords}});const bounds=coords.reduce((b,c)=>b.extend(c),new maplibregl.LngLatBounds(coords[0],coords[0]));S.map?.fitBounds(bounds,{padding:45});E.routeDistance.textContent=km(route.distance);E.routeDuration.textContent=`${Math.round(route.duration/60)} min walk`;const steps=route.legs.flatMap(l=>l.steps||[]);E.directionSteps.innerHTML=steps.map((x,i)=>`<div class="direction-step"><b>${i+1}</b><span>${instruction(x)}<br><small>${Math.round(x.distance)} m</small></span></div>`).join('');E.directions.classList.add('show')}catch{toast('Walking route could not be calculated')}finally{E.routeHome.textContent='↩ Route to start'}}
 function instruction(x){const t=x.maneuver?.type||'continue',m=x.maneuver?.modifier||'';if(t==='depart')return`Start ${m}`;if(t==='arrive')return'You have reached your starting point';if(t==='turn')return`Turn ${m}`;if(t==='new name')return`Continue ${m}`;if(t==='roundabout')return'Enter the roundabout';return`${t.replaceAll('_',' ')} ${m}`.trim()}
