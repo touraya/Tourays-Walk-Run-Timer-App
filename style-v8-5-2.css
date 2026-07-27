@@ -7786,3 +7786,80 @@ html.tf-save-data *,html.tf-save-data *::before,html.tf-save-data *::after{
   .tf-skeleton::after{display:none}
   video{background-image:none!important}
 }
+
+
+/* =========================================================
+   TOURAYS FITNESS V12.1 — READABILITY & RUN START HOTFIX
+   Based on mobile QA screenshots supplied 27 July 2026.
+   ========================================================= */
+
+/* Keep the Run start action visible near the top of setup. */
+#run #runSetup > .run-pro-start{
+  margin:14px 0 18px!important;
+  position:relative;
+  z-index:2;
+  min-height:62px!important;
+  box-shadow:0 14px 30px rgba(108,76,241,.24)!important;
+}
+
+/* Active Run timer: strong contrast on the light timer surface. */
+#run #runActive .timer-card .ring-content #countdown{
+  color:#151129!important;
+  -webkit-text-fill-color:#151129!important;
+  text-shadow:none!important;
+  opacity:1!important;
+}
+#run #runActive .timer-card .ring-content #phaseName{
+  color:#6846e8!important;
+  -webkit-text-fill-color:#6846e8!important;
+  opacity:1!important;
+}
+#run #runActive .timer-card .ring-content #nextLabel{
+  color:#4d5b70!important;
+  -webkit-text-fill-color:#4d5b70!important;
+  background:#f4f2fb!important;
+  border:1px solid #ded8f5!important;
+  opacity:1!important;
+}
+#run #runActive .timer-card .timer-overline{
+  color:#6846e8!important;
+  -webkit-text-fill-color:#6846e8!important;
+}
+#run #runActive .timer-card .timer-meta span,
+#run #runActive .timer-card .phase-progress-row > span{
+  color:#68758a!important;
+  -webkit-text-fill-color:#68758a!important;
+  opacity:1!important;
+}
+
+/* Indoor purple hero: all ring copy must be readable. */
+#indoor .workout-hero-v46 .workout-ring-v46 strong,
+#indoor .workout-hero-v46 .workout-ring-v46 small{
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  opacity:1!important;
+  text-shadow:0 1px 3px rgba(39,20,100,.28)!important;
+}
+#indoor .workout-hero-v46 .workout-ring-bg-v46{stroke:rgba(255,255,255,.30)!important}
+#indoor .workout-hero-v46 .workout-ring-progress-v46{stroke:#fff!important}
+
+/* Health comparison badge: dark text on a pale mint chip. */
+#health .health-hero-footer #healthTrendBadge{
+  color:#176b55!important;
+  -webkit-text-fill-color:#176b55!important;
+  background:#e9fff6!important;
+  border:1px solid rgba(23,107,85,.20)!important;
+  font-weight:850!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+#health .health-hero-footer #healthStreakPro{
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  opacity:1!important;
+}
+
+@media(max-width:600px){
+  #run #runSetup > .run-pro-start{margin-top:12px!important;margin-bottom:16px!important}
+  #run #runActive .timer-card .ring-content #countdown{font-size:clamp(3rem,16vw,4.35rem)!important}
+}

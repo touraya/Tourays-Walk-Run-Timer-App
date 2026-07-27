@@ -23,7 +23,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <link rel="dns-prefetch" href="//unpkg.com"/>
 <link rel="dns-prefetch" href="//cdnjs.cloudflare.com"/>
 <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
-<link href="style-v8-5-2.css?v=12000" rel="stylesheet"/>
+<link href="style-v8-5-2.css?v=12100" rel="stylesheet"/>
 <meta content="V12.0-Release-Candidate" name="tf-build"/>
 </head>
 <body>
@@ -213,6 +213,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <div><small>SMART INTERVALS</small><h3>Build endurance at your pace</h3><p>Walk, run and recover while Tourays Fitness tracks every phase.</p></div>
 <span>🏃</span>
 </article>
+<button class="primary run-pro-start" id="startRun"><span>Start workout</span><small id="runStartSummary">30 min · Balanced</small><b>▶</b></button>
 <div class="run-pro-label"><strong>QUICK PRESETS</strong><small>Walk / Run</small></div>
 <div class="presets">
 <button class="preset" data-r="60" data-w="60"><strong>1 / 1</strong><small>STARTER</small></button>
@@ -267,7 +268,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <label><span><b>🔥</b><span><strong>Start countdown</strong><small>Three seconds to prepare</small></span></span><input checked="" id="warmupToggle" type="checkbox"/></label>
 <label><span><b>📳</b><span><strong>Phase vibration</strong><small>Vibrate when phases change</small></span></span><input checked="" id="vibrationToggle" type="checkbox"/></label>
 </div>
-<button class="primary run-pro-start" id="startRun"><span>Start workout</span><small id="runStartSummary">30 min · Balanced</small><b>▶</b></button>
+
 </div>
 <div hidden="" id="runActive">
 <div aria-live="polite" class="run-live-bar" role="status"><i></i><strong id="liveWorkoutStatus">WORKOUT LIVE</strong><span id="targetProgressText">Open goal</span></div>
@@ -1984,7 +1985,7 @@ html.tourays-v18-loading body{visibility:hidden!important}
 <button id="nutritionBarcodeManualUse" type="button">Use code</button>
 </div>
 </div>
-</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=12000"></script>
+</div><script crossorigin="anonymous" src="https://unpkg.com/@zxing/browser@0.1.5"></script><script src="app-v8-5-2.js?v=12100"></script>
 <section class="screen walk-run-screen" hidden="" id="walkRunScreen">
 <div class="wr-shell">
 <header class="wr-header">
@@ -2844,5 +2845,5 @@ if ('serviceWorker' in navigator) {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
-<script src="navigation-v20.js?v=12000"></script></body>
+<script src="navigation-v20.js?v=12100"></script></body>
 </html>
