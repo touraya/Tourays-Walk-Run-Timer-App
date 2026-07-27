@@ -1,8 +1,8 @@
-TOURAYS FITNESS V12.2 UPLOAD
+TOURAYS FITNESS V12.3
 
-1. Extract this ZIP.
-2. Upload every file directly to the GitHub Pages repository root.
-3. Replace existing files.
-4. Wait 2–5 minutes for GitHub Pages.
-5. Reload Safari once. If necessary, close and reopen the tab.
-6. Test the same link on another browser/device: it should show a fresh welcome profile.
+1. Upload every file directly to the GitHub Pages repository root.
+2. Replace the existing files when GitHub asks.
+3. Wait 2–3 minutes, then close and reopen the site.
+4. Test the link in a private/incognito browser to see the new-user onboarding.
+
+Existing local owner data remains isolated on the owner browser.

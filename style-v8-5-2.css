@@ -7879,3 +7879,61 @@ html.tf-save-data *,html.tf-save-data *::before,html.tf-save-data *::after{
 .tf-demo-settings{padding:18px 0 4px}
 .tf-demo-settings strong{display:block;color:#211a38}
 .tf-demo-settings small{display:block;margin:5px 0 12px;color:#716b80}
+
+
+/* =========================================================
+   TOURAYS FITNESS V12.3 — PROFESSIONAL DEMO FINISHING
+   Three-step onboarding, local demo indicator and polished profile dialogs.
+   ========================================================= */
+.tf-demo-welcome{transition:opacity .26s ease,visibility .26s ease}
+.tf-demo-welcome.leaving{opacity:0;visibility:hidden}
+.tf-demo-welcome-card{overflow:hidden;text-align:left}
+.tf-demo-welcome-card h1{text-align:left;font-size:clamp(30px,8vw,38px);line-height:1.08}
+.tf-demo-welcome-card>section>p{text-align:left}
+.tf-onboard-progress{display:flex;gap:7px;margin-bottom:24px}
+.tf-onboard-progress i{display:block;width:8px;height:8px;border-radius:99px;background:#ded8ec;transition:.25s ease}
+.tf-onboard-progress i.active{width:28px;background:#7046e8}
+.tf-onboard-step{animation:tfOnboardIn .32s ease both}
+.tf-onboard-step[hidden]{display:none!important}
+@keyframes tfOnboardIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+.tf-onboard-feature{display:flex;align-items:flex-start;gap:12px;margin:12px 0;padding:13px 14px;border:1px solid #ece7fa;border-radius:17px;background:#faf9ff}
+.tf-onboard-feature>span{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:13px;background:#eee9ff;font-size:19px}
+.tf-onboard-feature strong,.tf-onboard-feature small{display:block}
+.tf-onboard-feature strong{color:#251d3c;font-size:14px}
+.tf-onboard-feature small{margin-top:3px;color:#777086;line-height:1.35}
+.tf-onboard-actions{display:grid;grid-template-columns:.72fr 1.28fr;gap:10px}
+.tf-goal-picker{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:3px 0 8px;padding:0;border:0}
+.tf-goal-picker legend{margin-bottom:9px;color:#2d2840;font-weight:750}
+.tf-goal-picker label{margin:0;cursor:pointer}
+.tf-goal-picker input{position:absolute;opacity:0;pointer-events:none}
+.tf-goal-picker span{display:grid;place-items:center;min-height:52px;padding:8px;border:1px solid #ded7f3;border-radius:15px;background:#fbfaff;color:#514a61;text-align:center;font-size:13px;font-weight:700;transition:.2s ease}
+.tf-goal-picker input:checked+span{border-color:#7046e8;background:#eee9ff;color:#5b34d0;box-shadow:0 0 0 2px rgba(112,70,232,.08)}
+.tf-ready-mark{display:grid;place-items:center;width:72px;height:72px;margin:4px auto 18px;border-radius:24px;background:linear-gradient(135deg,#6840ed,#9a5cff);color:#fff;font-size:36px;font-weight:900;box-shadow:0 16px 34px rgba(104,64,237,.25)}
+.tf-profile-preview{margin:18px 0;padding:16px 18px;border:1px solid #e7e1f6;border-radius:18px;background:#faf9ff}
+.tf-profile-preview strong,.tf-profile-preview small{display:block}
+.tf-profile-preview strong{color:#221a38;font-size:18px}
+.tf-profile-preview small{margin-top:4px;color:#7046e8;font-weight:700}
+.tf-demo-status-chip{position:fixed;right:14px;top:max(12px,env(safe-area-inset-top));z-index:1800;display:flex;align-items:center;gap:7px;min-height:34px;padding:7px 11px;border:1px solid rgba(105,65,225,.16);border-radius:999px;background:rgba(255,255,255,.92);color:#5d38cf;box-shadow:0 7px 20px rgba(58,37,120,.12);backdrop-filter:blur(12px);font-size:11px}
+.tf-demo-status-chip span{width:7px;height:7px;border-radius:50%;background:#38b981;box-shadow:0 0 0 3px rgba(56,185,129,.13)}
+.tf-demo-status-chip b{font-weight:800;letter-spacing:.02em}
+.tf-profile-dialog{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;padding:22px;background:rgba(24,16,47,.42);backdrop-filter:blur(12px);animation:tfDialogFade .18s ease}
+.tf-profile-dialog.leaving{opacity:0;transition:opacity .18s ease}
+.tf-profile-dialog-card{width:min(100%,420px);padding:25px;border-radius:27px;background:#fff;box-shadow:0 28px 80px rgba(21,12,54,.28)}
+.tf-profile-dialog-icon{display:grid;place-items:center;width:52px;height:52px;margin-bottom:14px;border-radius:17px;background:#eee9ff;color:#6840ed;font-size:27px;font-weight:900}
+.tf-profile-dialog h2{margin:0 0 8px;color:#211931;font-size:25px}
+.tf-profile-dialog p{margin:0 0 17px;color:#665f72;line-height:1.48}
+.tf-profile-dialog label{display:block;margin:12px 0 7px;color:#30283e;font-weight:750}
+.tf-profile-dialog input,.tf-profile-dialog select{width:100%;box-sizing:border-box;padding:14px 15px;border:1px solid #ded7ef;border-radius:15px;background:#fbfaff;color:#211931;font:inherit}
+.tf-profile-dialog-actions{display:grid;grid-template-columns:1fr 1.2fr;gap:10px;margin-top:20px}
+.tf-profile-dialog button{min-height:49px;border:0;border-radius:15px;background:linear-gradient(135deg,#6840ed,#9257f5);color:#fff;font:inherit;font-weight:800}
+.tf-profile-dialog button.secondary{border:1px solid #ded5f5;background:#fff;color:#5f3bd2}
+.tf-profile-dialog button.danger{background:linear-gradient(135deg,#d83f62,#ee5e5e)}
+.tf-demo-settings small span{color:#8a8394;font-size:11px;line-height:1.4}
+@keyframes tfDialogFade{from{opacity:0}to{opacity:1}}
+@media(max-width:430px){
+  .tf-demo-welcome{padding:14px}
+  .tf-demo-welcome-card{padding:25px 19px;border-radius:26px}
+  .tf-goal-picker{grid-template-columns:1fr}
+  .tf-demo-status-chip{right:10px;top:max(8px,env(safe-area-inset-top))}
+}
+@media(prefers-reduced-motion:reduce){.tf-onboard-step,.tf-profile-dialog{animation:none!important}.tf-demo-welcome,.tf-profile-dialog{transition:none!important}}
