@@ -7972,3 +7972,134 @@ html.tf-save-data *,html.tf-save-data *::before,html.tf-save-data *::after{
   border:1px dashed rgba(113,65,235,.25);
   border-radius:18px;
 }
+
+/* =========================================================
+   TOURAYS FITNESS V12.5 — BLACK GOLD PREMIUM EDITION
+   Permanent luxury design language: matte black, charcoal and gold.
+   ========================================================= */
+:root{
+  --bg:#090909!important;
+  --panel:#151515!important;
+  --panel2:#1c1c1c!important;
+  --text:#f8f3e6!important;
+  --muted:#aaa393!important;
+  --accent:#d4af37!important;
+  --accent-soft:#2a2414!important;
+  --line:rgba(212,175,55,.22)!important;
+  --shadow:0 20px 52px rgba(0,0,0,.48)!important;
+  --tf-primary:#d4af37!important;
+  --tf-primary-light:#f3d675!important;
+  --tf-purple-600:#d4af37!important;
+  --tf-lilac-100:#2a2414!important;
+}
+html,body{background:#090909!important;color:#f8f3e6!important;color-scheme:dark}
+body{
+  background:
+    radial-gradient(circle at 92% -5%,rgba(212,175,55,.15),transparent 26rem),
+    radial-gradient(circle at -12% 105%,rgba(212,175,55,.08),transparent 24rem),
+    linear-gradient(180deg,#090909,#0d0d0d 55%,#080808)!important;
+}
+.shell{background:transparent!important}
+h1,h2,h3,h4,h5,h6,strong,b,.brand h1{color:#fff8e7!important}
+p,small,label,.muted,.subtitle{color:#aaa393}
+.brand small,.section-head small,.eyebrow,.home-section-title small,.challenge-card small{color:#d4af37!important}
+
+/* Premium surfaces */
+.tf-card,.component-card,.card,.panel,.home-card,.plan-card,.nutrition-card,.challenge-card,
+.health-card,.profile-card,.run-pro-options label,.exercise-player,.indoor-library-panel,
+.screen-intro-strip,.profile-preferences label,.timer-card,.workout-card,.stat-card{
+  background:linear-gradient(145deg,rgba(28,28,28,.98),rgba(16,16,16,.98))!important;
+  border:1px solid rgba(212,175,55,.20)!important;
+  box-shadow:0 18px 45px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.025)!important;
+  color:#f8f3e6!important;
+}
+input,select,textarea,.run-pro-options select,.profile-preferences select{
+  background:#111!important;color:#fff8e7!important;border-color:rgba(212,175,55,.26)!important;
+}
+input::placeholder,textarea::placeholder{color:#777164!important}
+
+/* Gold actions */
+button.primary,.primary-action,.tf-btn--primary,.component-button.primary-action,
+.run-pro-start,.start-btn,#startRun,#startIndoor,.tf-demo-welcome button:not(.secondary),
+.tf-profile-dialog button:not(.secondary):not(.danger){
+  color:#100d05!important;
+  background:linear-gradient(135deg,#b98b19 0%,#d4af37 43%,#f4dc82 100%)!important;
+  border:1px solid rgba(255,229,145,.48)!important;
+  box-shadow:0 12px 28px rgba(212,175,55,.22),inset 0 1px 0 rgba(255,255,255,.35)!important;
+  font-weight:850!important;
+}
+button.secondary,.secondary-action,.icon-btn,.tf-btn--secondary{
+  background:#151515!important;color:#ead17a!important;border-color:rgba(212,175,55,.28)!important;
+}
+button:active{transform:scale(.985)}
+
+/* Bottom navigation */
+.bottom-nav,.tabbar,.bottom-navigation,nav.bottom-tabs{
+  background:rgba(12,12,12,.94)!important;
+  border-color:rgba(212,175,55,.22)!important;
+  box-shadow:0 -12px 38px rgba(0,0,0,.48)!important;
+  backdrop-filter:blur(20px)!important;
+}
+.bottom-nav button,.tabbar button,.bottom-navigation button,nav.bottom-tabs button{color:#777164!important}
+.bottom-nav button.active,.tabbar button.active,.bottom-navigation button.active,nav.bottom-tabs button.active{
+  color:#e7c75c!important;text-shadow:0 0 16px rgba(212,175,55,.28)!important;
+}
+
+/* Exercise library */
+#exerciseFilterRow{
+  background:linear-gradient(180deg,rgba(9,9,9,.98) 76%,rgba(9,9,9,0))!important;
+}
+.exercise-filter-row button,#exerciseFilterRow button{
+  background:#151515!important;color:#9f9889!important;border-color:rgba(212,175,55,.18)!important;
+}
+.exercise-filter-row button.active,#exerciseFilterRow button.active{
+  background:linear-gradient(135deg,#b98b19,#e2c25b)!important;color:#100d05!important;
+  border-color:#e2c25b!important;box-shadow:0 8px 22px rgba(212,175,55,.22)!important;
+}
+.exercise-card{
+  background:radial-gradient(circle at 100% 0,rgba(212,175,55,.15),transparent 45%),linear-gradient(145deg,#1b1b1b,#111)!important;
+  color:#fff8e7!important;border-color:rgba(212,175,55,.20)!important;
+  box-shadow:0 13px 30px rgba(0,0,0,.38)!important;
+}
+.exercise-card span{background:#2a2414!important;color:#e4c45c!important}
+.exercise-card strong{color:#fff8e7!important}.exercise-card small{color:#aaa393!important}
+.exercise-card.selected{border-color:#d4af37!important;box-shadow:0 0 0 1px rgba(212,175,55,.22),0 14px 32px rgba(212,175,55,.16)!important}
+.exercise-detail-pills span{background:#2a2414!important;color:#e5c75f!important;border-color:rgba(212,175,55,.25)!important}
+
+/* Timer and progress */
+.ring,.progress-ring,.workout-ring-v46{filter:drop-shadow(0 0 13px rgba(212,175,55,.17))}
+.progress-ring circle:last-child,.ring-progress,.workout-ring-progress-v46,.demo-progress i{stroke:#d4af37!important;background:#d4af37!important}
+#run #runActive .timer-card .ring-content #countdown{color:#fff8e7!important;-webkit-text-fill-color:#fff8e7!important}
+#run #runActive .timer-card .ring-content #phaseName,
+#run #runActive .timer-card .timer-overline{color:#e2c25b!important;-webkit-text-fill-color:#e2c25b!important}
+#run #runActive .timer-card .ring-content #nextLabel{background:#211d12!important;color:#d9c478!important;-webkit-text-fill-color:#d9c478!important;border-color:rgba(212,175,55,.25)!important}
+#run #runActive .timer-card .timer-meta span,#run #runActive .timer-card .phase-progress-row>span{color:#aaa393!important;-webkit-text-fill-color:#aaa393!important}
+
+/* Demo onboarding and profile dialogs */
+.tf-demo-welcome{background:rgba(7,7,7,.96)!important}
+.tf-demo-welcome-card,.tf-profile-dialog-card{
+  background:linear-gradient(150deg,#1d1d1d,#101010)!important;
+  color:#fff8e7!important;border:1px solid rgba(212,175,55,.24)!important;
+  box-shadow:0 30px 85px rgba(0,0,0,.62)!important;
+}
+.tf-demo-logo,.tf-ready-mark,.tf-profile-dialog-icon{
+  background:linear-gradient(135deg,#ad8014,#e1c15a)!important;color:#100d05!important;
+  box-shadow:0 16px 34px rgba(212,175,55,.20)!important;
+}
+.tf-demo-eyebrow,.tf-profile-preview small{color:#d4af37!important}
+.tf-demo-welcome h1,.tf-demo-welcome label,.tf-demo-settings strong,
+.tf-profile-dialog h2,.tf-profile-dialog label,.tf-profile-preview strong{color:#fff8e7!important}
+.tf-demo-welcome p,.tf-demo-welcome small,.tf-profile-dialog p,.tf-demo-settings small{color:#aaa393!important}
+.tf-onboard-feature,.tf-profile-preview{background:#151515!important;border-color:rgba(212,175,55,.18)!important}
+.tf-onboard-feature>span{background:#2a2414!important}
+.tf-onboard-feature strong{color:#fff8e7!important}.tf-onboard-feature small{color:#aaa393!important}
+.tf-onboard-progress i{background:#3b382e!important}.tf-onboard-progress i.active{background:#d4af37!important}
+.tf-goal-picker span{background:#111!important;color:#aaa393!important;border-color:rgba(212,175,55,.20)!important}
+.tf-goal-picker input:checked+span{background:#2a2414!important;color:#e5c75f!important;border-color:#d4af37!important}
+.tf-demo-status-chip{background:rgba(18,18,18,.94)!important;color:#e2c25b!important;border-color:rgba(212,175,55,.24)!important}
+.tf-demo-status-chip span{background:#d4af37!important;box-shadow:0 0 0 3px rgba(212,175,55,.13)!important}
+
+/* Gold scrollbars and selection */
+*{scrollbar-color:#8f701d #121212}
+::selection{background:#d4af37;color:#080808}
+@media(max-width:600px){.shell{padding-inline:13px}}
