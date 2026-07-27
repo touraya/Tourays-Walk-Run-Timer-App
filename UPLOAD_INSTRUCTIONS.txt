@@ -1,3 +1,8 @@
-UPLOAD ALL FILES IN THIS FOLDER DIRECTLY TO THE ROOT OF YOUR GITHUB PAGES REPOSITORY.
-There is no assets folder in this package.
-Replace files with the same names when prompted.
+TOURAYS FITNESS V12.2 UPLOAD
+
+1. Extract this ZIP.
+2. Upload every file directly to the GitHub Pages repository root.
+3. Replace existing files.
+4. Wait 2–5 minutes for GitHub Pages.
+5. Reload Safari once. If necessary, close and reopen the tab.
+6. Test the same link on another browser/device: it should show a fresh welcome profile.

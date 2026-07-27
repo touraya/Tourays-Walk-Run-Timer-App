@@ -7863,3 +7863,19 @@ html.tf-save-data *,html.tf-save-data *::before,html.tf-save-data *::after{
   #run #runSetup > .run-pro-start{margin-top:12px!important;margin-bottom:16px!important}
   #run #runActive .timer-card .ring-content #countdown{font-size:clamp(3rem,16vw,4.35rem)!important}
 }
+
+/* V12.2 independent demo profile onboarding */
+.tf-demo-welcome{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:24px;background:rgba(247,245,255,.96);backdrop-filter:blur(18px)}
+.tf-demo-welcome-card{width:min(100%,430px);padding:30px 24px;border:1px solid rgba(111,73,255,.16);border-radius:30px;background:#fff;box-shadow:0 24px 70px rgba(73,47,150,.18);text-align:center;color:#171326}
+.tf-demo-logo{display:grid;place-items:center;width:66px;height:66px;margin:0 auto 16px;border-radius:22px;background:linear-gradient(135deg,#6d43ef,#9a5cff);color:#fff;font-size:34px;font-weight:800}
+.tf-demo-eyebrow{margin:0 0 8px;color:#7046e8;font-size:12px;font-weight:800;letter-spacing:.18em}
+.tf-demo-welcome h1{margin:0 0 10px;font-size:34px;color:#171326}
+.tf-demo-welcome p{margin:0 0 20px;color:#5f5872;line-height:1.55}
+.tf-demo-welcome label{display:block;margin:0 0 8px;text-align:left;font-weight:700;color:#2d2840}
+.tf-demo-welcome input{width:100%;box-sizing:border-box;margin:0 0 14px;padding:15px 16px;border:1px solid #ddd5f7;border-radius:16px;background:#fbfaff;color:#171326;font:inherit}
+.tf-demo-welcome button,.tf-demo-profile-btn{width:100%;min-height:50px;margin-top:10px;border:0;border-radius:16px;background:linear-gradient(135deg,#6840ed,#975bff);color:#fff;font:inherit;font-weight:800}
+.tf-demo-welcome button.secondary,.tf-demo-profile-btn.secondary{border:1px solid #d9cef9;background:#fff;color:#6540d8}
+.tf-demo-welcome small{display:block;margin-top:16px;color:#817a91;line-height:1.4}
+.tf-demo-settings{padding:18px 0 4px}
+.tf-demo-settings strong{display:block;color:#211a38}
+.tf-demo-settings small{display:block;margin:5px 0 12px;color:#716b80}
