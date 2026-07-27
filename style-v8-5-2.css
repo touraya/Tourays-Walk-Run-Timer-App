@@ -8103,3 +8103,165 @@ button:active{transform:scale(.985)}
 *{scrollbar-color:#8f701d #121212}
 ::selection{background:#d4af37;color:#080808}
 @media(max-width:600px){.shell{padding-inline:13px}}
+
+/* =========================================================
+   TOURAYS FITNESS V12.6 — COMPLETE BLACK & GOLD CONVERSION
+   Full-screen pass for all remaining legacy purple/white UI.
+   ========================================================= */
+:root{
+  --purple:#d4af37!important;--primary:#d4af37!important;--brand:#d4af37!important;
+  --surface:#151515!important;--surface-2:#1d1d1d!important;--card:#171717!important;
+}
+
+/* Every app screen uses the same matte-black canvas. */
+.screen,#home,#run,#indoor,#nutrition,#health,#planner,#goals,#analyze{
+  background:transparent!important;color:#f8f3e6!important;
+}
+
+/* Remaining legacy white/purple cards and content surfaces. */
+.screen [class*="card"],
+.screen [class*="panel"],
+.screen [class*="tile"],
+.screen [class*="summary"],
+.screen [class*="overview"],
+.screen [class*="metric"],
+.screen [class*="stat"],
+.screen [class*="banner"],
+.screen [class*="strip"],
+.screen [class*="option"],
+.screen [class*="history"],
+.screen [class*="achievement"],
+.screen [class*="milestone"],
+.screen [class*="challenge"],
+.screen [class*="insight"],
+.screen [class*="recommend"],
+.screen [class*="target"],
+.screen [class*="week"],
+.screen [class*="schedule"],
+.screen [class*="builder"],
+.screen [class*="library"],
+.screen [class*="preview"]{
+  border-color:rgba(212,175,55,.22)!important;
+}
+.screen [class*="card"],
+.screen [class*="panel"],
+.screen [class*="tile"],
+.screen [class*="summary"],
+.screen [class*="metric"],
+.screen [class*="stat"]{
+  background:linear-gradient(145deg,#1c1c1c,#111)!important;
+  color:#f8f3e6!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.34)!important;
+}
+
+/* Page hero areas: premium gold instead of purple. */
+.v9-welcome,.run-pro-head,.indoor-head,.nutrition-hero,.health-hero,
+.planner-hero,.goals-hero,.analysis-hero,.section-head,
+[class*="hero"]{
+  border-color:rgba(212,175,55,.26)!important;
+}
+.v9-welcome,.run-pro-head,.indoor-head,.nutrition-hero,.health-hero,
+.planner-hero,.goals-hero,.analysis-hero{
+  background:linear-gradient(135deg,#8f6813 0%,#d4af37 58%,#f0d779 100%)!important;
+  color:#100d05!important;
+}
+.v9-welcome *, .run-pro-head *, .indoor-head *, .nutrition-hero *,
+.health-hero *, .planner-hero *, .goals-hero *, .analysis-hero *{
+  color:#100d05!important;-webkit-text-fill-color:#100d05!important;
+}
+
+/* Convert remaining purple chips, tabs, selected states and decorative blocks. */
+.selected,.active,[aria-selected="true"],
+.v9-streak,.run-status-chip,.indoor-level,.nutrition-status,
+[class*="badge"],[class*="chip"],[class*="pill"]{
+  border-color:rgba(212,175,55,.32)!important;
+}
+.preset.selected,.run-intensity-row .selected,
+.category-filter.active,.filter-chip.active,
+[class*="tab"].active,[class*="chip"].active,[class*="pill"].active{
+  background:linear-gradient(135deg,#b58718,#e5c75f)!important;
+  color:#100d05!important;-webkit-text-fill-color:#100d05!important;
+}
+
+/* Home screen complete pass. */
+.v9-plan-card,.v9-workout-hero,.v9-goal-card,.v9-recent-card,.v9-challenge-card,
+.v9-activity-card,.v9-stat-grid>*{
+  background:linear-gradient(145deg,#1c1c1c,#111)!important;
+  border:1px solid rgba(212,175,55,.22)!important;color:#f8f3e6!important;
+}
+.v9-readiness-card{
+  background:linear-gradient(135deg,#191919,#26200f)!important;
+  border:1px solid rgba(212,175,55,.28)!important;
+}
+.v9-primary-action,.v9-link-button{color:#e5c75f!important}
+.v9-workout-label,.v9-section-heading small,.v9-overline{color:#d4af37!important}
+.v9-stat-icon,.v9-activity-icon,.v9-plan-icon,.v9-recent-icon{
+  background:#2a2414!important;color:#e5c75f!important;
+}
+
+/* Walk & Run setup and active workout. */
+.run-pro-hero,.run-preview-card,.builder,.run-location-card,.run-pro-options label,
+.run-coach-tip,.run-live-bar,.run-pro-stats>*,.timer-card{
+  background:linear-gradient(145deg,#1b1b1b,#101010)!important;
+  border-color:rgba(212,175,55,.24)!important;color:#f8f3e6!important;
+}
+.preset,.run-intensity-row>button,.run-intensity-row>label{
+  background:#171717!important;color:#aaa393!important;border-color:rgba(212,175,55,.2)!important;
+}
+.walk-segment{background:#e4c85f!important}.run-segment{background:#9a7317!important}
+.run-pro-label,.run-preview-top strong,.timer-overline{color:#d4af37!important}
+.run-pro-options label{box-shadow:none!important}
+
+/* Indoor trainer complete pass. */
+.workout-hero-v46,.workout-stats-v46>*,.workout-last-v46,.quick-plan-card,
+.workout-builder-v47,.builder-summary-v47,.exercise-library-panel,.exercise-player,
+.exercise-info,.form-studio,.today-training-card{
+  background:linear-gradient(145deg,#1b1b1b,#101010)!important;
+  color:#f8f3e6!important;border-color:rgba(212,175,55,.22)!important;
+}
+.quick-plan-card.selected,.exercise-card.selected{background:linear-gradient(145deg,#2a2414,#15130c)!important}
+
+/* Nutrition: remove remaining purple bands and white meal cards. */
+#nutrition [class*="meal"],#nutrition [class*="food"],#nutrition [class*="water"],
+#nutrition [class*="macro"],#nutrition [class*="analytics"],#nutrition [class*="overview"],
+#nutrition [class*="goal"],#nutrition [class*="diary"]{
+  background:linear-gradient(145deg,#1b1b1b,#101010)!important;
+  color:#f8f3e6!important;border-color:rgba(212,175,55,.22)!important;
+}
+#nutrition .nutrition-actions button,#nutrition button.primary{
+  background:linear-gradient(135deg,#b58718,#e5c75f)!important;color:#100d05!important;
+}
+
+/* Health, Planner, Goals and Analyze. */
+#health [class*="card"],#health [class*="record"],#health [class*="workout"],
+#planner [class*="day"],#planner [class*="schedule"],#planner [class*="overview"],
+#goals [class*="goal"],#goals [class*="challenge"],#goals [class*="level"],
+#analyze [class*="card"],#analyze [class*="chart"]{
+  background:linear-gradient(145deg,#1b1b1b,#101010)!important;
+  color:#f8f3e6!important;border-color:rgba(212,175,55,.22)!important;
+}
+#planner [class*="day"].active,#planner [class*="day"].selected{
+  background:#2a2414!important;border-color:#d4af37!important;
+}
+
+/* Text hierarchy across every converted surface. */
+.screen h1,.screen h2,.screen h3,.screen h4,.screen strong{color:#fff8e7!important;-webkit-text-fill-color:#fff8e7!important}
+.screen p,.screen small,.screen label,.screen .muted{color:#aaa393!important;-webkit-text-fill-color:#aaa393!important}
+.screen .eyebrow,.screen [class*="overline"],.screen [class*="label"]{color:#d4af37!important;-webkit-text-fill-color:#d4af37!important}
+
+/* Keep form fields and list rows readable. */
+.screen input,.screen select,.screen textarea,.screen [contenteditable="true"]{
+  background:#0f0f0f!important;color:#fff8e7!important;border-color:rgba(212,175,55,.28)!important;
+}
+.screen hr{border-color:rgba(212,175,55,.18)!important}
+
+/* Header and fixed navigation are now fully black/gold. */
+.v9-app-header,.app-header,header.app-header{
+  background:rgba(10,10,10,.96)!important;border-bottom:1px solid rgba(212,175,55,.20)!important;
+}
+.v9-logo-mark{background:linear-gradient(135deg,#b58718,#e5c75f)!important;color:#100d05!important}
+.v9-brand strong,.v9-brand span{color:#e5c75f!important}
+
+/* No legacy purple glow remains. */
+.screen svg [stroke="#6f48e8"],.screen svg [stroke="#6540e8"],.screen svg [stroke="#6842e8"]{stroke:#d4af37!important}
+.screen svg [fill="#6f48e8"],.screen svg [fill="#6540e8"],.screen svg [fill="#6842e8"]{fill:#d4af37!important}
