@@ -8265,3 +8265,108 @@ button:active{transform:scale(.985)}
 /* No legacy purple glow remains. */
 .screen svg [stroke="#6f48e8"],.screen svg [stroke="#6540e8"],.screen svg [stroke="#6842e8"]{stroke:#d4af37!important}
 .screen svg [fill="#6f48e8"],.screen svg [fill="#6540e8"],.screen svg [fill="#6842e8"]{fill:#d4af37!important}
+
+/* =========================================================
+   TOURAYS FITNESS V12.7 — TRUE FULL BLACK & GOLD THEME
+   Final high-specificity sweep across every screen/component.
+   ========================================================= */
+html,body,.shell,.app-shell,.main-shell,.page-shell{background:#080808!important;color:#fff8e7!important}
+body{background:radial-gradient(circle at 50% -12%,rgba(212,175,55,.12),transparent 28rem),#080808!important}
+
+/* Global header, subheaders and navigation */
+header,.v9-app-header,.app-header,.top-header,.screen-header,.bottom-nav,.v9-bottom-nav,.subnav,.health-tabs{
+ background:#0d0d0d!important;color:#fff8e7!important;border-color:rgba(212,175,55,.24)!important;
+}
+header *,.v9-app-header *,.app-header *{color:#fff8e7!important;-webkit-text-fill-color:#fff8e7!important}
+.bottom-nav button,.v9-bottom-nav button,.subnav button,.health-tabs button{background:transparent!important;color:#8f897d!important}
+.bottom-nav button.active,.v9-bottom-nav button.active,.subnav button.active,.health-tabs button.active{
+ color:#e5c75f!important;-webkit-text-fill-color:#e5c75f!important;background:#211d12!important;
+}
+
+/* Exhaustive premium surface list */
+.hero,.card,.panel,.tile,.strip,.banner,.summary,.overview,.metric,.stat,.option,.list-row,.history-item,
+.v9-card,.v9-section-card,.v9-stat-card,.v9-activity-card,.v9-readiness-card,.v9-plan-card,.v9-workout-hero,.v9-recent-card,.v9-challenge-card,
+.run-pro-hero,.run-preview-card,.run-pro-options,.run-pro-options label,.run-location-card,.run-coach-tip,.run-live-bar,.run-pro-stats>*,
+.workout-hero-v46,.workout-stats-v46>*,.workout-last-v46,.quick-plan-card,.workout-builder-v47,.builder-summary-v47,.indoor-library-panel,
+.exercise-library-panel,.exercise-player,.exercise-info,.form-studio,.today-training-card,.screen-intro-strip,
+.nutrition-dashboard,.nutrition-card,.nutrition-overview,.nutrition-summary,.nutrition-analytics,.nutrition-insight,.nutrition-targets,.nutrition-diary,
+.food-diary,.meal-card,.meal-row,.macro-card,.water-card,.hydration-card,.daily-energy-card,.weekly-consistency-card,.personal-analytics-card,
+.health-card,.health-stat-card,.health-summary-card,.trend-card,.mix-card,.record-card,.milestone-card,.achievement-card,.workout-history-card,.workout-item,
+.planner-card,.planner-week,.planner-day,.planner-schedule,.planner-overview,.schedule-card,.week-card,.day-card,
+.goals-card,.goal-card,.challenge-card,.level-card,.target-card,.weekly-challenge,.daily-challenge,
+.analysis-card,.analyze-card,.chart-card,.insight-card,.recommendation-card,.export-card,
+.settings-sheet,.modal-card,.dialog-card,.sheet-card{
+ background:linear-gradient(145deg,#1b1b1b 0%,#101010 100%)!important;
+ color:#fff8e7!important;border-color:rgba(212,175,55,.22)!important;box-shadow:0 14px 34px rgba(0,0,0,.38)!important;
+}
+
+/* Class-name sweep for generated modules */
+.screen [class*="Card"],.screen [class*="card"],.screen [class*="Panel"],.screen [class*="panel"],
+.screen [class*="Tile"],.screen [class*="tile"],.screen [class*="Summary"],.screen [class*="summary"],
+.screen [class*="Overview"],.screen [class*="overview"],.screen [class*="History"],.screen [class*="history"],
+.screen [class*="Challenge"],.screen [class*="challenge"],.screen [class*="Target"],.screen [class*="target"]{
+ background-color:#151515!important;color:#fff8e7!important;border-color:rgba(212,175,55,.22)!important;
+}
+
+/* Preserve gold hero/header identity on every page */
+.v9-welcome,.run-pro-head,.indoor-head,.nutrition-hero,.health-hero,.planner-hero,.goals-hero,.analysis-hero,
+#home [class*="hero"],#run [class*="head"],#indoor [class*="head"],#nutrition [class*="hero"],
+#health [class*="hero"],#planner [class*="hero"],#goals [class*="hero"],#analyze [class*="hero"]{
+ background:linear-gradient(135deg,#9a7217 0%,#d4af37 56%,#f0d779 100%)!important;
+ border-color:#e5c75f!important;color:#100d05!important;
+}
+.v9-welcome *,.run-pro-head *,.indoor-head *,.nutrition-hero *,.health-hero *,.planner-hero *,.goals-hero *,.analysis-hero *{
+ color:#100d05!important;-webkit-text-fill-color:#100d05!important;
+}
+
+/* Buttons, tabs, filters, toggles */
+button,.button,[role="button"]{border-color:rgba(212,175,55,.22)}
+.primary,.primary-btn,.cta,.cta-button,.start-button,.start-workout,.add-button,.export-button,
+.screen button.primary,.screen [class*="primary"],.screen [class*="cta"]{
+ background:linear-gradient(135deg,#a87c16,#e5c75f)!important;color:#100d05!important;-webkit-text-fill-color:#100d05!important;
+ border-color:#e5c75f!important;box-shadow:0 12px 26px rgba(212,175,55,.20)!important;
+}
+.secondary,.secondary-btn,.ghost-button,.outline-button{
+ background:#181818!important;color:#e5c75f!important;-webkit-text-fill-color:#e5c75f!important;border-color:rgba(212,175,55,.30)!important;
+}
+.preset,.filter-chip,.category-filter,.tab-button,.day-button,.quick-plan-card,.run-intensity-row>button,.run-intensity-row>label{
+ background:#161616!important;color:#aaa393!important;-webkit-text-fill-color:#aaa393!important;border-color:rgba(212,175,55,.20)!important;
+}
+.selected,.active,[aria-selected="true"],[aria-pressed="true"],.preset.selected,.filter-chip.active,.category-filter.active,.tab-button.active,.day-button.active{
+ background:linear-gradient(135deg,#a87c16,#e5c75f)!important;color:#100d05!important;-webkit-text-fill-color:#100d05!important;border-color:#e5c75f!important;
+}
+input[type="checkbox"]:checked,input[type="radio"]:checked{accent-color:#d4af37!important}
+
+/* Forms and empty states */
+input,select,textarea,.input,.select,.empty-state,.no-data,.placeholder-card{
+ background:#0e0e0e!important;color:#fff8e7!important;-webkit-text-fill-color:#fff8e7!important;border-color:rgba(212,175,55,.28)!important;
+}
+input::placeholder,textarea::placeholder{color:#777166!important}
+
+/* Typography */
+.screen h1,.screen h2,.screen h3,.screen h4,.screen h5,.screen strong,.screen b{color:#fff8e7!important;-webkit-text-fill-color:#fff8e7!important}
+.screen p,.screen small,.screen label,.screen span.muted,.screen .muted,.screen .subtitle,.screen .description{color:#aaa393!important;-webkit-text-fill-color:#aaa393!important}
+.screen .eyebrow,.screen .overline,.screen [class*="eyebrow"],.screen [class*="overline"],.screen [class*="section-label"]{color:#d4af37!important;-webkit-text-fill-color:#d4af37!important}
+
+/* Gold progress/data visualization */
+progress{accent-color:#d4af37!important}
+.progress,.progress-track,.bar-track,.chart-track,.demo-progress{background:#28251d!important}
+.progress>*,.progress-fill,.bar-fill,.chart-fill,.demo-progress i{background:linear-gradient(90deg,#a87c16,#e5c75f)!important}
+svg .ring-progress,svg [class*="progress"],svg [class*="value"]{stroke:#d4af37!important}
+svg [fill="#7357F6"],svg [fill="#6B50ED"],svg [fill="#8d7cff"],svg [fill="#795BEF"]{fill:#d4af37!important}
+svg [stroke="#7357F6"],svg [stroke="#6B50ED"],svg [stroke="#8d7cff"],svg [stroke="#795BEF"]{stroke:#d4af37!important}
+
+/* Screen-specific last sweep */
+#home,#run,#indoor,#nutrition,#health,#planner,#goals,#analyze{background:#080808!important}
+#nutrition .meal-row,#nutrition .food-row,#nutrition .macro-row,#nutrition .water-row,#nutrition .nutrition-action,
+#health .workout-item,#health .achievement-item,#health .record-item,
+#planner .planner-day,#planner .schedule-row,#planner .overview-item,
+#goals .challenge-row,#goals .target-row,#analyze .analysis-row{
+ background:#151515!important;color:#fff8e7!important;border-color:rgba(212,175,55,.20)!important;
+}
+
+/* Eliminate remaining legacy light/purple utility backgrounds */
+.bg-white,.white-card,.light-card,.purple-card,.violet-card,.lavender-card,.bg-light,.surface-light{
+ background:#151515!important;color:#fff8e7!important;border-color:rgba(212,175,55,.22)!important;
+}
+.text-purple,.purple-text,.violet-text,.accent-text{color:#d4af37!important;-webkit-text-fill-color:#d4af37!important}
